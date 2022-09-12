@@ -47,7 +47,7 @@ export class AuthService
      */
     forgotPassword(email: string): Observable<any>
     {
-        return this._httpClient.post('api/auth/forgot-password', email);
+        return this._httpClient.post('api/auth/contrasenia-olvidada', email);
     }
 
     /**
@@ -57,7 +57,7 @@ export class AuthService
      */
     resetPassword(password: string): Observable<any>
     {
-        return this._httpClient.post('api/auth/reset-password', password);
+        return this._httpClient.post('api/auth/restablecer-contrasenia', password);
     }
 
     /**
@@ -70,10 +70,10 @@ export class AuthService
         // Throw error, if the user is already logged in
         if ( this._authenticated )
         {
-            return throwError('User is already logged in.');
+            return throwError('El usuario ya está conectado.');
         }
 
-        return this._httpClient.post('api/auth/sign-in', credentials).pipe(
+        return this._httpClient.post('api/auth/iniciar-sesion', credentials).pipe(
             switchMap((response: any) => {
 
                 // Store the access token in the local storage
@@ -163,7 +163,7 @@ export class AuthService
      */
     unlockSession(credentials: { email: string; password: string }): Observable<any>
     {
-        return this._httpClient.post('api/auth/unlock-session', credentials);
+        return this._httpClient.post('api/auth/desbloquear-sesion', credentials);
     }
 
     /**

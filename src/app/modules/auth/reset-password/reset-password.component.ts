@@ -95,7 +95,7 @@ export class AuthResetPasswordComponent implements OnInit
                     // Set the alert
                     this.alert = {
                         type   : 'success',
-                        message: 'Your password has been reset.'
+                        message: 'Tu contraseña ha sido restablecida.'
                     };
                 },
                 (response) => {
@@ -103,7 +103,7 @@ export class AuthResetPasswordComponent implements OnInit
                     // Set the alert
                     this.alert = {
                         type   : 'error',
-                        message: 'Something went wrong, please try again.'
+                        message: 'Algo salió mal, por favor inténtelo de nuevo.'
                     };
                 }
             );

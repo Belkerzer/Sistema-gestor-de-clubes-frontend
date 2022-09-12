@@ -7,8 +7,8 @@
             </div>
 
             <!-- Title -->
-            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Unlock your session</div>
-            <div class="mt-0.5 font-medium">Your session is locked due to inactivity</div>
+            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Desbloquear la sesión</div>
+            <div class="mt-0.5 font-medium">Su sesión está bloqueada por inactividad</div>
 
             <!-- Alert -->
             <fuse-alert
@@ -29,7 +29,7 @@
 
                 <!-- Name field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Full name</mat-label>
+                    <mat-label>Nombre completo</mat-label>
                     <input
                         id="name"
                         matInput
@@ -38,7 +38,7 @@
 
                 <!-- Password field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Password</mat-label>
+                    <mat-label>Contraseña</mat-label>
                     <input
                         id="password"
                         matInput
@@ -60,7 +60,7 @@
                             [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
                     </button>
                     <mat-error>
-                        Password is required
+                        Se requiere una contraseña
                     </mat-error>
                 </mat-form-field>
 
@@ -72,7 +72,7 @@
                     [disabled]="unlockSessionForm.disabled"
                     (click)="unlock()">
                     <span *ngIf="!unlockSessionForm.disabled">
-                        Unlock your session
+                        Desbloquear la sesión
                     </span>
                     <mat-progress-spinner
                         *ngIf="unlockSessionForm.disabled"
@@ -82,10 +82,10 @@
 
                 <!-- Form footer -->
                 <div class="mt-8 text-md font-medium text-secondary">
-                    <span>I'm not</span>
+                    <span>No soy</span>
                     <a
                         class="ml-1 text-primary-500 hover:underline"
-                        [routerLink]="['/sign-out']">{{name}}</a>
+                        [routerLink]="['/cerrar-sesion']">{{name}}</a>
                 </div>
 
             </form>
@@ -115,29 +115,28 @@
         <!-- Content -->
         <div class="z-10 relative w-full max-w-2xl">
             <div class="text-7xl font-bold leading-none text-gray-100">
-                <div>Welcome to</div>
-                <div>our community</div>
+                <div>Sistema de Gestión</div>
+                <div>de Clubes</div>
             </div>
             <div class="mt-6 text-lg tracking-tight leading-6 text-gray-400">
-                Fuse helps developers to build organized and well coded dashboards full of beautiful and rich modules.
-                Join us and start building your application today.
+                Espacios de participación estudiantil donde se comparten temas de interés que pueden ser dentro del ámbito, social, cultural y deportivo.
             </div>
             <div class="flex items-center mt-8">
                 <div class="flex flex-0 items-center -space-x-1.5">
                     <img
                         class="flex-0 w-10 h-10 rounded-full ring-4 ring-offset-1 ring-gray-800 ring-offset-gray-800 object-cover"
-                        src="assets/images/avatars/female-18.jpg">
+                        src="assets/images/avatars/female-04.jpg">
                     <img
                         class="flex-0 w-10 h-10 rounded-full ring-4 ring-offset-1 ring-gray-800 ring-offset-gray-800 object-cover"
-                        src="assets/images/avatars/female-11.jpg">
+                        src="assets/images/avatars/female-15.jpg">
                     <img
                         class="flex-0 w-10 h-10 rounded-full ring-4 ring-offset-1 ring-gray-800 ring-offset-gray-800 object-cover"
-                        src="assets/images/avatars/male-09.jpg">
+                        src="assets/images/avatars/male-02.jpg">
                     <img
                         class="flex-0 w-10 h-10 rounded-full ring-4 ring-offset-1 ring-gray-800 ring-offset-gray-800 object-cover"
-                        src="assets/images/avatars/male-16.jpg">
+                        src="assets/images/avatars/male-20.jpg">
                 </div>
-                <div class="ml-4 font-medium tracking-tight text-gray-400">More than 17k people joined us, it's your turn</div>
+                <div class="ml-4 font-medium tracking-tight text-gray-400">Grupos desarrollados por los miembros de la comunidad universitaria</div>
             </div>
         </div>
     </div>

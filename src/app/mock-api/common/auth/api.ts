@@ -39,7 +39,7 @@ export class AuthMockApi
         // @ Forgot password - POST
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
-            .onPost('api/auth/forgot-password', 1000)
+            .onPost('api/auth/contrasenia-olvidada', 1000)
             .reply(() =>
                 [
                     200,
@@ -51,7 +51,7 @@ export class AuthMockApi
         // @ Reset password - POST
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
-            .onPost('api/auth/reset-password', 1000)
+            .onPost('api/auth/restablecer-contrasenia', 1000)
             .reply(() =>
                 [
                     200,
@@ -63,7 +63,7 @@ export class AuthMockApi
         // @ Sign in - POST
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
-            .onPost('api/auth/sign-in', 1500)
+            .onPost('api/auth/iniciar-sesion', 1500)
             .reply(({request}) => {
 
                 // Sign in successful
@@ -136,7 +136,7 @@ export class AuthMockApi
         // @ Unlock session - POST
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
-            .onPost('api/auth/unlock-session', 1500)
+            .onPost('api/auth/desbloquear-sesion', 1500)
             .reply(({request}) => {
 
                 // Sign in successful
