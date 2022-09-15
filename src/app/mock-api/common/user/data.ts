@@ -4,4 +4,5 @@ export const user = {
     name  : 'Brian Hughes',
     email : 'hughes.brian@company.com',
     avatar: '',
+    title: 'Director/a de club'
 };

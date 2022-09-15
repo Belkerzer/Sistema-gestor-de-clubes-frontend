@@ -60,13 +60,18 @@ export const appRoutes: Route[] = [
             initialData: InitialDataResolver,
         },
         children   : [
-            {path: 'inicio', loadChildren: () => import('app/modules/admin/pages/home/inicio.module').then(m => m.InicioModule)},
+            { path: 'inicio', loadChildren: () => import('app/modules/admin/home/home.module').then(m => m.HomeModule) },
+            { path: 'integrantes', loadChildren: () => import('app/modules/admin/members/members.module').then(m => m.MembersModule) },
+            { path: 'clubes', loadChildren: () => import('app/modules/admin/clubs/clubs.module').then(m => m.ClubsModule) },
+            /* {path: 'planes', loadChildren: () => import('app/modules/admin/pages/admin/tasks/tasks.module').then(m => m.TasksModule)}, */
+            { path: 'reportes', loadChildren: () => import('app/modules/admin/reports/reports.module').then(m => m.ReportsModule) },
+            { path: 'administracion', loadChildren: () => import('app/modules/admin/admin/admin.module').then(m => m.AdminModule) },
         ]
     },
 
     // Wild Card Route for 404 request
-    {path: '**', loadChildren: () => import('app/modules/admin/pages/error/error-404/error-404.module').then(m => m.Error404Module)},
+    { path: '**', pathMatch: 'full', loadChildren: () => import('app/modules/admin/error/error-404/error-404.module').then(m => m.Error404Module) },
 
     // Wild Card Route for 500 response
-    {path: '**', loadChildren: () => import('app/modules/admin/pages/error/error-500/error-500.module').then(m => m.Error500Module)}
+    { path: '**', pathMatch: 'full', loadChildren: () => import('app/modules/admin/error/error-500/error-500.module').then(m => m.Error500Module) },
 ];
