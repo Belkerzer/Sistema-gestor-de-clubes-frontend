@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatRippleModule } from '@angular/material/core';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSelectModule } from '@angular/material/select';
@@ -16,6 +17,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from 'app/shared/shared.module';
 import { ClubsComponent } from 'app/modules/admin/clubs/clubs.component';
 import { clubsRoutes } from 'app/modules/admin/clubs/clubs.routing';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
     declarations: [
@@ -25,10 +28,13 @@ import { clubsRoutes } from 'app/modules/admin/clubs/clubs.routing';
         RouterModule.forChild(clubsRoutes),
         MatButtonModule,
         MatCheckboxModule,
+        MatDatepickerModule,
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
         MatMenuModule,
+        MatMomentDateModule,
+        MatRadioModule,
         MatPaginatorModule,
         MatProgressBarModule,
         MatRippleModule,

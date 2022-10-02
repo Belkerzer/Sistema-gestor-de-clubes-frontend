@@ -8,12 +8,12 @@ export interface InventoryProduct {
     barcode?: string | null;
     brand?: string | null;
     vendor: string | null;
-    stock: number;
+    stock: Date;
     reserved: number;
     cost: number;
     basePrice: number;
     taxPercent: number;
-    price: number;
+    price: string;
     weight: number;
     thumbnail: string;
     images: string[];

@@ -25,6 +25,7 @@ import { AdminSettingsComponent } from 'app/modules/admin/admin/settings/account
 import { AdminSidebarComponent } from 'app/modules/admin/admin/sidebar/sidebar.component';
 import { AdminSecurityComponent } from './settings/security/security.component';
 import { adminRoutes } from './admin.routing';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
     declarations: [
@@ -39,6 +40,7 @@ import { adminRoutes } from './admin.routing';
     imports: [
         RouterModule.forChild(adminRoutes),
         MatButtonModule,
+        MatCardModule,
         MatCheckboxModule,
         MatDialogModule,
         MatDividerModule,

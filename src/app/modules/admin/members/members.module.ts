@@ -16,6 +16,8 @@ import { RouterModule } from "@angular/router";
 import { SharedModule } from "app/shared/shared.module";
 import { MembersComponent } from "./members.component";
 import { membersRoutes } from "./members.routing";
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
   declarations: [
@@ -25,10 +27,12 @@ import { membersRoutes } from "./members.routing";
     RouterModule.forChild(membersRoutes),
     MatButtonModule,
     MatCheckboxModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
     MatMenuModule,
+    MatMomentDateModule,
     MatPaginatorModule,
     MatProgressBarModule,
     MatRippleModule,

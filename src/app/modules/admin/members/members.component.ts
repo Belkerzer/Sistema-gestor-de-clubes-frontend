@@ -24,6 +24,7 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy {
 
     products$: Observable<InventoryProduct[]>;
 
+    formFieldHelpers: string[] = [''];
     brands: InventoryBrand[];
     categories: InventoryCategory[];
     filteredTags: InventoryTag[];
@@ -214,6 +215,13 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Get the form field helpers as string
+     */
+    getFormFieldHelpersAsString(): string {
+        return this.formFieldHelpers.join(' ');
+    }
 
     /**
      * Toggle product details

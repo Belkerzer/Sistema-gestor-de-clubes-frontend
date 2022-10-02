@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _projectService: ProjectService,
         private _router: Router,
-        private _userService: UserService,
+        private _userService: UserService
     ) {
     }
 

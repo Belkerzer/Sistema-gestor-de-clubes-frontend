@@ -1,23 +1,37 @@
-import { Component, ViewEncapsulation, ChangeDetectionStrategy, OnInit } from "@angular/core";
+import { BooleanInput } from "@angular/cdk/coercion";
+import { Component, ViewEncapsulation, ChangeDetectionStrategy, OnInit, Input, ChangeDetectorRef, ViewChild, ElementRef } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { UserService } from "app/core/user/user.service";
+import { User } from "app/core/user/user.types";
+import { Subject, takeUntil } from "rxjs";
 import { AdminComponent } from "../../admin.component";
-
 
 @Component({
     selector: 'settings-account',
     templateUrl: './account.component.html',
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    exportAs: 'user'
 })
 export class AdminSettingsComponent implements OnInit {
-    accountForm: FormGroup;
+    @ViewChild('avatarFileInput') private _avatarFileInput: ElementRef;
 
+    /* eslint-disable @typescript-eslint/naming-convention */
+    static ngAcceptInputType_showAvatar: BooleanInput;
+    /* eslint-enable @typescript-eslint/naming-convention */
+
+    @Input() showAvatar: boolean = true;
+    user: User;
+    accountForm: FormGroup;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
     /**
      * Constructor
      */
     constructor(
+        private _changeDetectorRef: ChangeDetectorRef,
         public adminComponent: AdminComponent,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private _userService: UserService        
     ) {
     }
 
@@ -29,6 +43,16 @@ export class AdminSettingsComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
+        // Subscribe to user changes
+        this._userService.user$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((user: User) => {
+                this.user = user;
+
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+
         // Create the form
         this.accountForm = this._formBuilder.group({
             name: ['Brian Hughes'],
@@ -41,5 +65,18 @@ export class AdminSettingsComponent implements OnInit {
             country: ['usa'],
             language: ['english']
         });
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
     }
 }
