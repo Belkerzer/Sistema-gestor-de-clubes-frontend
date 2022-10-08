@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { AdminComponent } from '../../admin.component';
+import { AdminComponent } from '../../../admin.component';
 
 @Component({
-    selector: 'settings-security',
+    selector: 'settings-account-security',
     templateUrl: './security.component.html',
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminSecurityComponent implements OnInit {
+export class AdminSettingsAccountSecurityComponent implements OnInit {
     securityForm: FormGroup;
 
     /**

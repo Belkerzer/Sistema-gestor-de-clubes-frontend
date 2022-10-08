@@ -21,11 +21,19 @@ import { AdminComponent } from 'app/modules/admin/admin/admin.component';
 import { AdminComposeComponent } from 'app/modules/admin/admin/compose/compose.component';
 import { AdminDetailsComponent } from 'app/modules/admin/admin/details/details.component';
 import { AdminListComponent } from 'app/modules/admin/admin/list/list.component';
-import { AdminSettingsComponent } from 'app/modules/admin/admin/settings/account/account.component';
+import { AdminSettingsAccountPersonalComponent } from 'app/modules/admin/admin/settings/account/personal/personal.component';
 import { AdminSidebarComponent } from 'app/modules/admin/admin/sidebar/sidebar.component';
-import { AdminSecurityComponent } from './settings/security/security.component';
+import { AdminSettingsAccountSecurityComponent } from './settings/account/security/security.component';
+import { AdminActionsCreateUserComponent } from "./actions/create-user/create-user.component";
 import { adminRoutes } from './admin.routing';
 import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatRippleModule, MAT_DATE_FORMATS } from '@angular/material/core';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatTableModule } from '@angular/material/table';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import moment from 'moment';
 
 @NgModule({
     declarations: [
@@ -33,30 +41,53 @@ import { MatCardModule } from '@angular/material/card';
         AdminComposeComponent,
         AdminDetailsComponent,
         AdminListComponent,
-        AdminSettingsComponent,
+        AdminSettingsAccountPersonalComponent,
         AdminSidebarComponent,
-        AdminSecurityComponent
+        AdminSettingsAccountSecurityComponent,
+        AdminActionsCreateUserComponent,
     ],
     imports: [
         RouterModule.forChild(adminRoutes),
         MatButtonModule,
         MatCardModule,
         MatCheckboxModule,
+        MatDatepickerModule,
         MatDialogModule,
         MatDividerModule,
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
         MatMenuModule,
+        MatMomentDateModule,
         MatProgressBarModule,
+        MatRadioModule,
+        MatRippleModule,
         MatSelectModule,
         MatSidenavModule,
+        MatTableModule,
+        MatTooltipModule,
         QuillModule.forRoot(),
         FuseFindByKeyPipeModule,
         FuseNavigationModule,
         FuseScrollbarModule,
         FuseScrollResetModule,
         SharedModule
+    ],
+    providers: [
+        {
+            provide: MAT_DATE_FORMATS,
+            useValue: {
+                parse: {
+                    dateInput: moment.ISO_8601
+                },
+                display: {
+                    dateInput: 'LL',
+                    monthYearLabel: 'MMM YYYY',
+                    dateA11yLabel: 'LL',
+                    monthYearA11yLabel: 'MMMM YYYY'
+                }
+            }
+        }
     ]
 })
 export class AdminModule {

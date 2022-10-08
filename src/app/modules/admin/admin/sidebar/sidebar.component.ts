@@ -9,7 +9,7 @@ import { AdminService } from 'app/modules/admin/admin/admin.service';
 import { MailFilter, MailFolder, MailLabel } from 'app/modules/admin/admin/admin.types';
 
 @Component({
-    selector: 'mailbox-sidebar',
+    selector: 'admin-sidebar',
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.scss'],
     encapsulation: ViewEncapsulation.None
@@ -52,31 +52,32 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
                 children: [
                     {
                         id: 'crear-integrante',
-                        title: 'Crear integrante',
+                        title: 'Crear Integrante',
                         type: 'basic',
                         icon: 'heroicons_outline:plus-circle'
                     },
                     {
                         id: 'crear-equipo',
-                        title: 'Crear equipo',
+                        title: 'Crear Equipo',
                         type: 'basic',
                         icon: 'heroicons_outline:user-group'
                     },
                     {
                         id: 'crear-club',
-                        title: 'Crear club',
+                        title: 'Crear Club',
                         type: 'basic',
                         icon: 'heroicons_outline:briefcase'
                     },
                     {
-                        id: 'crear-usuario',
-                        title: 'Crear usuario',
+                        id: 'acciones.crear-usuario',
+                        title: 'Crear Usuario',
                         type: 'basic',
-                        icon: 'heroicons_outline:user-add'
+                        icon: 'heroicons_outline:user-add',
+                        link: '/administracion/acciones/crear-usuario'
                     },
                     {
                         id: 'asignar-usuario-o-equipo',
-                        title: 'Asignar usuario o equipo',
+                        title: 'Asignar Usuario o Equipo',
                         subtitle: 'Asignar a una tarea o a un proyecto',
                         type: 'basic',
                         icon: 'heroicons_outline:badge-check'
@@ -90,7 +91,7 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
                 children: [
                     {
                         id: 'todas-las-tareas',
-                        title: 'Todas las tareas',
+                        title: 'Todas las Tareas',
                         type: 'basic',
                         icon: 'heroicons_outline:clipboard-list',
                         badge: {
@@ -100,19 +101,19 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
                     },
                     {
                         id: 'tareas-en-curso',
-                        title: 'Tareas en curso',
+                        title: 'Tareas en Curso',
                         type: 'basic',
                         icon: 'heroicons_outline:clipboard-copy'
                     },
                     {
                         id: 'tareas-completadas',
-                        title: 'Tareas completadas',
+                        title: 'Tareas Completadas',
                         type: 'basic',
                         icon: 'heroicons_outline:clipboard-check'
                     },
                     {
                         id: 'tareas-abandonadas',
-                        title: 'Tareas abandonadas',
+                        title: 'Tareas Abandonadas',
                         type: 'basic',
                         icon: 'heroicons_outline:clipboard'
                     },
@@ -124,7 +125,7 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
                 type: 'group',
                 children: [
                     {
-                        id: 'general',
+                        id: 'ajustes.general',
                         title: 'General',
                         type: 'collapsable',
                         icon: 'heroicons_outline:adjustments',
@@ -135,9 +136,10 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
                                 type: 'basic'
                             },
                             {
-                                id: 'usuarios',
+                                id: 'ajustes.general.usuarios',
                                 title: 'Usuarios',
-                                type: 'basic'
+                                type: 'basic',
+                                link: '/administracion/ajustes/general/usuarios'
                             },
                             {
                                 id: 'equipos',
@@ -147,22 +149,22 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
                         ]
                     },
                     {
-                        id: 'cuenta',
+                        id: 'ajustes.cuenta',
                         title: 'Cuenta',
                         type: 'collapsable',
                         icon: 'heroicons_outline:user-circle',
                         children: [
                             {
-                                id: 'personal',
+                                id: 'ajustes.cuenta.personal',
                                 title: 'Personal',
                                 type: 'basic',
-                                link: '/administracion/personal'
+                                link: '/administracion/ajustes/cuenta/personal'
                             },
                             {
-                                id: 'seguridad',
+                                id: 'ajustes.cuenta.seguridad',
                                 title: 'Seguridad',
                                 type: 'basic',
-                                link: '/administracion/seguridad'
+                                link: '/administracion/ajustes/cuenta/seguridad'
                             }
                         ]
                     }

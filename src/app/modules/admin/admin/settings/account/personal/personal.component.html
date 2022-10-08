@@ -36,7 +36,7 @@
                         <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
                     <!-- Avatar -->
                     <div class="sm:col-span-4">
-                        <mat-label>Avatar de usuario</mat-label>
+                        <mat-label class="font-medium">Avatar de usuario</mat-label>
                         <div class="group relative flex items-center justify-center mt-2 w-32 h-32 rounded-full overflow-hidden ring-4 ring-bg-card">
                             <!-- Upload / Remove avatar -->
                             <div class="absolute inset-0 bg-black bg-opacity-50 z-10 invisible group-hover:visible"></div>
@@ -97,10 +97,22 @@
                                         matInput>
                                 </mat-form-field>
                             </div>
+                            <div class="sm:col-span-4">
+                                <mat-form-field class="fuse-mat-no-subscript w-full">
+                                    <mat-label>Nombre de usuario</mat-label>
+                                    <mat-icon
+                                    class="icon-size-5"
+                                    [svgIcon]="'heroicons_solid:user-circle'"
+                                    matPrefix></mat-icon>
+                                    <input
+                                        [formControlName]="'username'"
+                                        matInput>                                        
+                                </mat-form-field>
+                            </div>  
                         </div>                
                 
                         <!-- Actions -->                                            
-                        <div class="flex items-center justify-end mt-11 py-9 pr-4 pl-1 sm:pr-12 sm:pl-7 border-t">
+                        <div class="flex items-center justify-end mt-11 py-9 pl-1 sm:pl-7 border-t">
                             <button
                                 mat-stroked-button
                                 type="button">

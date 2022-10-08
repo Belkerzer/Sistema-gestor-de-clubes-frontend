@@ -4,8 +4,12 @@ import { AdminComponent } from 'app/modules/admin/admin/admin.component';
 import { MailboxFiltersResolver, MailboxFoldersResolver, MailboxLabelsResolver, MailboxMailResolver, MailboxMailsResolver } from 'app/modules/admin/admin/admin.resolvers';
 import { AdminListComponent } from 'app/modules/admin/admin/list/list.component';
 import { AdminDetailsComponent } from 'app/modules/admin/admin/details/details.component';
-import { AdminSettingsComponent } from 'app/modules/admin/admin/settings/account/account.component';
-import { AdminSecurityComponent } from './settings/security/security.component';
+import { AdminSettingsAccountPersonalComponent } from 'app/modules/admin/admin/settings/account/personal/personal.component';
+import { AdminSettingsAccountSecurityComponent } from './settings/account/security/security.component';
+import { SettingsComponent } from 'app/layout/common/settings/settings.component';
+import { AdminActionsCreateUserComponent } from './actions/create-user/create-user.component';
+
+
 
 /**
  * Mailbox custom route matcher
@@ -19,7 +23,7 @@ export const mailboxRouteMatcher: (url: UrlSegment[]) => UrlMatchResult = (url: 
     const posParams = {};
 
     // Settings
-    if (url[0].path === 'personal') {
+    if (url[0].path === 'ajustes' || url[0].path === 'acciones') {
         // Do not match
         return null;
     }
@@ -117,11 +121,6 @@ export const adminRoutes: Route[] = [
     {
         path: '',
         component: AdminComponent,
-        resolve: {
-            filters: MailboxFiltersResolver,
-            folders: MailboxFoldersResolver,
-            labels: MailboxLabelsResolver
-        },
         children: [
             {
                 component: AdminListComponent,
@@ -134,24 +133,71 @@ export const adminRoutes: Route[] = [
                     {
                         path: '',
                         component: AdminDetailsComponent,
-                        /*                         children: [
+/*                         children: [
                                                     {
                                                         path: ':id',
                                                         resolve: {
                                                             mail: MailboxMailResolver
                                                         }
                                                     }
-                                                ] */
+                        ] */
                     }
                 ]
             },
             {
-                path: 'personal',
-                component: AdminSettingsComponent
+                path: 'acciones',
+                children: [
+                    {
+                        path: 'crear-usuario',
+                        component: AdminActionsCreateUserComponent
+                    }
+
+                ]
             },
             {
-                path: 'seguridad',
-                component: AdminSecurityComponent
+                path: 'ajustes',
+                children: [
+                    {
+                        path: 'general',
+                        children: [
+                            {
+                                path: 'usuarios',
+                                component: AdminActionsCreateUserComponent
+                            }
+                        ]
+                    }
+
+                ]
+            },
+            {
+                path: 'ajustes',
+                children: [
+                    {
+                        path: 'cuenta',
+                        children: [
+                            {
+                                path: 'personal',
+                                component: AdminSettingsAccountPersonalComponent
+                            }
+                        ]
+                    }
+
+                ]
+            },
+            {
+                path: 'ajustes',
+                children: [
+                    {
+                        path: 'cuenta',
+                        children: [
+                            {
+                                path: 'seguridad',
+                                component: AdminSettingsAccountSecurityComponent
+                            }
+                        ]
+                    }
+
+                ]
             }
         ]
     }

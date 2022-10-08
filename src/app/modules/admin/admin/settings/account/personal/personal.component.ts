@@ -4,16 +4,16 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { UserService } from "app/core/user/user.service";
 import { User } from "app/core/user/user.types";
 import { Subject, takeUntil } from "rxjs";
-import { AdminComponent } from "../../admin.component";
+import { AdminComponent } from "../../../admin.component";
 
 @Component({
-    selector: 'settings-account',
-    templateUrl: './account.component.html',
+    selector: 'settings-account-personal',
+    templateUrl: './personal.component.html',
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
     exportAs: 'user'
 })
-export class AdminSettingsComponent implements OnInit {
+export class AdminSettingsAccountPersonalComponent implements OnInit {
     @ViewChild('avatarFileInput') private _avatarFileInput: ElementRef;
 
     /* eslint-disable @typescript-eslint/naming-convention */
@@ -31,7 +31,7 @@ export class AdminSettingsComponent implements OnInit {
         private _changeDetectorRef: ChangeDetectorRef,
         public adminComponent: AdminComponent,
         private _formBuilder: FormBuilder,
-        private _userService: UserService        
+        private _userService: UserService
     ) {
     }
 
@@ -79,4 +79,44 @@ export class AdminSettingsComponent implements OnInit {
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
     }
+
+    /**
+ * Upload avatar
+ *
+ * @param fileList
+ */
+    /*     uploadAvatar(fileList: FileList): void {
+            // Return if canceled
+            if (!fileList.length) {
+                return;
+            }
+    
+            const allowedTypes = ['image/jpeg', 'image/png'];
+            const file = fileList[0];
+    
+            // Return if the file is not allowed
+            if (!allowedTypes.includes(file.type)) {
+                return;
+            }
+    
+            // Upload the avatar
+            this._contactsService.uploadAvatar(this.contact.id, file).subscribe();
+        } */
+
+    /**
+     * Remove the avatar
+     */
+    /*     removeAvatar(): void {
+            // Get the form control for 'avatar'
+            const avatarFormControl = this.contactForm.get('avatar');
+    
+            // Set the avatar as null
+            avatarFormControl.setValue(null);
+    
+            // Set the file input value as null
+            this._avatarFileInput.nativeElement.value = null;
+    
+            // Update the contact
+            this.contact.avatar = null;
+        } */
 }
