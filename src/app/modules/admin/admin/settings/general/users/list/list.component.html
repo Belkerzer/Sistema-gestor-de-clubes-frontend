@@ -21,23 +21,29 @@
             <div class="flex-auto">
 
                 <!-- Header -->
-                <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-8 px-6 md:px-8 border-b">
-
-                    <!-- Title -->
-                    <div>
-                        <div class="text-3xl font-extrabold tracking-tight">Usuarios</div>
-                        <div class="ml-0.5 font-medium text-secondary">
-                            <ng-container *ngIf="contactsCount > 0">
-                                {{contactsCount}}
-                            </ng-container>
-                            {{contactsCount | i18nPlural: {
-                            '=0'   : 'Sin usuarios',
-                            '=1'   : 'usuario',
-                            'other': 'usuarios'
-                        } }}
+                <div class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-8 px-6 md:px-8 border-b">      
+                    <div class="flex items-center lg:items-start lg:flex-col">
+                        <!-- Sidebar toggle button -->
+                        <div class="md:hidden -ml-2 mr-3">
+                            <button
+                                mat-icon-button
+                                (click)="adminComponent.drawer.toggle()">
+                                <mat-icon [svgIcon]="'heroicons_outline:menu'"></mat-icon>
+                            </button>
                         </div>
+                        <!-- Title -->
+                        <div class="text-3xl font-extrabold tracking-tight leading-none">Usuarios</div>
                     </div>
-
+                    <div class="ml-11 lg:ml-0.5 font-medium text-secondary">
+                        <ng-container *ngIf="contactsCount > 0">
+                            {{contactsCount}}
+                        </ng-container>
+                        {{contactsCount | i18nPlural: {
+                        '=0'   : 'Sin usuarios',
+                        '=1'   : 'usuario',
+                        'other': 'usuarios'
+                    } }}
+                    </div>
                     <!-- Main actions -->
                     <div class="flex items-center mt-4 sm:mt-0 md:mt-4">
                         <!-- Search -->

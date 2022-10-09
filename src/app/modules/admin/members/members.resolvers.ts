@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@a
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { MembersService } from 'app/modules/admin/members/members.service';
-import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryProduct, InventoryTag, InventoryVendor } from 'app/modules/admin/members/members.types';
+import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryMember, InventoryTag, InventoryVendor } from 'app/modules/admin/members/members.types';
 
 @Injectable({
     providedIn: 'root'
@@ -60,7 +60,7 @@ export class InventoryCategoriesResolver implements Resolve<any>
 @Injectable({
     providedIn: 'root'
 })
-export class InventoryProductResolver implements Resolve<any>
+export class InventoryMemberResolver implements Resolve<any>
 {
     /**
      * Constructor
@@ -81,7 +81,7 @@ export class InventoryProductResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryProduct> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryMember> {
         return this._membersService.getProductById(route.paramMap.get('id'))
             .pipe(
                 // Error here means the requested product is not available
@@ -106,7 +106,7 @@ export class InventoryProductResolver implements Resolve<any>
 @Injectable({
     providedIn: 'root'
 })
-export class InventoryProductsResolver implements Resolve<any>
+export class InventoryMembersResolver implements Resolve<any>
 {
     /**
      * Constructor
@@ -124,7 +124,7 @@ export class InventoryProductsResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: InventoryPagination; products: InventoryProduct[] }> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: InventoryPagination; products: InventoryMember[] }> {
         return this._membersService.getProducts();
     }
 }

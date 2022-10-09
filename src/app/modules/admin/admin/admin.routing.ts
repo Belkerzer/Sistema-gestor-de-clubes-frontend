@@ -8,6 +8,10 @@ import { AdminSettingsAccountPersonalComponent } from 'app/modules/admin/admin/s
 import { AdminSettingsAccountSecurityComponent } from './settings/account/security/security.component';
 import { SettingsComponent } from 'app/layout/common/settings/settings.component';
 import { AdminActionsCreateUserComponent } from './actions/create-user/create-user.component';
+import { UsersDetailsComponent } from './settings/general/users/details/details.component';
+import { UsersListComponent } from './settings/general/users/list/list.component';
+import { CanDeactivateUsersDetails } from './settings/general/users/users.guards';
+import { ContactsTagsResolver, ContactsResolver, ContactsCountriesResolver, ContactsContactResolver } from './settings/general/users/users.resolvers';
 
 
 
@@ -104,6 +108,26 @@ export const adminRoutes: Route[] = [
         pathMatch: 'full'
     },
     {
+        path: 'acciones',
+        redirectTo: 'acciones/crear-usuario',
+        pathMatch: 'full'
+    },
+    {
+        path: 'ajustes',
+        redirectTo: 'ajustes/cuenta/personal',
+        pathMatch: 'full'
+    },
+    {
+        path: 'ajustes/cuenta',
+        redirectTo: 'ajustes/cuenta/personal',
+        pathMatch: 'full'
+    },
+    {
+        path: 'ajustes/general',
+        redirectTo: 'ajustes/general/usuarios',
+        pathMatch: 'full'
+    },
+    {
         path: 'filter/:filter',
         redirectTo: 'filter/:filter/1',
         pathMatch: 'full'
@@ -121,6 +145,9 @@ export const adminRoutes: Route[] = [
     {
         path: '',
         component: AdminComponent,
+        resolve: {
+            tags: ContactsTagsResolver
+        },
         children: [
             {
                 component: AdminListComponent,
@@ -145,13 +172,12 @@ export const adminRoutes: Route[] = [
                 ]
             },
             {
-                path: 'acciones',
+                path: 'acciones',                
                 children: [
                     {
                         path: 'crear-usuario',
                         component: AdminActionsCreateUserComponent
                     }
-
                 ]
             },
             {
@@ -162,15 +188,31 @@ export const adminRoutes: Route[] = [
                         children: [
                             {
                                 path: 'usuarios',
-                                component: AdminActionsCreateUserComponent
-                            }
+                                component: UsersListComponent,
+                                resolve: {
+                                    tasks: ContactsResolver,
+                                    countries: ContactsCountriesResolver
+                                },
+                                children: [
+                                    {
+                                        path: ':id',
+                                        component: UsersDetailsComponent,
+                                        resolve: {
+                                            task: ContactsContactResolver,
+                                            countries: ContactsCountriesResolver
+                                        },
+                                        canDeactivate: [CanDeactivateUsersDetails]
+                                    }
+                                ]
+
+                            },
                         ]
                     }
 
                 ]
             },
             {
-                path: 'ajustes',
+                path: 'ajustes',                
                 children: [
                     {
                         path: 'cuenta',

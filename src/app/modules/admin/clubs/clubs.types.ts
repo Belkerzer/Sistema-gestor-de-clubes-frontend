@@ -1,5 +1,4 @@
-export interface InventoryProduct
-{
+export interface InventoryClubs {
     id: string;
     category?: string;
     name: string;
@@ -18,7 +17,7 @@ export interface InventoryProduct
     weight: number;
     thumbnail: string;
     images: string[];
-    active: boolean;
+    active: number;
 }
 
 export interface InventoryPagination

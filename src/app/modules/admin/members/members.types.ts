@@ -1,4 +1,4 @@
-export interface InventoryProduct {
+export interface InventoryMember {
     id: string;
     category?: string;
     name: string;

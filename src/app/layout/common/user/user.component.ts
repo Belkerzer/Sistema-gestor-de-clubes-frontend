@@ -89,6 +89,19 @@ export class UserComponent implements OnInit, OnDestroy
     }
 
     /**
+ * Account
+ */
+    general(): void {
+        this._router.navigate(['/administracion/ajustes/general/usuarios']);
+    }
+
+    /**
+ * Account
+ */
+    account(): void {
+        this._router.navigate(['/administracion/ajustes/cuenta/personal']);
+    }
+    /**
      * Sign out
      */
     signOut(): void

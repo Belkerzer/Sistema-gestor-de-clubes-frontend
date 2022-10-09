@@ -7,22 +7,22 @@ import { MatDrawerToggleResult } from '@angular/material/sidenav';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { ContactsService } from '../contacts.service';
-import { Tag, Contact, Country } from '../contacts.types';
-import { ContactsListComponent } from '../list/list.component';
+import { ContactsService } from '../users.service';
+import { Tag, Contact, Country } from '../users.types';
+import { UsersListComponent } from '../list/list.component';
 import { UserService } from 'app/core/user/user.service';
 import { BooleanInput } from '@angular/cdk/coercion';
 import { User } from 'app/core/user/user.types';
 
 
 @Component({
-    selector: 'contacts-details',
+    selector: 'users-details',
     templateUrl: './details.component.html',
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
     exportAs: 'user'
 })
-export class ContactsDetailsComponent implements OnInit, OnDestroy {
+export class UsersDetailsComponent implements OnInit, OnDestroy {
     @ViewChild('avatarFileInput') private _avatarFileInput: ElementRef;
     @ViewChild('tagsPanel') private _tagsPanel: TemplateRef<any>;
     @ViewChild('tagsPanelOrigin') private _tagsPanelOrigin: ElementRef;
@@ -51,8 +51,8 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy {
     constructor(
         private _activatedRoute: ActivatedRoute,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _contactsListComponent: ContactsListComponent,
-        private _contactsService: ContactsService,
+        private _usersListComponent: UsersListComponent,
+        private _usersService: ContactsService,
         private _formBuilder: FormBuilder,
         private _fuseConfirmationService: FuseConfirmationService,
         private _renderer2: Renderer2,
@@ -81,7 +81,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy {
                 this._changeDetectorRef.markForCheck();
             });
         // Open the drawer
-        this._contactsListComponent.matDrawer.open();
+        this._usersListComponent.matDrawer.open();
 
         // Create the contact form
         this.contactForm = this._formBuilder.group({
@@ -118,7 +118,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy {
         ];
 
         // Get the contacts
-        this._contactsService.contacts$
+        this._usersService.contacts$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((contacts: Contact[]) => {
                 this.contacts = contacts;
@@ -128,12 +128,12 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy {
             });
 
         // Get the contact
-        this._contactsService.contact$
+        this._usersService.contact$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((contact: Contact) => {
 
                 // Open the drawer in case it is closed
-                this._contactsListComponent.matDrawer.open();
+                this._usersListComponent.matDrawer.open();
 
                 // Get the contact
                 this.contact = contact;
@@ -217,7 +217,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy {
             });
 
         // Get the country telephone codes
-        this._contactsService.countries$
+        this._usersService.countries$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((codes: Country[]) => {
                 this.countries = codes;
@@ -227,7 +227,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy {
             });
 
         // Get the tags
-        this._contactsService.tags$
+        this._usersService.tags$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((tags: Tag[]) => {
                 this.tags = tags;
@@ -260,7 +260,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy {
      * Close the drawer
      */
     closeDrawer(): Promise<MatDrawerToggleResult> {
-        return this._contactsListComponent.matDrawer.close();
+        return this._usersListComponent.matDrawer.close();
     }
 
     /**
@@ -293,7 +293,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy {
         contact.phoneNumbers = contact.phoneNumbers.filter(phoneNumber => phoneNumber.phoneNumber);
 
         // Update the contact on the server
-        this._contactsService.updateContact(contact.id, contact).subscribe(() => {
+        this._usersService.updateContact(contact.id, contact).subscribe(() => {
 
             // Toggle the edit mode off
             this.toggleEditMode(false);
@@ -332,7 +332,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy {
                 const nextContactId = (this.contacts.length === 1 && this.contacts[0].id === id) ? null : this.contacts[nextContactIndex].id;
 
                 // Delete the contact
-                this._contactsService.deleteContact(id)
+                this._usersService.deleteContact(id)
                     .subscribe((isDeleted) => {
 
                         // Return if the contact wasn't deleted...
@@ -380,7 +380,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy {
         }
 
         // Upload the avatar
-        this._contactsService.uploadAvatar(this.contact.id, file).subscribe();
+        this._usersService.uploadAvatar(this.contact.id, file).subscribe();
     }
 
     /**
@@ -535,7 +535,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy {
         };
 
         // Create tag on the server
-        this._contactsService.createTag(tag)
+        this._usersService.createTag(tag)
             .subscribe((response) => {
 
                 // Add the tag to the contact
@@ -554,7 +554,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy {
         tag.title = event.target.value;
 
         // Update the tag on the server
-        this._contactsService.updateTag(tag.id, tag)
+        this._usersService.updateTag(tag.id, tag)
             .pipe(debounceTime(300))
             .subscribe();
 
@@ -569,7 +569,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy {
      */
     deleteTag(tag: Tag): void {
         // Delete the tag from the server
-        this._contactsService.deleteTag(tag.id).subscribe();
+        this._usersService.deleteTag(tag.id).subscribe();
 
         // Mark for check
         this._changeDetectorRef.markForCheck();

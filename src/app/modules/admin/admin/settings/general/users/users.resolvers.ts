@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ContactsService } from './contacts.service';
-import { Contact, Country, Tag } from './contacts.types';
-
+import { ContactsService } from './users.service';
+import { Contact, Country, Tag } from './users.types';
 
 @Injectable({
     providedIn: 'root'

@@ -6,21 +6,22 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { fromEvent, Observable, Subject } from 'rxjs';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
-import { ContactsService } from '../contacts.service';
-import { Contact, Country } from '../contacts.types';
+import { ContactsService } from '../users.service';
+import { Contact, Country } from '../users.types';
 import { BooleanInput } from '@angular/cdk/coercion';
 import { User } from 'app/core/user/user.types';
 import { UserService } from 'app/core/user/user.service';
+import { AdminComponent } from 'app/modules/admin/admin/admin.component';
 
 
 @Component({
-    selector: 'contacts-list',
+    selector: 'users-list',
     templateUrl: './list.component.html',
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
     exportAs: 'user'
 })
-export class ContactsListComponent implements OnInit, OnDestroy {
+export class UsersListComponent implements OnInit, OnDestroy {
     @ViewChild('matDrawer', { static: true }) matDrawer: MatDrawer;
 
     /* eslint-disable @typescript-eslint/naming-convention */
@@ -48,7 +49,8 @@ export class ContactsListComponent implements OnInit, OnDestroy {
         @Inject(DOCUMENT) private _document: any,
         private _router: Router,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
-        private _userService: UserService
+        private _userService: UserService,
+        public adminComponent: AdminComponent,
     ) {
     }
 

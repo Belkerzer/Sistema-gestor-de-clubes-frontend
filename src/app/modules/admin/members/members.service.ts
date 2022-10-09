@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryProduct, InventoryTag, InventoryVendor } from 'app/modules/admin/members/members.types';
+import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryMember, InventoryTag, InventoryVendor } from 'app/modules/admin/members/members.types';
 
 @Injectable({
     providedIn: 'root'
@@ -12,8 +12,8 @@ export class MembersService {
     private _brands: BehaviorSubject<InventoryBrand[] | null> = new BehaviorSubject(null);
     private _categories: BehaviorSubject<InventoryCategory[] | null> = new BehaviorSubject(null);
     private _pagination: BehaviorSubject<InventoryPagination | null> = new BehaviorSubject(null);
-    private _product: BehaviorSubject<InventoryProduct | null> = new BehaviorSubject(null);
-    private _products: BehaviorSubject<InventoryProduct[] | null> = new BehaviorSubject(null);
+    private _product: BehaviorSubject<InventoryMember | null> = new BehaviorSubject(null);
+    private _products: BehaviorSubject<InventoryMember[] | null> = new BehaviorSubject(null);
     private _tags: BehaviorSubject<InventoryTag[] | null> = new BehaviorSubject(null);
     private _vendors: BehaviorSubject<InventoryVendor[] | null> = new BehaviorSubject(null);
 
@@ -51,14 +51,14 @@ export class MembersService {
     /**
      * Getter for product
      */
-    get product$(): Observable<InventoryProduct> {
+    get product$(): Observable<InventoryMember> {
         return this._product.asObservable();
     }
 
     /**
      * Getter for products
      */
-    get products$(): Observable<InventoryProduct[]> {
+    get products$(): Observable<InventoryMember[]> {
         return this._products.asObservable();
     }
 
@@ -113,8 +113,8 @@ export class MembersService {
      * @param search
      */
     getProducts(page: number = 0, size: number = 10, sort: string = 'name', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
-        Observable<{ pagination: InventoryPagination; products: InventoryProduct[] }> {
-        return this._httpClient.get<{ pagination: InventoryPagination; products: InventoryProduct[] }>('api/apps/ecommerce/inventory/products', {
+        Observable<{ pagination: InventoryPagination; products: InventoryMember[] }> {
+        return this._httpClient.get<{ pagination: InventoryPagination; products: InventoryMember[] }>('api/apps/ecommerce/inventory/members', {
             params: {
                 page: '' + page,
                 size: '' + size,
@@ -133,7 +133,7 @@ export class MembersService {
     /**
      * Get product by id
      */
-    getProductById(id: string): Observable<InventoryProduct> {
+    getProductById(id: string): Observable<InventoryMember> {
         return this._products.pipe(
             take(1),
             map((products) => {
@@ -150,7 +150,7 @@ export class MembersService {
             switchMap((product) => {
 
                 if (!product) {
-                    return throwError('Could not found product with id of ' + id + '!');
+                    return throwError('No se pudo encontrar el producto con el id de ' + id + '.');
                 }
 
                 return of(product);
@@ -161,10 +161,10 @@ export class MembersService {
     /**
      * Create product
      */
-    createProduct(): Observable<InventoryProduct> {
+    createProduct(): Observable<InventoryMember> {
         return this.products$.pipe(
             take(1),
-            switchMap(products => this._httpClient.post<InventoryProduct>('api/apps/ecommerce/inventory/product', {}).pipe(
+            switchMap(products => this._httpClient.post<InventoryMember>('api/apps/ecommerce/inventory/member', {}).pipe(
                 map((newProduct) => {
 
                     // Update the products with the new product
@@ -183,10 +183,10 @@ export class MembersService {
      * @param id
      * @param product
      */
-    updateProduct(id: string, product: InventoryProduct): Observable<InventoryProduct> {
+    updateProduct(id: string, product: InventoryMember): Observable<InventoryMember> {
         return this.products$.pipe(
             take(1),
-            switchMap(products => this._httpClient.patch<InventoryProduct>('api/apps/ecommerce/inventory/product', {
+            switchMap(products => this._httpClient.patch<InventoryMember>('api/apps/ecommerce/inventory/member', {
                 id,
                 product
             }).pipe(
@@ -228,7 +228,7 @@ export class MembersService {
     deleteProduct(id: string): Observable<boolean> {
         return this.products$.pipe(
             take(1),
-            switchMap(products => this._httpClient.delete('api/apps/ecommerce/inventory/product', { params: { id } }).pipe(
+            switchMap(products => this._httpClient.delete('api/apps/ecommerce/inventory/member', { params: { id } }).pipe(
                 map((isDeleted: boolean) => {
 
                     // Find the index of the deleted product

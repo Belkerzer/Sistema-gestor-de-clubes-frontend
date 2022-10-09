@@ -63,8 +63,7 @@ export const appRoutes: Route[] = [
             { path: 'inicio', loadChildren: () => import('app/modules/admin/home/home.module').then(m => m.HomeModule) },
             { path: 'integrantes', loadChildren: () => import('app/modules/admin/members/members.module').then(m => m.MembersModule) },
             { path: 'clubes', loadChildren: () => import('app/modules/admin/clubs/clubs.module').then(m => m.ClubsModule) },
-            /* {path: 'planes', loadChildren: () => import('app/modules/admin/pages/admin/tasks/tasks.module').then(m => m.TasksModule)}, */
-            { path: 'contacts', loadChildren: () => import('app/modules/admin/contacts/contacts.module').then(m => m.ContactsModule) },
+            /* {path: 'planes', loadChildren: () => import('app/modules/admin/pages/admin/tasks/tasks.module').then(m => m.TasksModule)}, */            
             { path: 'reportes', loadChildren: () => import('app/modules/admin/reports/reports.module').then(m => m.ReportsModule) },
             { path: 'administracion', loadChildren: () => import('app/modules/admin/admin/admin.module').then(m => m.AdminModule) },
         ]

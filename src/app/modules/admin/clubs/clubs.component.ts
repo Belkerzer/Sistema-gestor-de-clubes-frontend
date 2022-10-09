@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator } from '@angular/material/paginator';
@@ -7,7 +7,7 @@ import { merge, Observable, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryProduct, InventoryTag, InventoryVendor } from 'app/modules/admin/clubs/clubs.types';
+import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryClubs, InventoryTag, InventoryVendor } from 'app/modules/admin/clubs/clubs.types';
 import { ClubsService } from 'app/modules/admin/clubs/clubs.service';
 
 @Component({
@@ -18,11 +18,11 @@ import { ClubsService } from 'app/modules/admin/clubs/clubs.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: fuseAnimations
 })
-export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
 
-    products$: Observable<InventoryProduct[]>;
+    products$: Observable<InventoryClubs[]>;
 
     formFieldHelpers: string[] = [''];
     brands: InventoryBrand[];
@@ -32,7 +32,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy {
     isLoading: boolean = false;
     pagination: InventoryPagination;
     searchInputControl: FormControl = new FormControl();
-    selectedProduct: InventoryProduct | null = null;
+    selectedProduct: InventoryClubs | null = null;
     selectedProductForm: FormGroup;
     tags: InventoryTag[];
     tagsEditMode: boolean = false;
@@ -48,6 +48,9 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy {
         private _formBuilder: FormBuilder,
         private _clubsService: ClubsService
     ) {
+    }
+    ngAfterViewChecked(): void {
+        this._changeDetectorRef.detectChanges();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -79,7 +82,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy {
             thumbnail: [''],
             images: [[]],
             currentImageIndex: [0], // Image index that is currently being viewed
-            active: [false]
+            active: ['']
         });
 
         // Get the brands
