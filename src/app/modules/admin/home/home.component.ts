@@ -5,7 +5,7 @@ import { UserService } from "app/core/user/user.service";
 import { User } from "app/core/user/user.types";
 import { ApexOptions } from "ng-apexcharts";
 import { Subject, takeUntil } from "rxjs";
-import { ProjectService } from "./home.service";
+import { AnalyticsService } from "./home.service";
 
 @Component({
     selector: 'home',
@@ -20,14 +20,16 @@ export class HomeComponent implements OnInit, OnDestroy {
     /* eslint-enable @typescript-eslint/naming-convention */
 
     @Input() showAvatar: boolean = true;
-    chartGithubIssues: ApexOptions = {};
-    chartTaskDistribution: ApexOptions = {};
-    chartBudgetDistribution: ApexOptions = {};
-    chartWeeklyExpenses: ApexOptions = {};
-    chartMonthlyExpenses: ApexOptions = {};
-    chartYearlyExpenses: ApexOptions = {};
+    chartVisitors: ApexOptions;
+    chartConversions: ApexOptions;
+    chartImpressions: ApexOptions;
+    chartVisits: ApexOptions;
+    chartVisitorsVsPageViews: ApexOptions;
+    chartNewVsReturning: ApexOptions;
+    chartGender: ApexOptions;
+    chartAge: ApexOptions;
+    chartLanguage: ApexOptions;
     data: any;
-    selectedProject: string = 'ACME Corp. Backend App';
     user: User;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -36,7 +38,7 @@ export class HomeComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _projectService: ProjectService,
+        private _analyticsService: AnalyticsService,
         private _router: Router,
         private _userService: UserService
     ) {
@@ -61,7 +63,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             });
 
         // Get the data
-        this._projectService.data$
+        this._analyticsService.data$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((data) => {
 
@@ -99,6 +101,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    /**
+ * Account
+ */
+    account(): void {
+        this._router.navigate(['/administracion/ajustes/cuenta/personal']);
+    }
 
     /**
      * Track by function for ngFor loops
@@ -145,13 +154,228 @@ export class HomeComponent implements OnInit, OnDestroy {
      * @private
      */
     private _prepareChartData(): void {
-        // Github issues
-        this.chartGithubIssues = {
+        // Visitors
+        this.chartVisitors = {
             chart: {
+                animations: {
+                    speed: 400,
+                    animateGradually: {
+                        enabled: false
+                    }
+                },
+                fontFamily: 'inherit',
+                foreColor: 'inherit',
+                width: '100%',
+                height: '100%',
+                type: 'area',
+                toolbar: {
+                    show: false
+                },
+                zoom: {
+                    enabled: false
+                }
+            },
+            colors: ['#818CF8'],
+            dataLabels: {
+                enabled: false
+            },
+            fill: {
+                colors: ['#312E81']
+            },
+            grid: {
+                show: true,
+                borderColor: '#334155',
+                padding: {
+                    top: 10,
+                    bottom: -40,
+                    left: 0,
+                    right: 0
+                },
+                position: 'back',
+                xaxis: {
+                    lines: {
+                        show: true
+                    }
+                }
+            },
+            series: this.data.visitors.series,
+            stroke: {
+                width: 2
+            },
+            tooltip: {
+                followCursor: true,
+                theme: 'dark',
+                x: {
+                    format: 'MMM dd, yyyy'
+                },
+                y: {
+                    formatter: (value: number): string => `${value}`
+                }
+            },
+            xaxis: {
+                axisBorder: {
+                    show: false
+                },
+                axisTicks: {
+                    show: false
+                },
+                crosshairs: {
+                    stroke: {
+                        color: '#475569',
+                        dashArray: 0,
+                        width: 2
+                    }
+                },
+                labels: {
+                    offsetY: -20,
+                    style: {
+                         colors: '#CBD5E1'
+                    }
+                },
+                tickAmount: 20,
+                tooltip: {
+                    enabled: false
+                },
+                type: 'datetime'
+            },
+            yaxis: {
+                axisTicks: {
+                    show: false
+                },
+                axisBorder: {
+                    show: false
+                },
+                min: (min): number => min - 750,
+                max: (max): number => max + 250,
+                tickAmount: 5,
+                show: false
+            }
+        };
+
+        // Conversions
+        this.chartConversions = {
+            chart: {
+                animations: {
+                    enabled: false
+                },
                 fontFamily: 'inherit',
                 foreColor: 'inherit',
                 height: '100%',
-                type: 'line',
+                type: 'area',
+                sparkline: {
+                    enabled: true
+                }
+            },
+            colors: ['#38BDF8'],
+            fill: {
+                colors: ['#38BDF8'],
+                opacity: 0.5
+            },
+            series: this.data.conversions.series,
+            stroke: {
+                curve: 'smooth'
+            },
+            tooltip: {
+                followCursor: true,
+                theme: 'dark'
+            },
+            xaxis: {
+                type: 'category',
+                categories: this.data.conversions.labels
+            },
+            yaxis: {
+                labels: {
+                    formatter: (val): string => val.toString()
+                }
+            }
+        };
+
+        // Impressions
+        this.chartImpressions = {
+            chart: {
+                animations: {
+                    enabled: false
+                },
+                fontFamily: 'inherit',
+                foreColor: 'inherit',
+                height: '100%',
+                type: 'area',
+                sparkline: {
+                    enabled: true
+                }
+            },
+            colors: ['#34D399'],
+            fill: {
+                colors: ['#34D399'],
+                opacity: 0.5
+            },
+            series: this.data.impressions.series,
+            stroke: {
+                curve: 'smooth'
+            },
+            tooltip: {
+                followCursor: true,
+                theme: 'dark'
+            },
+            xaxis: {
+                type: 'category',
+                categories: this.data.impressions.labels
+            },
+            yaxis: {
+                labels: {
+                    formatter: (val): string => val.toString()
+                }
+            }
+        };
+
+        // Visits
+        this.chartVisits = {
+            chart: {
+                animations: {
+                    enabled: false
+                },
+                fontFamily: 'inherit',
+                foreColor: 'inherit',
+                height: '100%',
+                type: 'area',
+                sparkline: {
+                    enabled: true
+                }
+            },
+            colors: ['#FB7185'],
+            fill: {
+                colors: ['#FB7185'],
+                opacity: 0.5
+            },
+            series: this.data.visits.series,
+            stroke: {
+                curve: 'smooth'
+            },
+            tooltip: {
+                followCursor: true,
+                theme: 'dark'
+            },
+            xaxis: {
+                type: 'category',
+                categories: this.data.visits.labels
+            },
+            yaxis: {
+                labels: {
+                    formatter: (val): string => val.toString()
+                }
+            }
+        };
+
+        // Visitors vs Page Views
+        this.chartVisitorsVsPageViews = {
+            chart: {
+                animations: {
+                    enabled: false
+                },
+                fontFamily: 'inherit',
+                foreColor: 'inherit',
+                height: '100%',
+                type: 'area',
                 toolbar: {
                     show: false
                 },
@@ -161,287 +385,286 @@ export class HomeComponent implements OnInit, OnDestroy {
             },
             colors: ['#64748B', '#94A3B8'],
             dataLabels: {
-                enabled: true,
-                enabledOnSeries: [0],
-                background: {
-                    borderWidth: 0
-                }
+                enabled: false
+            },
+            fill: {
+                colors: ['#64748B', '#94A3B8'],
+                opacity: 0.5
             },
             grid: {
-                borderColor: 'var(--fuse-border)'
+                show: false,
+                padding: {
+                    bottom: -40,
+                    left: 0,
+                    right: 0
+                }
             },
-            labels: this.data.githubIssues.labels,
             legend: {
                 show: false
             },
-            plotOptions: {
-                bar: {
-                    columnWidth: '50%'
-                }
-            },
-            series: this.data.githubIssues.series,
-            states: {
-                hover: {
-                    filter: {
-                        type: 'darken',
-                        value: 0.75
-                    }
-                }
-            },
+            series: this.data.visitorsVsPageViews.series,
             stroke: {
-                width: [3, 0]
+                curve: 'smooth',
+                width: 2
             },
             tooltip: {
                 followCursor: true,
-                theme: 'dark'
+                theme: 'dark',
+                x: {
+                    format: 'MMM dd, yyyy'
+                }
             },
             xaxis: {
                 axisBorder: {
                     show: false
                 },
-                axisTicks: {
-                    color: 'var(--fuse-border)'
-                },
                 labels: {
-                    style: {
-                        colors: 'var(--fuse-text-secondary)'
-                    }
+                     offsetY: -20,
+                     rotate: 0,
+                     style: {
+                         colors: 'var(--fuse-text-secondary)'
+                     }
                 },
+                tickAmount: 3,
                 tooltip: {
                     enabled: false
-                }
+                },
+                type: 'datetime'
             },
             yaxis: {
                 labels: {
-                    offsetX: -16,
                     style: {
                         colors: 'var(--fuse-text-secondary)'
                     }
-                }
+                },
+                max: (max): number => max + 250,
+                min: (min): number => min - 250,
+                show: false,
+                tickAmount: 5
             }
         };
 
-        // Task distribution
-        this.chartTaskDistribution = {
+        // New vs. returning
+        this.chartNewVsReturning = {
             chart: {
+                animations: {
+                    speed: 400,
+                    animateGradually: {
+                        enabled: false
+                    }
+                },
                 fontFamily: 'inherit',
                 foreColor: 'inherit',
                 height: '100%',
-                type: 'polarArea',
-                toolbar: {
-                    show: false
-                },
-                zoom: {
-                    enabled: false
+                type: 'donut',
+                sparkline: {
+                    enabled: true
                 }
             },
-            labels: this.data.taskDistribution.labels,
-            legend: {
-                position: 'bottom'
-            },
+            colors: ['#3182CE', '#63B3ED'],
+            labels: this.data.newVsReturning.labels,
             plotOptions: {
-                polarArea: {
-                    spokes: {
-                        connectorColors: 'var(--fuse-border)'
-                    },
-                    rings: {
-                        strokeColor: 'var(--fuse-border)'
+                pie: {
+                    customScale: 0.9,
+                    expandOnClick: false,
+                    donut: {
+                        size: '70%'
                     }
                 }
             },
-            series: this.data.taskDistribution.series,
+            series: this.data.newVsReturning.series,
             states: {
                 hover: {
                     filter: {
-                        type: 'darken',
-                        value: 0.75
+                        type: 'none'
                     }
-                }
-            },
-            stroke: {
-                width: 2
-            },
-            theme: {
-                monochrome: {
-                    enabled: true,
-                    color: '#93C5FD',
-                    shadeIntensity: 0.75,
-                    shadeTo: 'dark'
+                },
+                active: {
+                    filter: {
+                        type: 'none'
+                    }
                 }
             },
             tooltip: {
-                followCursor: true,
-                theme: 'dark'
-            },
-            yaxis: {
-                labels: {
-                    style: {
-                        colors: 'var(--fuse-text-secondary)'
-                    }
-                }
-            }
-        };
-
-        // Budget distribution
-        this.chartBudgetDistribution = {
-            chart: {
-                fontFamily: 'inherit',
-                foreColor: 'inherit',
-                height: '100%',
-                type: 'radar',
-                sparkline: {
-                    enabled: true
-                }
-            },
-            colors: ['#818CF8'],
-            dataLabels: {
                 enabled: true,
-                formatter: (val: number): string | number => `${val}%`,
-                textAnchor: 'start',
-                style: {
-                    fontSize: '13px',
-                    fontWeight: 500
-                },
-                background: {
-                    borderWidth: 0,
-                    padding: 4
-                },
-                offsetY: -15
-            },
-            markers: {
-                strokeColors: '#818CF8',
-                strokeWidth: 4
-            },
-            plotOptions: {
-                radar: {
-                    polygons: {
-                        strokeColors: 'var(--fuse-border)',
-                        connectorColors: 'var(--fuse-border)'
-                    }
-                }
-            },
-            series: this.data.budgetDistribution.series,
-            stroke: {
-                width: 2
-            },
-            tooltip: {
+                fillSeriesColor: false,
                 theme: 'dark',
-                y: {
-                    formatter: (val: number): string => `${val}%`
-                }
-            },
-            xaxis: {
-                labels: {
-                    show: true,
-                    style: {
-                        fontSize: '12px',
-                        fontWeight: '500'
+                custom: ({
+                    seriesIndex,
+                    w
+                }): string => `<div class="flex items-center h-8 min-h-8 max-h-8 px-3">
+                                                     <div class="w-3 h-3 rounded-full" style="background-color: ${w.config.colors[seriesIndex]};"></div>
+                                                     <div class="ml-2 text-md leading-none">${w.config.labels[seriesIndex]}:</div>
+                                                     <div class="ml-2 text-md font-bold leading-none">${w.config.series[seriesIndex]}%</div>
+                                                 </div>`
+            }
+        };
+
+        // Gender
+        this.chartGender = {
+            chart: {
+                animations: {
+                    speed: 400,
+                    animateGradually: {
+                        enabled: false
                     }
                 },
-                categories: this.data.budgetDistribution.categories
-            },
-            yaxis: {
-                max: (max: number): number => parseInt((max + 10).toFixed(0), 10),
-                tickAmount: 7
-            }
-        };
-
-        // Weekly expenses
-        this.chartWeeklyExpenses = {
-            chart: {
-                animations: {
-                    enabled: false
-                },
                 fontFamily: 'inherit',
                 foreColor: 'inherit',
                 height: '100%',
-                type: 'line',
+                type: 'donut',
                 sparkline: {
                     enabled: true
                 }
             },
-            colors: ['#22D3EE'],
-            series: this.data.weeklyExpenses.series,
-            stroke: {
-                curve: 'smooth'
+            colors: ['#319795', '#4FD1C5'],
+            labels: this.data.gender.labels,
+            plotOptions: {
+                pie: {
+                    customScale: 0.9,
+                    expandOnClick: false,
+                    donut: {
+                        size: '70%'
+                    }
+                }
+            },
+            series: this.data.gender.series,
+            states: {
+                hover: {
+                    filter: {
+                        type: 'none'
+                    }
+                },
+                active: {
+                    filter: {
+                        type: 'none'
+                    }
+                }
             },
             tooltip: {
-                theme: 'dark'
-            },
-            xaxis: {
-                type: 'category',
-                categories: this.data.weeklyExpenses.labels
-            },
-            yaxis: {
-                labels: {
-                    formatter: (val): string => `$${val}`
-                }
+                enabled: true,
+                fillSeriesColor: false,
+                theme: 'dark',
+                custom: ({
+                    seriesIndex,
+                    w
+                }): string => `<div class="flex items-center h-8 min-h-8 max-h-8 px-3">
+                                                      <div class="w-3 h-3 rounded-full" style="background-color: ${w.config.colors[seriesIndex]};"></div>
+                                                      <div class="ml-2 text-md leading-none">${w.config.labels[seriesIndex]}:</div>
+                                                      <div class="ml-2 text-md font-bold leading-none">${w.config.series[seriesIndex]}%</div>
+                                                  </div>`
             }
         };
 
-        // Monthly expenses
-        this.chartMonthlyExpenses = {
+        // Age
+        this.chartAge = {
             chart: {
                 animations: {
-                    enabled: false
+                    speed: 400,
+                    animateGradually: {
+                        enabled: false
+                    }
                 },
                 fontFamily: 'inherit',
                 foreColor: 'inherit',
                 height: '100%',
-                type: 'line',
+                type: 'donut',
                 sparkline: {
                     enabled: true
                 }
             },
-            colors: ['#4ADE80'],
-            series: this.data.monthlyExpenses.series,
-            stroke: {
-                curve: 'smooth'
+            colors: ['#DD6B20', '#F6AD55'],
+            labels: this.data.age.labels,
+            plotOptions: {
+                pie: {
+                    customScale: 0.9,
+                    expandOnClick: false,
+                    donut: {
+                        size: '70%'
+                    }
+                }
+            },
+            series: this.data.age.series,
+            states: {
+                hover: {
+                    filter: {
+                        type: 'none'
+                    }
+                },
+                active: {
+                    filter: {
+                        type: 'none'
+                    }
+                }
             },
             tooltip: {
-                theme: 'dark'
-            },
-            xaxis: {
-                type: 'category',
-                categories: this.data.monthlyExpenses.labels
-            },
-            yaxis: {
-                labels: {
-                    formatter: (val): string => `$${val}`
-                }
+                enabled: true,
+                fillSeriesColor: false,
+                theme: 'dark',
+                custom: ({
+                    seriesIndex,
+                    w
+                }): string => `<div class="flex items-center h-8 min-h-8 max-h-8 px-3">
+                                                     <div class="w-3 h-3 rounded-full" style="background-color: ${w.config.colors[seriesIndex]};"></div>
+                                                     <div class="ml-2 text-md leading-none">${w.config.labels[seriesIndex]}:</div>
+                                                     <div class="ml-2 text-md font-bold leading-none">${w.config.series[seriesIndex]}%</div>
+                                                 </div>`
             }
         };
 
-        // Yearly expenses
-        this.chartYearlyExpenses = {
+        // Language
+        this.chartLanguage = {
             chart: {
                 animations: {
-                    enabled: false
+                    speed: 400,
+                    animateGradually: {
+                        enabled: false
+                    }
                 },
                 fontFamily: 'inherit',
                 foreColor: 'inherit',
                 height: '100%',
-                type: 'line',
+                type: 'donut',
                 sparkline: {
                     enabled: true
                 }
             },
-            colors: ['#FB7185'],
-            series: this.data.yearlyExpenses.series,
-            stroke: {
-                curve: 'smooth'
+            colors: ['#805AD5', '#B794F4'],
+            labels: this.data.language.labels,
+            plotOptions: {
+                pie: {
+                    customScale: 0.9,
+                    expandOnClick: false,
+                    donut: {
+                        size: '70%'
+                    }
+                }
+            },
+            series: this.data.language.series,
+            states: {
+                hover: {
+                    filter: {
+                        type: 'none'
+                    }
+                },
+                active: {
+                    filter: {
+                        type: 'none'
+                    }
+                }
             },
             tooltip: {
-                theme: 'dark'
-            },
-            xaxis: {
-                type: 'category',
-                categories: this.data.yearlyExpenses.labels
-            },
-            yaxis: {
-                labels: {
-                    formatter: (val): string => `$${val}`
-                }
+                enabled: true,
+                fillSeriesColor: false,
+                theme: 'dark',
+                custom: ({
+                    seriesIndex,
+                    w
+                }): string => `<div class="flex items-center h-8 min-h-8 max-h-8 px-3">
+                                                     <div class="w-3 h-3 rounded-full" style="background-color: ${w.config.colors[seriesIndex]};"></div>
+                                                     <div class="ml-2 text-md leading-none">${w.config.labels[seriesIndex]}:</div>
+                                                     <div class="ml-2 text-md font-bold leading-none">${w.config.series[seriesIndex]}%</div>
+                                                 </div>`
             }
         };
     }

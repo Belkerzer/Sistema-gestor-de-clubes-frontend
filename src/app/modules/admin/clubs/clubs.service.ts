@@ -9,13 +9,13 @@ import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryClubs,
 })
 export class ClubsService {
     // Private
-    private _brands: BehaviorSubject<InventoryBrand[] | null> = new BehaviorSubject(null);
-    private _categories: BehaviorSubject<InventoryCategory[] | null> = new BehaviorSubject(null);
-    private _pagination: BehaviorSubject<InventoryPagination | null> = new BehaviorSubject(null);
+    private _brands1: BehaviorSubject<InventoryBrand[] | null> = new BehaviorSubject(null);
+    private _categories1: BehaviorSubject<InventoryCategory[] | null> = new BehaviorSubject(null);
+    private _pagination1: BehaviorSubject<InventoryPagination | null> = new BehaviorSubject(null);
     private _club: BehaviorSubject<InventoryClubs | null> = new BehaviorSubject(null);
     private _clubs: BehaviorSubject<InventoryClubs[] | null> = new BehaviorSubject(null);
-    private _tags: BehaviorSubject<InventoryTag[] | null> = new BehaviorSubject(null);
-    private _vendors: BehaviorSubject<InventoryVendor[] | null> = new BehaviorSubject(null);
+    private _tags1: BehaviorSubject<InventoryTag[] | null> = new BehaviorSubject(null);
+    private _vendors1: BehaviorSubject<InventoryVendor[] | null> = new BehaviorSubject(null);
 
     /**
      * Constructor
@@ -31,21 +31,21 @@ export class ClubsService {
      * Getter for brands
      */
     get brands$(): Observable<InventoryBrand[]> {
-        return this._brands.asObservable();
+        return this._brands1.asObservable();
     }
 
     /**
      * Getter for categories
      */
     get categories$(): Observable<InventoryCategory[]> {
-        return this._categories.asObservable();
+        return this._categories1.asObservable();
     }
 
     /**
      * Getter for pagination
      */
     get pagination$(): Observable<InventoryPagination> {
-        return this._pagination.asObservable();
+        return this._pagination1.asObservable();
     }
 
     /**
@@ -66,14 +66,14 @@ export class ClubsService {
      * Getter for tags
      */
     get tags$(): Observable<InventoryTag[]> {
-        return this._tags.asObservable();
+        return this._tags1.asObservable();
     }
 
     /**
      * Getter for vendors
      */
     get vendors$(): Observable<InventoryVendor[]> {
-        return this._vendors.asObservable();
+        return this._vendors1.asObservable();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -84,9 +84,9 @@ export class ClubsService {
      * Get brands
      */
     getBrands(): Observable<InventoryBrand[]> {
-        return this._httpClient.get<InventoryBrand[]>('api/apps/ecommerce/inventory/brands').pipe(
+        return this._httpClient.get<InventoryBrand[]>('api/apps/ecommerce/inventory/brands1').pipe(
             tap((brands) => {
-                this._brands.next(brands);
+                this._brands1.next(brands);
             })
         );
     }
@@ -95,9 +95,9 @@ export class ClubsService {
      * Get categories
      */
     getCategories(): Observable<InventoryCategory[]> {
-        return this._httpClient.get<InventoryCategory[]>('api/apps/ecommerce/inventory/categories').pipe(
+        return this._httpClient.get<InventoryCategory[]>('api/apps/ecommerce/inventory/categories1').pipe(
             tap((categories) => {
-                this._categories.next(categories);
+                this._categories1.next(categories);
             })
         );
     }
@@ -124,7 +124,7 @@ export class ClubsService {
             }
         }).pipe(
             tap((response) => {
-                this._pagination.next(response.pagination);
+                this._pagination1.next(response.pagination);
                 this._clubs.next(response.products);
             })
         );
@@ -253,7 +253,7 @@ export class ClubsService {
     getTags(): Observable<InventoryTag[]> {
         return this._httpClient.get<InventoryTag[]>('api/apps/ecommerce/inventory/tags1').pipe(
             tap((tags) => {
-                this._tags.next(tags);
+                this._tags1.next(tags);
             })
         );
     }
@@ -270,7 +270,7 @@ export class ClubsService {
                 map((newTag) => {
 
                     // Update the tags with the new tag
-                    this._tags.next([...tags, newTag]);
+                    this._tags1.next([...tags, newTag]);
 
                     // Return new tag from observable
                     return newTag;
@@ -301,7 +301,7 @@ export class ClubsService {
                     tags[index] = updatedTag;
 
                     // Update the tags
-                    this._tags.next(tags);
+                    this._tags1.next(tags);
 
                     // Return the updated tag
                     return updatedTag;
@@ -328,7 +328,7 @@ export class ClubsService {
                     tags.splice(index, 1);
 
                     // Update the tags
-                    this._tags.next(tags);
+                    this._tags1.next(tags);
 
                     // Return the deleted status
                     return isDeleted;
@@ -363,7 +363,7 @@ export class ClubsService {
     getVendors(): Observable<InventoryVendor[]> {
         return this._httpClient.get<InventoryVendor[]>('api/apps/ecommerce/inventory/vendors').pipe(
             tap((vendors) => {
-                this._vendors.next(vendors);
+                this._vendors1.next(vendors);
             })
         );
     }

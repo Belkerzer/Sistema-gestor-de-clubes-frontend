@@ -1,13 +1,13 @@
 import { Route } from '@angular/router';
 import { HomeComponent } from 'app/modules/admin/home/home.component';
-import { ProjectResolver } from 'app/modules/admin/home/home.resolvers';
+import { AnalyticsResolver } from 'app/modules/admin/home/home.resolvers';
 
 export const homeRoutes: Route[] = [
     {
         path: '',
         component: HomeComponent,
         resolve: {
-            data: ProjectResolver
+            data: AnalyticsResolver
         }
     }
 ];

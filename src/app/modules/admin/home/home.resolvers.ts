@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
-import { ProjectService } from 'app/modules/admin/home/home.service';
+import { AnalyticsService } from './home.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class ProjectResolver implements Resolve<any>
+export class AnalyticsResolver implements Resolve<any>
 {
     /**
      * Constructor
      */
-    constructor(private _projectService: ProjectService) {
+    constructor(private _analyticsService: AnalyticsService) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -25,6 +25,6 @@ export class ProjectResolver implements Resolve<any>
      * @param state
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-        return this._projectService.getData();
+        return this._analyticsService.getData();
     }
 }

@@ -44,8 +44,7 @@ export const compactNavigation: FuseNavigationItem[] = [
         title: 'Reportes',
         type: 'basic',
         icon: 'heroicons_outline:document-report',
-        link: '/reportes',
-        disabled: true
+        link: '/reportes'    
     },
     /*     {
             id: 'administracion',

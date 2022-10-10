@@ -47,10 +47,10 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
             {
                 id: 'acciones',
                 title: 'Acciones',
-                subtitle: 'Integrante, club y equipo',
+                /* subtitle: 'Integrante, club y equipo', */
                 type: 'group',
                 children: [
-                    {
+/*                     {
                         id: 'crear-integrante',
                         title: 'Crear Integrante',
                         type: 'basic',
@@ -67,7 +67,7 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
                         title: 'Crear Club',
                         type: 'basic',
                         icon: 'heroicons_outline:briefcase'
-                    },
+                    }, */
                     {
                         id: 'acciones.crear-usuario',
                         title: 'Crear Usuario',
@@ -75,48 +75,54 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
                         icon: 'heroicons_outline:user-add',
                         link: '/administracion/acciones/crear-usuario'
                     },
-                    {
+/*                     {
                         id: 'asignar-usuario-o-equipo',
                         title: 'Asignar Usuario o Equipo',
                         subtitle: 'Asignar a una tarea o a un proyecto',
                         type: 'basic',
                         icon: 'heroicons_outline:badge-check'
-                    }
+                    } */
                 ]
             },
             {
-                id: 'tareas',
-                title: 'Tareas',
+                id: 'actividades',
+                title: 'Actividades',
                 type: 'group',
                 children: [
                     {
-                        id: 'todas-las-tareas',
-                        title: 'Todas las Tareas',
+                        id: 'actividades.todas-las-actividades',
+                        title: 'Todas las Actividades',
                         type: 'basic',
                         icon: 'heroicons_outline:clipboard-list',
-                        badge: {
+                        link: '/administracion/actividades/todas-las-actividades'
+/*                         badge: {
                             title: '49',
                             classes: 'px-2 bg-primary text-on-primary rounded-full'
-                        }
+                        } */
                     },
                     {
-                        id: 'tareas-en-curso',
-                        title: 'Tareas en Curso',
+                        id: 'actividades.actividades-del-club',
+                        title: 'Actividades del Club',
                         type: 'basic',
-                        icon: 'heroicons_outline:clipboard-copy'
+                        icon: 'heroicons_outline:clipboard-list',
+                        link: '/administracion/actividades/actividades-del-club'
+/*                         badge: {
+                                                                            title: '49',
+                                                                            classes: 'px-2 bg-primary text-on-primary rounded-full'
+                                                                        } */
                     },
-                    {
-                        id: 'tareas-completadas',
-                        title: 'Tareas Completadas',
+/*                     {
+                        id: 'actividades.actividades-completadas',
+                        title: 'Actividades Completadas',
                         type: 'basic',
                         icon: 'heroicons_outline:clipboard-check'
                     },
                     {
-                        id: 'tareas-abandonadas',
-                        title: 'Tareas Abandonadas',
+                        id: 'actividades.actividades-abandonadas',
+                        title: 'Actividades Abandonadas',
                         type: 'basic',
                         icon: 'heroicons_outline:clipboard'
-                    },
+                    }, */
                 ]
             },
             {
@@ -130,22 +136,22 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
                         type: 'collapsable',
                         icon: 'heroicons_outline:adjustments',
                         children: [
-                            {
-                                id: 'tareas',
-                                title: 'Tareas',
+/*                             {
+                                id: 'ajustes.general.actividades',
+                                title: 'Actividades',
                                 type: 'basic'
-                            },
+                            }, */
                             {
                                 id: 'ajustes.general.usuarios',
                                 title: 'Usuarios',
                                 type: 'basic',
                                 link: '/administracion/ajustes/general/usuarios'
                             },
-                            {
-                                id: 'equipos',
+/*                             {
+                                id: 'ajustes.general.equipos',
                                 title: 'Equipos',
                                 type: 'basic'
-                            }
+                            } */
                         ]
                     },
                     {

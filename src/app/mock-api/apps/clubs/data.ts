@@ -1,7 +1,7 @@
 import moment from "moment";
 
 /* eslint-disable */
-export const categories = [
+export const categories1 = [
     {
         id: 'b899ec30-b85a-40ab-bb1f-18a596d5c6de',
         parentId: null,
@@ -21,7 +21,7 @@ export const categories = [
         slug: 'unisex'
     }
 ];
-export const brands = [
+export const brands1 = [
     {
         id: 'e1789f32-9475-43e7-9256-451d2e3a2282',
         name: 'Benton',
@@ -70,7 +70,7 @@ export const tags1 = [
         title: 'María Cedeño'
     }
 ];
-export const vendors = [
+export const vendors1 = [
     {
         id: '987dd10a-43b1-49f9-bfd9-05bb2dbc7029',
         name: 'Evel',

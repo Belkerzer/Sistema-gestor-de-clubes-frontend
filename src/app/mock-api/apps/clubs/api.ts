@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { assign, cloneDeep } from 'lodash-es';
 import { FuseMockApiService, FuseMockApiUtils } from '@fuse/lib/mock-api';
-import { brands as brandsData, categories as categoriesData, clubs as clubsData, tags1 as tags1Data, vendors as vendorsData } from 'app/mock-api/apps/clubs/data';
+import { brands1 as brands1Data, categories1 as categories1Data, clubs as clubsData, tags1 as tags1Data, vendors1 as vendors1Data } from 'app/mock-api/apps/clubs/data';
 import moment from 'moment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ClubsInventoryMockApi {
-    private _categories: any[] = categoriesData;
-    private _brands: any[] = brandsData;
+    private _categories1: any[] = categories1Data;
+    private _brands1: any[] = brands1Data;
     private _clubs: any[] = clubsData;
     private _tags1: any[] = tags1Data;
-    private _vendors: any[] = vendorsData;
+    private _vendors1: any[] = vendors1Data;
 
     /**
      * Constructor
@@ -34,15 +34,15 @@ export class ClubsInventoryMockApi {
         // @ Categories - GET
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
-            .onGet('api/apps/ecommerce/inventory/categories')
-            .reply(() => [200, cloneDeep(this._categories)]);
+            .onGet('api/apps/ecommerce/inventory/categories1')
+            .reply(() => [200, cloneDeep(this._categories1)]);
 
         // -----------------------------------------------------------------------------------------------------
         // @ Brands - GET
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
-            .onGet('api/apps/ecommerce/inventory/brands')
-            .reply(() => [200, cloneDeep(this._brands)]);
+            .onGet('api/apps/ecommerce/inventory/brands1')
+            .reply(() => [200, cloneDeep(this._brands1)]);
 
         // -----------------------------------------------------------------------------------------------------
         // @ Products - GET
@@ -325,7 +325,7 @@ export class ClubsInventoryMockApi {
         // @ Vendors - GET
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
-            .onGet('api/apps/ecommerce/inventory/vendors')
-            .reply(() => [200, cloneDeep(this._vendors)]);
+            .onGet('api/apps/ecommerce/inventory/vendors1')
+            .reply(() => [200, cloneDeep(this._vendors1)]);
     }
 }

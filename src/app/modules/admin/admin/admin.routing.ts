@@ -27,7 +27,7 @@ export const mailboxRouteMatcher: (url: UrlSegment[]) => UrlMatchResult = (url: 
     const posParams = {};
 
     // Settings
-    if (url[0].path === 'ajustes' || url[0].path === 'acciones') {
+    if (url[0].path === 'acciones' || url[0].path === 'actividades' || url[0].path === 'ajustes') {
         // Do not match
         return null;
     }
@@ -102,14 +102,24 @@ export const mailboxRunGuardsAndResolvers: (from: ActivatedRouteSnapshot, to: Ac
 };
 
 export const adminRoutes: Route[] = [
-    {
+/*     {
         path: '',
         redirectTo: 'inbox/1',
+        pathMatch: 'full'
+    }, */
+    {
+        path: '',
+        redirectTo: 'ajustes/cuenta/personal',
         pathMatch: 'full'
     },
     {
         path: 'acciones',
         redirectTo: 'acciones/crear-usuario',
+        pathMatch: 'full'
+    },
+    {
+        path: 'actividades',
+        redirectTo: 'actividades/todas-las-actividades',
         pathMatch: 'full'
     },
     {
@@ -149,7 +159,7 @@ export const adminRoutes: Route[] = [
             tags: ContactsTagsResolver
         },
         children: [
-            {
+/*             {
                 component: AdminListComponent,
                 matcher: mailboxRouteMatcher,
                 runGuardsAndResolvers: mailboxRunGuardsAndResolvers,
@@ -160,17 +170,17 @@ export const adminRoutes: Route[] = [
                     {
                         path: '',
                         component: AdminDetailsComponent,
-/*                         children: [
+                      children: [
                                                     {
                                                         path: ':id',
                                                         resolve: {
                                                             mail: MailboxMailResolver
                                                         }
                                                     }
-                        ] */
+                        ] 
                     }
                 ]
-            },
+            }, */
             {
                 path: 'acciones',                
                 children: [
