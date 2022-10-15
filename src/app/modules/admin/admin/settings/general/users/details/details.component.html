@@ -75,17 +75,35 @@
                     <!-- Username -->
                     <ng-container *ngIf="contact.title">
                         <div class="flex sm:items-center">
-                            <mat-icon [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                            <mat-icon [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
                             <div class="ml-6 leading-6">{{contact.title}}</div>
                         </div>
                     </ng-container>
+                    <!-- Email -->
+                    <ng-container *ngIf="contact.email">
+                        <div class="flex">
+                            <mat-icon [svgIcon]="'heroicons_outline:mail'"></mat-icon>
+                            <div class="min-w-0 ml-6 space-y-1">                                
+                                    <div class="flex items-center leading-6">
+                                        <a
+                                            class="hover:underline text-primary-500"
+                                            [href]="'mailto:' + contact.email"
+                                            target="_blank">
+                                            {{contact.email}}
+                                        </a>
+                                    </div>                                
+                            </div>
+                        </div>
+                    </ng-container>
+
                     <!-- Title -->
-                    <ng-container *ngIf="contact.title">
+                    <ng-container *ngIf="contact.company">
                         <div class="flex sm:items-center">
                             <mat-icon [svgIcon]="'heroicons_outline:briefcase'"></mat-icon>
-                            <div class="ml-6 leading-6">{{contact.title}}</div>
+                            <div class="ml-6 leading-6">{{contact.company}}</div>
                         </div>
                     </ng-container>
+
                 </div>
 
             </div>
@@ -181,7 +199,7 @@
                             <input
                                 matInput
                                 [formControlName]="'name'"
-                                [placeholder]="'Name'"
+                                [placeholder]="'Nombre'"
                                 [spellcheck]="false">
                         </mat-form-field>
                     </div>
@@ -320,8 +338,27 @@
                             <input
                                 matInput
                                 [formControlName]="'title'"
-                                [placeholder]="'Job title'">
+                                [placeholder]="'Nombre de usuario'">
                         </mat-form-field>
+                    </div>
+                    <!-- Email -->
+                    <div class="mt-8">
+                        <div class="space-y-4">                            
+                                <div class="flex">
+                                    <mat-form-field class="fuse-mat-no-subscript flex-auto">
+                                        <mat-label>Correo electrónico</mat-label>
+                                        <mat-icon
+                                            matPrefix
+                                            class="hidden sm:flex icon-size-5"
+                                            [svgIcon]="'heroicons_solid:mail'"></mat-icon>
+                                        <input
+                                            matInput
+                                            [formControlName]="'email'"
+                                            [placeholder]="'Correo electrónico'"
+                                            [spellcheck]="false">
+                                    </mat-form-field>
+                                </div>                            
+                        </div>
                     </div>
                     <!-- Title -->
                     <div class="mt-8">
@@ -333,16 +370,17 @@
                                 [svgIcon]="'heroicons_solid:briefcase'"></mat-icon>
                                 <mat-select                      
                                 disableOptionCentering
-                                #roleSelect="matSelect">
+                                #rolSelect="matSelect"
+                                [formControlName]="'rol'">
                                 <mat-select-trigger class="text-md">
-                                    <span class="ml-1 font-medium">{{roleSelect.value | titlecase}}</span>
+                                    <span class="ml-1 font-medium">{{rolSelect.value | titlecase}}</span>
                                 </mat-select-trigger>
-                                <ng-container *ngFor="let role of roles">
+                                <ng-container *ngFor="let rol of roles">
                                     <mat-option
                                         class="h-auto py-4 leading-none"
-                                        [value]="role.value">
-                                        <div class="font-medium">{{role.label}}</div>
-                                        <div class="mt-1.5 text-sm whitespace-normal leading-normal text-secondary">{{role.description}}</div>
+                                        [value]="rol.value">
+                                        <div class="font-medium">{{rol.label}}</div>
+                                        <div class="mt-1.5 text-sm whitespace-normal leading-normal text-secondary">{{rol.description}}</div>
                                     </mat-option>
                                 </ng-container>
                             </mat-select>

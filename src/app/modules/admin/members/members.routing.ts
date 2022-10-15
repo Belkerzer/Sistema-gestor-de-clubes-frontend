@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 import { MembersComponent } from 'app/modules/admin/members/members.component';
-import { InventoryBrandsResolver, InventoryCategoriesResolver, InventoryMembersResolver, InventoryTagsResolver, InventoryVendorsResolver } from './members.resolvers';
+import { InventoryBrandsResolver, InventoryCategoriesResolver, InventoryFacultiesResolver, InventoryMembersResolver, InventoryTagsResolver, InventoryVendorsResolver } from './members.resolvers';
 
 export const membersRoutes: Route[] = [
     {
@@ -11,7 +11,8 @@ export const membersRoutes: Route[] = [
             categories: InventoryCategoriesResolver,
             products: InventoryMembersResolver,
             tags: InventoryTagsResolver,
-            vendors: InventoryVendorsResolver
+            vendors: InventoryVendorsResolver,
+            faculties: InventoryFacultiesResolver
         }
     }
 

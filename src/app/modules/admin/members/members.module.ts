@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCheckboxModule } from "@angular/material/checkbox";
-import { MatRippleModule } from "@angular/material/core";
+import { MatRippleModule, MAT_DATE_FORMATS } from "@angular/material/core";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
@@ -18,6 +18,7 @@ import { MembersComponent } from "./members.component";
 import { membersRoutes } from "./members.routing";
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import moment from "moment";
 
 @NgModule({
   declarations: [
@@ -41,6 +42,22 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
     MatSlideToggleModule,
     MatTooltipModule,
     SharedModule
+  ],
+  providers: [
+    {
+      provide: MAT_DATE_FORMATS,
+      useValue: {
+        parse: {
+          dateInput: moment.ISO_8601
+        },
+        display: {
+          dateInput: 'DD/MM/YYYY',
+          monthYearLabel: 'MMM YYYY',
+          dateA11yLabel: 'LL',
+          monthYearA11yLabel: 'MMMM YYYY'
+        }
+      }
+    }
   ]
 })
 export class MembersModule {

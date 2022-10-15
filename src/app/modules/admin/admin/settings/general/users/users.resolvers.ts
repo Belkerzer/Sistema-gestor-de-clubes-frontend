@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@a
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ContactsService } from './users.service';
-import { Contact, Country, Tag } from './users.types';
+import { Contact, Country, Rol, Tag } from './users.types';
 
 @Injectable({
     providedIn: 'root'
@@ -126,5 +126,31 @@ export class ContactsTagsResolver implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Tag[]> {
         return this._contactsService.getTags();
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class ContactsRolesResolver implements Resolve<any>
+{
+    /**
+     * Constructor
+     */
+    constructor(private _contactsService: ContactsService) {
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Resolver
+     *
+     * @param route
+     * @param state
+     */
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Rol[]> {
+        return this._contactsService.getRoles();
     }
 }

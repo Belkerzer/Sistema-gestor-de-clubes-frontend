@@ -85,8 +85,8 @@ export class ClubsService {
      */
     getBrands(): Observable<InventoryBrand[]> {
         return this._httpClient.get<InventoryBrand[]>('api/apps/ecommerce/inventory/brands1').pipe(
-            tap((brands) => {
-                this._brands1.next(brands);
+            tap((brands1) => {
+                this._brands1.next(brands1);
             })
         );
     }
@@ -96,8 +96,8 @@ export class ClubsService {
      */
     getCategories(): Observable<InventoryCategory[]> {
         return this._httpClient.get<InventoryCategory[]>('api/apps/ecommerce/inventory/categories1').pipe(
-            tap((categories) => {
-                this._categories1.next(categories);
+            tap((categories1) => {
+                this._categories1.next(categories1);
             })
         );
     }
@@ -361,9 +361,9 @@ export class ClubsService {
      * Get vendors
      */
     getVendors(): Observable<InventoryVendor[]> {
-        return this._httpClient.get<InventoryVendor[]>('api/apps/ecommerce/inventory/vendors').pipe(
-            tap((vendors) => {
-                this._vendors1.next(vendors);
+        return this._httpClient.get<InventoryVendor[]>('api/apps/ecommerce/inventory/vendors1').pipe(
+            tap((vendors1) => {
+                this._vendors1.next(vendors1);
             })
         );
     }

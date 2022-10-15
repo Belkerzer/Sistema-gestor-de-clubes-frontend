@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { from, map } from 'rxjs';
 import { assign, cloneDeep } from 'lodash-es';
 import { FuseMockApiService, FuseMockApiUtils } from '@fuse/lib/mock-api';
-import { contacts as contactsData, countries as countriesData, tags as tagsData } from 'app/mock-api/apps/contacts/data';
+import { contacts as contactsData, countries as countriesData, tags as tagsData, roles as rolesData } from 'app/mock-api/apps/contacts/data';
 
 @Injectable({
     providedIn: 'root'
@@ -12,6 +12,7 @@ export class ContactsMockApi
     private _contacts: any[] = contactsData;
     private _countries: any[] = countriesData;
     private _tags: any[] = tagsData;
+    private _roles: any[] = rolesData;
 
     /**
      * Constructor
@@ -116,7 +117,8 @@ export class ContactsMockApi
                     birthday    : null,
                     address     : null,
                     notes       : null,
-                    tags        : []
+                    tags: [],
+                    faculty: '',
                 };
 
                 // Unshift the new contact
@@ -179,6 +181,14 @@ export class ContactsMockApi
                 // Return the response
                 return [200, true];
             });
+
+
+        // -----------------------------------------------------------------------------------------------------
+        // @ Countries - GET
+        // -----------------------------------------------------------------------------------------------------
+        this._fuseMockApiService
+            .onGet('api/apps/contacts/roles')
+            .reply(() => [200, cloneDeep(this._roles)]);
 
         // -----------------------------------------------------------------------------------------------------
         // @ Countries - GET

@@ -11,7 +11,7 @@ import { AdminActionsCreateUserComponent } from './actions/create-user/create-us
 import { UsersDetailsComponent } from './settings/general/users/details/details.component';
 import { UsersListComponent } from './settings/general/users/list/list.component';
 import { CanDeactivateUsersDetails } from './settings/general/users/users.guards';
-import { ContactsTagsResolver, ContactsResolver, ContactsCountriesResolver, ContactsContactResolver } from './settings/general/users/users.resolvers';
+import { ContactsTagsResolver, ContactsResolver, ContactsCountriesResolver, ContactsContactResolver, ContactsRolesResolver } from './settings/general/users/users.resolvers';
 
 
 
@@ -201,7 +201,8 @@ export const adminRoutes: Route[] = [
                                 component: UsersListComponent,
                                 resolve: {
                                     tasks: ContactsResolver,
-                                    countries: ContactsCountriesResolver
+                                    countries: ContactsCountriesResolver,
+                                    roles: ContactsRolesResolver
                                 },
                                 children: [
                                     {
@@ -209,7 +210,8 @@ export const adminRoutes: Route[] = [
                                         component: UsersDetailsComponent,
                                         resolve: {
                                             task: ContactsContactResolver,
-                                            countries: ContactsCountriesResolver
+                                            countries: ContactsCountriesResolver,
+                                            roles: ContactsRolesResolver
                                         },
                                         canDeactivate: [CanDeactivateUsersDetails]
                                     }

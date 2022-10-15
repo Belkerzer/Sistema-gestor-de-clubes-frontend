@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@a
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { MembersService } from 'app/modules/admin/members/members.service';
-import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryMember, InventoryTag, InventoryVendor } from 'app/modules/admin/members/members.types';
+import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryMember, InventoryTag, InventoryVendor, InventoryFaculty } from 'app/modules/admin/members/members.types';
 
 @Injectable({
     providedIn: 'root'
@@ -178,5 +178,31 @@ export class InventoryVendorsResolver implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryVendor[]> {
         return this._membersService.getVendors();
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class InventoryFacultiesResolver implements Resolve<any>
+{
+    /**
+     * Constructor
+     */
+    constructor(private _membersService: MembersService) {
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Resolver
+     *
+     * @param route
+     * @param state
+     */
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryFaculty[]> {
+        return this._membersService.getFaculties();
     }
 }

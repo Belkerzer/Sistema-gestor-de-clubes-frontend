@@ -61,7 +61,7 @@ export const appRoutes: Route[] = [
         },
         children   : [
             { path: 'inicio', loadChildren: () => import('app/modules/admin/home/home.module').then(m => m.HomeModule) },
-            { path: 'integrantes', loadChildren: () => import('app/modules/admin/members/members.module').then(m => m.MembersModule) },
+            { path: 'participantes', loadChildren: () => import('app/modules/admin/members/members.module').then(m => m.MembersModule) },
             { path: 'clubes', loadChildren: () => import('app/modules/admin/clubs/clubs.module').then(m => m.ClubsModule) },
             /* {path: 'planes', loadChildren: () => import('app/modules/admin/pages/admin/tasks/tasks.module').then(m => m.TasksModule)}, */            
             { path: 'reportes', loadChildren: () => import('app/modules/admin/reports/reports.module').then(m => m.ReportsModule) },

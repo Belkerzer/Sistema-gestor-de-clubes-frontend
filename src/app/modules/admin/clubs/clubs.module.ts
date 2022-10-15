@@ -9,7 +9,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatRadioModule } from '@angular/material/radio';
-import { MatRippleModule } from '@angular/material/core';
+import { MatRippleModule, MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -19,6 +19,7 @@ import { ClubsComponent } from 'app/modules/admin/clubs/clubs.component';
 import { clubsRoutes } from 'app/modules/admin/clubs/clubs.routing';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import moment from 'moment';
 
 @NgModule({
     declarations: [
@@ -43,6 +44,22 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
         MatSlideToggleModule,
         MatTooltipModule,
         SharedModule
+    ],
+    providers: [
+        {
+            provide: MAT_DATE_FORMATS,
+            useValue: {
+                parse: {
+                    dateInput: moment.ISO_8601
+                },
+                display: {
+                    dateInput: 'DD/MM/YYYY',
+                    monthYearLabel: 'MMM YYYY',
+                    dateA11yLabel: 'LL',
+                    monthYearA11yLabel: 'MMMM YYYY'
+                }
+            }
+        }
     ]
 })
 export class ClubsModule {

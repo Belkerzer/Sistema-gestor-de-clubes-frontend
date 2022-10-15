@@ -129,33 +129,6 @@ export const members = [
 ];
 export const tasks = [
     {
-        id: 'general',
-        type      : 'section',
-        title: 'General',
-        notes     : 'Magna consectetur culpa duis ad est tempor pariatur velit ullamco aute exercitation magna sunt commodo minim enim aliquip eiusmod ipsum adipisicing magna ipsum reprehenderit lorem magna voluptate magna aliqua culpa.\n\nSit nisi adipisicing pariatur enim enim sunt officia ad labore voluptate magna proident velit excepteur pariatur cillum sit excepteur elit veniam excepteur minim nisi cupidatat proident dolore irure veniam mollit.',
-        completed : false,
-        dueDate   : '2017-10-18T13:03:37.943Z',
-        priority  : 1,
-        tags      : [
-            '91658b8a-f382-4b0c-a53f-e9390351c2c5',
-            '51483dd3-cb98-4400-9128-4bd66b455807'
-        ],
-        assignedTo: null,
-        subTasks  : [
-            {
-                id       : '2768a969-a316-449b-bf82-93cff4252cbf',
-                title    : 'Minim irure fugiat ullamco irure',
-                completed: false
-            },
-            {
-                id       : '6cc5ac8f-3a02-47e6-ad4b-0bd0222e2717',
-                title    : 'Sint velit ex in adipisicing fugiat',
-                completed: false
-            }
-        ],
-        order     : 0
-    },
-    {
         id: 'todas-las-actividades-de-los-clubes',
         type      : 'task',
         title: 'Todas las actividades de los clubes',
@@ -168,12 +141,28 @@ export const tasks = [
         subTasks: [
             {
                 id: '2768a969-a316-449b-bf82-93cff4252cbf',
-                title: 'Minim irure fugiat ullamco irure',
+                title: 'Club',
                 completed: false
             },
             {
                 id: '6cc5ac8f-3a02-47e6-ad4b-0bd0222e2717',
-                title: 'Sint velit ex in adipisicing fugiat',
+                title: 'Fecha',
+                completed: false
+            },
+            {
+                id: '6cc5ac8f-3a02-47e6-ad4b-0bd0122e2717',
+                title: 'Actividad / Objetivo',
+                completed: false
+            }
+            ,
+            {
+                id: '6cc5ac8f-3a02-47e6-ad4b-0bd5122e2717',
+                title: 'Porcentaje de actividades por club',
+                completed: false
+            },
+            {
+                id: '6cc5ac8f-3a02-47e6-ad4b-0bd5111e2717',
+                title: 'Porcentaje de cumplimiento',
                 completed: false
             }
         ],
@@ -196,12 +185,22 @@ export const tasks = [
         subTasks  : [
             {
                 id       : 'b9566b52-82cd-4d2a-b9b6-240c6b44e52b',
-                title    : 'Nulla officia elit adipisicing',
+                title: 'Clubes',
                 completed: false
             },
             {
                 id       : '76f4dc8d-4803-4d98-b461-367a1d3746a8',
-                title    : 'Magna nisi ut aliquip aliquip amet deserunt',
+                title: 'Meses',
+                completed: false
+            },
+            {
+                id: '76f4dc8d-4803-4d98-b461-367a1d3746a4',
+                title: 'Actividades por cumplir',
+                completed: false
+            },
+            {
+                id: '76f4dc8d-4803-4d98-b461-367a1d3746a3',
+                title: 'Porcentaje general',
                 completed: false
             }
         ],
@@ -222,22 +221,27 @@ export const tasks = [
         subTasks  : [
             {
                 id       : '8e9644dc-0815-4258-8a08-4ce8d9912ec0',
-                title    : 'Adipisicing aliquip voluptate veniam',
+                title: 'Facultad',
                 completed: false
             },
             {
                 id       : 'fc0f2283-3802-4ebe-b164-774bc2b84549',
-                title    : 'Magna amet adipisicing velit nisi est',
+                title: 'Carrera',
                 completed: false
             },
             {
                 id       : '8a74b56f-14c0-4700-b737-8ccfa912f4b6',
-                title    : 'Eiusmod dolore voluptate excepteur ipsum nostrud',
+                title: 'Hombres',
                 completed: false
             },
             {
                 id       : '439ed5b7-156d-414a-ba20-ce779e3ec037',
-                title    : 'Laborum adipisicing quis culpa amet',
+                title: 'Mujeres',
+                completed: true
+            },
+            {
+                id: '439ed5b7-156d-414a-ba20-ce779e3ec017',
+                title: 'Total',
                 completed: true
             }
         ],

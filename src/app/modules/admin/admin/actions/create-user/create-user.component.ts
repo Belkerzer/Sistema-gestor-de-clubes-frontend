@@ -66,32 +66,32 @@ export class AdminActionsCreateUserComponent implements OnInit {
         );
         // Create the form
         this.accountForm = this._formBuilder.group({
-            name: ['Brian Hughes'],
-            username: ['brianh'],
-            title: ['Senior Frontend Developer'],
-            company: ['YXZ Software'],
-            about: ['Hey! This is Brian; husband, father and gamer. I\'m mostly passionate about bleeding edge tech and chocolate! 🍫'],
-            email: ['hughes.brian@mail.com', Validators.email],
-            phone: ['121-490-33-12'],
-            country: ['usa'],
-            language: ['english']
+            name: [''],
+            username: [''],
+            title: [''],
+            company: [''],
+            about: [''],
+            email: ['', Validators.email],
+            phone: [''],
+            country: [''],
+            language: ['']
         });
         // Setup the roles
         this.roles = [
             {
-                label: 'Read',
-                value: 'read',
-                description: 'Can read and clone this repository. Can also open and comment on issues and pull requests.'
+                label: 'Líder Estudiantil',
+                value: 'lider estudiantil',
+                description: 'Visualiza a los participantes y actividades del club.'
             },
             {
-                label: 'Write',
-                value: 'write',
-                description: 'Can read, clone, and push to this repository. Can also manage issues and pull requests.'
+                label: 'Docente-Tutor',
+                value: 'docente-tutor',
+                description: 'Visualiza, crea, modifica y elimina a los participantes del club. Desarrolla las actividades de acuerdo con el plan de trabajo del club.'
             },
             {
-                label: 'Admin',
-                value: 'admin',
-                description: 'Can read, clone, and push to this repository. Can also manage issues, pull requests, and repository settings, including adding collaborators.'
+                label: 'Dirigente',
+                value: 'dirigente',
+                description: 'Visualiza a todos los participantes y actividades; por otro lado, visualiza, crea, modifica y elimina a los clubes, asímismo a los usuarios. Elabora informes periódicos de los resultados obtenidos de los clubes.'
             }
         ];
     }

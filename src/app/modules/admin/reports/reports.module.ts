@@ -61,7 +61,7 @@ import { reportsRoutes } from './reports.routing';
           dateInput: moment.ISO_8601
         },
         display: {
-          dateInput: 'll',
+          dateInput: 'DD/MM/YYYY',
           monthYearLabel: 'MMM YYYY',
           dateA11yLabel: 'LL',
           monthYearA11yLabel: 'MMMM YYYY'

@@ -9,8 +9,8 @@ export interface InventoryMember {
     brand?: string | null;
     vendor: string | null;
     stock: Date;
-    reserved: number;
-    cost: number;
+    reserved: string;
+    cost: string;
     basePrice: number;
     taxPercent: number;
     price: string;
@@ -18,6 +18,7 @@ export interface InventoryMember {
     thumbnail: string;
     images: string[];
     active: boolean;
+    faculty: string;
 }
 
 export interface InventoryPagination {
@@ -48,6 +49,12 @@ export interface InventoryTag {
 }
 
 export interface InventoryVendor {
+    id: string;
+    name: string;
+    slug: string;
+}
+
+export interface InventoryFaculty {
     id: string;
     name: string;
     slug: string;

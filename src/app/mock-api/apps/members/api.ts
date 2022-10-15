@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { assign, cloneDeep } from 'lodash-es';
 import { FuseMockApiService, FuseMockApiUtils } from '@fuse/lib/mock-api';
-import { brands as brandsData, categories as categoriesData, members as membersData, tags as tagsData, vendors as vendorsData } from 'app/mock-api/apps/members/data';
+import { brands as brandsData, categories as categoriesData, members as membersData, tags as tagsData, vendors as vendorsData, faculties as facultiesData } from 'app/mock-api/apps/members/data';
 import moment from 'moment';
 
 @Injectable({
@@ -13,6 +13,7 @@ export class MembersInventoryMockApi {
     private _products: any[] = membersData;
     private _tags: any[] = tagsData;
     private _vendors: any[] = vendorsData;
+    private _faculties: any[] = facultiesData;
 
     /**
      * Constructor
@@ -126,6 +127,13 @@ export class MembersInventoryMockApi {
             });
 
         // -----------------------------------------------------------------------------------------------------
+        // @ Categories - GET
+        // -----------------------------------------------------------------------------------------------------
+        this._fuseMockApiService
+            .onGet('api/apps/ecommerce/inventory/faculties')
+            .reply(() => [200, cloneDeep(this._faculties)]);
+
+        // -----------------------------------------------------------------------------------------------------
         // @ Product - GET
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
@@ -163,6 +171,7 @@ export class MembersInventoryMockApi {
                     barcode: '',
                     brand: '',
                     vendor: '',
+                    faculty: '',
                     stock: moment().startOf('day').subtract('days').format('LL'),
                     reserved: '',
                     cost: '',

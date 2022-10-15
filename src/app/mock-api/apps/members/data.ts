@@ -5,47 +5,65 @@ export const categories = [
     {
         id: 'b899ec30-b85a-40ab-bb1f-18a596d5c6de',
         parentId: null,
-        name: 'Mens',
-        slug: 'mens'
+        name: 'Intensivo 1',
+        slug: 'intensivo-1'
     },
     {
         id: '07986d93-d4eb-4de1-9448-2538407f7254',
         parentId: null,
-        name: 'Ladies',
-        slug: 'ladies'
+        name: 'Intensivo 2',
+        slug: 'intensivo-2'
     },
     {
         id: 'ad12aa94-3863-47f8-acab-a638ef02a3e9',
         parentId: null,
-        name: 'Unisex',
-        slug: 'unisex'
+        name: 'Semestre 1',
+        slug: 'semestre-1'
+    },
+    {
+        id: 'ad12aa94-3863-47f8-acab-a638ef02a3e0',
+        parentId: null,
+        name: 'Semestre 2',
+        slug: 'semestre-2'
+    },
+    {
+        id: 'ad12aa94-3863-47f8-acab-a638ef02a3e4',
+        parentId: null,
+        name: 'Trimestre 1',
+        slug: 'trimestre-1'
+    },
+    {
+        id: 'ad12aa94-3863-47f8-acab-a638ef02a3e7',
+        parentId: null,
+        name: 'Trimestre 2',
+        slug: 'trimestre-2'
     }
 ];
 export const brands = [
     {
         id: 'e1789f32-9475-43e7-9256-451d2e3a2282',
-        name: 'Benton',
-        slug: 'benton'
+        name: 'Atención Prehospitalaria y Emergencias',
+        slug: 'atencion-prehospitalaria-y-emergencias'
     },
     {
         id: '61d52c2a-8947-4a2c-8c35-f36baef45b96',
-        name: 'Capmia',
-        slug: 'capmia'
+        name: 'Enfermería',
+        slug: 'enfermeria'
     },
     {
         id: 'f9987124-7ada-4b93-bef7-35280b3ddbd7',
-        name: 'Lara',
-        slug: 'lara'
+        name: 'Fisioterapia',
+        slug: 'fisioterapia'
     },
     {
         id: '5913ee46-a497-41db-a118-ee506011529f',
-        name: 'Premera',
-        slug: 'premera'
+        name: 'Gerontología',
+        slug: 'gerontologia'
     },
     {
         id: '2c4d98d8-f334-4125-9596-862515f5526b',
-        name: 'Zeon',
-        slug: 'zeon'
+        name: 'Medicina',
+        slug: 'medicina'
     }
 ];
 export const tags = [
@@ -73,18 +91,13 @@ export const tags = [
 export const vendors = [
     {
         id: '987dd10a-43b1-49f9-bfd9-05bb2dbc7029',
-        name: 'Evel',
-        slug: 'evel'
+        name: 'Hombre',
+        slug: 'hombre'
     },
     {
         id: '998b0c07-abfd-4ba3-8de1-7563ef3c4d57',
-        name: 'Mivon',
-        slug: 'mivon'
-    },
-    {
-        id: '05ebb527-d733-46a9-acfb-a4e4ec960024',
-        name: 'Neogen',
-        slug: 'neogen'
+        name: 'Mujer',
+        slug: 'mujer'
     }
 ];
 export const members = [
@@ -101,11 +114,11 @@ export const members = [
             'b1286f3a-e2d0-4237-882b-f0efc0819ec3'
         ],
         sku: '2020441468',
-        barcode: '8346201275534',
+        barcode: '0773484322',
         brand: '61d52c2a-8947-4a2c-8c35-f36baef45b96',
-        vendor: '998b0c07-abfd-4ba3-8de1-7563ef3c4d57',
+        vendor: '987dd10a-43b1-49f9-bfd9-05bb2dbc7029',
         stock: moment().startOf('day').subtract(15, 'days').format('LL'),
-        reserved: 5,
+        reserved: 'garredondo@est.ecotec.edu.ec',
         cost: 450.18,
         basePrice: 1036,
         taxPercent: 30,
@@ -132,15 +145,15 @@ export const members = [
             'b1286f3a-e2d0-4237-882b-f0efc0819ec3'
         ],
         sku: '2020353423',
-        barcode: '8278968055700',
+        barcode: '0527243069',
         brand: '2c4d98d8-f334-4125-9596-862515f5526b',
-        vendor: '05ebb527-d733-46a9-acfb-a4e4ec960024',
+        vendor: '998b0c07-abfd-4ba3-8de1-7563ef3c4d57',
         stock: moment().startOf('day').subtract(15, 'days').format('LL'),
-        reserved: 2,
+        reserved: 'gsotelo@est.ecotec.edu.ec',
         cost: 723.55,
         basePrice: 1686,
         taxPercent: 30,
-        price: 'Bienestar animal',
+        price: 'Bienestar Animal',
         weight: 0.79,
         thumbnail: 'assets/images/apps/ecommerce/products/watch-02-thumb.jpg',
         images: [
@@ -163,11 +176,11 @@ export const members = [
             'b1286f3a-e2d0-4237-882b-f0efc0819ec3'
         ],
         sku: '2020220971',
-        barcode: '8808746892183',
+        barcode: '1276453644',
         brand: 'e1789f32-9475-43e7-9256-451d2e3a2282',
         vendor: '987dd10a-43b1-49f9-bfd9-05bb2dbc7029',
         stock: moment().startOf('day').subtract(15, 'days').format('LL'),
-        reserved: 3,
+        reserved: 'sroman@est.ecotec.edu.ec',
         cost: 390.63,
         basePrice: 950,
         taxPercent: 10,
@@ -179,7 +192,8 @@ export const members = [
             'assets/images/apps/ecommerce/products/watch-03-02.jpg',
             'assets/images/apps/ecommerce/products/watch-03-03.jpg'
         ],
-        active: false
+        active: false,
+        faculty: 'e1789f32-9475-43e7-9256-451d2e3a2282'
     },
     {
         id: '8fcce528-d878-4cc8-99f7-bd3451ed5405',
@@ -194,12 +208,12 @@ export const members = [
             'b1286f3a-e2d0-4237-882b-f0efc0819ec3'
         ],
         sku: '2020173717',
-        barcode: '8866355574164',
+        barcode: '0837861971',
         brand: '61d52c2a-8947-4a2c-8c35-f36baef45b96',
-        vendor: '987dd10a-43b1-49f9-bfd9-05bb2dbc7029',
+        vendor: '998b0c07-abfd-4ba3-8de1-7563ef3c4d57',
         stock: moment().startOf('day').subtract(15, 'days').format('LL'),
-        reserved: 4,
-        cost: 395.37,
+        reserved: 'valonzo@est.ecotec.edu.ec',
+        cost: '1977-11-06T12:00:00.000Z',
         basePrice: 839,
         taxPercent: 30,
         price: 'Programación',
@@ -225,11 +239,11 @@ export const members = [
             'b1286f3a-e2d0-4237-882b-f0efc0819ec3'
         ],
         sku: '2020521367',
-        barcode: '8545771786193',
+        barcode: '2027742972',
         brand: '61d52c2a-8947-4a2c-8c35-f36baef45b96',
-        vendor: '998b0c07-abfd-4ba3-8de1-7563ef3c4d57',
+        vendor: '987dd10a-43b1-49f9-bfd9-05bb2dbc7029',
         stock: moment().startOf('day').subtract(15, 'days').format('LL'),
-        reserved: 3,
+        reserved: 'cvargas@est.ecotec.edu.ec',
         cost: 538.72,
         basePrice: 1213,
         taxPercent: 10,
@@ -242,5 +256,37 @@ export const members = [
             'assets/images/apps/ecommerce/products/watch-23-03.jpg'
         ],
         active: true
+    }
+];
+export const faculties = [
+    {
+        id: 'e1789f32-9475-43e7-9256-451d2e3a2282',
+        name: 'Ciencias de la Salud y Desarrollo Humano',
+        slug: 'ciencias-de-la-salud-y-desarrollo-humano'
+    },
+    {
+        id: '61d52c2a-8947-4a2c-8c35-f36baef45b96',
+        name: 'Ciencias Económicas y Empresariales',
+        slug: 'ciencias-economicas-y-empresariales'
+    },
+    {
+        id: 'f9987124-7ada-4b93-bef7-35280b3ddbd7',
+        name: 'Derecho y Gobernabilidad',
+        slug: 'derecho-y-gobernalidad'
+    },
+    {
+        id: '5913ee46-a497-41db-a118-ee506011529f',
+        name: 'Estudios Globales y Hospitalidad',
+        slug: 'estudios-globales-y-hospitalidad'
+    },
+    {
+        id: '2c4d98d8-f334-4125-9596-862515f5526b',
+        name: 'Ingenierías',
+        slug: 'ingenierias'
+    },
+    {
+        id: '2c4d98d8-f334-4125-9596-862515f5526r',
+        name: 'Marketing y Comunicación',
+        slug: 'marketing-y-comunicacion'
     }
 ];

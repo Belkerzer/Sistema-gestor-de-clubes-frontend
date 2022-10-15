@@ -992,7 +992,7 @@ export const analytics = {
         ],
         series: [
             {
-                name: 'Conversions',
+                name: 'Hombres',
                 data: [4412, 4345, 4541, 4677, 4322, 4123]
             }
         ]
@@ -1007,7 +1007,7 @@ export const analytics = {
         ],
         series: [
             {
-                name: 'Impressions',
+                name: 'Mujeres',
                 data: [11577, 11441, 11544, 11523]
             }
         ]
@@ -1022,7 +1022,7 @@ export const analytics = {
         ],
         series: [
             {
-                name: 'Visits',
+                name: 'Participantes',
                 data: [15521, 15519, 15522, 15521]
             }
         ]

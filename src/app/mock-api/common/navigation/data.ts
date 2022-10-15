@@ -19,11 +19,11 @@ export const compactNavigation: FuseNavigationItem[] = [
         link : '/inicio'
     },
     {
-        id: 'integrantes',
-        title: 'Integrantes',
+        id: 'participantes',
+        title: 'Participantes',
         type: 'basic',
         icon: 'heroicons_outline:users',
-        link: '/integrantes'
+        link: '/participantes'
     },
     {
         id: 'clubes',

@@ -7,7 +7,7 @@ import { merge, Observable, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryMember, InventoryTag, InventoryVendor } from 'app/modules/admin/members/members.types';
+import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryMember, InventoryTag, InventoryVendor, InventoryFaculty } from 'app/modules/admin/members/members.types';
 import { MembersService } from './members.service';
 
 @Component({
@@ -27,6 +27,7 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
     formFieldHelpers: string[] = [''];
     brands: InventoryBrand[];
     categories: InventoryCategory[];
+    faculties: InventoryFaculty[];
     filteredTags: InventoryTag[];
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
@@ -72,6 +73,7 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
             barcode: [''],
             brand: [''],
             vendor: [''],
+            faculty: [''],
             stock: [''],
             reserved: [''],
             cost: [''],
@@ -144,6 +146,18 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
 
                 // Update the vendors
                 this.vendors = vendors;
+
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+
+        // Get the brands
+        this._membersService.faculties$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((faculties: InventoryFaculty[]) => {
+
+                // Update the brands
+                this.faculties = faculties;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();

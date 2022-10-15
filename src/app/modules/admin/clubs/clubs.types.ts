@@ -1,13 +1,13 @@
 export interface InventoryClubs {
     id: string;
-    category?: string;
+    category1?: string;
     name: string;
     description?: string;
     tags?: string[];
     sku?: string | null;
     barcode?: string | null;
-    brand?: string | null;
-    vendor: string | null;
+    brand1?: string | null;
+    vendor1: string | null;
     stock: Date;
     reserved: number;
     cost: number;

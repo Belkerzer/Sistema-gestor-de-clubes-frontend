@@ -8,7 +8,7 @@ import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ContactsService } from '../users.service';
-import { Tag, Contact, Country } from '../users.types';
+import { Tag, Contact, Country, Rol } from '../users.types';
 import { UsersListComponent } from '../list/list.component';
 import { UserService } from 'app/core/user/user.service';
 import { BooleanInput } from '@angular/cdk/coercion';
@@ -38,7 +38,7 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
     tagsEditMode: boolean = false;
     filteredTags: Tag[];
     contact: Contact;
-    roles: any[];
+    roles: Rol[];
     contactForm: FormGroup;
     contacts: Contact[];
     countries: Country[];
@@ -88,34 +88,28 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
             id: [''],
             avatar: [null],
             name: ['', [Validators.required]],
-            emails: this._formBuilder.array([]),
+            email: ['', Validators.email],
             phoneNumbers: this._formBuilder.array([]),
             title: [''],
             company: [''],
             birthday: [null],
             address: [null],
             notes: [null],
-            tags: [[]]
+            tags: [[]],
+            rol: [''],
         });
 
-        // Setup the roles
-        this.roles = [
-            {
-                label: 'Read',
-                value: 'read',
-                description: 'Can read and clone this repository. Can also open and comment on issues and pull requests.'
-            },
-            {
-                label: 'Write',
-                value: 'write',
-                description: 'Can read, clone, and push to this repository. Can also manage issues and pull requests.'
-            },
-            {
-                label: 'Admin',
-                value: 'admin',
-                description: 'Can read, clone, and push to this repository. Can also manage issues, pull requests, and repository settings, including adding collaborators.'
-            }
-        ];
+        // Get the brands
+        this._usersService.roles$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((roles: Rol[]) => {
+
+                // Update the brands
+                this.roles = roles;
+
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
 
         // Get the contacts
         this._usersService.contacts$
@@ -139,42 +133,11 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
                 this.contact = contact;
 
                 // Clear the emails and phoneNumbers form arrays
-                (this.contactForm.get('emails') as FormArray).clear();
+
                 (this.contactForm.get('phoneNumbers') as FormArray).clear();
 
                 // Patch values to the form
                 this.contactForm.patchValue(contact);
-
-                // Setup the emails form array
-                const emailFormGroups = [];
-
-                if (contact.emails.length > 0) {
-                    // Iterate through them
-                    contact.emails.forEach((email) => {
-
-                        // Create an email form group
-                        emailFormGroups.push(
-                            this._formBuilder.group({
-                                email: [email.email],
-                                label: [email.label]
-                            })
-                        );
-                    });
-                }
-                else {
-                    // Create an email form group
-                    emailFormGroups.push(
-                        this._formBuilder.group({
-                            email: [''],
-                            label: ['']
-                        })
-                    );
-                }
-
-                // Add the email form groups to the emails form array
-                emailFormGroups.forEach((emailFormGroup) => {
-                    (this.contactForm.get('emails') as FormArray).push(emailFormGroup);
-                });
 
                 // Setup the phone numbers form array
                 const phoneNumbersFormGroups = [];

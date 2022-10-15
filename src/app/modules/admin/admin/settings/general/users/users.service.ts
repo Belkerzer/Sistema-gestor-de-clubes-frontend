@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { Contact, Country, Tag } from './users.types';
+import { Contact, Country, Rol, Tag } from './users.types';
 
 
 @Injectable({
@@ -14,6 +14,7 @@ export class ContactsService {
     private _contacts: BehaviorSubject<Contact[] | null> = new BehaviorSubject(null);
     private _countries: BehaviorSubject<Country[] | null> = new BehaviorSubject(null);
     private _tags: BehaviorSubject<Tag[] | null> = new BehaviorSubject(null);
+    private _roles: BehaviorSubject<Rol[] | null> = new BehaviorSubject(null);
 
     /**
      * Constructor
@@ -47,6 +48,13 @@ export class ContactsService {
     }
 
     /**
+     * Getter for countries
+     */
+    get roles$(): Observable<Rol[]> {
+        return this._roles.asObservable();
+    }
+
+    /**
      * Getter for tags
      */
     get tags$(): Observable<Tag[]> {
@@ -56,6 +64,17 @@ export class ContactsService {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Get categories
+     */
+    getRoles(): Observable<Rol[]> {
+        return this._httpClient.get<Rol[]>('api/apps/contacts/roles').pipe(
+            tap((roles) => {
+                this._roles.next(roles);
+            })
+        );
+    }
 
     /**
      * Get contacts
@@ -103,7 +122,7 @@ export class ContactsService {
             switchMap((contact) => {
 
                 if (!contact) {
-                    return throwError('Could not found contact with id of ' + id + '!');
+                    return throwError('No se pudo encontrar el usuario con el id de ' + id + '.');
                 }
 
                 return of(contact);

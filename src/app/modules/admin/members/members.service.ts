@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryMember, InventoryTag, InventoryVendor } from 'app/modules/admin/members/members.types';
+import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryMember, InventoryTag, InventoryVendor, InventoryFaculty } from 'app/modules/admin/members/members.types';
 
 @Injectable({
     providedIn: 'root'
@@ -16,6 +16,7 @@ export class MembersService {
     private _products: BehaviorSubject<InventoryMember[] | null> = new BehaviorSubject(null);
     private _tags: BehaviorSubject<InventoryTag[] | null> = new BehaviorSubject(null);
     private _vendors: BehaviorSubject<InventoryVendor[] | null> = new BehaviorSubject(null);
+    private _faculties: BehaviorSubject<InventoryFaculty[] | null> = new BehaviorSubject(null);
 
     /**
      * Constructor
@@ -76,6 +77,13 @@ export class MembersService {
         return this._vendors.asObservable();
     }
 
+    /**
+     * Getter for faculties
+     */
+    get faculties$(): Observable<InventoryFaculty[]> {
+        return this._faculties.asObservable();
+    }
+
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
@@ -98,6 +106,17 @@ export class MembersService {
         return this._httpClient.get<InventoryCategory[]>('api/apps/ecommerce/inventory/categories').pipe(
             tap((categories) => {
                 this._categories.next(categories);
+            })
+        );
+    }
+
+    /**
+     * Get categories
+     */
+    getFaculties(): Observable<InventoryFaculty[]> {
+        return this._httpClient.get<InventoryFaculty[]>('api/apps/ecommerce/inventory/faculties').pipe(
+            tap((faculties) => {
+                this._faculties.next(faculties);
             })
         );
     }

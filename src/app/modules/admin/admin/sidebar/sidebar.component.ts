@@ -100,17 +100,17 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
                             classes: 'px-2 bg-primary text-on-primary rounded-full'
                         } */
                     },
-                    {
+             /*       {
                         id: 'actividades.actividades-del-club',
                         title: 'Actividades del Club',
                         type: 'basic',
                         icon: 'heroicons_outline:clipboard-list',
                         link: '/administracion/actividades/actividades-del-club'
-/*                         badge: {
+                         badge: {
                                                                             title: '49',
                                                                             classes: 'px-2 bg-primary text-on-primary rounded-full'
-                                                                        } */
-                    },
+                                                                        } 
+                    }, */
 /*                     {
                         id: 'actividades.actividades-completadas',
                         title: 'Actividades Completadas',

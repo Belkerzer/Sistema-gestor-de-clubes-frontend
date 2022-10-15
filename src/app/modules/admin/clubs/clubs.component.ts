@@ -25,8 +25,8 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
     products$: Observable<InventoryClubs[]>;
 
     formFieldHelpers: string[] = [''];
-    brands: InventoryBrand[];
-    categories: InventoryCategory[];
+    brands1: InventoryBrand[];
+    categories1: InventoryCategory[];
     filteredTags: InventoryTag[];
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
@@ -36,7 +36,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
     selectedProductForm: FormGroup;
     tags: InventoryTag[];
     tagsEditMode: boolean = false;
-    vendors: InventoryVendor[];
+    vendors1: InventoryVendor[];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -64,14 +64,14 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
         // Create the selected product form
         this.selectedProductForm = this._formBuilder.group({
             id: [''],
-            category: [''],
+            category1: [''],
             name: ['', [Validators.required]],
             description: [''],
-            tags: [[]],
+            tags1: [[]],
             sku: [''],
             barcode: [''],
-            brand: [''],
-            vendor: [''],
+            brand1: [''],
+            vendor1: [''],
             stock: [''],
             reserved: [''],
             cost: [''],
@@ -88,10 +88,10 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
         // Get the brands
         this._clubsService.brands$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((brands: InventoryBrand[]) => {
+            .subscribe((brands1: InventoryBrand[]) => {
 
                 // Update the brands
-                this.brands = brands;
+                this.brands1 = brands1;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -100,10 +100,10 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
         // Get the categories
         this._clubsService.categories$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((categories: InventoryCategory[]) => {
+            .subscribe((categories1: InventoryCategory[]) => {
 
                 // Update the categories
-                this.categories = categories;
+                this.categories1 = categories1;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -140,10 +140,10 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
         // Get the vendors
         this._clubsService.vendors$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((vendors: InventoryVendor[]) => {
+            .subscribe((vendors1: InventoryVendor[]) => {
 
                 // Update the vendors
-                this.vendors = vendors;
+                this.vendors1 = vendors1;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();

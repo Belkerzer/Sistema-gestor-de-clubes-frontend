@@ -4,10 +4,7 @@ export interface Contact
     avatar?: string | null;
     background?: string | null;
     name: string;
-    emails?: {
-        email: string;
-        label: string;
-    }[];
+    email: string;
     phoneNumbers?: {
         country: string;
         phoneNumber: string;
@@ -19,6 +16,7 @@ export interface Contact
     address?: string | null;
     notes?: string | null;
     tags: string[];
+    rol: string;
 }
 
 export interface Country
@@ -34,4 +32,10 @@ export interface Tag
 {
     id?: string;
     title?: string;
+}
+
+export interface Rol {
+    label: string;
+    value: string;
+    description: string;
 }
