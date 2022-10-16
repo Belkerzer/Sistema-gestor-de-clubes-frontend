@@ -32,7 +32,7 @@ export class FileManagerMockApi
         // @ Items - GET
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
-            .onGet('api/apps/file-manager')
+            .onGet('administracion/actividades/todas-las-actividades')
             .reply(({request}) => {
 
                 // Clone the items

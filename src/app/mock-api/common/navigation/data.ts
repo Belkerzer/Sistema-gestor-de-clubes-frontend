@@ -32,13 +32,13 @@ export const compactNavigation: FuseNavigationItem[] = [
         icon: 'heroicons_outline:globe-alt',
         link: '/clubes'
     },
-    /*     {
-            id   : 'planes',
-            title: 'Planes',
-            type : 'basic',
-            icon : 'heroicons_outline:calendar',
-            link : '/planes'
-        }, */
+    {
+        id: 'scrumboard',
+        title: 'Actividades',
+        type: 'basic',
+        icon: 'heroicons_outline:view-boards',
+        link: '/actividades'
+    },
     {
         id: 'reportes',
         title: 'Reportes',

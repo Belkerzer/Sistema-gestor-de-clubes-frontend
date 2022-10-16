@@ -18,9 +18,6 @@ import { FuseScrollbarModule } from '@fuse/directives/scrollbar';
 import { FuseScrollResetModule } from '@fuse/directives/scroll-reset';
 import { SharedModule } from 'app/shared/shared.module';
 import { AdminComponent } from 'app/modules/admin/admin/admin.component';
-import { AdminComposeComponent } from 'app/modules/admin/admin/compose/compose.component';
-import { AdminDetailsComponent } from 'app/modules/admin/admin/details/details.component';
-import { AdminListComponent } from 'app/modules/admin/admin/list/list.component';
 import { AdminSettingsAccountPersonalComponent } from 'app/modules/admin/admin/settings/account/personal/personal.component';
 import { AdminSidebarComponent } from 'app/modules/admin/admin/sidebar/sidebar.component';
 import { AdminSettingsAccountSecurityComponent } from './settings/account/security/security.component';
@@ -37,12 +34,10 @@ import moment from 'moment';
 import { UsersDetailsComponent } from './settings/general/users/details/details.component';
 import { UsersListComponent } from './settings/general/users/list/list.component';
 
+
 @NgModule({
     declarations: [
         AdminComponent,
-        AdminComposeComponent,
-        AdminDetailsComponent,
-        AdminListComponent,
         AdminSettingsAccountPersonalComponent,
         AdminSidebarComponent,
         AdminSettingsAccountSecurityComponent,
@@ -75,7 +70,7 @@ import { UsersListComponent } from './settings/general/users/list/list.component
         FuseNavigationModule,
         FuseScrollbarModule,
         FuseScrollResetModule,
-        SharedModule
+        SharedModule        
     ],
     providers: [
         {

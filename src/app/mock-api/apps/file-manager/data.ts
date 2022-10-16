@@ -13,6 +13,18 @@ export const items = [
         description: 'Personal documents such as insurance policies, tax papers and etc.'
     },
     {
+        id: 'cd68972b-acfd-4016-8b53-3f66a5b5fc68',
+        folderId: null,
+        name: 'Joder',
+        createdBy: 'Brian Hughes',
+        createdAt: 'April 24, 2018',
+        modifiedAt: 'April 24, 2018',
+        size: '87 MB',
+        type: 'folder',
+        contents: '57 files',
+        description: 'Personal documents such as insurance policies, tax papers and etc.'
+    },
+    {
         id         : '6da8747f-b474-4c9a-9eba-5ef212285500',
         folderId   : null,
         name       : 'Photos',
@@ -20,7 +32,7 @@ export const items = [
         createdAt  : 'November 01, 2021',
         modifiedAt : 'November 01, 2021',
         size       : '3015 MB',
-        type       : 'folder',
+        type: 'folder',
         contents   : '907 files',
         description: 'Personal photos; selfies, family, vacation and etc.'
     },

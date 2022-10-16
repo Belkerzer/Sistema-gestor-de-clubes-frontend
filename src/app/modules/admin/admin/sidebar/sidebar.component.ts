@@ -84,7 +84,7 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
                     } */
                 ]
             },
-            {
+       /*       {
                 id: 'actividades',
                 title: 'Actividades',
                 type: 'group',
@@ -95,12 +95,12 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
                         type: 'basic',
                         icon: 'heroicons_outline:clipboard-list',
                         link: '/administracion/actividades/todas-las-actividades'
-/*                         badge: {
+                     badge: {
                             title: '49',
                             classes: 'px-2 bg-primary text-on-primary rounded-full'
-                        } */
+                        } 
                     },
-             /*       {
+                  {
                         id: 'actividades.actividades-del-club',
                         title: 'Actividades del Club',
                         type: 'basic',
@@ -122,9 +122,9 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
                         title: 'Actividades Abandonadas',
                         type: 'basic',
                         icon: 'heroicons_outline:clipboard'
-                    }, */
+                    }, 
                 ]
-            },
+            },*/
             {
                 id: 'ajustes',
                 title: 'Ajustes',

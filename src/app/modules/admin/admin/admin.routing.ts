@@ -1,17 +1,14 @@
 import { ActivatedRouteSnapshot, Route, UrlMatchResult, UrlSegment } from '@angular/router';
 import { isEqual } from 'lodash-es';
 import { AdminComponent } from 'app/modules/admin/admin/admin.component';
-import { MailboxFiltersResolver, MailboxFoldersResolver, MailboxLabelsResolver, MailboxMailResolver, MailboxMailsResolver } from 'app/modules/admin/admin/admin.resolvers';
-import { AdminListComponent } from 'app/modules/admin/admin/list/list.component';
-import { AdminDetailsComponent } from 'app/modules/admin/admin/details/details.component';
 import { AdminSettingsAccountPersonalComponent } from 'app/modules/admin/admin/settings/account/personal/personal.component';
 import { AdminSettingsAccountSecurityComponent } from './settings/account/security/security.component';
-import { SettingsComponent } from 'app/layout/common/settings/settings.component';
 import { AdminActionsCreateUserComponent } from './actions/create-user/create-user.component';
 import { UsersDetailsComponent } from './settings/general/users/details/details.component';
 import { UsersListComponent } from './settings/general/users/list/list.component';
 import { CanDeactivateUsersDetails } from './settings/general/users/users.guards';
 import { ContactsTagsResolver, ContactsResolver, ContactsCountriesResolver, ContactsContactResolver, ContactsRolesResolver } from './settings/general/users/users.resolvers';
+
 
 
 
@@ -190,6 +187,51 @@ export const adminRoutes: Route[] = [
                     }
                 ]
             },
+            /*            {
+                           path: 'actividades',
+                           children: [
+                               {
+                                   path: 'todas-las-actividades',
+                                   component: FileManagerComponent,
+                                   children: [
+                                       {
+                                           path: 'folders/:folderId',
+                                           component: FileManagerListComponent,
+                                           resolve: {
+                                               item: FileManagerFolderResolver
+                                           },
+                                           children: [
+                                               {
+                                                   path: 'details/:id',
+                                                   component: FileManagerDetailsComponent,
+                                                   resolve: {
+                                                       item: FileManagerItemResolver
+                                                   },
+                                                   canDeactivate: [CanDeactivateFileManagerDetails]
+                                               }
+                                           ]
+                                       },
+                                       {
+                                           path: '',
+                                           component: FileManagerListComponent,
+                                           resolve: {
+                                               items: FileManagerItemsResolver
+                                           },
+                                           children: [
+                                               {
+                                                   path: 'details/:id',
+                                                   component: FileManagerDetailsComponent,
+                                                   resolve: {
+                                                       item: FileManagerItemResolver
+                                                   },
+                                                   canDeactivate: [CanDeactivateFileManagerDetails]
+                                               }
+                                           ]
+                                       }
+                                   ]
+                               }
+                           ]
+                       }, */
             {
                 path: 'ajustes',
                 children: [
