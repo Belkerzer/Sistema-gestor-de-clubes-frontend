@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ClubsService } from 'app/modules/admin/clubs/clubs.service';
-import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryClubs, InventoryTag, InventoryVendor } from 'app/modules/admin/clubs/clubs.types';
+import { ActivitiesService } from './activities.service';
+import { InventoryActivities, InventoryBrand, InventoryCategory, InventoryPagination, InventoryTag, InventoryVendor } from './activities.types';
+
 
 @Injectable({
     providedIn: 'root'
@@ -13,7 +14,7 @@ export class InventoryBrandsResolver implements Resolve<any>
     /**
      * Constructor
      */
-    constructor(private _inventoryService: ClubsService) {
+    constructor(private _inventoryService: ActivitiesService) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -39,7 +40,7 @@ export class InventoryCategoriesResolver implements Resolve<any>
     /**
      * Constructor
      */
-    constructor(private _inventoryService: ClubsService) {
+    constructor(private _inventoryService: ActivitiesService) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -66,7 +67,7 @@ export class InventoryClubResolver implements Resolve<any>
      * Constructor
      */
     constructor(
-        private _inventoryService: ClubsService,
+        private _inventoryService: ActivitiesService,
         private _router: Router
     ) {
     }
@@ -81,7 +82,7 @@ export class InventoryClubResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryClubs> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryActivities> {
         return this._inventoryService.getProductById(route.paramMap.get('id'))
             .pipe(
                 // Error here means the requested product is not available
@@ -111,7 +112,7 @@ export class InventoryClubsResolver implements Resolve<any>
     /**
      * Constructor
      */
-    constructor(private _inventoryService: ClubsService) {
+    constructor(private _inventoryService: ActivitiesService) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -124,7 +125,7 @@ export class InventoryClubsResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: InventoryPagination; products: InventoryClubs[] }> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: InventoryPagination; products: InventoryActivities[] }> {
         return this._inventoryService.getProducts();
     }
 }
@@ -137,7 +138,7 @@ export class InventoryTagsResolver implements Resolve<any>
     /**
      * Constructor
      */
-    constructor(private _inventoryService: ClubsService) {
+    constructor(private _inventoryService: ActivitiesService) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -163,7 +164,7 @@ export class InventoryVendorsResolver implements Resolve<any>
     /**
      * Constructor
      */
-    constructor(private _inventoryService: ClubsService) {
+    constructor(private _inventoryService: ActivitiesService) {
     }
 
     // -----------------------------------------------------------------------------------------------------

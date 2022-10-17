@@ -1,13 +1,13 @@
-export interface InventoryClubs {
+export interface InventoryActivities {
     id: string;
-    category1?: string;
+    category2?: string;
     name: string;
     description?: string;
     tags?: string[];
     sku?: string | null;
     barcode?: string | null;
-    brand1?: string | null;
-    vendor1: string | null;
+    brand2?: string | null;
+    vendor2: string | null;
     stock: Date;
     reserved: number;
     cost: number;

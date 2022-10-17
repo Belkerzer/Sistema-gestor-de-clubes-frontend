@@ -7,8 +7,10 @@ import { merge, Observable, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryClubs, InventoryTag, InventoryVendor } from 'app/modules/admin/clubs/clubs.types';
+
 import { ClubsService } from 'app/modules/admin/clubs/clubs.service';
+import { InventoryActivities, InventoryBrand, InventoryCategory, InventoryPagination, InventoryTag, InventoryVendor } from './activities.types';
+import { ActivitiesService } from './activities.service';
 
 @Component({
     selector: 'clubs',
@@ -22,21 +24,21 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
 
-    products$: Observable<InventoryClubs[]>;
+    products$: Observable<InventoryActivities[]>;
 
     formFieldHelpers: string[] = [''];
-    brands1: InventoryBrand[];
-    categories1: InventoryCategory[];
+    brands2: InventoryBrand[];
+    categories2: InventoryCategory[];
     filteredTags: InventoryTag[];
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: InventoryPagination;
     searchInputControl: FormControl = new FormControl();
-    selectedProduct: InventoryClubs | null = null;
+    selectedProduct: InventoryActivities | null = null;
     selectedProductForm: FormGroup;
     tags: InventoryTag[];
     tagsEditMode: boolean = false;
-    vendors1: InventoryVendor[];
+    vendors2: InventoryVendor[];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -46,7 +48,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseConfirmationService: FuseConfirmationService,
         private _formBuilder: FormBuilder,
-        private _clubsService: ClubsService
+        private _activitiesService: ActivitiesService
     ) {
     }
     ngAfterViewChecked(): void {
@@ -67,11 +69,11 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
             category1: [''],
             name: ['', [Validators.required]],
             description: [''],
-            tags1: [[]],
+            tags2: [[]],
             sku: [''],
             barcode: [''],
-            brand1: [''],
-            vendor1: [''],
+            brand2: [''],
+            vendor2: [''],
             stock: [''],
             reserved: [''],
             cost: [''],
@@ -86,31 +88,31 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
         });
 
         // Get the brands
-        this._clubsService.brands$
+        this._activitiesService.brands$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((brands1: InventoryBrand[]) => {
+            .subscribe((brands2: InventoryBrand[]) => {
 
                 // Update the brands
-                this.brands1 = brands1;
+                this.brands2 = brands2;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
 
         // Get the categories
-        this._clubsService.categories$
+        this._activitiesService.categories$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((categories1: InventoryCategory[]) => {
+            .subscribe((categories2: InventoryCategory[]) => {
 
                 // Update the categories
-                this.categories1 = categories1;
+                this.categories2 = categories2;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
 
         // Get the pagination
-        this._clubsService.pagination$
+        this._activitiesService.pagination$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((pagination: InventoryPagination) => {
 
@@ -122,10 +124,10 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
             });
 
         // Get the products
-        this.products$ = this._clubsService.products$;
+        this.products$ = this._activitiesService.products$;
 
         // Get the tags
-        this._clubsService.tags$
+        this._activitiesService.tags$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((tags: InventoryTag[]) => {
 
@@ -138,12 +140,12 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
             });
 
         // Get the vendors
-        this._clubsService.vendors$
+        this._activitiesService.vendors$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((vendors1: InventoryVendor[]) => {
+            .subscribe((vendors2: InventoryVendor[]) => {
 
                 // Update the vendors
-                this.vendors1 = vendors1;
+                this.vendors2 = vendors2;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -157,7 +159,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
                 switchMap((query) => {
                     this.closeDetails();
                     this.isLoading = true;
-                    return this._clubsService.getProducts(0, 10, 'name', 'asc', query);
+                    return this._activitiesService.getProducts(0, 10, 'name', 'asc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -197,7 +199,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
                 switchMap(() => {
                     this.closeDetails();
                     this.isLoading = true;
-                    return this._clubsService.getProducts(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    return this._activitiesService.getProducts(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -240,7 +242,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
         }
 
         // Get the product by id
-        this._clubsService.getProductById(productId)
+        this._activitiesService.getProductById(productId)
             .subscribe((product) => {
 
                 // Set the selected product
@@ -352,7 +354,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
         };
 
         // Create tag on the server
-        this._clubsService.createTag(tag)
+        this._activitiesService.createTag(tag)
             .subscribe((response) => {
 
                 // Add the tag to the product
@@ -371,7 +373,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
         tag.title = event.target.value;
 
         // Update the tag on the server
-        this._clubsService.updateTag(tag.id, tag)
+        this._activitiesService.updateTag(tag.id, tag)
             .pipe(debounceTime(300))
             .subscribe();
 
@@ -386,7 +388,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
      */
     deleteTag(tag: InventoryTag): void {
         // Delete the tag from the server
-        this._clubsService.deleteTag(tag.id).subscribe();
+        this._activitiesService.deleteTag(tag.id).subscribe();
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
@@ -453,7 +455,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
      */
     createProduct(): void {
         // Create the product
-        this._clubsService.createProduct().subscribe((newProduct) => {
+        this._activitiesService.createProduct().subscribe((newProduct) => {
 
             // Go to new product
             this.selectedProduct = newProduct;
@@ -477,7 +479,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
         delete product.currentImageIndex;
 
         // Update the product on the server
-        this._clubsService.updateProduct(product.id, product).subscribe(() => {
+        this._activitiesService.updateProduct(product.id, product).subscribe(() => {
 
             // Show a success message
             this.showFlashMessage('success');
@@ -490,8 +492,8 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
     deleteSelectedProduct(): void {
         // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
-            title: 'Eliminar club',
-            message: '¿Está seguro de que quiere eliminar este club? Esta acción no se puede deshacer.',
+            title: 'Eliminar actividad',
+            message: '¿Está seguro de que quiere eliminar esta actividad? Esta acción no se puede deshacer.',
             actions: {
                 cancel: {
                     label: 'Cancelar'
@@ -512,7 +514,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
                 const product = this.selectedProductForm.getRawValue();
 
                 // Delete the product on the server
-                this._clubsService.deleteProduct(product.id).subscribe(() => {
+                this._activitiesService.deleteProduct(product.id).subscribe(() => {
 
                     // Close the details
                     this.closeDetails();
