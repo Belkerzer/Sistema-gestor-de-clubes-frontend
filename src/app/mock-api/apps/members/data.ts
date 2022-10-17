@@ -122,7 +122,7 @@ export const members = [
         cost: 450.18,
         basePrice: 1036,
         taxPercent: 30,
-        price: 'Periodismo',
+        price: 'Administración de Empresas',
         weight: 0.61,
         thumbnail: 'assets/images/apps/ecommerce/products/watch-01-thumb.jpg',
         images: [
@@ -153,7 +153,7 @@ export const members = [
         cost: 723.55,
         basePrice: 1686,
         taxPercent: 30,
-        price: 'Bienestar Animal',
+        price: 'Psicología Clínica',
         weight: 0.79,
         thumbnail: 'assets/images/apps/ecommerce/products/watch-02-thumb.jpg',
         images: [
@@ -184,7 +184,7 @@ export const members = [
         cost: 390.63,
         basePrice: 950,
         taxPercent: 10,
-        price: 'Debate',
+        price: 'Sistemas Inteligentes',
         weight: 0.76,
         thumbnail: null,
         images: [
@@ -216,7 +216,7 @@ export const members = [
         cost: '1977-11-06T12:00:00.000Z',
         basePrice: 839,
         taxPercent: 30,
-        price: 'Programación',
+        price: 'Mercadotecnia',
         weight: 0.62,
         thumbnail: 'assets/images/apps/ecommerce/products/watch-04-thumb.jpg',
         images: [
@@ -247,7 +247,7 @@ export const members = [
         cost: 538.72,
         basePrice: 1213,
         taxPercent: 10,
-        price: 'Ecoart',
+        price: 'Psicología',
         weight: 0.75,
         thumbnail: 'assets/images/apps/ecommerce/products/watch-23-thumb.jpg',
         images: [

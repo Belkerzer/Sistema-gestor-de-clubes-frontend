@@ -150,7 +150,7 @@ export class ClubsService {
             switchMap((product) => {
 
                 if (!product) {
-                    return throwError('No se pudo encontrar el producto con el id de ' + id + '.');
+                    return throwError('No se pudo encontrar el club con el id de ' + id + '.');
                 }
 
                 return of(product);

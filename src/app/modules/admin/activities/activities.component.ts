@@ -23,7 +23,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
     @ViewChild(MatSort) private _sort: MatSort;
 
     products$: Observable<InventoryClubs[]>;
-    selectedProject: string = 'ACME Corp. Backend App';
+
     formFieldHelpers: string[] = [''];
     brands1: InventoryBrand[];
     categories1: InventoryCategory[];
