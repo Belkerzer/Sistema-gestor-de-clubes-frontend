@@ -7,13 +7,11 @@ import { merge, Observable, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-
-import { ClubsService } from 'app/modules/admin/clubs/clubs.service';
 import { InventoryActivities, InventoryBrand, InventoryCategory, InventoryPagination, InventoryTag, InventoryVendor } from './activities.types';
 import { ActivitiesService } from './activities.service';
 
 @Component({
-    selector: 'clubs',
+    selector: 'activities',
     templateUrl: './activities.component.html',
     styleUrls: ['./activities.component.scss'],
     encapsulation: ViewEncapsulation.None,
@@ -66,7 +64,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
         // Create the selected product form
         this.selectedProductForm = this._formBuilder.group({
             id: [''],
-            category1: [''],
+            category2: [''],
             name: ['', [Validators.required]],
             description: [''],
             tags2: [[]],

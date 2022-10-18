@@ -7,7 +7,7 @@ import moment from 'moment';
 @Injectable({
     providedIn: 'root'
 })
-export class ClubsInventoryMockApi {
+export class ActivitiesInventoryMockApi {
     private _categories2: any[] = categories2Data;
     private _brands2: any[] = brands2Data;
     private _activities: any[] = activitiesData;

@@ -117,7 +117,7 @@ export const clubs = [
     {
         id: '00b0292f-3d50-4669-a0c4-7a9d85efc98d',
         category1: '07986d93-d4eb-4de1-9448-2538407f7254',
-        name: 'Bienestar animal',
+        name: 'Bienestar Animal',
         description: 'Nulla duis dolor fugiat culpa proident. Duis anim est excepteur occaecat adipisicing occaecat. Labore id laborum non elit proident est veniam officia eu. Labore aliqua nisi duis sint ex consequat nostrud excepteur duis ex incididunt adipisicing.',
         tags: [
             '3baea410-a7d6-4916-b79a-bdce50c37f95',

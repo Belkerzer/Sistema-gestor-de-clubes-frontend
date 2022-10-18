@@ -80,23 +80,23 @@
 
 
                                     <!-- Active -->
-                                    <div class="hidden lg:flex items-center">
+                                    <div class="lg:flex items-center">
                                         <!-- Low stock -->
                                         <div
                                             class="flex items-end mr-2 w-1 h-4 bg-red-200 rounded overflow-hidden"
-                                            *ngIf="product.active < 20">
+                                            *ngIf="product.active < 25">
                                             <div class="flex w-full h-1/3 bg-red-600"></div>
                                         </div>
                                         <!-- Medium stock -->
                                         <div
                                             class="flex items-end mr-2 w-1 h-4 bg-orange-200 rounded overflow-hidden"
-                                            *ngIf="product.active >= 20 && product.active < 30">
+                                            *ngIf="product.active >= 25 && product.active < 75">
                                             <div class="flex w-full h-2/4 bg-orange-400"></div>
                                         </div>
                                         <!-- High stock -->
                                         <div
                                             class="flex items-end mr-2 w-1 h-4 bg-green-100 rounded overflow-hidden"
-                                            *ngIf="product.active >= 30">
+                                            *ngIf="product.active >= 75">
                                             <div class="flex w-full h-full bg-green-400"></div>
                                         </div>
                                         <div class="min-w-4">{{product.active}}</div>
@@ -104,7 +104,7 @@
                                     </div>
 
                                     <!-- Name -->
-                                    <div class="truncate">
+                                    <div class="hidden sm:block">
                                         {{product.name}}
                                     </div>
 
@@ -120,7 +120,7 @@
 
                                     <!-- Active -->
                                     <div class="hidden lg:flex items-center">
-                                        <div class="min-w-4">{{product.active}}</div>
+                                        <div class="min-w-4">{{product.reserved}}</div>
                                     </div>
 
                                     <!-- Details button -->
@@ -179,33 +179,34 @@
                                             {{selectedProductForm.get('active').value === true ? 'Activo' : 'No activo'}}
                                         </mat-slide-toggle>
                                     </div> -->
-                                    <mat-form-field class="w-full">
-                                        <mat-label>Horas</mat-label>                                        
-                                        <input
-                                            type="number"
-                                            matInput
-                                            [formControlName]="'taxPercent'">
-                                    </mat-form-field>
-                                    <mat-form-field class="w-full">
-                                        <mat-label>Logro</mat-label>
-                                        <span matSuffix>%</span>
-                                        <input
-                                            type="number"
-                                            matInput
-                                            [formControlName]="'taxPercent'">
-                                    </mat-form-field>
+
                                 </div>
 
                                 <div class="flex flex-auto flex-wrap">
 
                                     <!-- Cost, Base price, Tax & Price -->
-                                    <div class="flex flex-col w-full lg:w-1/4 sm:pl-8">
+                                    <div class="flex flex-col w-full lg:w-1/4 sm:pl-0">
                                         <mat-form-field class="w-full">
-                                            <mat-label>Lugar</mat-label>                                                                                        
-                                            <input                                                
-                                            matInput
-                                            [formControlName]="'reserved'">
-                                        </mat-form-field>
+                                            <mat-label>Club</mat-label>
+                                            <mat-select [formControlName]="'sku'">
+                                                <!-- <ng-container *ngFor="let brand2 of brands2">
+                                                    <mat-option [value]="brand2.id">
+                                                        {{brand2.name}}
+                                                    </mat-option>
+                                                </ng-container> -->
+                                            </mat-select>
+                                        </mat-form-field>  
+                                        <mat-form-field class="w-full">
+                                            <mat-label>Facultad</mat-label>
+                                            <mat-select [formControlName]="'brand2'">
+                                                <ng-container *ngFor="let brand2 of brands2">
+                                                    <mat-option [value]="brand2.id">
+                                                        {{brand2.name}}
+                                                    </mat-option>
+                                                </ng-container>
+                                            </mat-select>
+                                        </mat-form-field> 
+                                        
                                         <mat-form-field class="w-full">
                                             <mat-label>Materiales</mat-label>
                                             <textarea
@@ -226,17 +227,8 @@
                                                 matInput
                                                 [formControlName]="'barcode'">
                                         </mat-form-field> -->
-                                        <mat-form-field class="w-full lg:w-2/3 sm:pr-2">
-                                            <mat-label>Club</mat-label>
-                                            <mat-select [formControlName]="'brand2'">
-                                                <ng-container *ngFor="let brand2 of brands2">
-                                                    <mat-option [value]="brand1.id">
-                                                        {{brand2.name}}
-                                                    </mat-option>
-                                                </ng-container>
-                                            </mat-select>
-                                        </mat-form-field> 
-                                        <mat-form-field class="w-full lg:w-1/3 sm:pl-2" [ngClass]="formFieldHelpers">
+  <!--                -->
+                                        <mat-form-field class="w-full lg:w-1/3 sm:pr-2" [ngClass]="formFieldHelpers">
                                             <mat-label>Fecha</mat-label>
                                             <input
                                             [formControlName]="'cost'"
@@ -247,34 +239,54 @@
                                             [for]="birthdayDatepicker"></mat-datepicker-toggle>
                                         <mat-datepicker #birthdayDatepicker></mat-datepicker>
                                         </mat-form-field>
-
-
+                                        <mat-form-field class="w-full sm:pl-2 lg:w-1/3 sm:pr-2">
+                                            <mat-label>Horas</mat-label>                                        
+                                            <input
+                                                type="number"
+                                                matInput
+                                                [formControlName]="'reserved'">
+                                        </mat-form-field>
+                                        <mat-form-field class="w-full lg:w-1/3 sm:pl-2">
+                                            <mat-label>Periodo</mat-label>
+                                            <mat-select [formControlName]="'vendor2'">
+                                                <ng-container *ngFor="let vendor2 of vendors2">
+                                                    <mat-option [value]="vendor2.id">
+                                                        {{vendor2.name}}
+                                                    </mat-option>
+                                                </ng-container>
+                                            </mat-select>
+                                        </mat-form-field>
                                     </div>
 
                                         <!-- Stock and Reserved -->                                        
                                         <div class="sm:flex">
-                                            <mat-form-field class="w-full lg:w-2/3 sm:pr-2">
-                                                <mat-label>Facultad</mat-label>
-                                                <mat-select [formControlName]="'brand1'">
-                                                    <ng-container *ngFor="let brand2 of brands2">
-                                                        <mat-option [value]="brand2.id">
-                                                            {{brand2.name}}
-                                                        </mat-option>
-                                                    </ng-container>
-                                                </mat-select>
-                                            </mat-form-field>
-                                            <mat-form-field class="w-full lg:w-1/3 sm:pl-2">
-                                                <mat-label>Periodo</mat-label>
-                                                <mat-select [formControlName]="'vendor1'">
-                                                    <ng-container *ngFor="let vendor2 of vendors2">
-                                                        <mat-option [value]="vendor2.id">
-                                                            {{vendor2.name}}
-                                                        </mat-option>
-                                                    </ng-container>
-                                                </mat-select>
+<!--    -->
+                                            <mat-form-field class="w-full lg:w-1/3 sm:pr-2" [ngClass]="formFieldHelpers">
+                                                <mat-label>Fecha de seguimiento</mat-label>
+                                                <input
+                                                [formControlName]="'basePrice'"
+                                                matInput
+                                                [matDatepicker]="birthdayDatepickers">
+                                            <mat-datepicker-toggle
+                                                matSuffix
+                                                [for]="birthdayDatepickers"></mat-datepicker-toggle>
+                                            <mat-datepicker #birthdayDatepickers></mat-datepicker>
                                             </mat-form-field>
 
-
+                                            <mat-form-field class="w-full sm:pl-2 lg:w-1/3 sm:pr-2">
+                                                <mat-label>Logro</mat-label>
+                                                <span matSuffix>%</span>
+                                                <input
+                                                    type="number"
+                                                    matInput
+                                                    [formControlName]="'taxPercent'">
+                                            </mat-form-field>
+                                            <mat-form-field class="w-full sm:pl-2 lg:w-1/3">
+                                                <mat-label>Lugar</mat-label>                                                                                        
+                                                <input                                                
+                                                matInput
+                                                [formControlName]="'price'">
+                                            </mat-form-field>
 
 
                                         </div>  
@@ -282,24 +294,18 @@
                                         <!-- Category, Brand & Vendor -->
                                         <div class="sm:flex">
 
-<!--                                             <mat-form-field class="w-full lg:w-2/3 sm:pl-2">
-                                                <mat-label>Carrera</mat-label>
-                                                <mat-select [formControlName]="'brand1'">
-                                                    <ng-container *ngFor="let brand1 of brands1">
-                                                        <mat-option [value]="brand1.id">
-                                                            {{brand1.name}}
-                                                        </mat-option>
-                                                    </ng-container>
-                                                </mat-select>
-                                            </mat-form-field> -->
+<!--           -->
 
                                             <mat-form-field class="w-full lg:w-2/3 sm:pr-2">
                                                 <mat-label>Actividad / Objetivo</mat-label>
                                                 <textarea
+                                                [formControlName]="'name'"
                                                 matInput                                            
                                                 matTextareaAutosize
                                                 [matAutosizeMinRows]="5"></textarea>
                                             </mat-form-field>  
+
+
                                             </div>  
                                     </div>
 
