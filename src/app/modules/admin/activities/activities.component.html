@@ -33,6 +33,14 @@
                 <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                 <span class="ml-2 mr-1">Agregar</span>
             </button>
+            <button   
+            class="ml-3"                         
+            mat-flat-button
+            [color]="'primary'"                            
+            >
+            <mat-icon [svgIcon]="'heroicons_solid:save'"></mat-icon>
+            <span class="ml-2 mr-1">Exportar</span>
+        </button>
         </div>
     </div>
 
@@ -52,7 +60,7 @@
                             
                             <div
                                 class="hidden md:block"
-                                [mat-sort-header]="'sku'">
+                                [mat-sort-header]="'active'">
                                 Logro (%)
                             </div>
                             <div [mat-sort-header]="'name'">Actividad / Objetivo</div>                            
@@ -80,7 +88,7 @@
 
 
                                     <!-- Active -->
-                                    <div class="lg:flex items-center">
+                                    <div class="hidden md:flex lg:flex items-center">
                                         <!-- Low stock -->
                                         <div
                                             class="flex items-end mr-2 w-1 h-4 bg-red-200 rounded overflow-hidden"
@@ -104,7 +112,7 @@
                                     </div>
 
                                     <!-- Name -->
-                                    <div class="hidden sm:block">
+                                    <div class="sm:block">
                                         {{product.name}}
                                     </div>
 
@@ -305,6 +313,13 @@
                                                 [matAutosizeMinRows]="5"></textarea>
                                             </mat-form-field>  
 
+                                            <mat-form-field class="w-full lg:w-1/3 sm:pl-2">
+                                                <mat-label>Observación</mat-label>
+                                                <textarea                                                
+                                                matInput                                            
+                                                matTextareaAutosize
+                                                [matAutosizeMinRows]="5"></textarea>
+                                            </mat-form-field>  
 
                                             </div>  
                                     </div>
