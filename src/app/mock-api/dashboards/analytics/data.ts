@@ -6,7 +6,7 @@ export const analytics = {
         series: {
             'this-year': [
                 {
-                    name: 'Visitors',
+                    name: 'Participantes',
                     data: [
                         {
                             x: moment().subtract(12, 'months').day(1).toDate(),
@@ -493,7 +493,7 @@ export const analytics = {
             ],
             'last-year': [
                 {
-                    name: 'Visitors',
+                    name: 'Participantes',
                     data: [
                         {
                             x: moment().subtract(12, 'months').day(1).toDate(),
@@ -1298,7 +1298,7 @@ export const analytics = {
                 ]
             },
             {
-                name: 'Visitors',
+                name: 'Participantes',
                 data: [
                     {
                         x: moment().subtract(65, 'days').toDate(),

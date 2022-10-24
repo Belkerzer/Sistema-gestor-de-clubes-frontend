@@ -189,11 +189,6 @@ export const tasks = [
                 completed: false
             },
             {
-                id       : '76f4dc8d-4803-4d98-b461-367a1d3746a8',
-                title: 'Meses',
-                completed: false
-            },
-            {
                 id: '76f4dc8d-4803-4d98-b461-367a1d3746a4',
                 title: 'Actividades por cumplir',
                 completed: false
