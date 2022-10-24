@@ -104,8 +104,8 @@
                         },
                         "development": {
                             "browserTarget": "fuse:build:development",
-                            "sslKey": "/home/nlandvr/Proyectos/Sistema-gestor-de-clubes/Sistema-gestor-de-clubes-frontend/localhost-key.pem",
-                            "sslCert": "/home/nlandvr/Proyectos/Sistema-gestor-de-clubes/Sistema-gestor-de-clubes-frontend/localhost.pem",
+                            "sslKey": "/home/nlandvr/Proyectos/Sistema-gestor-de-clubes/Sistema-gestor-de-clubes-frontend/localhost.com+5-key.pem",
+                            "sslCert": "/home/nlandvr/Proyectos/Sistema-gestor-de-clubes/Sistema-gestor-de-clubes-frontend/localhost.com+5.pem",
                             "ssl": true
                         }
                     },

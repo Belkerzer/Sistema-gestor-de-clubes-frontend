@@ -44,7 +44,3 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-
-# CA
-localhost-key.pem
-localhost.pem
