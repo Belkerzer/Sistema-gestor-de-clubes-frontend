@@ -1,0 +1,31 @@
+<div class="flex flex-col items-center justify-center w-full h-full">
+    <div class="w-full max-w-3xl">
+        <div class="max-w-none mx-auto prose prose-sm">
+            <img
+                class="w-20"
+                src="assets/images/logo/logo.svg"
+                alt="Logo image">
+            <h1>Módulo de aterrizaje</h1>
+            <p>
+                Esta puede ser la página de aterrizaje o de bienvenida de su aplicación. Si tienes una configuración de SSR (Server Side Rendering), 
+                o si no necesitas tener visibilidad en los motores de búsqueda y optimizaciones, puedes incluso usar esta página como tu página de aterrizaje principal.
+            </p>
+            <p>
+                Este es un "módulo" separado, tiene su propio directorio y configuración de enrutamiento y también está completamente separado de la aplicación real. 
+                Este es también un ejemplo simple de una configuración de múltiples aplicaciones que utiliza el mismo código base. Usted puede tener diferentes puntos de entrada y esencialmente tener diferentes aplicaciones dentro de la misma base de código. 
+            </p>
+        </div>
+        <div>
+            <a
+                class="mt-8"
+                mat-flat-button
+                [color]="'primary'"
+                [routerLink]="'/iniciar-sesion'">
+                <span>Lanzar la aplicación</span>
+                <mat-icon
+                    class="ml-2 icon-size-5"
+                    [svgIcon]="'heroicons_solid:arrow-narrow-right'"></mat-icon>
+            </a>
+        </div>
+    </div>
+</div>

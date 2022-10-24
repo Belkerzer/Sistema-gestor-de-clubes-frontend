@@ -1,0 +1,44 @@
+<!-- Button -->
+<button
+    mat-icon-button
+    [matMenuTriggerFor]="userActions">
+    <span class="relative">
+        <img
+            class="w-7 h-7 rounded-full"
+            *ngIf="user.avatar"
+            [src]="user.avatar">
+        <mat-icon
+            *ngIf="!user.avatar"
+            [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
+    </span>
+</button>
+
+<mat-menu
+    [xPosition]="'before'"
+    #userActions="matMenu">
+    <button mat-menu-item>
+        <span class="flex flex-col leading-none">
+            <span>Ingresó como</span>
+            <span class="mt-1.5 text-md font-medium">{{user.email}}</span>
+        </span>
+    </button>
+    <mat-divider class="my-2"></mat-divider>
+    <button mat-menu-item
+    (click)="general()">
+        <mat-icon [svgIcon]="'heroicons_outline:adjustments'"></mat-icon>
+        <span>General</span>
+    </button>
+    <mat-divider class="my-2"></mat-divider>
+    <button mat-menu-item
+    (click)="account()">
+        <mat-icon [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
+        <span>Cuenta</span>
+    </button>
+    <mat-divider class="my-2"></mat-divider>
+    <button
+        mat-menu-item
+        (click)="signOut()">
+        <mat-icon [svgIcon]="'heroicons_outline:logout'"></mat-icon>
+        <span>Cerrar sesión</span>
+    </button>
+</mat-menu>

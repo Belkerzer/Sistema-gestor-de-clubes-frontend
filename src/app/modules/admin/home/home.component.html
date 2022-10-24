@@ -1,0 +1,162 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Header -->
+    <div class="bg-card">
+        <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
+            <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-12">
+                <!-- Avatar and name -->
+                <div class="flex flex-auto items-center min-w-0">
+                    <div class="flex-0 w-16 h-16 rounded-full overflow-hidden">
+                        <img
+                        class="w-full h-full object-cover"
+                        *ngIf="user.avatar"
+                        [src]="user.avatar">
+                    <mat-icon  
+                        [inline]="true"                      
+                        *ngIf="!user.avatar"
+                        [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
+                    </div>
+                    <div class="flex flex-col min-w-0 ml-4">
+                        <ng-container *transloco="let t">
+                            <div class="text-2xl md:text-5xl font-semibold tracking-tight leading-7 md:leading-snug truncate">{{user.name}}</div>
+                        </ng-container>
+                        <div class="flex items-center">
+                            <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:briefcase'"></mat-icon>
+                            <div class="ml-1.5 leading-6 truncate text-secondary">{{user.title}}</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Actions -->
+                <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
+                    <button
+                        (click)="account()"
+                        class="fuse-mat-button-rounded"
+                        mat-flat-button
+                        [color]="'primary'">
+                        <mat-icon
+                            class="icon-size-5"
+                            [svgIcon]="'heroicons_solid:cog'"
+                            ></mat-icon>
+                        <span class="ml-2">Ajustes</span>
+                    </button>
+                    <button   
+                    class="ml-3"                         
+                    mat-flat-button
+                    [color]="'primary'"                            
+                    >
+                    <mat-icon [svgIcon]="'heroicons_solid:save'"></mat-icon>
+                    <span class="ml-2 mr-1">Exportar</span>
+                </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex-auto border-t -mt-px pb-7 sm:pb-7 px-6 sm:px-6">
+        <div class="w-full max-w-screen-xl mx-auto">
+
+                <!-- Home -->                    
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full mt-8">
+                    <!-- Conversions -->
+                    <div class="sm:col-span-2 lg:col-span-1 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                        <div class="flex items-start justify-between m-6 mb-0">
+                            <div class="text-lg font-medium tracking-tight leading-6 truncate">Hombres</div>
+                        </div>
+                        <div class="flex flex-col lg:flex-row lg:items-center mx-6 mt-3">
+                            <div class="text-7xl font-bold tracking-tighter leading-tight">{{data.conversions.amount | number:'1.0-0'}}</div>
+                        </div>
+                        <div class="flex flex-col flex-auto h-20">
+                            <apx-chart
+                                class="flex-auto w-full h-full"
+                                [chart]="chartConversions.chart"
+                                [colors]="chartConversions.colors"
+                                [series]="chartConversions.series"
+                                [stroke]="chartConversions.stroke"
+                                [tooltip]="chartConversions.tooltip"
+                                [xaxis]="chartConversions.xaxis"
+                                [yaxis]="chartConversions.yaxis"></apx-chart>
+                        </div>
+                    </div>
+                    <!-- Impressions -->
+                    <div class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                        <div class="flex items-start justify-between m-6 mb-0">
+                            <div class="text-lg font-medium tracking-tight leading-6 truncate">Mujeres</div>
+                        </div>
+                        <div class="flex flex-col lg:flex-row lg:items-center mx-6 mt-3">
+                            <div class="text-7xl font-bold tracking-tighter leading-tight">{{data.impressions.amount | number:'1.0-0'}}</div>
+                        </div>
+                        <div class="flex flex-col flex-auto h-20">
+                            <apx-chart
+                                class="flex-auto w-full h-full"
+                                [chart]="chartImpressions.chart"
+                                [colors]="chartImpressions.colors"
+                                [series]="chartImpressions.series"
+                                [stroke]="chartImpressions.stroke"
+                                [tooltip]="chartImpressions.tooltip"
+                                [xaxis]="chartImpressions.xaxis"
+                                [yaxis]="chartImpressions.yaxis"></apx-chart>
+                        </div>
+                    </div>
+                    <!-- Visits -->
+                    <div class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                        <div class="flex items-start justify-between m-6 mb-0">
+                            <div class="text-lg font-medium tracking-tight leading-6 truncate">Participantes</div>
+                        </div>
+                        <div class="flex flex-col lg:flex-row lg:items-center mx-6 mt-3">
+                            <div class="text-7xl font-bold tracking-tighter leading-tight">{{data.visits.amount | number:'1.0-0'}}</div>
+                        </div>
+                        <div class="flex flex-col flex-auto h-20">
+                            <apx-chart
+                                class="flex-auto w-full h-full"
+                                [chart]="chartVisits.chart"
+                                [colors]="chartVisits.colors"
+                                [series]="chartVisits.series"
+                                [stroke]="chartVisits.stroke"
+                                [tooltip]="chartVisits.tooltip"
+                                [xaxis]="chartVisits.xaxis"
+                                [yaxis]="chartVisits.yaxis"></apx-chart>
+                        </div>
+                    </div>
+                    <!-- Visitors overview -->
+                    <div class="sm:col-span-2 lg:col-span-3 dark flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                        <div class="flex items-center justify-between mt-10 ml-10 mr-6 sm:mr-10">
+                            <div class="flex flex-col">
+                                <div class="mr-4 text-2xl md:text-3xl font-semibold tracking-tight leading-7">Resumen de participantes</div>                                
+                            </div>
+                            <div class="ml-2">
+                                <mat-button-toggle-group
+                                    class="hidden border-none space-x-1"
+                                    value="this-year"
+                                    #visitorsYearSelector="matButtonToggleGroup">
+                                    <mat-button-toggle
+                                        class="px-1.5 rounded-full overflow-hidden border-none font-medium"
+                                        value="this-year">Este año
+                                    </mat-button-toggle>
+                                </mat-button-toggle-group>
+                            </div>
+                        </div>
+                        <div class="flex flex-col flex-auto h-80">
+                            <apx-chart
+                                class="flex-auto w-full h-full"
+                                [chart]="chartVisitors.chart"
+                                [colors]="chartVisitors.colors"
+                                [dataLabels]="chartVisitors.dataLabels"
+                                [fill]="chartVisitors.fill"
+                                [grid]="chartVisitors.grid"
+                                [series]="chartVisitors.series[visitorsYearSelector.value]"
+                                [stroke]="chartVisitors.stroke"
+                                [tooltip]="chartVisitors.tooltip"
+                                [xaxis]="chartVisitors.xaxis"
+                                [yaxis]="chartVisitors.yaxis"></apx-chart>
+                        </div>
+                    </div>
+
+                </div>
+                    
+        </div>
+    </div>
+
+</div>
