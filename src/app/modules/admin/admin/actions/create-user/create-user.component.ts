@@ -81,7 +81,7 @@ export class AdminActionsCreateUserComponent implements OnInit {
             {
                 label: 'Líder Estudiantil',
                 value: 'lider estudiantil',
-                description: 'Visualiza a los participantes y actividades del club.'
+                description: 'Visualiza a los participantes y actividades del club, así como también la exportación de dichos datos.'
             },
             {
                 label: 'Docente-Tutor',

@@ -64,7 +64,7 @@ export const appRoutes: Route[] = [
             { path: 'participantes', loadChildren: () => import('app/modules/admin/members/members.module').then(m => m.MembersModule) },
             { path: 'clubes', loadChildren: () => import('app/modules/admin/clubs/clubs.module').then(m => m.ClubsModule) },
             { path: 'actividades', loadChildren: () => import('app/modules/admin/activities/activities.module').then(m => m.ActivitiesModule) },            
-            { path: 'reportes', loadChildren: () => import('app/modules/admin/reports/reports.module').then(m => m.ReportsModule) },
+            /* { path: 'reportes', loadChildren: () => import('app/modules/admin/reports/reports.module').then(m => m.ReportsModule) }, */
             { path: 'administracion', loadChildren: () => import('app/modules/admin/admin/admin.module').then(m => m.AdminModule) },
         ]
     },
