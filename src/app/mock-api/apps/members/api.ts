@@ -164,7 +164,7 @@ export class MembersInventoryMockApi {
                 const newProduct = {
                     id: FuseMockApiUtils.guid(),
                     category: '',
-                    name: 'Un nuevo integrante',
+                    name: 'Un nuevo participante',
                     description: '',
                     tags: [],
                     sku: '',

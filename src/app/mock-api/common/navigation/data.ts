@@ -39,13 +39,13 @@ export const compactNavigation: FuseNavigationItem[] = [
         icon: 'heroicons_outline:view-boards',
         link: '/actividades'
     },
-    {
+/*     {
         id: 'reportes',
         title: 'Reportes',
         type: 'basic',
         icon: 'heroicons_outline:document-report',
         link: '/reportes'    
-    },
+    }, */
     /*     {
             id: 'administracion',
             title: 'Administración',
