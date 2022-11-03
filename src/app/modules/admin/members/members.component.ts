@@ -7,7 +7,7 @@ import { merge, Observable, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryMember, InventoryTag, InventoryVendor, InventoryFaculty } from 'app/modules/admin/members/members.types';
+import { InventoryCarrera, InventoryPeriodo, InventoryPagination, InventoryMember, InventoryClub, InventorySexo, InventoryFacultad } from 'app/modules/admin/members/members.types';
 import { MembersService } from './members.service';
 
 @Component({
@@ -22,22 +22,22 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
 
-    products$: Observable<InventoryMember[]>;
+    participantes$: Observable<InventoryMember[]>;
 
     formFieldHelpers: string[] = [''];
-    brands: InventoryBrand[];
-    categories: InventoryCategory[];
-    faculties: InventoryFaculty[];
-    filteredTags: InventoryTag[];
+    carreras: InventoryCarrera[];
+    periodos: InventoryPeriodo[];
+    facultades: InventoryFacultad[];
+    filteredClubes: InventoryClub[];
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     pagination: InventoryPagination;
     searchInputControl: FormControl = new FormControl();
-    selectedProduct: InventoryMember | null = null;
-    selectedProductForm: FormGroup;
-    tags: InventoryTag[];
-    tagsEditMode: boolean = false;
-    vendors: InventoryVendor[];
+    selectedParticipante: InventoryMember | null = null;
+    selectedParticipanteForm: FormGroup;
+    clubes: InventoryClub[];
+    /* clubesEditMode: boolean = false; */
+    sexos: InventorySexo[];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -62,18 +62,18 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
      * On init
      */
     ngOnInit(): void {
-        // Create the selected product form
-        this.selectedProductForm = this._formBuilder.group({
+        // Create the selected participante form
+        this.selectedParticipanteForm = this._formBuilder.group({
             id: [''],
-            category: [''],
+            periodo: [''],
             name: ['', [Validators.required]],
             description: [''],
-            tags: [[]],
+            clubes: [[]],
             sku: [''],
             barcode: [''],
-            brand: [''],
-            vendor: [''],
-            faculty: [''],
+            carrera: [''],
+            sexo: [''],
+            facultad: [''],
             stock: [''],
             reserved: [''],
             cost: [''],
@@ -87,25 +87,25 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
             active: [false]
         });
 
-        // Get the brands
-        this._membersService.brands$
+        // Get the carreras
+        this._membersService.carreras$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((brands: InventoryBrand[]) => {
+            .subscribe((carreras: InventoryCarrera[]) => {
 
-                // Update the brands
-                this.brands = brands;
+                // Update the carreras
+                this.carreras = carreras;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
 
-        // Get the categories
-        this._membersService.categories$
+        // Get the periodos
+        this._membersService.periodos$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((categories: InventoryCategory[]) => {
+            .subscribe((periodos: InventoryPeriodo[]) => {
 
-                // Update the categories
-                this.categories = categories;
+                // Update the periodos
+                this.periodos = periodos;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -123,41 +123,41 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
                 this._changeDetectorRef.markForCheck();
             });
 
-        // Get the products
-        this.products$ = this._membersService.products$;
+        // Get the participantes
+        this.participantes$ = this._membersService.participantes$;
 
-        // Get the tags
-        this._membersService.tags$
+        // Get the clubes
+        this._membersService.clubes$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((tags: InventoryTag[]) => {
+            .subscribe((clubes: InventoryClub[]) => {
 
-                // Update the tags
-                this.tags = tags;
-                this.filteredTags = tags;
+                // Update the clubes
+                this.clubes = clubes;
+                this.filteredClubes = clubes;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
 
-        // Get the vendors
-        this._membersService.vendors$
+        // Get the sexos
+        this._membersService.sexos$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((vendors: InventoryVendor[]) => {
+            .subscribe((sexos: InventorySexo[]) => {
 
                 // Update the vendors
-                this.vendors = vendors;
+                this.sexos = sexos;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
 
-        // Get the brands
-        this._membersService.faculties$
+        // Get the facultades
+        this._membersService.facultades$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((faculties: InventoryFaculty[]) => {
+            .subscribe((facultades: InventoryFacultad[]) => {
 
-                // Update the brands
-                this.faculties = faculties;
+                // Update the facultades
+                this.facultades = facultades;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -171,7 +171,7 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
                 switchMap((query) => {
                     this.closeDetails();
                     this.isLoading = true;
-                    return this._membersService.getProducts(0, 10, 'name', 'asc', query);
+                    return this._membersService.getParticipantes(0, 10, 'name', 'asc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -206,12 +206,12 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
                     this.closeDetails();
                 });
 
-            // Get products if sort or page changes
+            // Get participantes if sort or page changes
             merge(this._sort.sortChange, this._paginator.page).pipe(
                 switchMap(() => {
                     this.closeDetails();
                     this.isLoading = true;
-                    return this._membersService.getProducts(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    return this._membersService.getParticipantes(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -241,27 +241,27 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
     }
 
     /**
-     * Toggle product details
+     * Toggle participante details
      *
-     * @param productId
+     * @param participanteId
      */
-    toggleDetails(productId: string): void {
-        // If the product is already selected...
-        if (this.selectedProduct && this.selectedProduct.id === productId) {
+    toggleDetails(participanteId: string): void {
+        // If the participante is already selected...
+        if (this.selectedParticipante && this.selectedParticipante.id === participanteId) {
             // Close the details
             this.closeDetails();
             return;
         }
 
-        // Get the product by id
-        this._membersService.getProductById(productId)
-            .subscribe((product) => {
+        // Get the participante by id
+        this._membersService.getParticipanteById(participanteId)
+            .subscribe((participante) => {
 
-                // Set the selected product
-                this.selectedProduct = product;
+                // Set the selected participante
+                this.selectedParticipante = participante;
 
                 // Fill the form
-                this.selectedProductForm.patchValue(product);
+                this.selectedParticipanteForm.patchValue(participante);
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -272,16 +272,16 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
      * Close the details
      */
     closeDetails(): void {
-        this.selectedProduct = null;
+        this.selectedParticipante = null;
     }
 
     /**
-     * Cycle through images of selected product
+     * Cycle through images of selected participante
      */
     cycleImages(forward: boolean = true): void {
         // Get the image count and current image index
-        const count = this.selectedProductForm.get('images').value.length;
-        const currentIndex = this.selectedProductForm.get('currentImageIndex').value;
+        const count = this.selectedParticipanteForm.get('images').value.length;
+        const currentIndex = this.selectedParticipanteForm.get('currentImageIndex').value;
 
         // Calculate the next and previous index
         const nextIndex = currentIndex + 1 === count ? 0 : currentIndex + 1;
@@ -289,191 +289,191 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
 
         // If cycling forward...
         if (forward) {
-            this.selectedProductForm.get('currentImageIndex').setValue(nextIndex);
+            this.selectedParticipanteForm.get('currentImageIndex').setValue(nextIndex);
         }
         // If cycling backwards...
         else {
-            this.selectedProductForm.get('currentImageIndex').setValue(prevIndex);
+            this.selectedParticipanteForm.get('currentImageIndex').setValue(prevIndex);
         }
     }
 
     /**
-     * Toggle the tags edit mode
+     * Toggle the clubes edit mode
      */
-    toggleTagsEditMode(): void {
-        this.tagsEditMode = !this.tagsEditMode;
-    }
+    /* toggleClubesEditMode(): void {
+        this.clubesEditMode = !this.clubesEditMode;
+    } */
 
     /**
-     * Filter tags
+     * Filter clubes
      *
      * @param event
      */
-    filterTags(event): void {
+    filterClubes(event): void {
         // Get the value
         const value = event.target.value.toLowerCase();
 
-        // Filter the tags
-        this.filteredTags = this.tags.filter(tag => tag.title.toLowerCase().includes(value));
+        // Filter the clubes
+        this.filteredClubes = this.clubes.filter(club => club.title.toLowerCase().includes(value));
     }
 
     /**
-     * Filter tags input key down event
+     * Filter clubes input key down event
      *
      * @param event
      */
-    filterTagsInputKeyDown(event): void {
+    filterClubesInputKeyDown(event): void {
         // Return if the pressed key is not 'Enter'
         if (event.key !== 'Enter') {
             return;
         }
 
-        // If there is no tag available...
-        if (this.filteredTags.length === 0) {
-            // Create the tag
-            this.createTag(event.target.value);
+        // If there is no club available...
+        /*  if (this.filteredClubes.length === 0) { */
+            // Create the club
+        /*   this.createClub(event.target.value); */
 
             // Clear the input
-            event.target.value = '';
+        /*    event.target.value = ''; */
 
             // Return
-            return;
-        }
+        /*        return;
+           } */
 
-        // If there is a tag...
-        const tag = this.filteredTags[0];
-        const isTagApplied = this.selectedProduct.tags.find(id => id === tag.id);
+        // If there is a club...
+        const club = this.filteredClubes[0];
+        const isClubApplied = this.selectedParticipante.clubes.find(id => id === club.id);
 
-        // If the found tag is already applied to the product...
-        if (isTagApplied) {
-            // Remove the tag from the product
-            this.removeTagFromProduct(tag);
+        // If the found club is already applied to the participante...
+        if (isClubApplied) {
+            // Remove the club from the participante
+            this.removeClubFromParticipante(club);
         }
         else {
-            // Otherwise add the tag to the product
-            this.addTagToProduct(tag);
+            // Otherwise add the club to the participante
+            this.addClubToParticipante(club);
         }
     }
 
     /**
-     * Create a new tag
+     * Create a new club
      *
      * @param title
      */
-    createTag(title: string): void {
-        const tag = {
+/*     createClub(title: string): void {
+        const club = {
             title
-        };
+        }; */
 
-        // Create tag on the server
-        this._membersService.createTag(tag)
-            .subscribe((response) => {
+        // Create club on the server
+    /*    this._membersService.createClub(club)
+           .subscribe((response) => { */
 
-                // Add the tag to the product
-                this.addTagToProduct(response);
+                // Add the club to the participante
+/*                 this.addClubToParticipante(response);
             });
-    }
+    } */
 
     /**
-     * Update the tag title
+     * Update the club title
      *
-     * @param tag
+     * @param club
      * @param event
      */
-    updateTagTitle(tag: InventoryTag, event): void {
-        // Update the title on the tag
-        tag.title = event.target.value;
+    /*  updateClubTitle(club: InventoryClub, event): void { */
+        // Update the title on the club
+    /*  club.title = event.target.value; */
 
-        // Update the tag on the server
-        this._membersService.updateTag(tag.id, tag)
+        // Update the club on the server
+       /*  this._membersService.updateClub(club.id, club)
             .pipe(debounceTime(300))
             .subscribe();
-
+ */
         // Mark for check
-        this._changeDetectorRef.markForCheck();
-    }
+    /*        this._changeDetectorRef.markForCheck();
+       } */
 
     /**
-     * Delete the tag
+     * Delete the club
      *
-     * @param tag
+     * @param club
      */
-    deleteTag(tag: InventoryTag): void {
-        // Delete the tag from the server
-        this._membersService.deleteTag(tag.id).subscribe();
+    /*  deleteClub(club: InventoryClub): void { */
+        // Delete the club from the server
+    /*     this._membersService.deleteClub(club.id).subscribe(); */
 
         // Mark for check
-        this._changeDetectorRef.markForCheck();
-    }
+    /*      this._changeDetectorRef.markForCheck();
+     } */
 
     /**
-     * Add tag to the product
+     * Add club to the participante
      *
-     * @param tag
+     * @param club
      */
-    addTagToProduct(tag: InventoryTag): void {
-        // Add the tag
-        this.selectedProduct.tags.unshift(tag.id);
+    addClubToParticipante(club: InventoryClub): void {
+        // Add the club
+        this.selectedParticipante.clubes.unshift(club.id);
 
-        // Update the selected product form
-        this.selectedProductForm.get('tags').patchValue(this.selectedProduct.tags);
+        // Update the selected participante form
+        this.selectedParticipanteForm.get('clubes').patchValue(this.selectedParticipante.clubes);
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
     }
 
     /**
-     * Remove tag from the product
+     * Remove club from the participante
      *
-     * @param tag
+     * @param club
      */
-    removeTagFromProduct(tag: InventoryTag): void {
-        // Remove the tag
-        this.selectedProduct.tags.splice(this.selectedProduct.tags.findIndex(item => item === tag.id), 1);
+    removeClubFromParticipante(club: InventoryClub): void {
+        // Remove the club
+        this.selectedParticipante.clubes.splice(this.selectedParticipante.clubes.findIndex(item => item === club.id), 1);
 
-        // Update the selected product form
-        this.selectedProductForm.get('tags').patchValue(this.selectedProduct.tags);
+        // Update the selected participante form
+        this.selectedParticipanteForm.get('clubes').patchValue(this.selectedParticipante.clubes);
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
     }
 
     /**
-     * Toggle product tag
+     * Toggle participante club
      *
-     * @param tag
+     * @param club
      * @param change
      */
-    toggleProductTag(tag: InventoryTag, change: MatCheckboxChange): void {
+    toggleParticipanteClub(club: InventoryClub, change: MatCheckboxChange): void {
         if (change.checked) {
-            this.addTagToProduct(tag);
+            this.addClubToParticipante(club);
         }
         else {
-            this.removeTagFromProduct(tag);
+            this.removeClubFromParticipante(club);
         }
     }
 
     /**
-     * Should the create tag button be visible
+     * Should the create club button be visible
      *
      * @param inputValue
      */
-    shouldShowCreateTagButton(inputValue: string): boolean {
-        return !!!(inputValue === '' || this.tags.findIndex(tag => tag.title.toLowerCase() === inputValue.toLowerCase()) > -1);
-    }
+    /*     shouldShowCreateClubButton(inputValue: string): boolean {
+            return !!!(inputValue === '' || this.clubes.findIndex(club => club.title.toLowerCase() === inputValue.toLowerCase()) > -1);
+        } */
 
     /**
-     * Create product
+     * Create participante
      */
-    createProduct(): void {
-        // Create the product
-        this._membersService.createProduct().subscribe((newProduct) => {
+    createParticipante(): void {
+        // Create the participante
+        this._membersService.createParticipante().subscribe((newParticipante) => {
 
-            // Go to new product
-            this.selectedProduct = newProduct;
+            // Go to new participante
+            this.selectedParticipante = newParticipante;
 
             // Fill the form
-            this.selectedProductForm.patchValue(newProduct);
+            this.selectedParticipanteForm.patchValue(newParticipante);
 
             // Mark for check
             this._changeDetectorRef.markForCheck();
@@ -481,17 +481,17 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
     }
 
     /**
-     * Update the selected product using the form data
+     * Update the selected participante using the form data
      */
-    updateSelectedProduct(): void {
-        // Get the product object
-        const product = this.selectedProductForm.getRawValue();
+    updateSelectedParticipante(): void {
+        // Get the participante object
+        const participante = this.selectedParticipanteForm.getRawValue();
 
         // Remove the currentImageIndex field
-        delete product.currentImageIndex;
+        delete participante.currentImageIndex;
 
-        // Update the product on the server
-        this._membersService.updateProduct(product.id, product).subscribe(() => {
+        // Update the participante on the server
+        this._membersService.updateParticipante(participante.id, participante).subscribe(() => {
 
             // Show a success message
             this.showFlashMessage('success');
@@ -499,9 +499,9 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
     }
 
     /**
-     * Delete the selected product using the form data
+     * Delete the selected participante using the form data
      */
-    deleteSelectedProduct(): void {
+    deleteSelectedParticipante(): void {
         // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
             title: 'Eliminar integrante',
@@ -522,11 +522,11 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
             // If the confirm button pressed...
             if (result === 'confirmed') {
 
-                // Get the product object
-                const product = this.selectedProductForm.getRawValue();
+                // Get the participante object
+                const participante = this.selectedParticipanteForm.getRawValue();
 
-                // Delete the product on the server
-                this._membersService.deleteProduct(product.id).subscribe(() => {
+                // Delete the participante on the server
+                this._membersService.deleteParticipante(participante.id).subscribe(() => {
 
                     // Close the details
                     this.closeDetails();

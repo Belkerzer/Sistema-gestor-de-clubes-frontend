@@ -7,7 +7,7 @@ import { fromEvent, Observable, Subject } from 'rxjs';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { ContactsService } from '../users.service';
-import { Contact, Country } from '../users.types';
+import { Contact } from '../users.types';
 import { BooleanInput } from '@angular/cdk/coercion';
 import { User } from 'app/core/user/user.types';
 import { UserService } from 'app/core/user/user.service';
@@ -33,7 +33,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
     user: User;
     contactsCount: number = 0;
     contactsTableColumns: string[] = ['name', 'email', 'phoneNumber', 'job'];
-    countries: Country[];
+    /* countries: Country[]; */
     drawerMode: 'side' | 'over';
     searchInputControl: FormControl = new FormControl();
     selectedContact: Contact;
@@ -97,16 +97,16 @@ export class UsersListComponent implements OnInit, OnDestroy {
             });
 
         // Get the countries
-        this._contactsService.countries$
+/*         this._contactsService.countries$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((countries: Country[]) => {
+            .subscribe((countries: Country[]) => { */
 
                 // Update the countries
-                this.countries = countries;
+        /*          this.countries = countries; */
 
                 // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
+        /*                 this._changeDetectorRef.markForCheck();
+                    }); */
 
         // Subscribe to search input field value changes
         this.searchInputControl.valueChanges
@@ -149,17 +149,17 @@ export class UsersListComponent implements OnInit, OnDestroy {
             });
 
         // Listen for shortcuts
-        fromEvent(this._document, 'keydown')
+/*         fromEvent(this._document, 'keydown')
             .pipe(
                 takeUntil(this._unsubscribeAll),
-                filter<KeyboardEvent>(event =>
-                    (event.ctrlKey === true || event.metaKey) // Ctrl or Cmd
-                    && (event.key === '/') // '/'
-                )
+                filter<KeyboardEvent>(event => */
+        /*            (event.ctrlKey === true || event.metaKey) // Ctrl or Cmd
+                   && (event.key === '/')  */// '/'
+   /*              )
             )
             .subscribe(() => {
                 this.createContact();
-            });
+            }); */
     }
 
     /**
@@ -189,17 +189,17 @@ export class UsersListComponent implements OnInit, OnDestroy {
     /**
      * Create contact
      */
-    createContact(): void {
+    /* createContact(): void { */
         // Create the contact
-        this._contactsService.createContact().subscribe((newContact) => {
+    /* this._contactsService.createContact().subscribe((newContact) => { */
 
             // Go to the new contact
-            this._router.navigate(['./', newContact.id], { relativeTo: this._activatedRoute });
+    /* this._router.navigate(['./', newContact.id], { relativeTo: this._activatedRoute }); */
 
             // Mark for check
-            this._changeDetectorRef.markForCheck();
+/*             this._changeDetectorRef.markForCheck();
         });
-    }
+    } */
 
     /**
      * Track by function for ngFor loops

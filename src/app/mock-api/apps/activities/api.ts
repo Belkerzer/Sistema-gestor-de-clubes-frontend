@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { assign, cloneDeep } from 'lodash-es';
 import { FuseMockApiService, FuseMockApiUtils } from '@fuse/lib/mock-api';
-import { brands2 as brands2Data, categories2 as categories2Data, activities as activitiesData, tags2 as tags2Data, vendors2 as vendors2Data } from 'app/mock-api/apps/activities/data';
+import { facultadesActividades as facultadesActividadesData, docentesTutoresActividades as docentesTutoresActividadesData, activities as activitiesData, participantesActividades as participantesActividadesData, periodosActividades as periodosActividadesData } from 'app/mock-api/apps/activities/data';
 import moment from 'moment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ActivitiesInventoryMockApi {
-    private _categories2: any[] = categories2Data;
-    private _brands2: any[] = brands2Data;
+    private _docentesTutoresActividades: any[] = docentesTutoresActividadesData;
+    private _facultadesActividades: any[] = facultadesActividadesData;
     private _activities: any[] = activitiesData;
-    private _tags2: any[] = tags2Data;
-    private _vendors2: any[] = vendors2Data;
+    private _participantesActividades: any[] = participantesActividadesData;
+    private _periodosActividades: any[] = periodosActividadesData;
 
     /**
      * Constructor
@@ -31,24 +31,24 @@ export class ActivitiesInventoryMockApi {
      */
     registerHandlers(): void {
         // -----------------------------------------------------------------------------------------------------
-        // @ Categories - GET
+        // @ DocentesTutoresActividades - GET
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
-            .onGet('api/apps/ecommerce/inventory/categories2')
-            .reply(() => [200, cloneDeep(this._categories2)]);
+            .onGet('api/apps/ecommerce/inventory/docentesTutoresActividades')
+            .reply(() => [200, cloneDeep(this._docentesTutoresActividades)]);
 
         // -----------------------------------------------------------------------------------------------------
-        // @ Brands - GET
+        // @ FacultadesActividades - GET
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
-            .onGet('api/apps/ecommerce/inventory/brands2')
-            .reply(() => [200, cloneDeep(this._brands2)]);
+            .onGet('api/apps/ecommerce/inventory/facultadesActividades')
+            .reply(() => [200, cloneDeep(this._facultadesActividades)]);
 
         // -----------------------------------------------------------------------------------------------------
-        // @ Products - GET
+        // @ Activities - GET
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
-            .onGet('api/apps/ecommerce/inventory/activities', 300)
+            .onGet('api/actividades', 300)
             .reply(({ request }) => {
 
                 // Get available queries
@@ -58,55 +58,55 @@ export class ActivitiesInventoryMockApi {
                 const page = parseInt(request.params.get('page') ?? '1', 10);
                 const size = parseInt(request.params.get('size') ?? '10', 10);
 
-                // Clone the products
-                let products: any[] | null = cloneDeep(this._activities);
+                // Clone the activities
+                let activities: any[] | null = cloneDeep(this._activities);
 
-                // Sort the products
-                if (sort === 'sku' || sort === 'name' || sort === 'active') {
-                    products.sort((a, b) => {
+                // Sort the activities
+                if (sort === 'club' || sort === 'name' || sort === 'active') {
+                    activities.sort((a, b) => {
                         const fieldA = a[sort].toString().toUpperCase();
                         const fieldB = b[sort].toString().toUpperCase();
                         return order === 'asc' ? fieldA.localeCompare(fieldB) : fieldB.localeCompare(fieldA);
                     });
                 }
                 else {
-                    products.sort((a, b) => order === 'asc' ? a[sort] - b[sort] : b[sort] - a[sort]);
+                    activities.sort((a, b) => order === 'asc' ? a[sort] - b[sort] : b[sort] - a[sort]);
                 }
 
                 // If search exists...
                 if (search) {
-                    // Filter the products
-                    products = products.filter(contact => contact.name && contact.name.toLowerCase().includes(search.toLowerCase()));
+                    // Filter the activities
+                    activities = activities.filter(contact => contact.name && contact.name.toLowerCase().includes(search.toLowerCase()));
                 }
 
                 // Paginate - Start
-                const productsLength = products.length;
+                const activitiesLength = activities.length;
 
-                // Calculate pagination details
+                // Calculate paginationActividades details
                 const begin = page * size;
-                const end = Math.min((size * (page + 1)), productsLength);
-                const lastPage = Math.max(Math.ceil(productsLength / size), 1);
+                const end = Math.min((size * (page + 1)), activitiesLength);
+                const lastPage = Math.max(Math.ceil(activitiesLength / size), 1);
 
-                // Prepare the pagination object
-                let pagination = {};
+                // Prepare the paginationActividades object
+                let paginationActividades = {};
 
                 // If the requested page number is bigger than
                 // the last possible page number, return null for
-                // products but also send the last possible page so
+                // activities but also send the last possible page so
                 // the app can navigate to there
                 if (page > lastPage) {
-                    products = null;
-                    pagination = {
+                    activities = null;
+                    paginationActividades = {
                         lastPage
                     };
                 }
                 else {
                     // Paginate the results by size
-                    products = products.slice(begin, end);
+                    activities = activities.slice(begin, end);
 
-                    // Prepare the pagination mock-api
-                    pagination = {
-                        length: productsLength,
+                    // Prepare the paginationActividades mock-api
+                    paginationActividades = {
+                        length: activitiesLength,
                         size: size,
                         page: page,
                         lastPage: lastPage,
@@ -119,14 +119,14 @@ export class ActivitiesInventoryMockApi {
                 return [
                     200,
                     {
-                        products,
-                        pagination
+                        activities,
+                        paginationActividades
                     }
                 ];
             });
 
         // -----------------------------------------------------------------------------------------------------
-        // @ Product - GET
+        // @ Activity - GET
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
             .onGet('api/apps/ecommerce/inventory/activity')
@@ -135,34 +135,34 @@ export class ActivitiesInventoryMockApi {
                 // Get the id from the params
                 const id = request.params.get('id');
 
-                // Clone the products
-                const products = cloneDeep(this._activities);
+                // Clone the activities
+                const activities = cloneDeep(this._activities);
 
-                // Find the product
-                const product = products.find(item => item.id === id);
+                // Find the activity
+                const activity = activities.find(item => item.id === id);
 
                 // Return the response
-                return [200, product];
+                return [200, activity];
             });
 
         // -----------------------------------------------------------------------------------------------------
-        // @ Product - POST
+        // @ Activity - POST
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
             .onPost('api/apps/ecommerce/inventory/activity')
             .reply(() => {
 
-                // Generate a new product
-                const newProduct = {
+                // Generate a new activity
+                const newActivity = {
                     id: FuseMockApiUtils.guid(),
-                    category: '',
+                    docenteTutorActividades: '',
                     name: 'Una nueva actividad',
                     description: '',
-                    tags: [],
-                    sku: '',
+                    participantesActividades: [],
+                    club: '',
                     barcode: '',
-                    brand: '',
-                    vendor: '',
+                    factultadActividades: '',
+                    programaActividades: '',
                     stock: moment().startOf('day').subtract('days').format('LL'),
                     reserved: '',
                     cost: '',
@@ -175,45 +175,45 @@ export class ActivitiesInventoryMockApi {
                     active: 0
                 };
 
-                // Unshift the new product
-                this._activities.unshift(newProduct);
+                // Unshift the new activity
+                this._activities.unshift(newActivity);
 
                 // Return the response
-                return [200, newProduct];
+                return [200, newActivity];
             });
 
         // -----------------------------------------------------------------------------------------------------
-        // @ Product - PATCH
+        // @ Activity - PATCH
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
             .onPatch('api/apps/ecommerce/inventory/activity')
             .reply(({ request }) => {
 
-                // Get the id and product
+                // Get the id and activity
                 const id = request.body.id;
-                const product = cloneDeep(request.body.product);
+                const activity = cloneDeep(request.body.activity);
 
-                // Prepare the updated product
-                let updatedProduct = null;
+                // Prepare the updated activity
+                let updatedActivity = null;
 
-                // Find the product and update it
-                this._activities.forEach((item, index, products) => {
+                // Find the activity and update it
+                this._activities.forEach((item, index, activities) => {
 
                     if (item.id === id) {
-                        // Update the product
-                        products[index] = assign({}, products[index], product);
+                        // Update the activity
+                        activities[index] = assign({}, activities[index], activity);
 
-                        // Store the updated product
-                        updatedProduct = products[index];
+                        // Store the updated activity
+                        updatedActivity = activities[index];
                     }
                 });
 
                 // Return the response
-                return [200, updatedProduct];
+                return [200, updatedActivity];
             });
 
         // -----------------------------------------------------------------------------------------------------
-        // @ Product - DELETE
+        // @ Activity - DELETE
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
             .onDelete('api/apps/ecommerce/inventory/activity')
@@ -222,7 +222,7 @@ export class ActivitiesInventoryMockApi {
                 // Get the id
                 const id = request.params.get('id');
 
-                // Find the product and delete it
+                // Find the activity and delete it
                 this._activities.forEach((item, index) => {
 
                     if (item.id === id) {
@@ -235,97 +235,97 @@ export class ActivitiesInventoryMockApi {
             });
 
         // -----------------------------------------------------------------------------------------------------
-        // @ Tags - GET
+        // @ ParticipantesActividades - GET
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
-            .onGet('api/apps/ecommerce/inventory/tags2')
-            .reply(() => [200, cloneDeep(this._tags2)]);
+            .onGet('api/apps/ecommerce/inventory/participantesActividades')
+            .reply(() => [200, cloneDeep(this._participantesActividades)]);
 
         // -----------------------------------------------------------------------------------------------------
-        // @ Tags - POST
+        // @ ParticipantesActividades - POST
         // -----------------------------------------------------------------------------------------------------
-        this._fuseMockApiService
-            .onPost('api/apps/ecommerce/inventory/tag2')
-            .reply(({ request }) => {
+        /*     this._fuseMockApiService
+                .onPost('api/apps/ecommerce/inventory/participanteActividades')
+                .reply(({ request }) => { */
 
-                // Get the tag
-                const newTag = cloneDeep(request.body.tag);
+                // Get the participanteActividades
+        /*   const newParticipanteActividades = cloneDeep(request.body.participanteActividades); */
 
                 // Generate a new GUID
-                newTag.id = FuseMockApiUtils.guid();
+        /*       newParticipanteActividades.id = FuseMockApiUtils.guid(); */
 
-                // Unshift the new tag
-                this._tags2.unshift(newTag);
+                // Unshift the new participanteActividades
+        /*              this._participantesActividades.unshift(newParticipanteActividades); */
 
                 // Return the response
-                return [200, newTag];
-            });
+        /*         return [200, newParticipanteActividades];
+            }); */
 
         // -----------------------------------------------------------------------------------------------------
-        // @ Tags - PATCH
+        // @ ParticipantesActividades - PATCH
         // -----------------------------------------------------------------------------------------------------
-        this._fuseMockApiService
-            .onPatch('api/apps/ecommerce/inventory/tag2')
-            .reply(({ request }) => {
+        /*         this._fuseMockApiService
+                    .onPatch('api/apps/ecommerce/inventory/participanteActividades')
+                    .reply(({ request }) => { */
 
-                // Get the id and tag
-                const id = request.body.id;
-                const tag = cloneDeep(request.body.tag);
+                // Get the id and participanteActividades
+        /*      const id = request.body.id;
+             const participanteActividades = cloneDeep(request.body.participanteActividades); */
 
-                // Prepare the updated tag
-                let updatedTag = null;
+                // Prepare the updated participanteActividades
+        /*            let updatedParticipanteActividades = null; */
 
-                // Find the tag and update it
-                this._tags2.forEach((item, index, tags) => {
+                // Find the participanteActividades and update it
+     /*            this._participantesActividades.forEach((item, index, participanteActividades) => {
 
-                    if (item.id === id) {
-                        // Update the tag
-                        tags[index] = assign({}, tags[index], tag);
+                    if (item.id === id) { */
+                        // Update the participanteActividades
+        /*           participanteActividades[index] = assign({}, participanteActividades[index], participanteActividades); */
 
-                        // Store the updated tag
-                        updatedTag = tags[index];
+                        // Store the updated participanteActividades
+        /*                 updatedParticipanteActividades = participanteActividades[index];
                     }
-                });
+                }); */
 
                 // Return the response
-                return [200, updatedTag];
-            });
+        /*         return [200, updatedParticipanteActividades];
+            }); */
 
         // -----------------------------------------------------------------------------------------------------
-        // @ Tag - DELETE
+        // @ ParticipanteActividades - DELETE
         // -----------------------------------------------------------------------------------------------------
-        this._fuseMockApiService
-            .onDelete('api/apps/ecommerce/inventory/tag2')
+/*         this._fuseMockApiService
+            .onDelete('api/apps/ecommerce/inventory/participanteActividades')
             .reply(({ request }) => {
-
+ */
                 // Get the id
-                const id = request.params.get('id');
+        /*               const id = request.params.get('id'); */
 
-                // Find the tag and delete it
-                this._tags2.forEach((item, index) => {
+                // Find the participanteActividades and delete it
+      /*           this._participantesActividades.forEach((item, index) => {
 
                     if (item.id === id) {
-                        this._tags2.splice(index, 1);
+                        this._participantesActividades.splice(index, 1);
                     }
-                });
+                }); */
 
-                // Get the products that have the tag
-                const productsWithTag = this._activities.filter(product => product.tags.indexOf(id) > -1);
+                // Get the activities that have the participanteActividades
+        /*           const activitiesWithParticipanteActividades = this._activities.filter(activity => activity.participanteActividades.indexOf(id) > -1); */
 
-                // Iterate through them and delete the tag
-                productsWithTag.forEach((product) => {
-                    product.tags.splice(product.tags.indexOf(id), 1);
-                });
+                // Iterate through them and delete the participanteActividades
+        /*          activitiesWithParticipanteActividades.forEach((activity) => {
+                     activity.participanteActividades.splice(activity.participanteActividades.indexOf(id), 1);
+                 }); */
 
                 // Return the response
-                return [200, true];
-            });
+        /*                 return [200, true];
+                    }); */
 
         // -----------------------------------------------------------------------------------------------------
-        // @ Vendors - GET
+        // @ Programas Actividades - GET
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
-            .onGet('api/apps/ecommerce/inventory/vendors2')
-            .reply(() => [200, cloneDeep(this._vendors2)]);
+            .onGet('api/apps/ecommerce/inventory/periodosActividades')
+            .reply(() => [200, cloneDeep(this._periodosActividades)]);
     }
 }

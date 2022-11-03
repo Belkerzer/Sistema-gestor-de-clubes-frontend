@@ -7,7 +7,7 @@ import { AdminActionsCreateUserComponent } from './actions/create-user/create-us
 import { UsersDetailsComponent } from './settings/general/users/details/details.component';
 import { UsersListComponent } from './settings/general/users/list/list.component';
 import { CanDeactivateUsersDetails } from './settings/general/users/users.guards';
-import { ContactsTagsResolver, ContactsResolver, ContactsCountriesResolver, ContactsContactResolver, ContactsRolesResolver } from './settings/general/users/users.resolvers';
+import { ContactsClubesResolver, ContactsResolver, ContactsContactResolver, ContactsRolesResolver } from './settings/general/users/users.resolvers';
 
 
 
@@ -17,7 +17,7 @@ import { ContactsTagsResolver, ContactsResolver, ContactsCountriesResolver, Cont
  *
  * @param url
  */
-export const mailboxRouteMatcher: (url: UrlSegment[]) => UrlMatchResult = (url: UrlSegment[]) => {
+export const adminRouteMatcher: (url: UrlSegment[]) => UrlMatchResult = (url: UrlSegment[]) => {
 
     // Prepare consumed url and positional parameters
     let consumed = url;
@@ -153,7 +153,7 @@ export const adminRoutes: Route[] = [
         path: '',
         component: AdminComponent,
         resolve: {
-            tags: ContactsTagsResolver
+            clubes: ContactsClubesResolver
         },
         children: [
 /*             {
@@ -243,7 +243,7 @@ export const adminRoutes: Route[] = [
                                 component: UsersListComponent,
                                 resolve: {
                                     tasks: ContactsResolver,
-                                    countries: ContactsCountriesResolver,
+                                    /* countries: ContactsCountriesResolver, */
                                     roles: ContactsRolesResolver
                                 },
                                 children: [
@@ -252,7 +252,7 @@ export const adminRoutes: Route[] = [
                                         component: UsersDetailsComponent,
                                         resolve: {
                                             task: ContactsContactResolver,
-                                            countries: ContactsCountriesResolver,
+                                            /* countries: ContactsCountriesResolver, */
                                             roles: ContactsRolesResolver
                                         },
                                         canDeactivate: [CanDeactivateUsersDetails]

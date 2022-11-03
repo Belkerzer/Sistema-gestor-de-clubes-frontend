@@ -1,18 +1,18 @@
 import { Route } from '@angular/router';
 import { MembersComponent } from 'app/modules/admin/members/members.component';
-import { InventoryBrandsResolver, InventoryCategoriesResolver, InventoryFacultiesResolver, InventoryMembersResolver, InventoryTagsResolver, InventoryVendorsResolver } from './members.resolvers';
+import { InventoryCarrerasResolver, InventoryPeriodosResolver, InventoryFacultadesResolver, InventoryMembersResolver, InventoryClubesResolver, InventorySexosResolver } from './members.resolvers';
 
 export const membersRoutes: Route[] = [
     {
         path: '',
         component: MembersComponent,
         resolve: {
-            brands: InventoryBrandsResolver,
-            categories: InventoryCategoriesResolver,
-            products: InventoryMembersResolver,
-            tags: InventoryTagsResolver,
-            vendors: InventoryVendorsResolver,
-            faculties: InventoryFacultiesResolver
+            carreras: InventoryCarrerasResolver,
+            periodos: InventoryPeriodosResolver,
+            facultades: InventoryFacultadesResolver,
+            participantes: InventoryMembersResolver,
+            clubes: InventoryClubesResolver,
+            sexos: InventorySexosResolver
         }
     }
 

@@ -1,13 +1,13 @@
 export interface InventoryMember {
     id: string;
-    category?: string;
+    periodo?: string;
     name: string;
     description?: string;
-    tags?: string[];
+    clubes?: string[];
     sku?: string | null;
     barcode?: string | null;
-    brand?: string | null;
-    vendor: string | null;
+    carrera?: string | null;
+    sexo: string | null;
     stock: Date;
     reserved: string;
     cost: string;
@@ -18,7 +18,7 @@ export interface InventoryMember {
     thumbnail: string;
     images: string[];
     active: boolean;
-    faculty: string;
+    facultad: string;
 }
 
 export interface InventoryPagination {
@@ -30,31 +30,31 @@ export interface InventoryPagination {
     endIndex: number;
 }
 
-export interface InventoryCategory {
+export interface InventoryPeriodo {
     id: string;
     parentId: string;
     name: string;
     slug: string;
 }
 
-export interface InventoryBrand {
+export interface InventoryCarrera {
     id: string;
     name: string;
     slug: string;
 }
 
-export interface InventoryTag {
+export interface InventoryClub {
     id?: string;
     title?: string;
 }
 
-export interface InventoryVendor {
+export interface InventorySexo {
     id: string;
     name: string;
     slug: string;
 }
 
-export interface InventoryFaculty {
+export interface InventoryFacultad {
     id: string;
     name: string;
     slug: string;

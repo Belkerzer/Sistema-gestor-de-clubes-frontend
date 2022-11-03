@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { from, map } from 'rxjs';
 import { assign, cloneDeep } from 'lodash-es';
 import { FuseMockApiService, FuseMockApiUtils } from '@fuse/lib/mock-api';
-import { contacts as contactsData, countries as countriesData, tags as tagsData, roles as rolesData } from 'app/mock-api/apps/contacts/data';
+import { contacts as contactsData, clubes as clubesData, roles as rolesData } from 'app/mock-api/apps/contacts/data';
 
 @Injectable({
     providedIn: 'root'
@@ -10,8 +10,8 @@ import { contacts as contactsData, countries as countriesData, tags as tagsData,
 export class ContactsMockApi
 {
     private _contacts: any[] = contactsData;
-    private _countries: any[] = countriesData;
-    private _tags: any[] = tagsData;
+    /* private _countries: any[] = countriesData; */
+    private _clubes: any[] = clubesData;
     private _roles: any[] = rolesData;
 
     /**
@@ -117,7 +117,7 @@ export class ContactsMockApi
                     birthday    : null,
                     address     : null,
                     notes       : null,
-                    tags: [],
+                    clubes: [],
                     faculty: '',
                 };
 
@@ -193,93 +193,93 @@ export class ContactsMockApi
         // -----------------------------------------------------------------------------------------------------
         // @ Countries - GET
         // -----------------------------------------------------------------------------------------------------
-        this._fuseMockApiService
+/*         this._fuseMockApiService
             .onGet('api/apps/contacts/countries')
-            .reply(() => [200, cloneDeep(this._countries)]);
+            .reply(() => [200, cloneDeep(this._countries)]); */
 
         // -----------------------------------------------------------------------------------------------------
-        // @ Tags - GET
+        // @ Clubes - GET
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
-            .onGet('api/apps/contacts/tags')
-            .reply(() => [200, cloneDeep(this._tags)]);
+            .onGet('api/apps/contacts/clubes')
+            .reply(() => [200, cloneDeep(this._clubes)]);
 
         // -----------------------------------------------------------------------------------------------------
-        // @ Tags - POST
+        // @ Clubes - POST
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
-            .onPost('api/apps/contacts/tag')
+            .onPost('api/apps/contacts/club')
             .reply(({request}) => {
 
-                // Get the tag
-                const newTag = cloneDeep(request.body.tag);
+                // Get the club
+                const newClub = cloneDeep(request.body.club);
 
                 // Generate a new GUID
-                newTag.id = FuseMockApiUtils.guid();
+                newClub.id = FuseMockApiUtils.guid();
 
-                // Unshift the new tag
-                this._tags.unshift(newTag);
+                // Unshift the new club
+                this._clubes.unshift(newClub);
 
                 // Return the response
-                return [200, newTag];
+                return [200, newClub];
             });
 
         // -----------------------------------------------------------------------------------------------------
-        // @ Tags - PATCH
+        // @ Clubes - PATCH
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
-            .onPatch('api/apps/contacts/tag')
+            .onPatch('api/apps/contacts/club')
             .reply(({request}) => {
 
-                // Get the id and tag
+                // Get the id and club
                 const id = request.body.id;
-                const tag = cloneDeep(request.body.tag);
+                const club = cloneDeep(request.body.club);
 
-                // Prepare the updated tag
-                let updatedTag = null;
+                // Prepare the updated club
+                let updatedClub = null;
 
-                // Find the tag and update it
-                this._tags.forEach((item, index, tags) => {
+                // Find the club and update it
+                this._clubes.forEach((item, index, clubes) => {
 
                     if ( item.id === id )
                     {
-                        // Update the tag
-                        tags[index] = assign({}, tags[index], tag);
+                        // Update the club
+                        clubes[index] = assign({}, clubes[index], club);
 
-                        // Store the updated tag
-                        updatedTag = tags[index];
+                        // Store the updated club
+                        updatedClub = clubes[index];
                     }
                 });
 
                 // Return the response
-                return [200, updatedTag];
+                return [200, updatedClub];
             });
 
         // -----------------------------------------------------------------------------------------------------
-        // @ Tag - DELETE
+        // @ Club - DELETE
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
-            .onDelete('api/apps/contacts/tag')
+            .onDelete('api/apps/contacts/club')
             .reply(({request}) => {
 
                 // Get the id
                 const id = request.params.get('id');
 
-                // Find the tag and delete it
-                this._tags.forEach((item, index) => {
+                // Find the club and delete it
+                this._clubes.forEach((item, index) => {
 
                     if ( item.id === id )
                     {
-                        this._tags.splice(index, 1);
+                        this._clubes.splice(index, 1);
                     }
                 });
 
-                // Get the contacts that have the tag
-                const contactsWithTag = this._contacts.filter(contact => contact.tags.indexOf(id) > -1);
+                // Get the contacts that have the club
+                const contactsWithClub = this._contacts.filter(contact => contact.clubes.indexOf(id) > -1);
 
-                // Iterate through them and delete the tag
-                contactsWithTag.forEach((contact) => {
-                    contact.tags.splice(contact.tags.indexOf(id), 1);
+                // Iterate through them and delete the club
+                contactsWithClub.forEach((contact) => {
+                    contact.clubes.splice(contact.clubes.indexOf(id), 1);
                 });
 
                 // Return the response
@@ -333,7 +333,7 @@ export class ContactsMockApi
                 // of the saved image file (from host, S3 bucket, etc.) but,
                 // for the sake of the demo, we encode the image to base64
                 // and return it as the new path of the uploaded image since
-                // the src attribute of the img tag works with both image urls
+                // the src attribute of the img club works with both image urls
                 // and encoded images.
                 return from(readAsDataURL(avatar)).pipe(
                     map((path) => {

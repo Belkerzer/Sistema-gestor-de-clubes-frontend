@@ -1,4 +1,4 @@
-export interface Mail
+/* export interface Mail
 {
     id?: string;
     type?: string;
@@ -58,3 +58,4 @@ export interface MailLabel
     slug: string;
     color: string;
 }
+ */

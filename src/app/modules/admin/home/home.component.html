@@ -60,7 +60,7 @@
 
                 <!-- Home -->                    
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full mt-8">
-                    <!-- Conversions -->
+                    <!-- Hombres -->
                     <div class="sm:col-span-2 lg:col-span-1 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
                         <div class="flex items-start justify-between m-6 mb-0">
                             <div class="text-lg font-medium tracking-tight leading-6 truncate">Hombres</div>
@@ -71,16 +71,16 @@
                         <div class="flex flex-col flex-auto h-20">
                             <apx-chart
                                 class="flex-auto w-full h-full"
-                                [chart]="chartConversions.chart"
-                                [colors]="chartConversions.colors"
-                                [series]="chartConversions.series"
-                                [stroke]="chartConversions.stroke"
-                                [tooltip]="chartConversions.tooltip"
-                                [xaxis]="chartConversions.xaxis"
-                                [yaxis]="chartConversions.yaxis"></apx-chart>
+                                [chart]="chartMen.chart"
+                                [colors]="chartMen.colors"
+                                [series]="chartMen.series"
+                                [stroke]="chartMen.stroke"
+                                [tooltip]="chartMen.tooltip"
+                                [xaxis]="chartMen.xaxis"
+                                [yaxis]="chartMen.yaxis"></apx-chart>
                         </div>
                     </div>
-                    <!-- Impressions -->
+                    <!-- Mujeres -->
                     <div class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
                         <div class="flex items-start justify-between m-6 mb-0">
                             <div class="text-lg font-medium tracking-tight leading-6 truncate">Mujeres</div>
@@ -91,16 +91,16 @@
                         <div class="flex flex-col flex-auto h-20">
                             <apx-chart
                                 class="flex-auto w-full h-full"
-                                [chart]="chartImpressions.chart"
-                                [colors]="chartImpressions.colors"
-                                [series]="chartImpressions.series"
-                                [stroke]="chartImpressions.stroke"
-                                [tooltip]="chartImpressions.tooltip"
-                                [xaxis]="chartImpressions.xaxis"
-                                [yaxis]="chartImpressions.yaxis"></apx-chart>
+                                [chart]="chartWomen.chart"
+                                [colors]="chartWomen.colors"
+                                [series]="chartWomen.series"
+                                [stroke]="chartWomen.stroke"
+                                [tooltip]="chartWomen.tooltip"
+                                [xaxis]="chartWomen.xaxis"
+                                [yaxis]="chartWomen.yaxis"></apx-chart>
                         </div>
                     </div>
-                    <!-- Visits -->
+                    <!-- Participantes -->
                     <div class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
                         <div class="flex items-start justify-between m-6 mb-0">
                             <div class="text-lg font-medium tracking-tight leading-6 truncate">Participantes</div>
@@ -111,16 +111,16 @@
                         <div class="flex flex-col flex-auto h-20">
                             <apx-chart
                                 class="flex-auto w-full h-full"
-                                [chart]="chartVisits.chart"
-                                [colors]="chartVisits.colors"
-                                [series]="chartVisits.series"
-                                [stroke]="chartVisits.stroke"
-                                [tooltip]="chartVisits.tooltip"
-                                [xaxis]="chartVisits.xaxis"
-                                [yaxis]="chartVisits.yaxis"></apx-chart>
+                                [chart]="chartTotalMembers.chart"
+                                [colors]="chartTotalMembers.colors"
+                                [series]="chartTotalMembers.series"
+                                [stroke]="chartTotalMembers.stroke"
+                                [tooltip]="chartTotalMembers.tooltip"
+                                [xaxis]="chartTotalMembers.xaxis"
+                                [yaxis]="chartTotalMembers.yaxis"></apx-chart>
                         </div>
                     </div>
-                    <!-- Visitors overview -->
+                    <!-- Resumen de participantes -->
                     <div class="sm:col-span-2 lg:col-span-3 dark flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
                         <div class="flex items-center justify-between mt-10 ml-10 mr-6 sm:mr-10">
                             <div class="flex flex-col">
@@ -141,16 +141,16 @@
                         <div class="flex flex-col flex-auto h-80">
                             <apx-chart
                                 class="flex-auto w-full h-full"
-                                [chart]="chartVisitors.chart"
-                                [colors]="chartVisitors.colors"
-                                [dataLabels]="chartVisitors.dataLabels"
-                                [fill]="chartVisitors.fill"
-                                [grid]="chartVisitors.grid"
-                                [series]="chartVisitors.series[visitorsYearSelector.value]"
-                                [stroke]="chartVisitors.stroke"
-                                [tooltip]="chartVisitors.tooltip"
-                                [xaxis]="chartVisitors.xaxis"
-                                [yaxis]="chartVisitors.yaxis"></apx-chart>
+                                [chart]="chartMembers.chart"
+                                [colors]="chartMembers.colors"
+                                [dataLabels]="chartMembers.dataLabels"
+                                [fill]="chartMembers.fill"
+                                [grid]="chartMembers.grid"
+                                [series]="chartMembers.series[visitorsYearSelector.value]"
+                                [stroke]="chartMembers.stroke"
+                                [tooltip]="chartMembers.tooltip"
+                                [xaxis]="chartMembers.xaxis"
+                                [yaxis]="chartMembers.yaxis"></apx-chart>
                         </div>
                     </div>
 
