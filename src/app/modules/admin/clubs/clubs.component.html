@@ -60,23 +60,23 @@
                             
                             <div
                                 class="hidden md:block"
-                                [mat-sort-header]="'sku'">
+                                [mat-sort-header]="'tipo'">
                                 Tipo
                             </div>
                             <div [mat-sort-header]="'name'">Club</div>                            
                             <div
                                 class="hidden sm:block"
-                                [mat-sort-header]="'price'">
+                                [mat-sort-header]="'liderEstudiantil'">
                                 Líder estudiantil
                             </div>
                             <div
                                 class="hidden lg:block"
-                                [mat-sort-header]="'stock'">
+                                [mat-sort-header]="'fechaCreacion'">
                                 Creación
                             </div>
                             <div
                                 class="hidden lg:block"
-                                [mat-sort-header]="'active'">
+                                [mat-sort-header]="'participantes'">
                                 Participantes
                             </div>
                             <div class="hidden sm:block">Detalles</div>
@@ -88,7 +88,7 @@
 
                                     <!-- SKU -->
                                     <div class="hidden md:block truncate">
-                                        {{club.sku}}
+                                        {{club.tipo}}
                                     </div>
 
                                     <!-- Name -->
@@ -98,33 +98,33 @@
 
                                     <!-- Price -->
                                     <div class="hidden sm:block">
-                                        {{club.price}}
+                                        {{club.liderEstudiantil}}
                                     </div>
 
                                     <!-- Stock -->
                                     <div class="hidden lg:block">
-                                        <div class="min-w-4">{{club.stock}}</div>
+                                        <div class="min-w-4">{{club.fechaCreacion}}</div>
                                     </div>
 
                                     <!-- Active -->
                                     <div class="hidden lg:flex items-center">
-                                        <div class="min-w-4">{{club.active}}</div>
-                                        <!-- Low stock -->
+                                        <div class="min-w-4">{{club.participantes}}</div>
+                                        <!-- Low fechaCreacion -->
                                         <div
                                             class="flex items-end ml-2 w-1 h-4 bg-red-200 rounded overflow-hidden"
-                                            *ngIf="club.active < 20">
+                                            *ngIf="club.participantes < 20">
                                             <div class="flex w-full h-1/3 bg-red-600"></div>
                                         </div>
-                                        <!-- Medium stock -->
+                                        <!-- Medium fechaCreacion -->
                                         <div
                                             class="flex items-end ml-2 w-1 h-4 bg-orange-200 rounded overflow-hidden"
-                                            *ngIf="club.active >= 20 && club.active < 30">
+                                            *ngIf="club.participantes >= 20 && club.participantes < 30">
                                             <div class="flex w-full h-2/4 bg-orange-400"></div>
                                         </div>
-                                        <!-- High stock -->
+                                        <!-- High fechaCreacion -->
                                         <div
                                             class="flex items-end ml-2 w-1 h-4 bg-green-100 rounded overflow-hidden"
-                                            *ngIf="club.active >= 30">
+                                            *ngIf="club.participantes >= 30">
                                             <div class="flex w-full h-full bg-green-400"></div>
                                         </div>
                                     </div>
@@ -182,18 +182,18 @@
                                         <mat-radio-group
                                             class="flex flex-col"
                                             [color]="'primary'"
-                                            [value]="'just-good'">
+                                            [value]="''">
                                             <mat-radio-button
                                                 class="mb-2"
-                                                [value]="'everything'">
+                                                [value]="'deportivo'">
                                                 Deportivo
                                             </mat-radio-button>
                                             <mat-radio-button
                                                 class="mb-2"
-                                                [value]="'just-good'">
+                                                [value]="'cultural'">
                                                 Cultural
                                             </mat-radio-button>
-                                            <mat-radio-button [value]="'no-push'">
+                                            <mat-radio-button [value]="'social'">
                                                 Social
                                             </mat-radio-button>
                                         </mat-radio-group>
@@ -291,7 +291,7 @@
                                         </div>  
                                         
                                         <!-- Category, Brand & Vendor -->
-                                        <div class="flex">
+      <!--                                   <div class="flex">
                                             <mat-form-field class="w-full">
                                                 <mat-label>Líder estudiantil</mat-label>
                                                 <mat-select [formControlName]="'liderEstudiantil'">
@@ -302,17 +302,36 @@
                                                     </ng-container>
                                                 </mat-select>
                                             </mat-form-field>
-                                        </div>  
+                                        </div>   -->
                                     </div>
 
                                     <!-- Weight & DocentesTutores -->
                                     <div class="flex flex-col w-full lg:w-1/2 sm:pl-8">
-
+                                        <mat-form-field class="w-full">
+                                            <mat-label>Líder estudiantil</mat-label>
+                                            <mat-select [formControlName]="'liderEstudiantil'">
+                                                <ng-container *ngFor="let liderEstudiantil of lideresEstudiantiles">
+                                                    <mat-option [value]="liderEstudiantil.id">
+                                                        {{liderEstudiantil.name}}
+                                                    </mat-option>
+                                                </ng-container>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <mat-form-field class="w-full">
+                                            <mat-label>Docente-Tutor</mat-label>
+                                            <mat-select [formControlName]="'docentesTutores'">
+                                                <ng-container *ngFor="let docenteTutor of docentesTutores">
+                                                    <mat-option [value]="docenteTutor.id">
+                                                        {{docenteTutor.title}}
+                                                    </mat-option>
+                                                </ng-container>
+                                            </mat-select>
+                                        </mat-form-field>
                                         <!-- DocentesTutores -->
-                                        <span class="mb-px font-medium leading-tight">Docentes-Tutores</span>
-                                        <div class="mt-1.5 rounded-md border border-gray-300 dark:border-gray-500 shadow-sm overflow-hidden">
+                                        <!-- <span class="mb-px font-medium leading-tight">Docentes-Tutores</span> -->
+                                        <!-- <div class="mt-1.5 rounded-md border border-gray-300 dark:border-gray-500 shadow-sm overflow-hidden"> -->
                                             <!-- Header -->
-                                            <div class="flex items-center -my-px py-2 px-3">
+                                            <!-- <div class="flex items-center -my-px py-2 px-3">
                                                 <div class="flex items-center flex-auto min-w-0">
                                                     <mat-icon
                                                         class="icon-size-5"
@@ -326,12 +345,12 @@
                                                         [maxLength]="50"
                                                         #newDocenteTutorInput>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <!-- Available docentesTutores -->
-                                            <div class="h-44 leading-none overflow-y-auto border-t border-gray-300 dark:border-gray-500">
+                                            <!-- <div class="h-44 leading-none overflow-y-auto border-t border-gray-300 dark:border-gray-500"> -->
                                                 <!-- DocentesTutores -->
                                                 <!-- <ng-container *ngIf="!docentesTutoresEditMode"> -->
-                                                    <ng-container *ngFor="let docenteTutor of filteredDocentesTutores; trackBy: trackByFn">
+                                        <!--             <ng-container *ngFor="let docenteTutor of filteredDocentesTutores; trackBy: trackByFn">
                                                         <mat-checkbox
                                                             class="flex items-center h-10 min-h-10 px-4"
                                                             [color]="'primary'"
@@ -339,10 +358,10 @@
                                                             (change)="toggleClubDocenteTutor(docenteTutor, $event)">
                                                             {{docenteTutor.title}}
                                                         </mat-checkbox>
-                                                    </ng-container>
+                                                    </ng-container> -->
                                                 <!-- </ng-container> -->
-                                            </div>
-                                        </div>
+                                            <!-- </div> -->
+                                        <!-- </div> -->
 
                                     </div>
 

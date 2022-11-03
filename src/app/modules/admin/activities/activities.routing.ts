@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 import { ActivitiesComponent } from './activities.component';
-import { InventoryFacultadesActividadesResolver, InventoryDocentesTutoresActividadesResolver, InventoryActivitiesResolver, InventoryParticipantesActividadesResolver, InventoryProgramaActividadessResolver } from './activities.resolvers';
+import { InventoryFacultadesActividadesResolver, InventoryClubesActividadesResolver, InventoryActivitiesResolver, InventoryParticipantesActividadesResolver, InventoryProgramaActividadessResolver } from './activities.resolvers';
 
 export const activitiesRoutes: Route[] = [
     {
@@ -8,7 +8,7 @@ export const activitiesRoutes: Route[] = [
         component: ActivitiesComponent,
         resolve: {
             facultadesActividades: InventoryFacultadesActividadesResolver,
-            docentesTutoresActividades: InventoryDocentesTutoresActividadesResolver,
+            clubesActividades: InventoryClubesActividadesResolver,
             activities: InventoryActivitiesResolver,
             participantesAcitividades: InventoryParticipantesActividadesResolver,
             periodosActividades: InventoryProgramaActividadessResolver

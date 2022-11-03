@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { InventoryActivities, InventoryFacultadActividades, InventoryDocenteTutorActividades, InventoryPagination, InventoryParticipanteActividades, InventoryProgramaActividades } from './activities.types';
+import { InventoryActivities, InventoryFacultadActividades, InventoryClubActividades, InventoryPagination, InventoryParticipanteActividades, InventoryProgramaActividades } from './activities.types';
 
 
 @Injectable({
@@ -11,7 +11,7 @@ import { InventoryActivities, InventoryFacultadActividades, InventoryDocenteTuto
 export class ActivitiesService {
     // Private
     private _facultadesActividades: BehaviorSubject<InventoryFacultadActividades[] | null> = new BehaviorSubject(null);
-    private docenteTutorActividades: BehaviorSubject<InventoryDocenteTutorActividades[] | null> = new BehaviorSubject(null);
+    private _clubesActividades: BehaviorSubject<InventoryClubActividades[] | null> = new BehaviorSubject(null);
     private _paginationActividades: BehaviorSubject<InventoryPagination | null> = new BehaviorSubject(null);
     private _activity: BehaviorSubject<InventoryActivities | null> = new BehaviorSubject(null);
     private _activities: BehaviorSubject<InventoryActivities[] | null> = new BehaviorSubject(null);
@@ -36,10 +36,10 @@ export class ActivitiesService {
     }
 
     /**
-     * Getter for docentesTutoresActividades
+     * Getter for clubesActividades
      */
-    get docentesTutoresActividades$(): Observable<InventoryDocenteTutorActividades[]> {
-        return this.docenteTutorActividades.asObservable();
+    get clubesActividades$(): Observable<InventoryClubActividades[]> {
+        return this._clubesActividades.asObservable();
     }
 
     /**
@@ -93,12 +93,12 @@ export class ActivitiesService {
     }
 
     /**
-     * Get docentesTutoresActividades
+     * Get clubesActividades
      */
-    getDocentesTutoresActividades(): Observable<InventoryDocenteTutorActividades[]> {
-        return this._httpClient.get<InventoryDocenteTutorActividades[]>('api/apps/ecommerce/inventory/docentesTutoresActividades').pipe(
-            tap((docentesTutoresActividades) => {
-                this.docenteTutorActividades.next(docentesTutoresActividades);
+    getClubesActividades(): Observable<InventoryClubActividades[]> {
+        return this._httpClient.get<InventoryClubActividades[]>('api/apps/ecommerce/inventory/clubesActividades').pipe(
+            tap((clubesActividades) => {
+                this._clubesActividades.next(clubesActividades);
             })
         );
     }

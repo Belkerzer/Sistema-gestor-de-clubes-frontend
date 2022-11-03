@@ -62,7 +62,7 @@ export class ClubsInventoryMockApi {
                 let clubs: any[] | null = cloneDeep(this._clubs);
 
                 // Sort the clubs
-                if (sort === 'sku' || sort === 'name' || sort === 'active') {
+                if (sort === 'tipo' || sort === 'name' || sort === 'participantes') {
                     clubs.sort((a, b) => {
                         const fieldA = a[sort].toString().toUpperCase();
                         const fieldB = b[sort].toString().toUpperCase();
@@ -159,20 +159,20 @@ export class ClubsInventoryMockApi {
                     name: 'Un nuevo club',
                     description: '',
                     docentesTutores: [],
-                    sku: '',
-                    barcode: '',
+                    tipo: '',
+                    /* barcode: '', */
                     facultadClub: '',
-                    programa: '',
-                    stock: moment().startOf('day').subtract('days').format('LL'),
-                    reserved: '',
+                    /* programa: '', */
+                    fechaCreacion: moment().startOf('day').subtract('days').format('LL'),
+/*                     reserved: '',
                     cost: '',
                     basePrice: '',
                     taxPercent: '',
                     price: '',
                     weight: '',
                     thumbnail: '',
-                    images: [],
-                    active: 0
+                    images: [], */
+                    participantes: 0
                 };
 
                 // Unshift the new club

@@ -4,20 +4,20 @@ export interface InventoryClubs {
     name: string;
     description?: string;
     docentesTutores?: string[];
-    sku?: string | null;
-    barcode?: string | null;
+    tipo?: string | null;
+    /* barcode?: string | null; */
     facultadClub?: string | null;
-    programa: string | null;
-    stock: Date;
-    reserved: number;
+    /* programa: string | null; */
+    fechaCreacion: Date;
+/*     reserved: number;
     cost: number;
     basePrice: number;
     taxPercent: number;
     price: string;
     weight: number;
     thumbnail: string;
-    images: string[];
-    active: number;
+    images: string[]; */
+    participantes: number;
 }
 
 export interface InventoryPagination

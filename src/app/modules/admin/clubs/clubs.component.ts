@@ -68,12 +68,12 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
             name: ['', [Validators.required]],
             description: [''],
             docentesTutores: [[]],
-            sku: [''],
-            barcode: [''],
+            tipo: [''],
+/*             barcode: [''], */
             facultadClub: [''],
-            programa: [''],
-            stock: [''],
-            reserved: [''],
+            /* programa: [''], */
+            fechaCreacion: [''],
+/*             reserved: [''],
             cost: [''],
             basePrice: [''],
             taxPercent: [''],
@@ -81,8 +81,8 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
             weight: [''],
             thumbnail: [''],
             images: [[]],
-            currentImageIndex: [0], // Image index that is currently being viewed
-            active: ['']
+            currentImageIndex: [0],  */// Image index that is currently being viewed
+            participantes: ['']
         });
 
         // Get the facultadesClub

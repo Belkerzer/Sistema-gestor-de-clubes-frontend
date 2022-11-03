@@ -1,23 +1,23 @@
 export interface InventoryActivities {
     id: string;
-    docenteTutorActividades?: string;
+    clubActividades?: string;
     name: string;
-    description?: string;
+    observacion?: string;
     participantesActividades?: string[];
-    club?: string | null;
-    barcode?: string | null;
+    /* sku?: string | null;
+    barcode?: string | null; */
     facultadActividades?: string | null;
     programaActividades: string | null;
-    stock: Date;
-    reserved: number;
-    cost: number;
-    basePrice: number;
-    taxPercent: number;
-    price: string;
-    weight: number;
-    thumbnail: string;
-    images: string[];
-    active: number;
+    fechaPlanificacion: Date;
+    horas: number;
+    materiales: string;
+    fechaSeguimiento: string;
+    /* taxPercent: number; */
+    lugar: string;
+    fechaEstimada: string;
+    /*     thumbnail: string;
+        images: string[]; */
+    logro: number;
 }
 
 export interface InventoryPagination
@@ -30,7 +30,7 @@ export interface InventoryPagination
     endIndex: number;
 }
 
-export interface InventoryDocenteTutorActividades {
+export interface InventoryClubActividades {
     id: string;
     parentId: string;
     name: string;
