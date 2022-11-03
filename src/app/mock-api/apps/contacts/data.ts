@@ -18,7 +18,7 @@ export const contacts = [
         birthday    : '1976-09-09T12:00:00.000Z',
         address     : '946 Remsen Street, Caroline, New Mexico, PO3247',
         notes       : '<p>Amet dolore elit irure in commodo in et eu eu nulla labore elit sunt et nisi quis officia nostrud et mollit dolor aute fugiat sunt reprehenderit quis sint minim ipsum.</p><p>Laboris ut sunt nisi aute incididunt reprehenderit mollit culpa velit exercitation reprehenderit irure id sunt officia magna est ea labore consectetur incididunt cillum qui tempor ea ullamco quis pariatur aliquip.</p>',
-        tags        : [
+        clubes: [
             '56ddbd47-4078-4ddd-8448-73c5e88d5f59'
         ],
         rol: 'Docente'
@@ -41,7 +41,7 @@ export const contacts = [
         birthday    : '1996-06-17T12:00:00.000Z',
         address     : '956 Pierrepont Street, Crumpler, Hawaii, PO3299',
         notes       : '<p>Esse excepteur ad aliquip amet elit reprehenderit ut nostrud magna ex esse dolore magna excepteur irure esse incididunt sunt enim laborum ex mollit magna elit quis ullamco aute minim veniam.</p><p>Duis id ullamco laboris elit ea ea dolore tempor est eu esse aliqua quis quis ut laborum mollit cillum proident deserunt fugiat ipsum elit exercitation quis mollit eiusmod officia non.</p>',
-        tags        : [
+        clubes: [
             '56ddbd47-4078-4ddd-8448-73c5e88d5f59'
         ],
         rol: 'Líder Estudiantil'
@@ -64,7 +64,7 @@ export const contacts = [
         birthday    : '1985-09-17T12:00:00.000Z',
         address     : '387 Holt Court, Thomasville, Alaska, PO2867',
         notes       : '<p>Adipisicing exercitation dolor nisi ipsum nostrud anim dolore sint veniam consequat lorem sit ex commodo nostrud occaecat elit magna magna commodo incididunt laborum ad irure pariatur et sit ullamco adipisicing.</p><p>Ullamco in dolore amet est quis consectetur fugiat non nisi incididunt id laborum adipisicing dolor proident velit ut quis aliquip dolore id anim sit adipisicing nisi incididunt enim amet pariatur.</p>',
-        tags        : [
+        clubes: [
             'cbde2486-5033-4e09-838e-e901b108cd41'
         ],
         rol: 'Docente'
@@ -87,13 +87,13 @@ export const contacts = [
         birthday    : '1967-03-02T12:00:00.000Z',
         address     : '386 Vernon Avenue, Dragoon, North Carolina, PO4559',
         notes       : '<p>Esse amet ex duis esse aliqua non tempor ullamco dolore et aliquip nisi pariatur qui laborum id consequat tempor sint eiusmod exercitation velit aliquip occaecat tempor nisi aute magna sint.</p><p>Deserunt veniam voluptate dolore eiusmod eu consequat dolor sit pariatur laboris anim excepteur consequat nulla officia exercitation magna sint ea excepteur qui eu officia pariatur culpa sint elit nulla officia.</p>',
-        tags        : [
+        clubes: [
             '56ddbd47-4078-4ddd-8448-73c5e88d5f59'
         ],
         rol: 'Líder Estudiantil'
     }
 ];
-export const countries = [
+/* export const countries = [
     {
         id          : '19430ee3-b0fe-4987-a7c8-74453ad5504d',
         iso         : 'af',
@@ -122,8 +122,8 @@ export const countries = [
         code        : '+1',
         flagImagePos: '-1px -2058px'
     },
-];
-export const tags = [
+]; */
+export const clubes = [
     {
         id: 'c31e9e5d-e0cb-4574-a13f-8a6ee5ff8309',
         title: 'Ecoart'

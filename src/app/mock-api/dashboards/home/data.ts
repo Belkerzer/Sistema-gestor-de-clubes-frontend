@@ -1,7 +1,7 @@
 /* eslint-disable */
 import * as moment from 'moment';
 
-export const analytics = {
+export const home = {
     visitors           : {
         series: {
             'this-year': [

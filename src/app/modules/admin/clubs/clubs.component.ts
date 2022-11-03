@@ -7,7 +7,7 @@ import { merge, Observable, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryClubs, InventoryTag, InventoryVendor } from 'app/modules/admin/clubs/clubs.types';
+import { InventoryFacultadClub, InventoryLiderEstudiantil, InventoryPagination, InventoryClubs, InventoryDocenteTutor, InventoryPrograma } from 'app/modules/admin/clubs/clubs.types';
 import { ClubsService } from 'app/modules/admin/clubs/clubs.service';
 
 @Component({
@@ -22,21 +22,21 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
 
-    products$: Observable<InventoryClubs[]>;
+    clubs$: Observable<InventoryClubs[]>;
 
     formFieldHelpers: string[] = [''];
-    brands1: InventoryBrand[];
-    categories1: InventoryCategory[];
-    filteredTags: InventoryTag[];
+    facultadesClub: InventoryFacultadClub[];
+    lideresEstudiantiles: InventoryLiderEstudiantil[];
+    filteredDocentesTutores: InventoryDocenteTutor[];
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
-    pagination: InventoryPagination;
+    paginationClubs: InventoryPagination;
     searchInputControl: FormControl = new FormControl();
-    selectedProduct: InventoryClubs | null = null;
-    selectedProductForm: FormGroup;
-    tags: InventoryTag[];
-    tagsEditMode: boolean = false;
-    vendors1: InventoryVendor[];
+    selectedClub: InventoryClubs | null = null;
+    selectedClubForm: FormGroup;
+    docentesTutores: InventoryDocenteTutor[];
+    /* docentesTutoresEditMode: boolean = false; */
+    programas: InventoryPrograma[];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -61,17 +61,17 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
      * On init
      */
     ngOnInit(): void {
-        // Create the selected product form
-        this.selectedProductForm = this._formBuilder.group({
+        // Create the selected club form
+        this.selectedClubForm = this._formBuilder.group({
             id: [''],
-            category1: [''],
+            liderEstudiantil: [''],
             name: ['', [Validators.required]],
             description: [''],
-            tags1: [[]],
+            docentesTutores: [[]],
             sku: [''],
             barcode: [''],
-            brand1: [''],
-            vendor1: [''],
+            facultadClub: [''],
+            programa: [''],
             stock: [''],
             reserved: [''],
             cost: [''],
@@ -85,65 +85,65 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
             active: ['']
         });
 
-        // Get the brands
-        this._clubsService.brands$
+        // Get the facultadesClub
+        this._clubsService.facultadesClub$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((brands1: InventoryBrand[]) => {
+            .subscribe((facultadesClub: InventoryFacultadClub[]) => {
 
-                // Update the brands
-                this.brands1 = brands1;
+                // Update the facultadesClub
+                this.facultadesClub = facultadesClub;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
 
-        // Get the categories
-        this._clubsService.categories$
+        // Get the lideresEstudiantiles
+        this._clubsService.lideresEstudiantiles$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((categories1: InventoryCategory[]) => {
+            .subscribe((lideresEstudiantiles: InventoryLiderEstudiantil[]) => {
 
-                // Update the categories
-                this.categories1 = categories1;
+                // Update the lideresEstudiantiles
+                this.lideresEstudiantiles = lideresEstudiantiles;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
 
-        // Get the pagination
-        this._clubsService.pagination$
+        // Get the paginationClubs
+        this._clubsService.paginationClubs$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((pagination: InventoryPagination) => {
+            .subscribe((paginationClubs: InventoryPagination) => {
 
-                // Update the pagination
-                this.pagination = pagination;
+                // Update the paginationClubs
+                this.paginationClubs = paginationClubs;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
 
-        // Get the products
-        this.products$ = this._clubsService.products$;
+        // Get the clubs
+        this.clubs$ = this._clubsService.clubs$;
 
-        // Get the tags
-        this._clubsService.tags$
+        // Get the docentesTutores
+        this._clubsService.docentesTutores$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((tags: InventoryTag[]) => {
+            .subscribe((docentesTutores: InventoryDocenteTutor[]) => {
 
-                // Update the tags
-                this.tags = tags;
-                this.filteredTags = tags;
+                // Update the docentesTutores
+                this.docentesTutores = docentesTutores;
+                this.filteredDocentesTutores = docentesTutores;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
 
-        // Get the vendors
-        this._clubsService.vendors$
+        // Get the programas
+        this._clubsService.programas$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((vendors1: InventoryVendor[]) => {
+            .subscribe((programas: InventoryPrograma[]) => {
 
-                // Update the vendors
-                this.vendors1 = vendors1;
+                // Update the programas
+                this.programas = programas;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -157,7 +157,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
                 switchMap((query) => {
                     this.closeDetails();
                     this.isLoading = true;
-                    return this._clubsService.getProducts(0, 10, 'name', 'asc', query);
+                    return this._clubsService.getClubs(0, 10, 'name', 'asc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -192,12 +192,12 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
                     this.closeDetails();
                 });
 
-            // Get products if sort or page changes
+            // Get clubs if sort or page changes
             merge(this._sort.sortChange, this._paginator.page).pipe(
                 switchMap(() => {
                     this.closeDetails();
                     this.isLoading = true;
-                    return this._clubsService.getProducts(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    return this._clubsService.getClubs(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -227,27 +227,27 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
     }
 
     /**
-     * Toggle product details
+     * Toggle club details
      *
-     * @param productId
+     * @param clubId
      */
-    toggleDetails(productId: string): void {
-        // If the product is already selected...
-        if (this.selectedProduct && this.selectedProduct.id === productId) {
+    toggleDetails(clubId: string): void {
+        // If the club is already selected...
+        if (this.selectedClub && this.selectedClub.id === clubId) {
             // Close the details
             this.closeDetails();
             return;
         }
 
-        // Get the product by id
-        this._clubsService.getProductById(productId)
-            .subscribe((product) => {
+        // Get the club by id
+        this._clubsService.getClubById(clubId)
+            .subscribe((club) => {
 
-                // Set the selected product
-                this.selectedProduct = product;
+                // Set the selected club
+                this.selectedClub = club;
 
                 // Fill the form
-                this.selectedProductForm.patchValue(product);
+                this.selectedClubForm.patchValue(club);
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -258,16 +258,16 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
      * Close the details
      */
     closeDetails(): void {
-        this.selectedProduct = null;
+        this.selectedClub = null;
     }
 
     /**
-     * Cycle through images of selected product
+     * Cycle through images of selected club
      */
     cycleImages(forward: boolean = true): void {
         // Get the image count and current image index
-        const count = this.selectedProductForm.get('images').value.length;
-        const currentIndex = this.selectedProductForm.get('currentImageIndex').value;
+        const count = this.selectedClubForm.get('images').value.length;
+        const currentIndex = this.selectedClubForm.get('currentImageIndex').value;
 
         // Calculate the next and previous index
         const nextIndex = currentIndex + 1 === count ? 0 : currentIndex + 1;
@@ -275,191 +275,191 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
 
         // If cycling forward...
         if (forward) {
-            this.selectedProductForm.get('currentImageIndex').setValue(nextIndex);
+            this.selectedClubForm.get('currentImageIndex').setValue(nextIndex);
         }
         // If cycling backwards...
         else {
-            this.selectedProductForm.get('currentImageIndex').setValue(prevIndex);
+            this.selectedClubForm.get('currentImageIndex').setValue(prevIndex);
         }
     }
 
     /**
-     * Toggle the tags edit mode
+     * Toggle the docentesTutores edit mode
      */
-    toggleTagsEditMode(): void {
-        this.tagsEditMode = !this.tagsEditMode;
-    }
+    /*   toggleDocentesTutoresEditMode(): void {
+          this.docentesTutoresEditMode = !this.docentesTutoresEditMode;
+      } */
 
     /**
-     * Filter tags
+     * Filter docentesTutores
      *
      * @param event
      */
-    filterTags(event): void {
+    filterDocentesTutores(event): void {
         // Get the value
         const value = event.target.value.toLowerCase();
 
-        // Filter the tags
-        this.filteredTags = this.tags.filter(tag => tag.title.toLowerCase().includes(value));
+        // Filter the docentesTutores
+        this.filteredDocentesTutores = this.docentesTutores.filter(docenteTutor => docenteTutor.title.toLowerCase().includes(value));
     }
 
     /**
-     * Filter tags input key down event
+     * Filter docentesTutores input key down event
      *
      * @param event
      */
-    filterTagsInputKeyDown(event): void {
+    filterDocentesTutoresInputKeyDown(event): void {
         // Return if the pressed key is not 'Enter'
         if (event.key !== 'Enter') {
             return;
         }
 
-        // If there is no tag available...
-        if (this.filteredTags.length === 0) {
-            // Create the tag
-            this.createTag(event.target.value);
+        // If there is no docenteTutor available...
+        /*     if (this.filteredDocentesTutores.length === 0) { */
+            // Create the docenteTutor
+        /*        this.createDocenteTutor(event.target.value);
 
             // Clear the input
-            event.target.value = '';
+        /*        event.target.value = ''; */
 
             // Return
-            return;
-        }
+        /*          return;
+             } */
 
-        // If there is a tag...
-        const tag = this.filteredTags[0];
-        const isTagApplied = this.selectedProduct.tags.find(id => id === tag.id);
+        // If there is a docenteTutor...
+        const docenteTutor = this.filteredDocentesTutores[0];
+        const isDocenteTutorApplied = this.selectedClub.docentesTutores.find(id => id === docenteTutor.id);
 
-        // If the found tag is already applied to the product...
-        if (isTagApplied) {
-            // Remove the tag from the product
-            this.removeTagFromProduct(tag);
+        // If the found docenteTutor is already applied to the club...
+        if (isDocenteTutorApplied) {
+            // Remove the docenteTutor from the club
+            this.removeDocenteTutorFromClub(docenteTutor);
         }
         else {
-            // Otherwise add the tag to the product
-            this.addTagToProduct(tag);
+            // Otherwise add the docenteTutor to the club
+            this.addDocenteTutorToClub(docenteTutor);
         }
     }
 
     /**
-     * Create a new tag
+     * Create a new docenteTutor
      *
      * @param title
      */
-    createTag(title: string): void {
-        const tag = {
+/*     createDocenteTutor(title: string): void {
+        const docenteTutor = {
             title
-        };
+        }; */
 
-        // Create tag on the server
-        this._clubsService.createTag(tag)
-            .subscribe((response) => {
+        // Create docenteTutor on the server
+    /*        this._clubsService.createDocenteTutor(docenteTutor)
+               .subscribe((response) => { */
 
-                // Add the tag to the product
-                this.addTagToProduct(response);
+                // Add the docenteTutor to the club
+/*                 this.addDocenteTutorToClub(response);
             });
-    }
+    } */
 
     /**
-     * Update the tag title
+     * Update the docenteTutor title
      *
-     * @param tag
+     * @param docenteTutor
      * @param event
      */
-    updateTagTitle(tag: InventoryTag, event): void {
-        // Update the title on the tag
-        tag.title = event.target.value;
+    /*     updateDocenteTutorTitle(docenteTutor: InventoryDocenteTutor, event): void { */
+        // Update the title on the docenteTutor
+    /*      docenteTutor.title = event.target.value; */
 
-        // Update the tag on the server
-        this._clubsService.updateTag(tag.id, tag)
+        // Update the docenteTutor on the server
+/*         this._clubsService.updateDocenteTutor(docenteTutor.id, docenteTutor)
             .pipe(debounceTime(300))
-            .subscribe();
+            .subscribe(); */
 
         // Mark for check
-        this._changeDetectorRef.markForCheck();
-    }
+    /*         this._changeDetectorRef.markForCheck();
+        } */
 
     /**
-     * Delete the tag
+     * Delete the docenteTutor
      *
-     * @param tag
+     * @param docenteTutor
      */
-    deleteTag(tag: InventoryTag): void {
-        // Delete the tag from the server
-        this._clubsService.deleteTag(tag.id).subscribe();
+    /*   deleteDocenteTutor(docenteTutor: InventoryDocenteTutor): void { */
+        // Delete the docenteTutor from the server
+    /*   this._clubsService.deleteDocenteTutor(docenteTutor.id).subscribe(); */
 
         // Mark for check
-        this._changeDetectorRef.markForCheck();
-    }
+    /*         this._changeDetectorRef.markForCheck();
+        } */
 
     /**
-     * Add tag to the product
+     * Add docenteTutor to the club
      *
-     * @param tag
+     * @param docenteTutor
      */
-    addTagToProduct(tag: InventoryTag): void {
-        // Add the tag
-        this.selectedProduct.tags.unshift(tag.id);
+    addDocenteTutorToClub(docenteTutor: InventoryDocenteTutor): void {
+        // Add the docenteTutor
+        this.selectedClub.docentesTutores.unshift(docenteTutor.id);
 
-        // Update the selected product form
-        this.selectedProductForm.get('tags').patchValue(this.selectedProduct.tags);
+        // Update the selected club form
+        this.selectedClubForm.get('docentesTutores').patchValue(this.selectedClub.docentesTutores);
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
     }
 
     /**
-     * Remove tag from the product
+     * Remove docenteTutor from the club
      *
-     * @param tag
+     * @param docenteTutor
      */
-    removeTagFromProduct(tag: InventoryTag): void {
-        // Remove the tag
-        this.selectedProduct.tags.splice(this.selectedProduct.tags.findIndex(item => item === tag.id), 1);
+    removeDocenteTutorFromClub(docenteTutor: InventoryDocenteTutor): void {
+        // Remove the docenteTutor
+        this.selectedClub.docentesTutores.splice(this.selectedClub.docentesTutores.findIndex(item => item === docenteTutor.id), 1);
 
-        // Update the selected product form
-        this.selectedProductForm.get('tags').patchValue(this.selectedProduct.tags);
+        // Update the selected club form
+        this.selectedClubForm.get('docentesTutores').patchValue(this.selectedClub.docentesTutores);
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
     }
 
     /**
-     * Toggle product tag
+     * Toggle club docenteTutor
      *
-     * @param tag
+     * @param docenteTutor
      * @param change
      */
-    toggleProductTag(tag: InventoryTag, change: MatCheckboxChange): void {
+    toggleClubDocenteTutor(docenteTutor: InventoryDocenteTutor, change: MatCheckboxChange): void {
         if (change.checked) {
-            this.addTagToProduct(tag);
+            this.addDocenteTutorToClub(docenteTutor);
         }
         else {
-            this.removeTagFromProduct(tag);
+            this.removeDocenteTutorFromClub(docenteTutor);
         }
     }
 
     /**
-     * Should the create tag button be visible
+     * Should the create docenteTutor button be visible
      *
      * @param inputValue
      */
-    shouldShowCreateTagButton(inputValue: string): boolean {
-        return !!!(inputValue === '' || this.tags.findIndex(tag => tag.title.toLowerCase() === inputValue.toLowerCase()) > -1);
-    }
+    /*     shouldShowCreateDocenteTutorButton(inputValue: string): boolean {
+            return !!!(inputValue === '' || this.docentesTutores.findIndex(docenteTutor => docenteTutor.title.toLowerCase() === inputValue.toLowerCase()) > -1);
+        } */
 
     /**
-     * Create product
+     * Create club
      */
-    createProduct(): void {
-        // Create the product
-        this._clubsService.createProduct().subscribe((newProduct) => {
+    createClub(): void {
+        // Create the club
+        this._clubsService.createClub().subscribe((newClub) => {
 
-            // Go to new product
-            this.selectedProduct = newProduct;
+            // Go to new club
+            this.selectedClub = newClub;
 
             // Fill the form
-            this.selectedProductForm.patchValue(newProduct);
+            this.selectedClubForm.patchValue(newClub);
 
             // Mark for check
             this._changeDetectorRef.markForCheck();
@@ -467,17 +467,17 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
     }
 
     /**
-     * Update the selected product using the form data
+     * Update the selected club using the form data
      */
-    updateSelectedProduct(): void {
-        // Get the product object
-        const product = this.selectedProductForm.getRawValue();
+    updateSelectedClub(): void {
+        // Get the club object
+        const club = this.selectedClubForm.getRawValue();
 
         // Remove the currentImageIndex field
-        delete product.currentImageIndex;
+        delete club.currentImageIndex;
 
-        // Update the product on the server
-        this._clubsService.updateProduct(product.id, product).subscribe(() => {
+        // Update the club on the server
+        this._clubsService.updateClub(club.id, club).subscribe(() => {
 
             // Show a success message
             this.showFlashMessage('success');
@@ -485,9 +485,9 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
     }
 
     /**
-     * Delete the selected product using the form data
+     * Delete the selected club using the form data
      */
-    deleteSelectedProduct(): void {
+    deleteSelectedClub(): void {
         // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
             title: 'Eliminar club',
@@ -508,11 +508,11 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
             // If the confirm button pressed...
             if (result === 'confirmed') {
 
-                // Get the product object
-                const product = this.selectedProductForm.getRawValue();
+                // Get the club object
+                const club = this.selectedClubForm.getRawValue();
 
-                // Delete the product on the server
-                this._clubsService.deleteProduct(product.id).subscribe(() => {
+                // Delete the club on the server
+                this._clubsService.deleteClub(club.id).subscribe(() => {
 
                     // Close the details
                     this.closeDetails();

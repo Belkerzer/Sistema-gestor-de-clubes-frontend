@@ -1,17 +1,17 @@
 import { Route } from '@angular/router';
 import { ClubsComponent } from 'app/modules/admin/clubs/clubs.component';
-import { InventoryBrandsResolver, InventoryCategoriesResolver, InventoryClubsResolver, InventoryTagsResolver, InventoryVendorsResolver } from './clubs.resolvers';
+import { InventoryFacultadesClubResolver, InventoryLideresEstudiantilesResolver, InventoryClubsResolver, InventoryDocentesTutoresResolver, InventoryProgramasResolver } from './clubs.resolvers';
 
 export const clubsRoutes: Route[] = [
     {
         path: '',
         component: ClubsComponent,
         resolve: {
-            brands: InventoryBrandsResolver,
-            categories: InventoryCategoriesResolver,
-            products: InventoryClubsResolver,
-            tags: InventoryTagsResolver,
-            vendors: InventoryVendorsResolver
+            facultadesClub: InventoryFacultadesClubResolver,
+            lideresEstudiantiles: InventoryLideresEstudiantilesResolver,
+            clubs: InventoryClubsResolver,
+            docentesTutores: InventoryDocentesTutoresResolver,
+            programas: InventoryProgramasResolver
         }
     }
 

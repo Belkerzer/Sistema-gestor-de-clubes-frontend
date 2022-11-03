@@ -3,12 +3,12 @@ import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@a
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { MembersService } from 'app/modules/admin/members/members.service';
-import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryMember, InventoryTag, InventoryVendor, InventoryFaculty } from 'app/modules/admin/members/members.types';
+import { InventoryCarrera, InventoryPeriodo, InventoryPagination, InventoryMember, InventoryClub, InventorySexo, InventoryFacultad } from 'app/modules/admin/members/members.types';
 
 @Injectable({
     providedIn: 'root'
 })
-export class InventoryBrandsResolver implements Resolve<any>
+export class InventoryCarrerasResolver implements Resolve<any>
 {
     /**
      * Constructor
@@ -26,15 +26,15 @@ export class InventoryBrandsResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryBrand[]> {
-        return this._membersService.getBrands();
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryCarrera[]> {
+        return this._membersService.getCarreras();
     }
 }
 
 @Injectable({
     providedIn: 'root'
 })
-export class InventoryCategoriesResolver implements Resolve<any>
+export class InventoryPeriodosResolver implements Resolve<any>
 {
     /**
      * Constructor
@@ -52,8 +52,8 @@ export class InventoryCategoriesResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryCategory[]> {
-        return this._membersService.getCategories();
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryPeriodo[]> {
+        return this._membersService.getPeriodos();
     }
 }
 
@@ -82,9 +82,9 @@ export class InventoryMemberResolver implements Resolve<any>
      * @param state
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryMember> {
-        return this._membersService.getProductById(route.paramMap.get('id'))
+        return this._membersService.getParticipanteById(route.paramMap.get('id'))
             .pipe(
-                // Error here means the requested product is not available
+                // Error here means the requested member is not available
                 catchError((error) => {
 
                     // Log the error
@@ -124,15 +124,15 @@ export class InventoryMembersResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: InventoryPagination; products: InventoryMember[] }> {
-        return this._membersService.getProducts();
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: InventoryPagination; participantes: InventoryMember[] }> {
+        return this._membersService.getParticipantes();
     }
 }
 
 @Injectable({
     providedIn: 'root'
 })
-export class InventoryTagsResolver implements Resolve<any>
+export class InventoryClubesResolver implements Resolve<any>
 {
     /**
      * Constructor
@@ -150,15 +150,15 @@ export class InventoryTagsResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryTag[]> {
-        return this._membersService.getTags();
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryClub[]> {
+        return this._membersService.getClubes();
     }
 }
 
 @Injectable({
     providedIn: 'root'
 })
-export class InventoryVendorsResolver implements Resolve<any>
+export class InventorySexosResolver implements Resolve<any>
 {
     /**
      * Constructor
@@ -176,15 +176,15 @@ export class InventoryVendorsResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryVendor[]> {
-        return this._membersService.getVendors();
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventorySexo[]> {
+        return this._membersService.getSexos();
     }
 }
 
 @Injectable({
     providedIn: 'root'
 })
-export class InventoryFacultiesResolver implements Resolve<any>
+export class InventoryFacultadesResolver implements Resolve<any>
 {
     /**
      * Constructor
@@ -202,7 +202,7 @@ export class InventoryFacultiesResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryFaculty[]> {
-        return this._membersService.getFaculties();
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryFacultad[]> {
+        return this._membersService.getFacultades();
     }
 }

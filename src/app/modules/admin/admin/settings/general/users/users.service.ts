@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { Contact, Country, Rol, Tag } from './users.types';
+import { Contact, Rol, Club } from './users.types';
 
 
 @Injectable({
@@ -12,8 +12,8 @@ export class ContactsService {
     // Private
     private _contact: BehaviorSubject<Contact | null> = new BehaviorSubject(null);
     private _contacts: BehaviorSubject<Contact[] | null> = new BehaviorSubject(null);
-    private _countries: BehaviorSubject<Country[] | null> = new BehaviorSubject(null);
-    private _tags: BehaviorSubject<Tag[] | null> = new BehaviorSubject(null);
+    /*     private _countries: BehaviorSubject<Country[] | null> = new BehaviorSubject(null);*/
+    private _clubes: BehaviorSubject<Club[] | null> = new BehaviorSubject(null);
     private _roles: BehaviorSubject<Rol[] | null> = new BehaviorSubject(null);
 
     /**
@@ -43,9 +43,9 @@ export class ContactsService {
     /**
      * Getter for countries
      */
-    get countries$(): Observable<Country[]> {
+/*     get countries$(): Observable<Country[]> {
         return this._countries.asObservable();
-    }
+    } */
 
     /**
      * Getter for countries
@@ -55,10 +55,10 @@ export class ContactsService {
     }
 
     /**
-     * Getter for tags
+     * Getter for clubes
      */
-    get tags$(): Observable<Tag[]> {
-        return this._tags.asObservable();
+    get clubes$(): Observable<Club[]> {
+        return this._clubes.asObservable();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -222,96 +222,96 @@ export class ContactsService {
     /**
      * Get countries
      */
-    getCountries(): Observable<Country[]> {
+/*     getCountries(): Observable<Country[]> {
         return this._httpClient.get<Country[]>('api/apps/contacts/countries').pipe(
             tap((countries) => {
                 this._countries.next(countries);
             })
         );
-    }
+    } */
 
     /**
-     * Get tags
+     * Get clubes
      */
-    getTags(): Observable<Tag[]> {
-        return this._httpClient.get<Tag[]>('api/apps/contacts/tags').pipe(
-            tap((tags) => {
-                this._tags.next(tags);
+    getClubes(): Observable<Club[]> {
+        return this._httpClient.get<Club[]>('api/apps/contacts/clubes').pipe(
+            tap((clubes) => {
+                this._clubes.next(clubes);
             })
         );
     }
 
     /**
-     * Create tag
+     * Create club
      *
-     * @param tag
+     * @param club
      */
-    createTag(tag: Tag): Observable<Tag> {
-        return this.tags$.pipe(
+/*     createClub(club: Club): Observable<Club> {
+        return this.clubes$.pipe(
             take(1),
-            switchMap(tags => this._httpClient.post<Tag>('api/apps/contacts/tag', { tag }).pipe(
-                map((newTag) => {
+            switchMap(clubes => this._httpClient.post<Club>('api/apps/contacts/club', { club }).pipe(
+                map((newClub) => {
 
-                    // Update the tags with the new tag
-                    this._tags.next([...tags, newTag]);
+                    // Update the clubes with the new club
+                    this._clubes.next([...clubes, newClub]);
 
-                    // Return new tag from observable
-                    return newTag;
+                    // Return new club from observable
+                    return newClub;
                 })
             ))
         );
-    }
+    } */
 
     /**
-     * Update the tag
+     * Update the club
      *
      * @param id
-     * @param tag
+     * @param club
      */
-    updateTag(id: string, tag: Tag): Observable<Tag> {
-        return this.tags$.pipe(
+/*     updateClub(id: string, club: Club): Observable<Club> {
+        return this.clubes$.pipe(
             take(1),
-            switchMap(tags => this._httpClient.patch<Tag>('api/apps/contacts/tag', {
+            switchMap(clubes => this._httpClient.patch<Club>('api/apps/contacts/club', {
                 id,
-                tag
+                club
             }).pipe(
-                map((updatedTag) => {
+                map((updatedClub) => {
 
-                    // Find the index of the updated tag
-                    const index = tags.findIndex(item => item.id === id);
+                    // Find the index of the updated club
+                    const index = clubes.findIndex(item => item.id === id);
 
-                    // Update the tag
-                    tags[index] = updatedTag;
+                    // Update the club
+                    clubes[index] = updatedClub;
 
-                    // Update the tags
-                    this._tags.next(tags);
+                    // Update the clubes
+                    this._clubes.next(clubes);
 
-                    // Return the updated tag
-                    return updatedTag;
+                    // Return the updated club
+                    return updatedClub;
                 })
             ))
         );
-    }
+    } */
 
     /**
-     * Delete the tag
+     * Delete the club
      *
      * @param id
      */
-    deleteTag(id: string): Observable<boolean> {
-        return this.tags$.pipe(
+/*     deleteClub(id: string): Observable<boolean> {
+        return this.clubes$.pipe(
             take(1),
-            switchMap(tags => this._httpClient.delete('api/apps/contacts/tag', { params: { id } }).pipe(
+            switchMap(clubes => this._httpClient.delete('api/apps/contacts/club', { params: { id } }).pipe(
                 map((isDeleted: boolean) => {
 
-                    // Find the index of the deleted tag
-                    const index = tags.findIndex(item => item.id === id);
+                    // Find the index of the deleted club
+                    const index = clubes.findIndex(item => item.id === id);
 
-                    // Delete the tag
-                    tags.splice(index, 1);
+                    // Delete the club
+                    clubes.splice(index, 1);
 
-                    // Update the tags
-                    this._tags.next(tags);
+                    // Update the clubes
+                    this._clubes.next(clubes);
 
                     // Return the deleted status
                     return isDeleted;
@@ -324,11 +324,11 @@ export class ContactsService {
                         // Iterate through the contacts
                         contacts.forEach((contact) => {
 
-                            const tagIndex = contact.tags.findIndex(tag => tag === id);
+                            const clubIndex = contact.clubes.findIndex(club => club === id);
 
-                            // If the contact has the tag, remove it
-                            if (tagIndex > -1) {
-                                contact.tags.splice(tagIndex, 1);
+                            // If the contact has the club, remove it
+                            if (clubIndex > -1) {
+                                contact.clubes.splice(clubIndex, 1);
                             }
                         });
 
@@ -338,7 +338,7 @@ export class ContactsService {
                 ))
             ))
         );
-    }
+    } */
 
     /**
      * Update the avatar of the given contact

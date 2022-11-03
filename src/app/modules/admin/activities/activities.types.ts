@@ -1,13 +1,13 @@
 export interface InventoryActivities {
     id: string;
-    category2?: string;
+    docenteTutorActividades?: string;
     name: string;
     description?: string;
-    tags?: string[];
-    sku?: string | null;
+    participantesActividades?: string[];
+    club?: string | null;
     barcode?: string | null;
-    brand2?: string | null;
-    vendor2: string | null;
+    facultadActividades?: string | null;
+    programaActividades: string | null;
     stock: Date;
     reserved: number;
     cost: number;
@@ -30,29 +30,25 @@ export interface InventoryPagination
     endIndex: number;
 }
 
-export interface InventoryCategory
-{
+export interface InventoryDocenteTutorActividades {
     id: string;
     parentId: string;
     name: string;
     slug: string;
 }
 
-export interface InventoryBrand
-{
+export interface InventoryFacultadActividades {
     id: string;
     name: string;
     slug: string;
 }
 
-export interface InventoryTag
-{
+export interface InventoryParticipanteActividades {
     id?: string;
     title?: string;
 }
 
-export interface InventoryVendor
-{
+export interface InventoryProgramaActividades {
     id: string;
     name: string;
     slug: string;
