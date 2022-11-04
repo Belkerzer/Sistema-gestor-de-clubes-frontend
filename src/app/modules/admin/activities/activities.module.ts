@@ -45,7 +45,7 @@ import { activitiesRoutes } from './activities.routing';
         MatTooltipModule,
         SharedModule
     ],
-    providers: [
+    providers: [        
         {
             provide: MAT_DATE_FORMATS,
             useValue: {

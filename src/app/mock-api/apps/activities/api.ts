@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { assign, cloneDeep } from 'lodash-es';
 import { FuseMockApiService, FuseMockApiUtils } from '@fuse/lib/mock-api';
-import { facultadesActividades as facultadesActividadesData, docentesTutoresActividades as docentesTutoresActividadesData, activities as activitiesData, participantesActividades as participantesActividadesData, periodosActividades as periodosActividadesData } from 'app/mock-api/apps/activities/data';
+import { facultadesActividades as facultadesActividadesData, clubesActividades as clubesActividadesData, activities as activitiesData, participantesActividades as participantesActividadesData, periodosActividades as periodosActividadesData } from 'app/mock-api/apps/activities/data';
 import moment from 'moment';
+import 'app/moment.es.ts';
+moment.locale('es');
 
 @Injectable({
     providedIn: 'root'
 })
 export class ActivitiesInventoryMockApi {
-    private _docentesTutoresActividades: any[] = docentesTutoresActividadesData;
+    private _clubesActividades: any[] = clubesActividadesData;
     private _facultadesActividades: any[] = facultadesActividadesData;
     private _activities: any[] = activitiesData;
     private _participantesActividades: any[] = participantesActividadesData;
@@ -31,11 +33,11 @@ export class ActivitiesInventoryMockApi {
      */
     registerHandlers(): void {
         // -----------------------------------------------------------------------------------------------------
-        // @ DocentesTutoresActividades - GET
+        // @ ClubesActividades - GET
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
-            .onGet('api/apps/ecommerce/inventory/docentesTutoresActividades')
-            .reply(() => [200, cloneDeep(this._docentesTutoresActividades)]);
+            .onGet('api/apps/ecommerce/inventory/clubesActividades')
+            .reply(() => [200, cloneDeep(this._clubesActividades)]);
 
         // -----------------------------------------------------------------------------------------------------
         // @ FacultadesActividades - GET
@@ -62,7 +64,7 @@ export class ActivitiesInventoryMockApi {
                 let activities: any[] | null = cloneDeep(this._activities);
 
                 // Sort the activities
-                if (sort === 'club' || sort === 'name' || sort === 'active') {
+                if (sort === 'logro' || sort === 'name' || sort === 'horas') {
                     activities.sort((a, b) => {
                         const fieldA = a[sort].toString().toUpperCase();
                         const fieldB = b[sort].toString().toUpperCase();
@@ -155,24 +157,24 @@ export class ActivitiesInventoryMockApi {
                 // Generate a new activity
                 const newActivity = {
                     id: FuseMockApiUtils.guid(),
-                    docenteTutorActividades: '',
+                    clubActividades: '',
                     name: 'Una nueva actividad',
-                    description: '',
+                    observacion: '',
                     participantesActividades: [],
-                    club: '',
-                    barcode: '',
+                    /* sku: '',
+                    barcode: '', */
                     factultadActividades: '',
                     programaActividades: '',
-                    stock: moment().startOf('day').subtract('days').format('LL'),
-                    reserved: '',
-                    cost: '',
-                    basePrice: '',
-                    taxPercent: '',
-                    price: '',
-                    weight: '',
-                    thumbnail: '',
-                    images: [],
-                    active: 0
+                    fechaPlanificacion: moment().startOf('day').subtract('days').format('LL'),
+                    horas: '',
+                    materiales: '',
+                    fechaSeguimiento: '',
+                    /* taxPercent: '', */
+                    lugar: '',
+                    fechaEstimada: '',
+                    /* thumbnail: '',
+                    images: [], */
+                    logro: 0
                 };
 
                 // Unshift the new activity

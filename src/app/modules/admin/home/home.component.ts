@@ -152,6 +152,25 @@ export class HomeComponent implements OnInit, OnDestroy {
         // Members
         this.chartMembers = {
             chart: {
+                defaultLocale: 'es',
+                locales: [{
+                    name: 'es',
+                    options: {
+                        months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                        shortMonths: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                        days: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                        shortDays: ['Dom', 'Lun', 'Mar', 'Mir', 'Jue', 'Vie', 'Sáb'],
+                        toolbar: {
+                            download: 'Descargar SVG',
+                            selection: 'Selección',
+                            selectionZoom: 'Zoom de selección',
+                            zoomIn: 'Acercarse',
+                            zoomOut: 'Alejarse',
+                            pan: 'Panorama',
+                            reset: 'Restablecer el zoom',
+                        }
+                    }
+                }],
                 animations: {
                     speed: 400,
                     animateGradually: {
@@ -193,7 +212,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                     }
                 }
             },
-            series: this.data.visitors.series,
+            series: this.data.members.series,
             stroke: {
                 width: 2
             },
@@ -250,6 +269,25 @@ export class HomeComponent implements OnInit, OnDestroy {
         // Men
         this.chartMen = {
             chart: {
+                defaultLocale: 'es',
+                locales: [{
+                    name: 'es',
+                    options: {
+                        months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                        shortMonths: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                        days: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                        shortDays: ['Dom', 'Lun', 'Mar', 'Mir', 'Jue', 'Vie', 'Sáb'],
+                        toolbar: {
+                            download: 'Descargar SVG',
+                            selection: 'Selección',
+                            selectionZoom: 'Zoom de selección',
+                            zoomIn: 'Acercarse',
+                            zoomOut: 'Alejarse',
+                            pan: 'Panorama',
+                            reset: 'Restablecer el zoom',
+                        }
+                    }
+                }],
                 animations: {
                     enabled: false
                 },
@@ -266,7 +304,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 colors: ['#38BDF8'],
                 opacity: 0.5
             },
-            series: this.data.conversions.series,
+            series: this.data.men.series,
             stroke: {
                 curve: 'smooth'
             },
@@ -276,7 +314,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             },
             xaxis: {
                 type: 'category',
-                categories: this.data.conversions.labels
+                categories: this.data.men.labels
             },
             yaxis: {
                 labels: {
@@ -288,6 +326,25 @@ export class HomeComponent implements OnInit, OnDestroy {
         // Women
         this.chartWomen = {
             chart: {
+                defaultLocale: 'es',
+                locales: [{
+                    name: 'es',
+                    options: {
+                        months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                        shortMonths: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                        days: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                        shortDays: ['Dom', 'Lun', 'Mar', 'Mir', 'Jue', 'Vie', 'Sáb'],
+                        toolbar: {
+                            download: 'Descargar SVG',
+                            selection: 'Selección',
+                            selectionZoom: 'Zoom de selección',
+                            zoomIn: 'Acercarse',
+                            zoomOut: 'Alejarse',
+                            pan: 'Panorama',
+                            reset: 'Restablecer el zoom',
+                        }
+                    }
+                }],
                 animations: {
                     enabled: false
                 },
@@ -304,7 +361,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 colors: ['#34D399'],
                 opacity: 0.5
             },
-            series: this.data.impressions.series,
+            series: this.data.women.series,
             stroke: {
                 curve: 'smooth'
             },
@@ -314,7 +371,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             },
             xaxis: {
                 type: 'category',
-                categories: this.data.impressions.labels
+                categories: this.data.women.labels
             },
             yaxis: {
                 labels: {
@@ -326,6 +383,25 @@ export class HomeComponent implements OnInit, OnDestroy {
         // Total Members
         this.chartTotalMembers = {
             chart: {
+                defaultLocale: 'es',
+                locales: [{
+                    name: 'es',
+                    options: {
+                        months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                        shortMonths: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                        days: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                        shortDays: ['Dom', 'Lun', 'Mar', 'Mir', 'Jue', 'Vie', 'Sáb'],
+                        toolbar: {
+                            download: 'Descargar SVG',
+                            selection: 'Selección',
+                            selectionZoom: 'Zoom de selección',
+                            zoomIn: 'Acercarse',
+                            zoomOut: 'Alejarse',
+                            pan: 'Panorama',
+                            reset: 'Restablecer el zoom',
+                        }
+                    }
+                }],
                 animations: {
                     enabled: false
                 },
@@ -342,7 +418,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 colors: ['#FB7185'],
                 opacity: 0.5
             },
-            series: this.data.visits.series,
+            series: this.data.totalMembers.series,
             stroke: {
                 curve: 'smooth'
             },
@@ -352,7 +428,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             },
             xaxis: {
                 type: 'category',
-                categories: this.data.visits.labels
+                categories: this.data.totalMembers.labels
             },
             yaxis: {
                 labels: {

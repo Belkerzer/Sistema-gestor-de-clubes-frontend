@@ -60,23 +60,23 @@
                             
                             <div
                                 class="hidden md:block"
-                                [mat-sort-header]="'active'">
+                                [mat-sort-header]="'logro'">
                                 Logro (%)
                             </div>
                             <div [mat-sort-header]="'name'">Actividad / Objetivo</div>                            
                             <div
                                 class="hidden sm:block"
-                                [mat-sort-header]="'price'">
+                                [mat-sort-header]="'lugar'">
                                 Lugar
                             </div>
                             <div
                                 class="hidden lg:block"
-                                [mat-sort-header]="'stock'">
+                                [mat-sort-header]="'fechaPlanificacion'">
                                 Fecha
                             </div>
                             <div
                                 class="hidden lg:block"
-                                [mat-sort-header]="'reserved'">
+                                [mat-sort-header]="'horas'">
                                 Horas
                             </div>
                             <div class="hidden sm:block">Detalles</div>
@@ -89,25 +89,25 @@
 
                                     <!-- Active -->
                                     <div class="hidden md:flex lg:flex items-center">
-                                        <!-- Low stock -->
+                                        <!-- Low fechaPlanificacion -->
                                         <div
                                             class="flex items-end mr-2 w-1 h-4 bg-red-200 rounded overflow-hidden"
-                                            *ngIf="activity.active < 25">
+                                            *ngIf="activity.logro < 25">
                                             <div class="flex w-full h-1/3 bg-red-600"></div>
                                         </div>
-                                        <!-- Medium stock -->
+                                        <!-- Medium fechaPlanificacion -->
                                         <div
                                             class="flex items-end mr-2 w-1 h-4 bg-orange-200 rounded overflow-hidden"
-                                            *ngIf="activity.active >= 25 && activity.active < 75">
+                                            *ngIf="activity.logro >= 25 && activity.logro < 75">
                                             <div class="flex w-full h-2/4 bg-orange-400"></div>
                                         </div>
-                                        <!-- High stock -->
+                                        <!-- High fechaPlanificacion -->
                                         <div
                                             class="flex items-end mr-2 w-1 h-4 bg-green-100 rounded overflow-hidden"
-                                            *ngIf="activity.active >= 75">
+                                            *ngIf="activity.logro >= 75">
                                             <div class="flex w-full h-full bg-green-400"></div>
                                         </div>
-                                        <div class="min-w-4">{{activity.active}}</div>
+                                        <div class="min-w-4">{{activity.logro}}</div>
 
                                     </div>
 
@@ -118,17 +118,17 @@
 
                                     <!-- Price -->
                                     <div class="hidden sm:block">
-                                        {{activity.price}}
+                                        {{activity.lugar}}
                                     </div>
 
                                     <!-- Stock -->
                                     <div class="hidden lg:block">
-                                        <div class="min-w-4">{{activity.stock}}</div>
+                                        <div class="min-w-4">{{activity.fechaPlanificacion}}</div>
                                     </div>
 
                                     <!-- Active -->
                                     <div class="hidden lg:flex items-center">
-                                        <div class="min-w-4">{{activity.reserved}}</div>
+                                        <div class="min-w-4">{{activity.horas}}</div>
                                     </div>
 
                                     <!-- Details button -->
@@ -182,9 +182,9 @@
 <!--                                     <div class="flex flex-col mb-9">
                                         <span class="font-semibold mb-2">Estado del estudiante</span>
                                         <mat-slide-toggle
-                                            [formControlName]="'active'"
+                                            [formControlName]="'logro'"
                                             [color]="'primary'">
-                                            {{selectedActivityForm.get('active').value === true ? 'Activo' : 'No activo'}}
+                                            {{selectedActivityForm.get('logro').value === true ? 'Activo' : 'No activo'}}
                                         </mat-slide-toggle>
                                     </div> -->
 
@@ -192,16 +192,16 @@
 
                                 <div class="flex flex-auto flex-wrap">
 
-                                    <!-- Cost, Base price, Tax & Price -->
+                                    <!-- Cost, Base lugar, Tax & Price -->
                                     <div class="flex flex-col w-full lg:w-1/4 sm:pl-0">
                                         <mat-form-field class="w-full">
                                             <mat-label>Club</mat-label>
-                                            <mat-select [formControlName]="'club'">
-                                                <!-- <ng-container *ngFor="let brand2 of brands2">
-                                                    <mat-option [value]="brand2.id">
-                                                        {{brand2.name}}
+                                            <mat-select [formControlName]="'clubActividades'">
+                                                <ng-container *ngFor="let clubActividades of clubesActividades">
+                                                    <mat-option [value]="clubActividades.id">
+                                                        {{clubActividades.name}}
                                                     </mat-option>
-                                                </ng-container> -->
+                                                </ng-container>
                                             </mat-select>
                                         </mat-form-field>  
 <!--                                         <mat-form-field class="w-full">
@@ -239,7 +239,7 @@
                                         <mat-form-field class="w-full lg:w-1/3 sm:pr-2" [ngClass]="formFieldHelpers">
                                             <mat-label>Fecha</mat-label>
                                             <input
-                                            [formControlName]="'cost'"
+                                            [formControlName]="'fechaPlanificacion'"
                                             matInput
                                             [matDatepicker]="birthdayDatepicker">
                                         <mat-datepicker-toggle
@@ -252,7 +252,7 @@
                                             <input
                                                 type="number"
                                                 matInput
-                                                [formControlName]="'reserved'">
+                                                [formControlName]="'horas'">
                                         </mat-form-field>
                                         <mat-form-field class="w-full lg:w-1/3 sm:pl-2">
                                             <mat-label>Periodo</mat-label>
@@ -272,7 +272,7 @@
                                             <mat-form-field class="w-full lg:w-1/3 sm:pr-2" [ngClass]="formFieldHelpers">
                                                 <mat-label>Fecha de seguimiento</mat-label>
                                                 <input
-                                                [formControlName]="'basePrice'"
+                                                [formControlName]="'fechaSeguimiento'"
                                                 matInput
                                                 [matDatepicker]="birthdayDatepickers">
                                             <mat-datepicker-toggle
@@ -287,13 +287,13 @@
                                                 <input
                                                     type="number"
                                                     matInput
-                                                    [formControlName]="'taxPercent'">
+                                                    [formControlName]="'logro'">
                                             </mat-form-field>
                                             <mat-form-field class="w-full sm:pl-2 lg:w-1/3">
                                                 <mat-label>Lugar</mat-label>                                                                                        
                                                 <input                                                
                                                 matInput
-                                                [formControlName]="'price'">
+                                                [formControlName]="'lugar'">
                                             </mat-form-field>
 
 

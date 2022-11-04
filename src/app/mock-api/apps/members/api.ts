@@ -3,6 +3,8 @@ import { assign, cloneDeep } from 'lodash-es';
 import { FuseMockApiService, FuseMockApiUtils } from '@fuse/lib/mock-api';
 import { carreras as carrerasData, periodos as periodosData, participantes as participantesData, clubes as clubesData, sexos as sexosData, facultades as facultadesData } from 'app/mock-api/apps/members/data';
 import moment from 'moment';
+import 'app/moment.es.ts';
+moment.locale('es');
 
 @Injectable({
     providedIn: 'root'
@@ -63,7 +65,7 @@ export class MembersInventoryMockApi {
                 let participantes: any[] | null = cloneDeep(this._participantes);
 
                 // Sort the participantes
-                if (sort === 'sku' || sort === 'name' || sort === 'active') {
+                if (sort === 'codigo' || sort === 'name' || sort === 'active') {
                     participantes.sort((a, b) => {
                         const fieldA = a[sort].toString().toUpperCase();
                         const fieldB = b[sort].toString().toUpperCase();
@@ -165,22 +167,22 @@ export class MembersInventoryMockApi {
                     id: FuseMockApiUtils.guid(),
                     periodo: '',
                     name: 'Un nuevo participante',
-                    description: '',
+                    observacion: '',
                     clubes: [],
-                    sku: '',
-                    barcode: '',
+                    codigo: '',
+                    cedula: '',
                     carrera: '',
                     sexo: '',
                     facultad: '',
-                    stock: moment().startOf('day').subtract('days').format('LL'),
-                    reserved: '',
-                    cost: '',
-                    basePrice: '',
+                    integracion: moment().startOf('day').subtract('days').format('LL'),
+                    correoElectronico: '',
+                    fechaNacimiento: '',
+                    /* basePrice: '',
                     taxPercent: '',
                     price: '',
                     weight: '',
                     thumbnail: '',
-                    images: [],
+                    images: [], */
                     active: false
                 };
 

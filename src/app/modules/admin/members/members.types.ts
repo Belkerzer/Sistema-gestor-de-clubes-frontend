@@ -2,21 +2,21 @@ export interface InventoryMember {
     id: string;
     periodo?: string;
     name: string;
-    description?: string;
+    observacion?: string;
     clubes?: string[];
-    sku?: string | null;
-    barcode?: string | null;
+    codigo?: string | null;
+    cedula?: string | null;
     carrera?: string | null;
     sexo: string | null;
-    stock: Date;
-    reserved: string;
-    cost: string;
-    basePrice: number;
+    integracion: Date;
+    correoElectronico: string;
+    fechaNacimiento: string;
+    /* basePrice: number;
     taxPercent: number;
     price: string;
     weight: number;
     thumbnail: string;
-    images: string[];
+    images: string[]; */
     active: boolean;
     facultad: string;
 }

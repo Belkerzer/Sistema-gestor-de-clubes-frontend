@@ -3,6 +3,8 @@ import { assign, cloneDeep } from 'lodash-es';
 import { FuseMockApiService, FuseMockApiUtils } from '@fuse/lib/mock-api';
 import { facultadesClub as facultadesClubData, lideresEstudiantiles as lideresEstudiantilesData, clubs as clubsData, docentesTutores as docentesTutoresData, programas as programasData } from 'app/mock-api/apps/clubs/data';
 import moment from 'moment';
+import 'app/moment.es.ts';
+moment.locale('es');
 
 @Injectable({
     providedIn: 'root'
@@ -62,7 +64,7 @@ export class ClubsInventoryMockApi {
                 let clubs: any[] | null = cloneDeep(this._clubs);
 
                 // Sort the clubs
-                if (sort === 'sku' || sort === 'name' || sort === 'active') {
+                if (sort === 'tipo' || sort === 'name' || sort === 'participantes') {
                     clubs.sort((a, b) => {
                         const fieldA = a[sort].toString().toUpperCase();
                         const fieldB = b[sort].toString().toUpperCase();
@@ -159,20 +161,20 @@ export class ClubsInventoryMockApi {
                     name: 'Un nuevo club',
                     description: '',
                     docentesTutores: [],
-                    sku: '',
-                    barcode: '',
+                    tipo: '',
+                    /* barcode: '', */
                     facultadClub: '',
-                    programa: '',
-                    stock: moment().startOf('day').subtract('days').format('LL'),
-                    reserved: '',
+                    /* programa: '', */
+                    fechaCreacion: moment().startOf('day').subtract('days').format('LL'),
+/*                     reserved: '',
                     cost: '',
                     basePrice: '',
                     taxPercent: '',
                     price: '',
                     weight: '',
                     thumbnail: '',
-                    images: [],
-                    active: 0
+                    images: [], */
+                    participantes: 0
                 };
 
                 // Unshift the new club

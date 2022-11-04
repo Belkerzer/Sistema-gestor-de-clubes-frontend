@@ -20,6 +20,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import moment from "moment";
 
+
 @NgModule({
   declarations: [
     MembersComponent
@@ -43,7 +44,7 @@ import moment from "moment";
     MatTooltipModule,
     SharedModule
   ],
-  providers: [
+  providers: [    
     {
       provide: MAT_DATE_FORMATS,
       useValue: {

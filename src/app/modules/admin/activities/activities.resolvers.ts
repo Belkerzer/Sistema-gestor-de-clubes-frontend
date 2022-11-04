@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@a
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ActivitiesService } from './activities.service';
-import { InventoryActivities, InventoryFacultadActividades, InventoryDocenteTutorActividades, InventoryPagination, InventoryParticipanteActividades, InventoryProgramaActividades } from './activities.types';
+import { InventoryActivities, InventoryFacultadActividades, InventoryClubActividades, InventoryPagination, InventoryParticipanteActividades, InventoryProgramaActividades } from './activities.types';
 
 
 @Injectable({
@@ -35,7 +35,7 @@ export class InventoryFacultadesActividadesResolver implements Resolve<any>
 @Injectable({
     providedIn: 'root'
 })
-export class InventoryDocentesTutoresActividadesResolver implements Resolve<any>
+export class InventoryClubesActividadesResolver implements Resolve<any>
 {
     /**
      * Constructor
@@ -53,8 +53,8 @@ export class InventoryDocentesTutoresActividadesResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryDocenteTutorActividades[]> {
-        return this._inventoryService.getDocentesTutoresActividades();
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryClubActividades[]> {
+        return this._inventoryService.getClubesActividades();
     }
 }
 

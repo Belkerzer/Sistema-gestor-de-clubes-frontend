@@ -7,7 +7,7 @@ import { merge, Observable, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { InventoryActivities, InventoryFacultadActividades, InventoryDocenteTutorActividades, InventoryPagination, InventoryParticipanteActividades, InventoryProgramaActividades } from './activities.types';
+import { InventoryActivities, InventoryFacultadActividades, InventoryClubActividades, InventoryPagination, InventoryParticipanteActividades, InventoryProgramaActividades } from './activities.types';
 import { ActivitiesService } from './activities.service';
 
 @Component({
@@ -26,7 +26,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
 
     formFieldHelpers: string[] = [''];
     facultadesActividades: InventoryFacultadActividades[];
-    docentesTutoresActividades: InventoryDocenteTutorActividades[];
+    clubesActividades: InventoryClubActividades[];
     filteredParticipantesActividades: InventoryParticipanteActividades[];
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
@@ -64,25 +64,25 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
         // Create the selected activity form
         this.selectedActivityForm = this._formBuilder.group({
             id: [''],
-            docenteTutorActividades: [''],
+            clubActividades: [''],
             name: ['', [Validators.required]],
-            description: [''],
+            observacion: [''],
             participantesActividades: [[]],
-            club: [''],
-            barcode: [''],
+            /* sku: [''],
+            barcode: [''], */
             factultadActividades: [''],
             programaActividades: [''],
-            stock: [''],
-            reserved: [''],
-            cost: [''],
-            basePrice: [''],
-            taxPercent: [''],
-            price: [''],
-            weight: [''],
-            thumbnail: [''],
+            fechaPlanificacion: [''],
+            horas: [''],
+            materiales: [''],
+            fechaSeguimiento: [''],
+            /* taxPercent: [''], */
+            lugar: [''],
+            fechaEstimada: [''],
+            /* thumbnail: [''],
             images: [[]],
-            currentImageIndex: [0], // Image index that is currently being viewed
-            active: ['']
+            currentImageIndex: [0], */ // Image index that is currently being viewed
+            logro: ['']
         });
 
         // Get the facultadesActividades
@@ -97,13 +97,13 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
                 this._changeDetectorRef.markForCheck();
             });
 
-        // Get the docentesTutoresActividades
-        this._activitiesService.docentesTutoresActividades$
+        // Get the clubesActividades
+        this._activitiesService.clubesActividades$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((docentesTutoresActividades: InventoryDocenteTutorActividades[]) => {
+            .subscribe((clubesActividades: InventoryClubActividades[]) => {
 
-                // Update the docentesTutoresActividades
-                this.docentesTutoresActividades = docentesTutoresActividades;
+                // Update the clubesActividades
+                this.clubesActividades = clubesActividades;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();

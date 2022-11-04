@@ -67,23 +67,23 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
             id: [''],
             periodo: [''],
             name: ['', [Validators.required]],
-            description: [''],
+            observacion: [''],
             clubes: [[]],
-            sku: [''],
-            barcode: [''],
+            codigo: [''],
+            cedula: [''],
             carrera: [''],
             sexo: [''],
             facultad: [''],
-            stock: [''],
-            reserved: [''],
-            cost: [''],
-            basePrice: [''],
+            integracion: [''],
+            correoElectronico: [''],
+            fechaNacimiento: [''],
+            /* basePrice: [''],
             taxPercent: [''],
             price: [''],
             weight: [''],
             thumbnail: [''],
             images: [[]],
-            currentImageIndex: [0], // Image index that is currently being viewed
+            currentImageIndex: [0], */ // Image index that is currently being viewed
             active: [false]
         });
 
