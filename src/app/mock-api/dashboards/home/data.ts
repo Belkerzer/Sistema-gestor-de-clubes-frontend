@@ -1,7 +1,7 @@
 /* eslint-disable */
 import moment from 'moment';
-import 'app/moment.es.ts';
-moment.locale('es');
+import 'app/moment.es.ec.ts';
+moment.locale('es-EC');
 
 export const home = {
     members: {

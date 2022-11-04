@@ -21,7 +21,7 @@ const monthsParse = [
   /^dic/i
 ];
 
-const es = {
+const esEC = {
   months: 'Enero Febrero Marzo Abril Mayo Junio Julio Agosto Septiembre Octubre Noviembre Diciembre'.split(
     ' '
   ),
@@ -100,5 +100,5 @@ const es = {
 };
 
 // ('es') IMPORTANT means spanish
-moment.defineLocale('es', es);
-moment.locale('es');
+moment.defineLocale('es-EC', esEC);
+moment.locale('es-EC');

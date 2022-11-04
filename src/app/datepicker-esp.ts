@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 import { MatDatepickerIntl } from '@angular/material/datepicker';
 
 import * as moment from 'moment';
-import './moment.es';
+import './moment.es.ec';
 
 
 /** Datepicker data that requires internationalization. */
@@ -13,7 +13,7 @@ import './moment.es';
 export class DatepickerEsp extends MatDatepickerIntl {
   constructor() {
     super();
-    moment.locale('es');
+    moment.locale('es-EC');
   }
 
   /** A label for the calendar popup (used by screen readers). */

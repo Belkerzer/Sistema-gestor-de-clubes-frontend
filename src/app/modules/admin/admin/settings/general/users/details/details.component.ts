@@ -134,20 +134,20 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
 
                 // Clear the emails and phoneNumbers form arrays
 
-                (this.contactForm.get('phoneNumbers') as FormArray).clear();
+                /*   (this.contactForm.get('phoneNumbers') as FormArray).clear(); */
 
                 // Patch values to the form
-                this.contactForm.patchValue(contact);
+                /*       this.contactForm.patchValue(contact); */
 
                 // Setup the phone numbers form array
-                const phoneNumbersFormGroups = [];
+      /*           const phoneNumbersFormGroups = [];
 
-                if (contact.phoneNumbers.length > 0) {
+                if (contact.phoneNumbers.length > 0) { */
                     // Iterate through them
-                    contact.phoneNumbers.forEach((phoneNumber) => {
+                /*      contact.phoneNumbers.forEach((phoneNumber) => { */
 
                         // Create an email form group
-                        phoneNumbersFormGroups.push(
+          /*               phoneNumbersFormGroups.push(
                             this._formBuilder.group({
                                 country: [phoneNumber.country],
                                 phoneNumber: [phoneNumber.phoneNumber],
@@ -156,21 +156,21 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
                         );
                     });
                 }
-                else {
+                else { */
                     // Create a phone number form group
-                    phoneNumbersFormGroups.push(
+     /*                phoneNumbersFormGroups.push(
                         this._formBuilder.group({
                             country: ['us'],
                             phoneNumber: [''],
                             label: ['']
                         })
                     );
-                }
+                } */
 
                 // Add the phone numbers form groups to the phone numbers form array
-                phoneNumbersFormGroups.forEach((phoneNumbersFormGroup) => {
+    /*             phoneNumbersFormGroups.forEach((phoneNumbersFormGroup) => {
                     (this.contactForm.get('phoneNumbers') as FormArray).push(phoneNumbersFormGroup);
-                });
+                }); */
 
                 // Toggle the edit mode off
                 this.toggleEditMode(false);
