@@ -16,15 +16,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { TranslocoRootModule } from './transloco-root.module';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { getSpanishPaginatorIntl } from './spanish-paginator-intl';
-import './moment.es.ts';
-moment.locale('es');
+import './moment.es.ec.ts';
+moment.locale('es-EC');
 import moment from 'moment';
 import { MatDatepickerIntl } from '@angular/material/datepicker';
 import { DatepickerEsp } from './datepicker-esp';
 import { registerLocaleData } from '@angular/common';
-import localeEs from '@angular/common/locales/es';
+import localeEsEC from '@angular/common/locales/es-EC';
 
-registerLocaleData(localeEs, 'es');
+registerLocaleData(localeEsEC, 'es-EC');
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
@@ -62,7 +62,7 @@ const routerConfig: ExtraOptions = {
         AppComponent
     ],
     providers: [
-        { provide: LOCALE_ID, useValue: 'es' },
+        { provide: LOCALE_ID, useValue: 'es-EC' },
         { provide: MatDatepickerIntl, useClass: DatepickerEsp },
         { provide: MatPaginatorIntl, useValue: getSpanishPaginatorIntl() }
     ]
