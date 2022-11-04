@@ -3,6 +3,8 @@ import { assign, cloneDeep } from 'lodash-es';
 import { FuseMockApiService, FuseMockApiUtils } from '@fuse/lib/mock-api';
 import { facultadesActividades as facultadesActividadesData, clubesActividades as clubesActividadesData, activities as activitiesData, participantesActividades as participantesActividadesData, periodosActividades as periodosActividadesData } from 'app/mock-api/apps/activities/data';
 import moment from 'moment';
+import 'app/moment.es.ts';
+moment.locale('es');
 
 @Injectable({
     providedIn: 'root'
@@ -62,7 +64,7 @@ export class ActivitiesInventoryMockApi {
                 let activities: any[] | null = cloneDeep(this._activities);
 
                 // Sort the activities
-                if (sort === 'club' || sort === 'name' || sort === 'logro') {
+                if (sort === 'logro' || sort === 'name' || sort === 'horas') {
                     activities.sort((a, b) => {
                         const fieldA = a[sort].toString().toUpperCase();
                         const fieldB = b[sort].toString().toUpperCase();

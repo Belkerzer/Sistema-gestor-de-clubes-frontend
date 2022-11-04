@@ -1,4 +1,6 @@
-import moment from "moment";
+import moment from 'moment';
+import 'app/moment.es.ts';
+moment.locale('es');
 
 /* eslint-disable */
 export const lideresEstudiantiles = [

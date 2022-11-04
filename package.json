@@ -31,6 +31,7 @@
         "highlight.js": "11.6.0",
         "lodash-es": "4.17.21",
         "moment": "2.29.4",
+        "moment-timezone": "^0.5.38",
         "ng-apexcharts": "1.7.1",
         "ngx-markdown": "14.0.1",
         "ngx-quill": "18.0.0",

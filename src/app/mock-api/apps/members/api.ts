@@ -3,6 +3,8 @@ import { assign, cloneDeep } from 'lodash-es';
 import { FuseMockApiService, FuseMockApiUtils } from '@fuse/lib/mock-api';
 import { carreras as carrerasData, periodos as periodosData, participantes as participantesData, clubes as clubesData, sexos as sexosData, facultades as facultadesData } from 'app/mock-api/apps/members/data';
 import moment from 'moment';
+import 'app/moment.es.ts';
+moment.locale('es');
 
 @Injectable({
     providedIn: 'root'
