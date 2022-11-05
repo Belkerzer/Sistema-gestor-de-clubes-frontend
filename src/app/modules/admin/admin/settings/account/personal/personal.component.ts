@@ -5,6 +5,8 @@ import { UserService } from "app/core/user/user.service";
 import { User } from "app/core/user/user.types";
 import { Subject, takeUntil } from "rxjs";
 import { AdminComponent } from "../../../admin.component";
+import { ContactsService } from "../../general/users/users.service";
+import { Contact } from "../../general/users/users.types";
 
 @Component({
     selector: 'settings-account-personal',
@@ -22,7 +24,9 @@ export class AdminSettingsAccountPersonalComponent implements OnInit {
 
     @Input() showAvatar: boolean = true;
     user: User;
+    contact: Contact;
     accountForm: FormGroup;
+    contactForm: FormGroup;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     /**
      * Constructor
@@ -31,7 +35,8 @@ export class AdminSettingsAccountPersonalComponent implements OnInit {
         private _changeDetectorRef: ChangeDetectorRef,
         public adminComponent: AdminComponent,
         private _formBuilder: FormBuilder,
-        private _userService: UserService
+        private _userService: UserService,
+        private _contactsService: ContactsService,
     ) {
     }
 
@@ -85,7 +90,7 @@ export class AdminSettingsAccountPersonalComponent implements OnInit {
  *
  * @param fileList
  */
-    /*     uploadAvatar(fileList: FileList): void {
+    uploadAvatar(fileList: FileList): void {
             // Return if canceled
             if (!fileList.length) {
                 return;
@@ -101,12 +106,12 @@ export class AdminSettingsAccountPersonalComponent implements OnInit {
     
             // Upload the avatar
             this._contactsService.uploadAvatar(this.contact.id, file).subscribe();
-        } */
+    }
 
     /**
      * Remove the avatar
      */
-    /*     removeAvatar(): void {
+    removeAvatar(): void {
             // Get the form control for 'avatar'
             const avatarFormControl = this.contactForm.get('avatar');
     
@@ -118,5 +123,5 @@ export class AdminSettingsAccountPersonalComponent implements OnInit {
     
             // Update the contact
             this.contact.avatar = null;
-        } */
+    }
 }

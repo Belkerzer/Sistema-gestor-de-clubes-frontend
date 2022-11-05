@@ -9,6 +9,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { InventoryActivities, InventoryFacultadActividades, InventoryClubActividades, InventoryPagination, InventoryParticipanteActividades, InventoryProgramaActividades } from './activities.types';
 import { ActivitiesService } from './activities.service';
+import * as XLSX from 'xlsx'; 
 
 @Component({
     selector: 'activities',
@@ -24,6 +25,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
 
     activities$: Observable<InventoryActivities[]>;
 
+    fileName = 'Actividades.xlsx'; 
     formFieldHelpers: string[] = [''];
     facultadesActividades: InventoryFacultadActividades[];
     clubesActividades: InventoryClubActividades[];
@@ -549,5 +551,19 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
      */
     trackByFn(index: number, item: any): any {
         return item.id || index;
+    }
+
+    exportExcel(): void {
+        /* table id is passed over here */
+        let element = document.getElementById('actividades-table');
+        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+        /* generate workbook and add the worksheet */
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Actividades');
+
+        /* save to file */
+        XLSX.writeFile(wb, this.fileName);
+
     }
 }

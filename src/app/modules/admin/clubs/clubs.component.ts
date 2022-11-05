@@ -9,6 +9,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { InventoryFacultadClub, InventoryLiderEstudiantil, InventoryPagination, InventoryClubs, InventoryDocenteTutor, InventoryPrograma } from 'app/modules/admin/clubs/clubs.types';
 import { ClubsService } from 'app/modules/admin/clubs/clubs.service';
+import * as XLSX from 'xlsx'; 
 
 @Component({
     selector: 'clubs',
@@ -24,6 +25,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
 
     clubs$: Observable<InventoryClubs[]>;
 
+    fileName = 'Clubes.xlsx'; 
     formFieldHelpers: string[] = [''];
     facultadesClub: InventoryFacultadClub[];
     lideresEstudiantiles: InventoryLiderEstudiantil[];
@@ -549,5 +551,19 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
      */
     trackByFn(index: number, item: any): any {
         return item.id || index;
+    }
+
+    exportExcel(): void {
+        /* table id is passed over here */
+        let element = document.getElementById('clubes-table');
+        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+        /* generate workbook and add the worksheet */
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Clubes');
+
+        /* save to file */
+        XLSX.writeFile(wb, this.fileName);
+
     }
 }

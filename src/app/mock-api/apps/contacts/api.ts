@@ -107,7 +107,7 @@ export class ContactsMockApi
                 const newContact = {
                     id          : FuseMockApiUtils.guid(),
                     avatar      : null,
-                    name        : 'New Contact',
+                    name: 'Nuevo usuario',
                     emails      : [],
                     phoneNumbers: [],
                     job         : {
@@ -116,9 +116,9 @@ export class ContactsMockApi
                     },
                     birthday    : null,
                     address     : null,
-                    notes       : null,
+                    username: '',
                     clubes: [],
-                    faculty: '',
+                    rol: '',
                 };
 
                 // Unshift the new contact

@@ -94,7 +94,7 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
             company: [''],
             birthday: [null],
             address: [null],
-            notes: [null],
+            username: [''],
             clubes: [[]],
             rol: [''],
         });

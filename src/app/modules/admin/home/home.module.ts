@@ -16,6 +16,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { SharedModule } from 'app/shared/shared.module';
 import { HomeComponent } from 'app/modules/admin/home/home.component';
 import { homeRoutes } from 'app/modules/admin/home/home.routing';
+import { CountUpModule } from 'ngx-countup';
 
 @NgModule({
     declarations: [
@@ -23,6 +24,7 @@ import { homeRoutes } from 'app/modules/admin/home/home.routing';
     ],
     imports: [
         RouterModule.forChild(homeRoutes),
+        CountUpModule,
         MatButtonModule,
         MatButtonToggleModule,
         MatDividerModule,

@@ -48,7 +48,7 @@
                                         type="file"
                                         [multiple]="false"
                                         [accept]="'image/jpeg, image/png'"
-                                        
+                                        (change)="uploadAvatar(avatarFileInput.files)"
                                         #avatarFileInput>
                                     <label
                                         class="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer hover:bg-hover"

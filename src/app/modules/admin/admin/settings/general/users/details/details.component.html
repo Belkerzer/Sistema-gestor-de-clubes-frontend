@@ -73,10 +73,10 @@
 
                 <div class="flex flex-col mt-4 pt-6 border-t space-y-8">
                     <!-- Username -->
-                    <ng-container *ngIf="contact.title">
+                    <ng-container *ngIf="contact.username">
                         <div class="flex sm:items-center">
                             <mat-icon [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
-                            <div class="ml-6 leading-6">{{contact.title}}</div>
+                            <div class="ml-6 leading-6">{{contact.username}}</div>
                         </div>
                     </ng-container>
                     <!-- Email -->
@@ -97,10 +97,10 @@
                     </ng-container>
 
                     <!-- Title -->
-                    <ng-container *ngIf="contact.company">
+                    <ng-container *ngIf="contact.rol">
                         <div class="flex sm:items-center">
                             <mat-icon [svgIcon]="'heroicons_outline:briefcase'"></mat-icon>
-                            <div class="ml-6 leading-6">{{contact.company}}</div>
+                            <div class="ml-6 leading-6">{{contact.rol}}</div>
                         </div>
                     </ng-container>
 
@@ -151,7 +151,7 @@
                                         type="file"
                                         [multiple]="false"
                                         [accept]="'image/jpeg, image/png'"
-                                        
+                                        (change)="uploadAvatar(avatarFileInput.files)"
                                         #avatarFileInput>
                                     <label
                                         class="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer hover:bg-hover"
@@ -337,7 +337,7 @@
                                 [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                             <input
                                 matInput
-                                [formControlName]="'title'"
+                                [formControlName]="'username'"
                                 [placeholder]="'Nombre de usuario'">
                         </mat-form-field>
                     </div>
