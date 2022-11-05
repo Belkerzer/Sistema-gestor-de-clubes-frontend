@@ -6,6 +6,7 @@ import { User } from "app/core/user/user.types";
 import { ApexOptions } from "ng-apexcharts";
 import { Subject, takeUntil } from "rxjs";
 import { HomeService } from "./home.service";
+import * as XLSX from 'xlsx';
 
 @Component({
     selector: 'home',
@@ -26,6 +27,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     chartTotalMembers: ApexOptions;
     data: any;
     user: User;
+    fileName = 'Resumen.xlsx';
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -436,5 +438,19 @@ export class HomeComponent implements OnInit, OnDestroy {
                 }
             }
         };
+    }
+
+    exportExcel(): void {
+        /* table id is passed over here */
+        let element = document.getElementById('resumen-table');
+        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+        /* generate workbook and add the worksheet */
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Resumen');
+
+        /* save to file */
+        XLSX.writeFile(wb, this.fileName);
+
     }
 }

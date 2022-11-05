@@ -14,7 +14,7 @@ export interface Contact
     company?: string;
     birthday?: string | null;
     address?: string | null;
-    notes?: string | null;
+    username: string;
     clubes: string[];
     rol: string;
 }

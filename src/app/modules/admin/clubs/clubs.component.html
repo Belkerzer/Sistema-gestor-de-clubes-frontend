@@ -36,7 +36,8 @@
             <button   
             class="ml-3"                         
             mat-flat-button
-            [color]="'primary'"                            
+            [color]="'primary'"
+            (click)="exportExcel()"                     
             >
             <mat-icon [svgIcon]="'heroicons_solid:save'"></mat-icon>
             <span class="ml-2 mr-1">Exportar</span>
@@ -48,7 +49,7 @@
     <div class="flex flex-auto overflow-hidden">
 
         <!-- Clubs list -->
-        <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+        <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto" id="clubes-table">
             <ng-container *ngIf="(clubs$ | async) as clubs">
                 <ng-container *ngIf="clubs.length > 0; else noClubs">
                     <div class="grid">

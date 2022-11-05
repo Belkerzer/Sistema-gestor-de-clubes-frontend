@@ -9,6 +9,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { InventoryCarrera, InventoryPeriodo, InventoryPagination, InventoryMember, InventoryClub, InventorySexo, InventoryFacultad } from 'app/modules/admin/members/members.types';
 import { MembersService } from './members.service';
+import * as XLSX from 'xlsx'; 
 
 @Component({
     selector: 'members',
@@ -24,6 +25,7 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
 
     participantes$: Observable<InventoryMember[]>;
 
+    fileName = 'Participantes.xlsx'; 
     formFieldHelpers: string[] = [''];
     carreras: InventoryCarrera[];
     periodos: InventoryPeriodo[];
@@ -563,5 +565,19 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
      */
     trackByFn(index: number, item: any): any {
         return item.id || index;
+    }
+
+    exportExcel(): void {
+        /* table id is passed over here */
+        let element = document.getElementById('participantes-table');
+        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+        /* generate workbook and add the worksheet */
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Participantes');
+
+        /* save to file */
+        XLSX.writeFile(wb, this.fileName);
+
     }
 }

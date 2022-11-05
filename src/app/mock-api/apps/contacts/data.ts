@@ -3,21 +3,21 @@ export const contacts = [
     {
         id          : '0a8bc517-631a-4a93-aacc-000fa2e8294c',
         avatar      : 'assets/images/avatars/female-20.jpg',
-        background  : 'assets/images/cards/24-640x480.jpg',
+        /*         background  : 'assets/images/cards/24-640x480.jpg', */
         name: 'Claudio Cesare Linares Rendon',
         email: 'ccesare@ecotec.edu.ec',
-        phoneNumbers: [
+/*         phoneNumbers: [
             {
                 country: 'af',
                 phoneNumber: '838 562 2769',
                 label      : 'Mobile'
             }
-        ],
-        title: 'ccesare',
-        company: 'Docente',
-        birthday    : '1976-09-09T12:00:00.000Z',
-        address     : '946 Remsen Street, Caroline, New Mexico, PO3247',
-        notes       : '<p>Amet dolore elit irure in commodo in et eu eu nulla labore elit sunt et nisi quis officia nostrud et mollit dolor aute fugiat sunt reprehenderit quis sint minim ipsum.</p><p>Laboris ut sunt nisi aute incididunt reprehenderit mollit culpa velit exercitation reprehenderit irure id sunt officia magna est ea labore consectetur incididunt cillum qui tempor ea ullamco quis pariatur aliquip.</p>',
+        ], */
+        /*         title: 'ccesare',
+                company: 'Docente', */
+        /*         birthday    : '1976-09-09T12:00:00.000Z',
+                address     : '946 Remsen Street, Caroline, New Mexico, PO3247', */
+        username: 'ccesare',
         clubes: [
             '56ddbd47-4078-4ddd-8448-73c5e88d5f59'
         ],
@@ -26,21 +26,21 @@ export const contacts = [
     {
         id          : 'cdcc62e4-1520-4ccc-803d-52868c7e01ba',
         avatar      : 'assets/images/avatars/female-04.jpg',
-        background  : 'assets/images/cards/29-640x480.jpg',
+        /*         background  : 'assets/images/cards/29-640x480.jpg', */
         name: 'Deborah Griselda Rios Soto',
         email: 'dgriselda@est.ecotec.edu.ec',
-        phoneNumbers: [
+/*         phoneNumbers: [
             {
                 country: 'al',
                 phoneNumber: '855 445 2483',
                 label: 'Mobile'
             }
-        ],
-        title: 'dgriselda',
-        company: 'Líder Estudiantil',
-        birthday    : '1996-06-17T12:00:00.000Z',
-        address     : '956 Pierrepont Street, Crumpler, Hawaii, PO3299',
-        notes       : '<p>Esse excepteur ad aliquip amet elit reprehenderit ut nostrud magna ex esse dolore magna excepteur irure esse incididunt sunt enim laborum ex mollit magna elit quis ullamco aute minim veniam.</p><p>Duis id ullamco laboris elit ea ea dolore tempor est eu esse aliqua quis quis ut laborum mollit cillum proident deserunt fugiat ipsum elit exercitation quis mollit eiusmod officia non.</p>',
+        ], */
+        /*         title: 'dgriselda',
+                company: 'Líder Estudiantil', */
+        /*         birthday    : '1996-06-17T12:00:00.000Z', */
+        /*    address     : '956 Pierrepont Street, Crumpler, Hawaii, PO3299', */
+        username: 'dgriselda',
         clubes: [
             '56ddbd47-4078-4ddd-8448-73c5e88d5f59'
         ],
@@ -49,10 +49,10 @@ export const contacts = [
     {
         id          : '22f18d47-ff8d-440e-888d-a1747c093052',
         avatar      : 'assets/images/avatars/female-12.jpg',
-        background  : 'assets/images/cards/14-640x480.jpg',
+        /*         background  : 'assets/images/cards/14-640x480.jpg', */
         name: 'Alida Vanina Mares Osorio',
         email: 'avanina@ecotec.edu.ec',
-        phoneNumbers: [
+/*         phoneNumbers: [
             {
                 country: 'dz',
                 phoneNumber: '881 472 3113',
@@ -62,8 +62,8 @@ export const contacts = [
         title: 'avanina',
         company: 'Docente',
         birthday    : '1985-09-17T12:00:00.000Z',
-        address     : '387 Holt Court, Thomasville, Alaska, PO2867',
-        notes       : '<p>Adipisicing exercitation dolor nisi ipsum nostrud anim dolore sint veniam consequat lorem sit ex commodo nostrud occaecat elit magna magna commodo incididunt laborum ad irure pariatur et sit ullamco adipisicing.</p><p>Ullamco in dolore amet est quis consectetur fugiat non nisi incididunt id laborum adipisicing dolor proident velit ut quis aliquip dolore id anim sit adipisicing nisi incididunt enim amet pariatur.</p>',
+        address     : '387 Holt Court, Thomasville, Alaska, PO2867', */
+        username: 'avanina',
         clubes: [
             'cbde2486-5033-4e09-838e-e901b108cd41'
         ],
@@ -72,7 +72,7 @@ export const contacts = [
     {
         id          : '114642a2-ccb7-4cb1-ad2b-5e9b6a0c1d2e',
         avatar      : 'assets/images/avatars/male-09.jpg',
-        background  : 'assets/images/cards/23-640x480.jpg',
+        /*    background  : 'assets/images/cards/23-640x480.jpg', */
         name: 'Bartolo Vito Caraballo Quinonez',
         email: 'bvito@est.ecotec.edu.ec',
         phoneNumbers: [
@@ -82,11 +82,11 @@ export const contacts = [
                 label: 'Mobile'
             }
         ],
-        title: 'bvito',
+/*         title: 'bvito',
         company: 'Líder Estudiantil',
         birthday    : '1967-03-02T12:00:00.000Z',
-        address     : '386 Vernon Avenue, Dragoon, North Carolina, PO4559',
-        notes       : '<p>Esse amet ex duis esse aliqua non tempor ullamco dolore et aliquip nisi pariatur qui laborum id consequat tempor sint eiusmod exercitation velit aliquip occaecat tempor nisi aute magna sint.</p><p>Deserunt veniam voluptate dolore eiusmod eu consequat dolor sit pariatur laboris anim excepteur consequat nulla officia exercitation magna sint ea excepteur qui eu officia pariatur culpa sint elit nulla officia.</p>',
+        address     : '386 Vernon Avenue, Dragoon, North Carolina, PO4559', */
+        username: 'bvito',
         clubes: [
             '56ddbd47-4078-4ddd-8448-73c5e88d5f59'
         ],
