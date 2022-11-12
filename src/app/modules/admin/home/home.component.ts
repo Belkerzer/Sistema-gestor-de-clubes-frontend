@@ -5,7 +5,8 @@ import { UserService } from "app/core/user/user.service";
 import { User } from "app/core/user/user.types";
 import { ApexOptions } from "ng-apexcharts";
 import { Subject, takeUntil } from "rxjs";
-import { AnalyticsService } from "./home.service";
+import { HomeService } from "./home.service";
+import * as XLSX from 'xlsx';
 
 @Component({
     selector: 'home',
@@ -20,17 +21,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     /* eslint-enable @typescript-eslint/naming-convention */
 
     @Input() showAvatar: boolean = true;
-    chartVisitors: ApexOptions;
-    chartConversions: ApexOptions;
-    chartImpressions: ApexOptions;
-    chartVisits: ApexOptions;
-    chartVisitorsVsPageViews: ApexOptions;
-    chartNewVsReturning: ApexOptions;
-    chartGender: ApexOptions;
-    chartAge: ApexOptions;
-    chartLanguage: ApexOptions;
+    chartMembers: ApexOptions;
+    chartMen: ApexOptions;
+    chartWomen: ApexOptions;
+    chartTotalMembers: ApexOptions;
     data: any;
     user: User;
+    fileName = 'Resumen.xlsx';
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -38,7 +35,7 @@ export class HomeComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _analyticsService: AnalyticsService,
+        private _homeService: HomeService,
         private _router: Router,
         private _userService: UserService
     ) {
@@ -63,7 +60,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             });
 
         // Get the data
-        this._analyticsService.data$
+        this._homeService.data$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((data) => {
 
@@ -154,9 +151,28 @@ export class HomeComponent implements OnInit, OnDestroy {
      * @private
      */
     private _prepareChartData(): void {
-        // Visitors
-        this.chartVisitors = {
+        // Members
+        this.chartMembers = {
             chart: {
+                defaultLocale: 'es',
+                locales: [{
+                    name: 'es',
+                    options: {
+                        months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                        shortMonths: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                        days: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                        shortDays: ['Dom', 'Lun', 'Mar', 'Mir', 'Jue', 'Vie', 'Sáb'],
+                        toolbar: {
+                            download: 'Descargar SVG',
+                            selection: 'Selección',
+                            selectionZoom: 'Zoom de selección',
+                            zoomIn: 'Acercarse',
+                            zoomOut: 'Alejarse',
+                            pan: 'Panorama',
+                            reset: 'Restablecer el zoom',
+                        }
+                    }
+                }],
                 animations: {
                     speed: 400,
                     animateGradually: {
@@ -198,7 +214,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                     }
                 }
             },
-            series: this.data.visitors.series,
+            series: this.data.members.series,
             stroke: {
                 width: 2
             },
@@ -252,9 +268,28 @@ export class HomeComponent implements OnInit, OnDestroy {
             }
         };
 
-        // Conversions
-        this.chartConversions = {
+        // Men
+        this.chartMen = {
             chart: {
+                defaultLocale: 'es',
+                locales: [{
+                    name: 'es',
+                    options: {
+                        months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                        shortMonths: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                        days: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                        shortDays: ['Dom', 'Lun', 'Mar', 'Mir', 'Jue', 'Vie', 'Sáb'],
+                        toolbar: {
+                            download: 'Descargar SVG',
+                            selection: 'Selección',
+                            selectionZoom: 'Zoom de selección',
+                            zoomIn: 'Acercarse',
+                            zoomOut: 'Alejarse',
+                            pan: 'Panorama',
+                            reset: 'Restablecer el zoom',
+                        }
+                    }
+                }],
                 animations: {
                     enabled: false
                 },
@@ -271,7 +306,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 colors: ['#38BDF8'],
                 opacity: 0.5
             },
-            series: this.data.conversions.series,
+            series: this.data.men.series,
             stroke: {
                 curve: 'smooth'
             },
@@ -281,7 +316,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             },
             xaxis: {
                 type: 'category',
-                categories: this.data.conversions.labels
+                categories: this.data.men.labels
             },
             yaxis: {
                 labels: {
@@ -290,9 +325,28 @@ export class HomeComponent implements OnInit, OnDestroy {
             }
         };
 
-        // Impressions
-        this.chartImpressions = {
+        // Women
+        this.chartWomen = {
             chart: {
+                defaultLocale: 'es',
+                locales: [{
+                    name: 'es',
+                    options: {
+                        months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                        shortMonths: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                        days: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                        shortDays: ['Dom', 'Lun', 'Mar', 'Mir', 'Jue', 'Vie', 'Sáb'],
+                        toolbar: {
+                            download: 'Descargar SVG',
+                            selection: 'Selección',
+                            selectionZoom: 'Zoom de selección',
+                            zoomIn: 'Acercarse',
+                            zoomOut: 'Alejarse',
+                            pan: 'Panorama',
+                            reset: 'Restablecer el zoom',
+                        }
+                    }
+                }],
                 animations: {
                     enabled: false
                 },
@@ -309,7 +363,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 colors: ['#34D399'],
                 opacity: 0.5
             },
-            series: this.data.impressions.series,
+            series: this.data.women.series,
             stroke: {
                 curve: 'smooth'
             },
@@ -319,7 +373,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             },
             xaxis: {
                 type: 'category',
-                categories: this.data.impressions.labels
+                categories: this.data.women.labels
             },
             yaxis: {
                 labels: {
@@ -328,9 +382,28 @@ export class HomeComponent implements OnInit, OnDestroy {
             }
         };
 
-        // Visits
-        this.chartVisits = {
+        // Total Members
+        this.chartTotalMembers = {
             chart: {
+                defaultLocale: 'es',
+                locales: [{
+                    name: 'es',
+                    options: {
+                        months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                        shortMonths: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                        days: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                        shortDays: ['Dom', 'Lun', 'Mar', 'Mir', 'Jue', 'Vie', 'Sáb'],
+                        toolbar: {
+                            download: 'Descargar SVG',
+                            selection: 'Selección',
+                            selectionZoom: 'Zoom de selección',
+                            zoomIn: 'Acercarse',
+                            zoomOut: 'Alejarse',
+                            pan: 'Panorama',
+                            reset: 'Restablecer el zoom',
+                        }
+                    }
+                }],
                 animations: {
                     enabled: false
                 },
@@ -347,7 +420,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 colors: ['#FB7185'],
                 opacity: 0.5
             },
-            series: this.data.visits.series,
+            series: this.data.totalMembers.series,
             stroke: {
                 curve: 'smooth'
             },
@@ -357,7 +430,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             },
             xaxis: {
                 type: 'category',
-                categories: this.data.visits.labels
+                categories: this.data.totalMembers.labels
             },
             yaxis: {
                 labels: {
@@ -365,307 +438,19 @@ export class HomeComponent implements OnInit, OnDestroy {
                 }
             }
         };
+    }
 
-        // Visitors vs Page Views
-        this.chartVisitorsVsPageViews = {
-            chart: {
-                animations: {
-                    enabled: false
-                },
-                fontFamily: 'inherit',
-                foreColor: 'inherit',
-                height: '100%',
-                type: 'area',
-                toolbar: {
-                    show: false
-                },
-                zoom: {
-                    enabled: false
-                }
-            },
-            colors: ['#64748B', '#94A3B8'],
-            dataLabels: {
-                enabled: false
-            },
-            fill: {
-                colors: ['#64748B', '#94A3B8'],
-                opacity: 0.5
-            },
-            grid: {
-                show: false,
-                padding: {
-                    bottom: -40,
-                    left: 0,
-                    right: 0
-                }
-            },
-            legend: {
-                show: false
-            },
-            series: this.data.visitorsVsPageViews.series,
-            stroke: {
-                curve: 'smooth',
-                width: 2
-            },
-            tooltip: {
-                followCursor: true,
-                theme: 'dark',
-                x: {
-                    format: 'MMM dd, yyyy'
-                }
-            },
-            xaxis: {
-                axisBorder: {
-                    show: false
-                },
-                labels: {
-                     offsetY: -20,
-                     rotate: 0,
-                     style: {
-                         colors: 'var(--fuse-text-secondary)'
-                     }
-                },
-                tickAmount: 3,
-                tooltip: {
-                    enabled: false
-                },
-                type: 'datetime'
-            },
-            yaxis: {
-                labels: {
-                    style: {
-                        colors: 'var(--fuse-text-secondary)'
-                    }
-                },
-                max: (max): number => max + 250,
-                min: (min): number => min - 250,
-                show: false,
-                tickAmount: 5
-            }
-        };
+    exportExcel(): void {
+        /* table id is passed over here */
+        let element = document.getElementById('resumen-table');
+        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
 
-        // New vs. returning
-        this.chartNewVsReturning = {
-            chart: {
-                animations: {
-                    speed: 400,
-                    animateGradually: {
-                        enabled: false
-                    }
-                },
-                fontFamily: 'inherit',
-                foreColor: 'inherit',
-                height: '100%',
-                type: 'donut',
-                sparkline: {
-                    enabled: true
-                }
-            },
-            colors: ['#3182CE', '#63B3ED'],
-            labels: this.data.newVsReturning.labels,
-            plotOptions: {
-                pie: {
-                    customScale: 0.9,
-                    expandOnClick: false,
-                    donut: {
-                        size: '70%'
-                    }
-                }
-            },
-            series: this.data.newVsReturning.series,
-            states: {
-                hover: {
-                    filter: {
-                        type: 'none'
-                    }
-                },
-                active: {
-                    filter: {
-                        type: 'none'
-                    }
-                }
-            },
-            tooltip: {
-                enabled: true,
-                fillSeriesColor: false,
-                theme: 'dark',
-                custom: ({
-                    seriesIndex,
-                    w
-                }): string => `<div class="flex items-center h-8 min-h-8 max-h-8 px-3">
-                                                     <div class="w-3 h-3 rounded-full" style="background-color: ${w.config.colors[seriesIndex]};"></div>
-                                                     <div class="ml-2 text-md leading-none">${w.config.labels[seriesIndex]}:</div>
-                                                     <div class="ml-2 text-md font-bold leading-none">${w.config.series[seriesIndex]}%</div>
-                                                 </div>`
-            }
-        };
+        /* generate workbook and add the worksheet */
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Resumen');
 
-        // Gender
-        this.chartGender = {
-            chart: {
-                animations: {
-                    speed: 400,
-                    animateGradually: {
-                        enabled: false
-                    }
-                },
-                fontFamily: 'inherit',
-                foreColor: 'inherit',
-                height: '100%',
-                type: 'donut',
-                sparkline: {
-                    enabled: true
-                }
-            },
-            colors: ['#319795', '#4FD1C5'],
-            labels: this.data.gender.labels,
-            plotOptions: {
-                pie: {
-                    customScale: 0.9,
-                    expandOnClick: false,
-                    donut: {
-                        size: '70%'
-                    }
-                }
-            },
-            series: this.data.gender.series,
-            states: {
-                hover: {
-                    filter: {
-                        type: 'none'
-                    }
-                },
-                active: {
-                    filter: {
-                        type: 'none'
-                    }
-                }
-            },
-            tooltip: {
-                enabled: true,
-                fillSeriesColor: false,
-                theme: 'dark',
-                custom: ({
-                    seriesIndex,
-                    w
-                }): string => `<div class="flex items-center h-8 min-h-8 max-h-8 px-3">
-                                                      <div class="w-3 h-3 rounded-full" style="background-color: ${w.config.colors[seriesIndex]};"></div>
-                                                      <div class="ml-2 text-md leading-none">${w.config.labels[seriesIndex]}:</div>
-                                                      <div class="ml-2 text-md font-bold leading-none">${w.config.series[seriesIndex]}%</div>
-                                                  </div>`
-            }
-        };
+        /* save to file */
+        XLSX.writeFile(wb, this.fileName);
 
-        // Age
-        this.chartAge = {
-            chart: {
-                animations: {
-                    speed: 400,
-                    animateGradually: {
-                        enabled: false
-                    }
-                },
-                fontFamily: 'inherit',
-                foreColor: 'inherit',
-                height: '100%',
-                type: 'donut',
-                sparkline: {
-                    enabled: true
-                }
-            },
-            colors: ['#DD6B20', '#F6AD55'],
-            labels: this.data.age.labels,
-            plotOptions: {
-                pie: {
-                    customScale: 0.9,
-                    expandOnClick: false,
-                    donut: {
-                        size: '70%'
-                    }
-                }
-            },
-            series: this.data.age.series,
-            states: {
-                hover: {
-                    filter: {
-                        type: 'none'
-                    }
-                },
-                active: {
-                    filter: {
-                        type: 'none'
-                    }
-                }
-            },
-            tooltip: {
-                enabled: true,
-                fillSeriesColor: false,
-                theme: 'dark',
-                custom: ({
-                    seriesIndex,
-                    w
-                }): string => `<div class="flex items-center h-8 min-h-8 max-h-8 px-3">
-                                                     <div class="w-3 h-3 rounded-full" style="background-color: ${w.config.colors[seriesIndex]};"></div>
-                                                     <div class="ml-2 text-md leading-none">${w.config.labels[seriesIndex]}:</div>
-                                                     <div class="ml-2 text-md font-bold leading-none">${w.config.series[seriesIndex]}%</div>
-                                                 </div>`
-            }
-        };
-
-        // Language
-        this.chartLanguage = {
-            chart: {
-                animations: {
-                    speed: 400,
-                    animateGradually: {
-                        enabled: false
-                    }
-                },
-                fontFamily: 'inherit',
-                foreColor: 'inherit',
-                height: '100%',
-                type: 'donut',
-                sparkline: {
-                    enabled: true
-                }
-            },
-            colors: ['#805AD5', '#B794F4'],
-            labels: this.data.language.labels,
-            plotOptions: {
-                pie: {
-                    customScale: 0.9,
-                    expandOnClick: false,
-                    donut: {
-                        size: '70%'
-                    }
-                }
-            },
-            series: this.data.language.series,
-            states: {
-                hover: {
-                    filter: {
-                        type: 'none'
-                    }
-                },
-                active: {
-                    filter: {
-                        type: 'none'
-                    }
-                }
-            },
-            tooltip: {
-                enabled: true,
-                fillSeriesColor: false,
-                theme: 'dark',
-                custom: ({
-                    seriesIndex,
-                    w
-                }): string => `<div class="flex items-center h-8 min-h-8 max-h-8 px-3">
-                                                     <div class="w-3 h-3 rounded-full" style="background-color: ${w.config.colors[seriesIndex]};"></div>
-                                                     <div class="ml-2 text-md leading-none">${w.config.labels[seriesIndex]}:</div>
-                                                     <div class="ml-2 text-md font-bold leading-none">${w.config.series[seriesIndex]}%</div>
-                                                 </div>`
-            }
-        };
     }
 }

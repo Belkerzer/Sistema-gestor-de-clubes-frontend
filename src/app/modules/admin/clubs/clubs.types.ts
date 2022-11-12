@@ -1,23 +1,24 @@
 export interface InventoryClubs {
     id: string;
-    category1?: string;
+    docenteTutor?: string;
     name: string;
     description?: string;
-    tags?: string[];
-    sku?: string | null;
-    barcode?: string | null;
-    brand1?: string | null;
-    vendor1: string | null;
-    stock: Date;
-    reserved: number;
+    docentesTutores?: string[];
+    tipo?: string | null;
+    participantesClubes?: string[];
+    /* barcode?: string | null; */
+    facultadClub?: string | null;
+    /* programa: string | null; */
+    fechaCreacion: Date;
+/*     reserved: number;
     cost: number;
     basePrice: number;
     taxPercent: number;
     price: string;
     weight: number;
     thumbnail: string;
-    images: string[];
-    active: number;
+    images: string[]; */
+    participantes: number;
 }
 
 export interface InventoryPagination
@@ -30,29 +31,30 @@ export interface InventoryPagination
     endIndex: number;
 }
 
-export interface InventoryCategory
-{
+export interface InventoryLiderEstudiantil {
     id: string;
     parentId: string;
     name: string;
     slug: string;
 }
 
-export interface InventoryBrand
-{
+export interface InventoryFacultadClub {
     id: string;
     name: string;
     slug: string;
 }
 
-export interface InventoryTag
-{
+export interface InventoryParticipanteClubes {
     id?: string;
     title?: string;
 }
 
-export interface InventoryVendor
-{
+export interface InventoryDocenteTutor {
+    id?: string;
+    title?: string;
+}
+
+export interface InventoryPrograma {
     id: string;
     name: string;
     slug: string;

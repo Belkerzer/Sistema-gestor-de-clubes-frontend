@@ -1,18 +1,21 @@
 import { Injectable } from '@angular/core';
 import { assign, cloneDeep } from 'lodash-es';
 import { FuseMockApiService, FuseMockApiUtils } from '@fuse/lib/mock-api';
-import { brands1 as brands1Data, categories1 as categories1Data, clubs as clubsData, tags1 as tags1Data, vendors1 as vendors1Data } from 'app/mock-api/apps/clubs/data';
+import { facultadesClub as facultadesClubData, lideresEstudiantiles as lideresEstudiantilesData, clubs as clubsData, docentesTutores as docentesTutoresData, programas as programasData, participantesClubes as participantesClubesData } from 'app/mock-api/apps/clubs/data';
 import moment from 'moment';
+import 'app/moment.es.ec.ts';
+moment.locale('es-EC');
 
 @Injectable({
     providedIn: 'root'
 })
 export class ClubsInventoryMockApi {
-    private _categories1: any[] = categories1Data;
-    private _brands1: any[] = brands1Data;
+    private _lideresEstudiantiles: any[] = lideresEstudiantilesData;
+    private _facultadesClub: any[] = facultadesClubData;
+    private _participantesClubes: any[] = participantesClubesData;
     private _clubs: any[] = clubsData;
-    private _tags1: any[] = tags1Data;
-    private _vendors1: any[] = vendors1Data;
+    private _docentesTutores: any[] = docentesTutoresData;
+    private _programas: any[] = programasData;
 
     /**
      * Constructor
@@ -31,24 +34,24 @@ export class ClubsInventoryMockApi {
      */
     registerHandlers(): void {
         // -----------------------------------------------------------------------------------------------------
-        // @ Categories - GET
+        // @ Líderes Estudiantiles - GET
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
-            .onGet('api/apps/ecommerce/inventory/categories1')
-            .reply(() => [200, cloneDeep(this._categories1)]);
+            .onGet('api/apps/ecommerce/inventory/lideresEstudiantiles')
+            .reply(() => [200, cloneDeep(this._lideresEstudiantiles)]);
 
         // -----------------------------------------------------------------------------------------------------
-        // @ Brands - GET
+        // @ Facultades Club - GET
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
-            .onGet('api/apps/ecommerce/inventory/brands1')
-            .reply(() => [200, cloneDeep(this._brands1)]);
+            .onGet('api/apps/ecommerce/inventory/facultadesClub')
+            .reply(() => [200, cloneDeep(this._facultadesClub)]);
 
         // -----------------------------------------------------------------------------------------------------
-        // @ Products - GET
+        // @ Clubs - GET
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
-            .onGet('api/apps/ecommerce/inventory/clubs', 300)
+            .onGet('api/clubes', 300)
             .reply(({ request }) => {
 
                 // Get available queries
@@ -58,55 +61,55 @@ export class ClubsInventoryMockApi {
                 const page = parseInt(request.params.get('page') ?? '1', 10);
                 const size = parseInt(request.params.get('size') ?? '10', 10);
 
-                // Clone the products
-                let products: any[] | null = cloneDeep(this._clubs);
+                // Clone the clubs
+                let clubs: any[] | null = cloneDeep(this._clubs);
 
-                // Sort the products
-                if (sort === 'sku' || sort === 'name' || sort === 'active') {
-                    products.sort((a, b) => {
+                // Sort the clubs
+                if (sort === 'tipo' || sort === 'name' || sort === 'participantes') {
+                    clubs.sort((a, b) => {
                         const fieldA = a[sort].toString().toUpperCase();
                         const fieldB = b[sort].toString().toUpperCase();
                         return order === 'asc' ? fieldA.localeCompare(fieldB) : fieldB.localeCompare(fieldA);
                     });
                 }
                 else {
-                    products.sort((a, b) => order === 'asc' ? a[sort] - b[sort] : b[sort] - a[sort]);
+                    clubs.sort((a, b) => order === 'asc' ? a[sort] - b[sort] : b[sort] - a[sort]);
                 }
 
                 // If search exists...
                 if (search) {
-                    // Filter the products
-                    products = products.filter(contact => contact.name && contact.name.toLowerCase().includes(search.toLowerCase()));
+                    // Filter the clubs
+                    clubs = clubs.filter(contact => contact.name && contact.name.toLowerCase().includes(search.toLowerCase()));
                 }
 
                 // Paginate - Start
-                const productsLength = products.length;
+                const clubsLength = clubs.length;
 
-                // Calculate pagination details
+                // Calculate paginationClubs details
                 const begin = page * size;
-                const end = Math.min((size * (page + 1)), productsLength);
-                const lastPage = Math.max(Math.ceil(productsLength / size), 1);
+                const end = Math.min((size * (page + 1)), clubsLength);
+                const lastPage = Math.max(Math.ceil(clubsLength / size), 1);
 
-                // Prepare the pagination object
-                let pagination = {};
+                // Prepare the paginationClubs object
+                let paginationClubs = {};
 
                 // If the requested page number is bigger than
                 // the last possible page number, return null for
-                // products but also send the last possible page so
+                // clubs but also send the last possible page so
                 // the app can navigate to there
                 if (page > lastPage) {
-                    products = null;
-                    pagination = {
+                    clubs = null;
+                    paginationClubs = {
                         lastPage
                     };
                 }
                 else {
                     // Paginate the results by size
-                    products = products.slice(begin, end);
+                    clubs = clubs.slice(begin, end);
 
-                    // Prepare the pagination mock-api
-                    pagination = {
-                        length: productsLength,
+                    // Prepare the paginationClubs mock-api
+                    paginationClubs = {
+                        length: clubsLength,
                         size: size,
                         page: page,
                         lastPage: lastPage,
@@ -119,14 +122,14 @@ export class ClubsInventoryMockApi {
                 return [
                     200,
                     {
-                        products,
-                        pagination
+                        clubs,
+                        paginationClubs
                     }
                 ];
             });
 
         // -----------------------------------------------------------------------------------------------------
-        // @ Product - GET
+        // @ Club - GET
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
             .onGet('api/apps/ecommerce/inventory/club')
@@ -135,85 +138,86 @@ export class ClubsInventoryMockApi {
                 // Get the id from the params
                 const id = request.params.get('id');
 
-                // Clone the products
-                const products = cloneDeep(this._clubs);
+                // Clone the clubs
+                const clubs = cloneDeep(this._clubs);
 
-                // Find the product
-                const product = products.find(item => item.id === id);
+                // Find the club
+                const club = clubs.find(item => item.id === id);
 
                 // Return the response
-                return [200, product];
+                return [200, club];
             });
 
         // -----------------------------------------------------------------------------------------------------
-        // @ Product - POST
+        // @ Club - POST
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
             .onPost('api/apps/ecommerce/inventory/club')
             .reply(() => {
 
-                // Generate a new product
-                const newProduct = {
+                // Generate a new club
+                const newClub = {
                     id: FuseMockApiUtils.guid(),
-                    category: '',
+                    liderEstudiantil: '',
                     name: 'Un nuevo club',
                     description: '',
-                    tags: [],
-                    sku: '',
-                    barcode: '',
-                    brand: '',
-                    vendor: '',
-                    stock: moment().startOf('day').subtract('days').format('LL'),
-                    reserved: '',
+                    docentesTutores: [],
+                    participantesClubes: [],
+                    tipo: '',
+                    /* barcode: '', */
+                    facultadClub: '',
+                    /* programa: '', */
+                    fechaCreacion: moment().startOf('day').subtract('days').format('LL'),
+/*                     reserved: '',
                     cost: '',
                     basePrice: '',
                     taxPercent: '',
                     price: '',
                     weight: '',
                     thumbnail: '',
-                    images: [],
-                    active: 0
+                    images: [], */
+                    participantes: 0
                 };
 
-                // Unshift the new product
-                this._clubs.unshift(newProduct);
+                // Unshift the new club
+                this._clubs.unshift(newClub);
 
                 // Return the response
-                return [200, newProduct];
+                return [200, newClub];
             });
 
         // -----------------------------------------------------------------------------------------------------
-        // @ Product - PATCH
+        // @ Club - PATCH
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
             .onPatch('api/apps/ecommerce/inventory/club')
             .reply(({ request }) => {
 
-                // Get the id and product
+                // Get the id and club
                 const id = request.body.id;
-                const product = cloneDeep(request.body.product);
+                const club = cloneDeep(request.body.club);
 
-                // Prepare the updated product
-                let updatedProduct = null;
+                // Prepare the updated club
+                let updatedClub = null;
 
-                // Find the product and update it
-                this._clubs.forEach((item, index, products) => {
+                // Find the club and update it
+                this._clubs.forEach((item, index, clubs) => {
 
                     if (item.id === id) {
-                        // Update the product
-                        products[index] = assign({}, products[index], product);
+                        // Update the club
+                        clubs[index] = assign({}, clubs[index], club);
 
-                        // Store the updated product
-                        updatedProduct = products[index];
+                        // Store the updated club
+                        updatedClub = clubs[index];
                     }
                 });
 
                 // Return the response
-                return [200, updatedProduct];
+                return [200, updatedClub];
             });
 
         // -----------------------------------------------------------------------------------------------------
-        // @ Product - DELETE
+        // @ Club - DELETE
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
             .onDelete('api/apps/ecommerce/inventory/club')
@@ -222,7 +226,7 @@ export class ClubsInventoryMockApi {
                 // Get the id
                 const id = request.params.get('id');
 
-                // Find the product and delete it
+                // Find the club and delete it
                 this._clubs.forEach((item, index) => {
 
                     if (item.id === id) {
@@ -235,97 +239,104 @@ export class ClubsInventoryMockApi {
             });
 
         // -----------------------------------------------------------------------------------------------------
-        // @ Tags - GET
+        // @ ParticipantesClubes - GET
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
-            .onGet('api/apps/ecommerce/inventory/tags1')
-            .reply(() => [200, cloneDeep(this._tags1)]);
+            .onGet('api/apps/ecommerce/inventory/participantesClubes')
+            .reply(() => [200, cloneDeep(this._participantesClubes)]);
 
         // -----------------------------------------------------------------------------------------------------
-        // @ Tags - POST
+        // @ Docentes Tutores - GET
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
-            .onPost('api/apps/ecommerce/inventory/tag1')
+            .onGet('api/apps/ecommerce/inventory/docentesTutores')
+            .reply(() => [200, cloneDeep(this._docentesTutores)]);
+
+        // -----------------------------------------------------------------------------------------------------
+        // @ Docentes Tutores - POST
+        // -----------------------------------------------------------------------------------------------------
+/*         this._fuseMockApiService
+            .onPost('api/apps/ecommerce/inventory/docenteTutor')
             .reply(({ request }) => {
-
-                // Get the tag
-                const newTag = cloneDeep(request.body.tag);
+ */
+                // Get the docenteTutor
+        /*         const newDocenteTutor = cloneDeep(request.body.docenteTutor); */
 
                 // Generate a new GUID
-                newTag.id = FuseMockApiUtils.guid();
+        /*       newDocenteTutor.id = FuseMockApiUtils.guid(); */
 
-                // Unshift the new tag
-                this._tags1.unshift(newTag);
+                // Unshift the new docenteTutor
+        /*            this._docentesTutores.unshift(newDocenteTutor); */
 
                 // Return the response
-                return [200, newTag];
-            });
+        /*           return [200, newDocenteTutor];
+              }); */
 
         // -----------------------------------------------------------------------------------------------------
-        // @ Tags - PATCH
+        // @ Docentes Tutores - PATCH
         // -----------------------------------------------------------------------------------------------------
-        this._fuseMockApiService
-            .onPatch('api/apps/ecommerce/inventory/tag1')
-            .reply(({ request }) => {
+        /*     this._fuseMockApiService
+                .onPatch('api/apps/ecommerce/inventory/docenteTutor')
+                .reply(({ request }) => { */
 
-                // Get the id and tag
-                const id = request.body.id;
-                const tag = cloneDeep(request.body.tag);
+                // Get the id and docenteTutor
+        /*       const id = request.body.id;
+              const docenteTutor = cloneDeep(request.body.docenteTutor); */
 
-                // Prepare the updated tag
-                let updatedTag = null;
+                // Prepare the updated docenteTutor
+        /*      let updatedDocenteTutor = null; */
 
-                // Find the tag and update it
-                this._tags1.forEach((item, index, tags) => {
+                // Find the docenteTutor and update it
+             /*    this._docentesTutores.forEach((item, index, docentesTutores) => {
 
-                    if (item.id === id) {
-                        // Update the tag
-                        tags[index] = assign({}, tags[index], tag);
+                    if (item.id === id) { */
+                        // Update the docenteTutor
+        /*             docentesTutores[index] = assign({}, docentesTutores[index], docenteTutor); */
 
-                        // Store the updated tag
-                        updatedTag = tags[index];
+                        // Store the updated docenteTutor
+          /*               updatedDocenteTutor = docentesTutores[index];
                     }
-                });
+                }); */
 
                 // Return the response
-                return [200, updatedTag];
-            });
+        /*        return [200, updatedDocenteTutor];
+           }); */
 
         // -----------------------------------------------------------------------------------------------------
-        // @ Tag - DELETE
+        // @ Docente Tutor - DELETE
         // -----------------------------------------------------------------------------------------------------
-        this._fuseMockApiService
-            .onDelete('api/apps/ecommerce/inventory/tag1')
-            .reply(({ request }) => {
+        /*         this._fuseMockApiService
+                    .onDelete('api/apps/ecommerce/inventory/docenteTutor')
+                    .reply(({ request }) => { */
 
                 // Get the id
-                const id = request.params.get('id');
+        /*      const id = request.params.get('id'); */
 
-                // Find the tag and delete it
-                this._tags1.forEach((item, index) => {
+                // Find the docenteTutor and delete it
+     /*            this._docentesTutores.forEach((item, index) => {
 
                     if (item.id === id) {
-                        this._tags1.splice(index, 1);
+                        this._docentesTutores.splice(index, 1);
                     }
-                });
+                }); */
 
-                // Get the products that have the tag
-                const productsWithTag = this._clubs.filter(product => product.tags.indexOf(id) > -1);
+                // Get the clubs that have the docenteTutor
+        /*     const clubsWithDocenteTutor = this._clubs.filter(club => club.docentesTutores.indexOf(id) > -1); */
 
-                // Iterate through them and delete the tag
-                productsWithTag.forEach((product) => {
-                    product.tags.splice(product.tags.indexOf(id), 1);
-                });
+                // Iterate through them and delete the docenteTutor
+        /*      clubsWithDocenteTutor.forEach((club) => {
+                 club.docentesTutores.splice(club.docentesTutores.indexOf(id), 1);
+             }); */
 
                 // Return the response
-                return [200, true];
-            });
+        /*            return [200, true];
+               }); */
 
         // -----------------------------------------------------------------------------------------------------
-        // @ Vendors - GET
+        // @ Programas - GET
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
-            .onGet('api/apps/ecommerce/inventory/vendors1')
-            .reply(() => [200, cloneDeep(this._vendors1)]);
+            .onGet('api/apps/ecommerce/inventory/programas')
+            .reply(() => [200, cloneDeep(this._programas)]);
     }
 }

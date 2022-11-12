@@ -5,7 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 
 @Component({
-    selector: 'mailbox',
+    selector: 'admin',
     templateUrl: './admin.component.html',
     encapsulation: ViewEncapsulation.None
 })

@@ -1,23 +1,23 @@
 export interface InventoryActivities {
     id: string;
-    category2?: string;
+    clubActividades?: string;
     name: string;
-    description?: string;
-    tags?: string[];
-    sku?: string | null;
-    barcode?: string | null;
-    brand2?: string | null;
-    vendor2: string | null;
-    stock: Date;
-    reserved: number;
-    cost: number;
-    basePrice: number;
-    taxPercent: number;
-    price: string;
-    weight: number;
-    thumbnail: string;
-    images: string[];
-    active: number;
+    observacion?: string;
+    participantesActividades?: string[];
+    /* sku?: string | null;
+    barcode?: string | null; */
+    facultadActividades?: string | null;
+    programaActividades: string | null;
+    fechaPlanificacion: Date;
+    horas: number;
+    materiales: string;
+    fechaSeguimiento: string;
+    /* taxPercent: number; */
+    lugar: string;
+    fechaEstimada: string;
+    /*     thumbnail: string;
+        images: string[]; */
+    logro: number;
 }
 
 export interface InventoryPagination
@@ -30,29 +30,25 @@ export interface InventoryPagination
     endIndex: number;
 }
 
-export interface InventoryCategory
-{
+export interface InventoryClubActividades {
     id: string;
     parentId: string;
     name: string;
     slug: string;
 }
 
-export interface InventoryBrand
-{
+export interface InventoryFacultadActividades {
     id: string;
     name: string;
     slug: string;
 }
 
-export interface InventoryTag
-{
+export interface InventoryParticipanteActividades {
     id?: string;
     title?: string;
 }
 
-export interface InventoryVendor
-{
+export interface InventoryProgramaActividades {
     id: string;
     name: string;
     slug: string;

@@ -2,20 +2,21 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryClubs, InventoryTag, InventoryVendor } from 'app/modules/admin/clubs/clubs.types';
+import { InventoryFacultadClub, InventoryLiderEstudiantil, InventoryPagination, InventoryClubs, InventoryDocenteTutor, InventoryPrograma, InventoryParticipanteClubes } from 'app/modules/admin/clubs/clubs.types';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ClubsService {
     // Private
-    private _brands1: BehaviorSubject<InventoryBrand[] | null> = new BehaviorSubject(null);
-    private _categories1: BehaviorSubject<InventoryCategory[] | null> = new BehaviorSubject(null);
-    private _pagination1: BehaviorSubject<InventoryPagination | null> = new BehaviorSubject(null);
+    private _facultadesClub: BehaviorSubject<InventoryFacultadClub[] | null> = new BehaviorSubject(null);
+    private _lideresEstudiantiles: BehaviorSubject<InventoryLiderEstudiantil[] | null> = new BehaviorSubject(null);
+    private _paginationClubsClubs: BehaviorSubject<InventoryPagination | null> = new BehaviorSubject(null);
     private _club: BehaviorSubject<InventoryClubs | null> = new BehaviorSubject(null);
     private _clubs: BehaviorSubject<InventoryClubs[] | null> = new BehaviorSubject(null);
-    private _tags1: BehaviorSubject<InventoryTag[] | null> = new BehaviorSubject(null);
-    private _vendors1: BehaviorSubject<InventoryVendor[] | null> = new BehaviorSubject(null);
+    private _docentesTutores: BehaviorSubject<InventoryDocenteTutor[] | null> = new BehaviorSubject(null);
+    private _participantesClubes: BehaviorSubject<InventoryParticipanteClubes[] | null> = new BehaviorSubject(null);
+    private _programas: BehaviorSubject<InventoryPrograma[] | null> = new BehaviorSubject(null);
 
     /**
      * Constructor
@@ -28,52 +29,59 @@ export class ClubsService {
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Getter for brands
+     * Getter for facultadesClub
      */
-    get brands$(): Observable<InventoryBrand[]> {
-        return this._brands1.asObservable();
+    get facultadesClub$(): Observable<InventoryFacultadClub[]> {
+        return this._facultadesClub.asObservable();
     }
 
     /**
-     * Getter for categories
+     * Getter for lideresEstudiantiles
      */
-    get categories$(): Observable<InventoryCategory[]> {
-        return this._categories1.asObservable();
+    get lideresEstudiantiles$(): Observable<InventoryLiderEstudiantil[]> {
+        return this._lideresEstudiantiles.asObservable();
     }
 
     /**
-     * Getter for pagination
+     * Getter for paginationClubs
      */
-    get pagination$(): Observable<InventoryPagination> {
-        return this._pagination1.asObservable();
+    get paginationClubs$(): Observable<InventoryPagination> {
+        return this._paginationClubsClubs.asObservable();
     }
 
     /**
-     * Getter for product
+     * Getter for club
      */
-    get product$(): Observable<InventoryClubs> {
+    get club$(): Observable<InventoryClubs> {
         return this._club.asObservable();
     }
 
     /**
-     * Getter for products
+     * Getter for participantesClubes
      */
-    get products$(): Observable<InventoryClubs[]> {
+    get participantesClubes$(): Observable<InventoryParticipanteClubes[]> {
+        return this._participantesClubes.asObservable();
+    }
+
+    /**
+     * Getter for clubs
+     */
+    get clubs$(): Observable<InventoryClubs[]> {
         return this._clubs.asObservable();
     }
 
     /**
-     * Getter for tags
+     * Getter for docentesTutores
      */
-    get tags$(): Observable<InventoryTag[]> {
-        return this._tags1.asObservable();
+    get docentesTutores$(): Observable<InventoryDocenteTutor[]> {
+        return this._docentesTutores.asObservable();
     }
 
     /**
-     * Getter for vendors
+     * Getter for programas
      */
-    get vendors$(): Observable<InventoryVendor[]> {
-        return this._vendors1.asObservable();
+    get programas$(): Observable<InventoryPrograma[]> {
+        return this._programas.asObservable();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -81,29 +89,29 @@ export class ClubsService {
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Get brands
+     * Get facultadesClub
      */
-    getBrands(): Observable<InventoryBrand[]> {
-        return this._httpClient.get<InventoryBrand[]>('api/apps/ecommerce/inventory/brands1').pipe(
-            tap((brands1) => {
-                this._brands1.next(brands1);
+    getFacultadesClub(): Observable<InventoryFacultadClub[]> {
+        return this._httpClient.get<InventoryFacultadClub[]>('api/apps/ecommerce/inventory/facultadesClub').pipe(
+            tap((facultadesClub) => {
+                this._facultadesClub.next(facultadesClub);
             })
         );
     }
 
     /**
-     * Get categories
+     * Get Líderes Estudiantiles
      */
-    getCategories(): Observable<InventoryCategory[]> {
-        return this._httpClient.get<InventoryCategory[]>('api/apps/ecommerce/inventory/categories1').pipe(
-            tap((categories1) => {
-                this._categories1.next(categories1);
+    getLideresEstudiantiles(): Observable<InventoryLiderEstudiantil[]> {
+        return this._httpClient.get<InventoryLiderEstudiantil[]>('api/apps/ecommerce/inventory/lideresEstudiantiles').pipe(
+            tap((lideresEstudiantiles) => {
+                this._lideresEstudiantiles.next(lideresEstudiantiles);
             })
         );
     }
 
     /**
-     * Get products
+     * Get clubs
      *
      *
      * @param page
@@ -112,9 +120,9 @@ export class ClubsService {
      * @param order
      * @param search
      */
-    getProducts(page: number = 0, size: number = 10, sort: string = 'name', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
-        Observable<{ pagination: InventoryPagination; products: InventoryClubs[] }> {
-        return this._httpClient.get<{ pagination: InventoryPagination; products: InventoryClubs[] }>('api/apps/ecommerce/inventory/clubs', {
+    getClubs(page: number = 0, size: number = 10, sort: string = 'name', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
+        Observable<{ paginationClubs: InventoryPagination; clubs: InventoryClubs[] }> {
+        return this._httpClient.get<{ paginationClubs: InventoryPagination; clubs: InventoryClubs[] }>('api/clubes', {
             params: {
                 page: '' + page,
                 size: '' + size,
@@ -124,96 +132,96 @@ export class ClubsService {
             }
         }).pipe(
             tap((response) => {
-                this._pagination1.next(response.pagination);
-                this._clubs.next(response.products);
+                this._paginationClubsClubs.next(response.paginationClubs);
+                this._clubs.next(response.clubs);
             })
         );
     }
 
     /**
-     * Get product by id
+     * Get club by id
      */
-    getProductById(id: string): Observable<InventoryClubs> {
+    getClubById(id: string): Observable<InventoryClubs> {
         return this._clubs.pipe(
             take(1),
-            map((products) => {
+            map((clubs) => {
 
-                // Find the product
-                const product = products.find(item => item.id === id) || null;
+                // Find the club
+                const club = clubs.find(item => item.id === id) || null;
 
-                // Update the product
-                this._club.next(product);
+                // Update the club
+                this._club.next(club);
 
-                // Return the product
-                return product;
+                // Return the club
+                return club;
             }),
-            switchMap((product) => {
+            switchMap((club) => {
 
-                if (!product) {
+                if (!club) {
                     return throwError('No se pudo encontrar el club con el id de ' + id + '.');
                 }
 
-                return of(product);
+                return of(club);
             })
         );
     }
 
     /**
-     * Create product
+     * Create club
      */
-    createProduct(): Observable<InventoryClubs> {
-        return this.products$.pipe(
+    createClub(): Observable<InventoryClubs> {
+        return this.clubs$.pipe(
             take(1),
-            switchMap(products => this._httpClient.post<InventoryClubs>('api/apps/ecommerce/inventory/club', {}).pipe(
-                map((newProduct) => {
+            switchMap(clubs => this._httpClient.post<InventoryClubs>('api/apps/ecommerce/inventory/club', {}).pipe(
+                map((newClub) => {
 
-                    // Update the products with the new product
-                    this._clubs.next([newProduct, ...products]);
+                    // Update the clubs with the new club
+                    this._clubs.next([newClub, ...clubs]);
 
-                    // Return the new product
-                    return newProduct;
+                    // Return the new club
+                    return newClub;
                 })
             ))
         );
     }
 
     /**
-     * Update product
+     * Update club
      *
      * @param id
-     * @param product
+     * @param club
      */
-    updateProduct(id: string, product: InventoryClubs): Observable<InventoryClubs> {
-        return this.products$.pipe(
+    updateClub(id: string, club: InventoryClubs): Observable<InventoryClubs> {
+        return this.clubs$.pipe(
             take(1),
-            switchMap(products => this._httpClient.patch<InventoryClubs>('api/apps/ecommerce/inventory/club', {
+            switchMap(clubs => this._httpClient.patch<InventoryClubs>('api/apps/ecommerce/inventory/club', {
                 id,
-                product
+                club
             }).pipe(
-                map((updatedProduct) => {
+                map((updatedClub) => {
 
-                    // Find the index of the updated product
-                    const index = products.findIndex(item => item.id === id);
+                    // Find the index of the updated club
+                    const index = clubs.findIndex(item => item.id === id);
 
-                    // Update the product
-                    products[index] = updatedProduct;
+                    // Update the club
+                    clubs[index] = updatedClub;
 
-                    // Update the products
-                    this._clubs.next(products);
+                    // Update the clubs
+                    this._clubs.next(clubs);
 
-                    // Return the updated product
-                    return updatedProduct;
+                    // Return the updated club
+                    return updatedClub;
                 }),
-                switchMap(updatedProduct => this.product$.pipe(
+                switchMap(updatedClub => this.club$.pipe(
                     take(1),
                     filter(item => item && item.id === id),
                     tap(() => {
 
-                        // Update the product if it's selected
-                        this._club.next(updatedProduct);
+                        // Update the club if it's selected
+                        this._club.next(updatedClub);
 
-                        // Return the updated product
-                        return updatedProduct;
+                        // Return the updated club
+                        return updatedClub;
                     })
                 ))
             ))
@@ -221,24 +229,24 @@ export class ClubsService {
     }
 
     /**
-     * Delete the product
+     * Delete the club
      *
      * @param id
      */
-    deleteProduct(id: string): Observable<boolean> {
-        return this.products$.pipe(
+    deleteClub(id: string): Observable<boolean> {
+        return this.clubs$.pipe(
             take(1),
-            switchMap(products => this._httpClient.delete('api/apps/ecommerce/inventory/club', { params: { id } }).pipe(
+            switchMap(clubs => this._httpClient.delete('api/apps/ecommerce/inventory/club', { params: { id } }).pipe(
                 map((isDeleted: boolean) => {
 
-                    // Find the index of the deleted product
-                    const index = products.findIndex(item => item.id === id);
+                    // Find the index of the deleted club
+                    const index = clubs.findIndex(item => item.id === id);
 
-                    // Delete the product
-                    products.splice(index, 1);
+                    // Delete the club
+                    clubs.splice(index, 1);
 
-                    // Update the products
-                    this._clubs.next(products);
+                    // Update the clubs
+                    this._clubs.next(clubs);
 
                     // Return the deleted status
                     return isDeleted;
@@ -248,122 +256,133 @@ export class ClubsService {
     }
 
     /**
-     * Get tags
+     * Get participantesClubes
      */
-    getTags(): Observable<InventoryTag[]> {
-        return this._httpClient.get<InventoryTag[]>('api/apps/ecommerce/inventory/tags1').pipe(
-            tap((tags) => {
-                this._tags1.next(tags);
+    getParticipantesClubes(): Observable<InventoryParticipanteClubes[]> {
+        return this._httpClient.get<InventoryParticipanteClubes[]>('api/apps/ecommerce/inventory/participantesClubes').pipe(
+            tap((participantesClubes) => {
+                this._participantesClubes.next(participantesClubes);
             })
         );
     }
 
     /**
-     * Create tag
-     *
-     * @param tag
+     * Get Docentes Tutores
      */
-    createTag(tag: InventoryTag): Observable<InventoryTag> {
-        return this.tags$.pipe(
-            take(1),
-            switchMap(tags => this._httpClient.post<InventoryTag>('api/apps/ecommerce/inventory/tag1', { tag }).pipe(
-                map((newTag) => {
-
-                    // Update the tags with the new tag
-                    this._tags1.next([...tags, newTag]);
-
-                    // Return new tag from observable
-                    return newTag;
-                })
-            ))
+    getDocentesTutores(): Observable<InventoryDocenteTutor[]> {
+        return this._httpClient.get<InventoryDocenteTutor[]>('api/apps/ecommerce/inventory/docentesTutores').pipe(
+            tap((docentesTutores) => {
+                this._docentesTutores.next(docentesTutores);
+            })
         );
     }
 
     /**
-     * Update the tag
+     * Create Docente Tutor
+     *
+     * @param docenteTutor
+     */
+/*     createDocenteTutor(docenteTutor: InventoryDocenteTutor): Observable<InventoryDocenteTutor> {
+        return this.docentesTutores$.pipe(
+            take(1),
+            switchMap(docentesTutores => this._httpClient.post<InventoryDocenteTutor>('api/apps/ecommerce/inventory/docenteTutor1', { docenteTutor }).pipe(
+                map((newDocenteTutor) => { */
+
+                    // Update the docentesTutores with the new docenteTutor
+    /*   this._docentesTutores.next([...docentesTutores, newDocenteTutor]); */
+
+                    // Return new docenteTutor from observable
+  /*                   return newDocenteTutor;
+                })
+            ))
+        );
+    }
+ */
+    /**
+     * Update the Docente Tutor
      *
      * @param id
-     * @param tag
+     * @param docenteTutor
      */
-    updateTag(id: string, tag: InventoryTag): Observable<InventoryTag> {
-        return this.tags$.pipe(
+  /*   updateDocenteTutor(id: string, docenteTutor: InventoryDocenteTutor): Observable<InventoryDocenteTutor> {
+        return this.docentesTutores$.pipe(
             take(1),
-            switchMap(tags => this._httpClient.patch<InventoryTag>('api/apps/ecommerce/inventory/tag1', {
+            switchMap(docentesTutores => this._httpClient.patch<InventoryDocenteTutor>('api/apps/ecommerce/inventory/docenteTutor1', {
                 id,
-                tag
+                docenteTutor
             }).pipe(
-                map((updatedTag) => {
+                map((updatedDocenteTutor) => { */
 
-                    // Find the index of the updated tag
-                    const index = tags.findIndex(item => item.id === id);
+                    // Find the index of the updated docenteTutor
+    /*        const index = docentesTutores.findIndex(item => item.id === id); */
 
-                    // Update the tag
-                    tags[index] = updatedTag;
+                    // Update the docenteTutor
+    /*          docentesTutores[index] = updatedDocenteTutor; */
 
-                    // Update the tags
-                    this._tags1.next(tags);
+                    // Update the docentesTutores
+    /*     this._docentesTutores.next(docentesTutores); */
 
-                    // Return the updated tag
-                    return updatedTag;
+                    // Return the updated docenteTutor
+     /*                return updatedDocenteTutor;
                 })
             ))
         );
-    }
+    } */
 
     /**
-     * Delete the tag
+     * Delete the Docente Tutor
      *
      * @param id
      */
-    deleteTag(id: string): Observable<boolean> {
-        return this.tags$.pipe(
+/*     deleteDocenteTutor(id: string): Observable<boolean> {
+        return this.docentesTutores$.pipe(
             take(1),
-            switchMap(tags => this._httpClient.delete('api/apps/ecommerce/inventory/tag1', { params: { id } }).pipe(
-                map((isDeleted: boolean) => {
+            switchMap(docentesTutores => this._httpClient.delete('api/apps/ecommerce/inventory/docenteTutor1', { params: { id } }).pipe(
+                map((isDeleted: boolean) => { */
 
-                    // Find the index of the deleted tag
-                    const index = tags.findIndex(item => item.id === id);
+                    // Find the index of the deleted docenteTutor
+    /*      const index = docentesTutores.findIndex(item => item.id === id); */
 
-                    // Delete the tag
-                    tags.splice(index, 1);
+                    // Delete the docenteTutor
+    /*         docentesTutores.splice(index, 1); */
 
-                    // Update the tags
-                    this._tags1.next(tags);
+                    // Update the docentesTutores
+    /*    this._docentesTutores.next(docentesTutores); */
 
                     // Return the deleted status
-                    return isDeleted;
-                }),
-                filter(isDeleted => isDeleted),
-                switchMap(isDeleted => this.products$.pipe(
+    /*       return isDeleted;
+      }), */
+          /*       filter(isDeleted => isDeleted),
+                switchMap(isDeleted => this.clubs$.pipe(
                     take(1),
-                    map((products) => {
+                    map((clubs) => { */
 
                         // Iterate through the contacts
-                        products.forEach((product) => {
+    /*            clubs.forEach((club) => { */
 
-                            const tagIndex = product.tags.findIndex(tag => tag === id);
+    /*       const docenteTutorIndex = club.docentesTutores.findIndex(docenteTutor => docenteTutor === id); */
 
-                            // If the contact has the tag, remove it
-                            if (tagIndex > -1) {
-                                product.tags.splice(tagIndex, 1);
+                            // If the contact has the docenteTutor, remove it
+               /*              if (docenteTutorIndex > -1) {
+                                club.docentesTutores.splice(docenteTutorIndex, 1);
                             }
-                        });
+                        }); */
 
                         // Return the deleted status
-                        return isDeleted;
+   /*                      return isDeleted;
                     })
                 ))
             ))
         );
-    }
+    } */
 
     /**
-     * Get vendors
+     * Get programas
      */
-    getVendors(): Observable<InventoryVendor[]> {
-        return this._httpClient.get<InventoryVendor[]>('api/apps/ecommerce/inventory/vendors1').pipe(
-            tap((vendors1) => {
-                this._vendors1.next(vendors1);
+    getProgramas(): Observable<InventoryPrograma[]> {
+        return this._httpClient.get<InventoryPrograma[]>('api/apps/ecommerce/inventory/programas').pipe(
+            tap((programas) => {
+                this._programas.next(programas);
             })
         );
     }

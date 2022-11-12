@@ -59,13 +59,13 @@
                 <!-- Name -->
                 <div class="mt-3 text-4xl font-bold truncate">{{contact.name}}</div>
 
-                <!-- Tags -->
-                <ng-container *ngIf="contact.tags.length">
+                <!-- Clubes -->
+                <ng-container *ngIf="contact.clubes.length">
                     <div class="flex flex-wrap items-center mt-2">
-                        <!-- Tag -->
-                        <ng-container *ngFor="let tag of (contact.tags | fuseFindByKey:'id':tags); trackBy: trackByFn">
+                        <!-- Club -->
+                        <ng-container *ngFor="let club of (contact.clubes | fuseFindByKey:'id':clubes); trackBy: trackByFn">
                             <div class="flex items-center justify-center py-1 px-3 mr-3 mb-3 rounded-full leading-normal text-gray-500 bg-gray-100 dark:text-gray-300 dark:bg-gray-700">
-                                <span class="text-sm font-medium whitespace-nowrap">{{tag.title}}</span>
+                                <span class="text-sm font-medium whitespace-nowrap">{{club.title}}</span>
                             </div>
                         </ng-container>
                     </div>
@@ -73,10 +73,10 @@
 
                 <div class="flex flex-col mt-4 pt-6 border-t space-y-8">
                     <!-- Username -->
-                    <ng-container *ngIf="contact.title">
+                    <ng-container *ngIf="contact.username">
                         <div class="flex sm:items-center">
                             <mat-icon [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
-                            <div class="ml-6 leading-6">{{contact.title}}</div>
+                            <div class="ml-6 leading-6">{{contact.username}}</div>
                         </div>
                     </ng-container>
                     <!-- Email -->
@@ -97,10 +97,10 @@
                     </ng-container>
 
                     <!-- Title -->
-                    <ng-container *ngIf="contact.company">
+                    <ng-container *ngIf="contact.rol">
                         <div class="flex sm:items-center">
                             <mat-icon [svgIcon]="'heroicons_outline:briefcase'"></mat-icon>
-                            <div class="ml-6 leading-6">{{contact.company}}</div>
+                            <div class="ml-6 leading-6">{{contact.rol}}</div>
                         </div>
                     </ng-container>
 
@@ -151,7 +151,7 @@
                                         type="file"
                                         [multiple]="false"
                                         [accept]="'image/jpeg, image/png'"
-                                        
+                                        (change)="uploadAvatar(avatarFileInput.files)"
                                         #avatarFileInput>
                                     <label
                                         class="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer hover:bg-hover"
@@ -204,40 +204,40 @@
                         </mat-form-field>
                     </div>
 
-                    <!-- Tags -->
+                    <!-- Clubes -->
                     <div class="flex flex-wrap items-center -m-1.5 mt-6">
-                        <!-- Tags -->
-                        <ng-container *ngIf="contact.tags.length">
-                            <ng-container *ngFor="let tag of (contact.tags | fuseFindByKey:'id':tags); trackBy: trackByFn">
+                        <!-- Clubes -->
+                        <ng-container *ngIf="contact.clubes.length">
+                            <ng-container *ngFor="let club of (contact.clubes | fuseFindByKey:'id':clubes); trackBy: trackByFn">
                                 <div class="flex items-center justify-center px-4 m-1.5 rounded-full leading-9 text-gray-500 bg-gray-100 dark:text-gray-300 dark:bg-gray-700">
-                                    <span class="text-md font-medium whitespace-nowrap">{{tag.title}}</span>
+                                    <span class="text-md font-medium whitespace-nowrap">{{club.title}}</span>
                                 </div>
                             </ng-container>
                         </ng-container>
-                        <!-- Tags panel and its button -->
+                        <!-- Clubes panel and its button -->
                         <div
                             class="flex items-center justify-center px-4 m-1.5 rounded-full leading-9 cursor-pointer text-gray-500 bg-gray-100 dark:text-gray-300 dark:bg-gray-700"
-                            (click)="openTagsPanel()"
-                            #tagsPanelOrigin>
+                            (click)="openClubesPanel()"
+                            #clubesPanelOrigin>
 
-<!--                             <ng-container *ngIf="contact.tags.length">
+<!--                             <ng-container *ngIf="contact.clubes.length">
                                 <mat-icon
                                     class="icon-size-5"
                                     [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
                                 <span class="ml-1.5 text-md font-medium whitespace-nowrap">Editar</span>
                             </ng-container> -->
 
-                            <ng-container *ngIf="!contact.tags.length">
+                            <ng-container *ngIf="!contact.clubes.length">
                                 <mat-icon
                                     class="icon-size-5"
                                     [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
                                 <span class="ml-1.5 text-md font-medium whitespace-nowrap">Agregar</span>
                             </ng-container>
 
-                            <!-- Tags panel -->
-                            <ng-template #tagsPanel>
+                            <!-- Clubes panel -->
+                            <ng-template #clubesPanel>
                                 <div class="w-70 rounded border shadow-md bg-card">
-                                    <!-- Tags panel header -->
+                                    <!-- Clubes panel header -->
                                     <div class="flex items-center m-3 mr-2">
                                         <div class="flex items-center">
                                             <mat-icon
@@ -248,58 +248,58 @@
                                                     class="w-full min-w-0 py-1 border-0"
                                                     type="text"
                                                     placeholder="Introduzca el nombre del club"
-                                                    (input)="filterTags($event)"
-                                                    (keydown)="filterTagsInputKeyDown($event)"
+                                                    (input)="filterClubes($event)"
+                                                    (keydown)="filterClubesInputKeyDown($event)"
                                                     [maxLength]="30"
-                                                    #newTagInput>
+                                                    #newClubInput>
                                             </div>
                                         </div>
 <!--                                         <button
                                             class="ml-1"
                                             mat-icon-button
-                                            (click)="toggleTagsEditMode()">
+                                            (click)="toggleClubesEditMode()">
                                             <mat-icon
-                                                *ngIf="!tagsEditMode"
+                                                *ngIf="!clubesEditMode"
                                                 class="icon-size-5"
                                                 [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
                                             <mat-icon
-                                                *ngIf="tagsEditMode"
+                                                *ngIf="clubesEditMode"
                                                 class="icon-size-5"
                                                 [svgIcon]="'heroicons_solid:check'"></mat-icon>
                                         </button> -->
                                     </div>
                                     <div
                                         class="flex flex-col max-h-64 py-2 border-t overflow-y-auto">
-                                        <!-- Tags -->
-                                        <ng-container *ngIf="!tagsEditMode">
-                                            <ng-container *ngFor="let tag of filteredTags; trackBy: trackByFn">
+                                        <!-- Clubes -->
+                                        <!-- <ng-container *ngIf="!clubesEditMode"> -->
+                                            <ng-container *ngFor="let club of filteredClubes; trackBy: trackByFn">
                                                 <div
                                                     class="flex items-center h-10 min-h-10 px-4 cursor-pointer hover:bg-hover"
-                                                    (click)="toggleContactTag(tag)"
+                                                    (click)="toggleContactClub(club)"
                                                     matRipple>
                                                     <mat-checkbox
                                                         class="flex items-center h-10 min-h-10 pointer-events-none"
-                                                        [checked]="contact.tags.includes(tag.id)"
+                                                        [checked]="contact.clubes.includes(club.id)"
                                                         [color]="'primary'"
                                                         [disableRipple]="true">
                                                     </mat-checkbox>
-                                                    <div class="ml-1">{{tag.title}}</div>
+                                                    <div class="ml-1">{{club.title}}</div>
                                                 </div>
                                             </ng-container>
-                                        </ng-container>
-                                        <!-- Tags editing -->
-<!--                                         <ng-container *ngIf="tagsEditMode">
+                                        <!-- </ng-container> -->
+                                        <!-- Clubes editing -->
+<!--                                         <ng-container *ngIf="clubesEditMode">
                                             <div class="py-2 space-y-2">
-                                                <ng-container *ngFor="let tag of filteredTags; trackBy: trackByFn">
+                                                <ng-container *ngFor="let club of filteredClubes; trackBy: trackByFn">
                                                     <div class="flex items-center">
                                                         <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript w-full mx-4">
                                                             <input
                                                                 matInput
-                                                                [value]="tag.title"
-                                                                (input)="updateTagTitle(tag, $event)">
+                                                                [value]="club.title"
+                                                                (input)="updateClubTitle(club, $event)">
                                                             <button
                                                                 mat-icon-button
-                                                                (click)="deleteTag(tag)"
+                                                                (click)="deleteClub(club)"
                                                                 matSuffix>
                                                                 <mat-icon
                                                                     class="icon-size-5 ml-2"
@@ -310,16 +310,16 @@
                                                 </ng-container>
                                             </div>
                                         </ng-container> -->
-                                        <!-- Create tag -->
+                                        <!-- Create club -->
 <!--                                         <div
                                             class="flex items-center h-10 min-h-10 -ml-0.5 pl-4 pr-3 leading-none cursor-pointer hover:bg-hover"
-                                            *ngIf="shouldShowCreateTagButton(newTagInput.value)"
-                                            (click)="createTag(newTagInput.value); newTagInput.value = ''"
+                                            *ngIf="shouldShowCreateClubButton(newClubInput.value)"
+                                            (click)="createClub(newClubInput.value); newClubInput.value = ''"
                                             matRipple>
                                             <mat-icon
                                                 class="mr-2 icon-size-5"
                                                 [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
-                                            <div class="break-all">Crear "<b>{{newTagInput.value}}</b>"</div>
+                                            <div class="break-all">Crear "<b>{{newClubInput.value}}</b>"</div>
                                         </div> -->
                                     </div>
                                 </div>
@@ -337,7 +337,7 @@
                                 [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
                             <input
                                 matInput
-                                [formControlName]="'title'"
+                                [formControlName]="'username'"
                                 [placeholder]="'Nombre de usuario'">
                         </mat-form-field>
                     </div>

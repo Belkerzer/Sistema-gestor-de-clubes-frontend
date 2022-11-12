@@ -1,8 +1,10 @@
 /* eslint-disable */
-import * as moment from 'moment';
+import moment from 'moment';
+import 'app/moment.es.ec.ts';
+moment.locale('es-EC');
 
-export const analytics = {
-    visitors           : {
+export const home = {
+    members: {
         series: {
             'this-year': [
                 {
@@ -980,7 +982,7 @@ export const analytics = {
             ]
         }
     },
-    conversions        : {
+    men: {
         amount: 4123,
         labels: [
             moment().subtract(47, 'days').format('DD MMM') + ' - ' + moment().subtract(40, 'days').format('DD MMM'),
@@ -997,7 +999,7 @@ export const analytics = {
             }
         ]
     },
-    impressions        : {
+    women: {
         amount: 46085,
         labels: [
             moment().subtract(31, 'days').format('DD MMM') + ' - ' + moment().subtract(24, 'days').format('DD MMM'),
@@ -1012,7 +1014,7 @@ export const analytics = {
             }
         ]
     },
-    visits             : {
+    totalMembers: {
         amount: 62083,
         labels: [
             moment().subtract(31, 'days').format('DD MMM') + ' - ' + moment().subtract(24, 'days').format('DD MMM'),
@@ -1027,7 +1029,7 @@ export const analytics = {
             }
         ]
     },
-    visitorsVsPageViews: {
+    /* membersVsPageViews: {
         overallScore  : 472,
         averageRatio  : 45,
         predictedRatio: 55,
@@ -1563,8 +1565,8 @@ export const analytics = {
                 ]
             }
         ]
-    },
-    newVsReturning     : {
+    }, */
+/*     newVsReturning     : {
         uniqueVisitors: 46085,
         series        : [80, 20],
         labels        : [
@@ -1595,5 +1597,5 @@ export const analytics = {
             'English',
             'Other'
         ]
-    }
+    } */
 };

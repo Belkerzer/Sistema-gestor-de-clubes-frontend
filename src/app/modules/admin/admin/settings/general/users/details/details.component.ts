@@ -8,7 +8,7 @@ import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ContactsService } from '../users.service';
-import { Tag, Contact, Country, Rol } from '../users.types';
+import { Club, Contact, Rol } from '../users.types';
 import { UsersListComponent } from '../list/list.component';
 import { UserService } from 'app/core/user/user.service';
 import { BooleanInput } from '@angular/cdk/coercion';
@@ -24,8 +24,8 @@ import { User } from 'app/core/user/user.types';
 })
 export class UsersDetailsComponent implements OnInit, OnDestroy {
     @ViewChild('avatarFileInput') private _avatarFileInput: ElementRef;
-    @ViewChild('tagsPanel') private _tagsPanel: TemplateRef<any>;
-    @ViewChild('tagsPanelOrigin') private _tagsPanelOrigin: ElementRef;
+    @ViewChild('clubesPanel') private _clubesPanel: TemplateRef<any>;
+    @ViewChild('clubesPanelOrigin') private _clubesPanelOrigin: ElementRef;
 
     /* eslint-disable @typescript-eslint/naming-convention */
     static ngAcceptInputType_showAvatar: BooleanInput;
@@ -34,15 +34,15 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
     @Input() showAvatar: boolean = true;
     editMode: boolean = false;
     user: User;
-    tags: Tag[];
-    tagsEditMode: boolean = false;
-    filteredTags: Tag[];
+    clubes: Club[];
+    /* clubesEditMode: boolean = false; */
+    filteredClubes: Club[];
     contact: Contact;
     roles: Rol[];
     contactForm: FormGroup;
     contacts: Contact[];
-    countries: Country[];
-    private _tagsPanelOverlayRef: OverlayRef;
+    /* countries: Country[]; */
+    private _clubesPanelOverlayRef: OverlayRef;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -94,8 +94,8 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
             company: [''],
             birthday: [null],
             address: [null],
-            notes: [null],
-            tags: [[]],
+            username: [''],
+            clubes: [[]],
             rol: [''],
         });
 
@@ -134,20 +134,20 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
 
                 // Clear the emails and phoneNumbers form arrays
 
-                (this.contactForm.get('phoneNumbers') as FormArray).clear();
+                /*   (this.contactForm.get('phoneNumbers') as FormArray).clear(); */
 
                 // Patch values to the form
-                this.contactForm.patchValue(contact);
+                /*       this.contactForm.patchValue(contact); */
 
                 // Setup the phone numbers form array
-                const phoneNumbersFormGroups = [];
+      /*           const phoneNumbersFormGroups = [];
 
-                if (contact.phoneNumbers.length > 0) {
+                if (contact.phoneNumbers.length > 0) { */
                     // Iterate through them
-                    contact.phoneNumbers.forEach((phoneNumber) => {
+                /*      contact.phoneNumbers.forEach((phoneNumber) => { */
 
                         // Create an email form group
-                        phoneNumbersFormGroups.push(
+          /*               phoneNumbersFormGroups.push(
                             this._formBuilder.group({
                                 country: [phoneNumber.country],
                                 phoneNumber: [phoneNumber.phoneNumber],
@@ -156,21 +156,21 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
                         );
                     });
                 }
-                else {
+                else { */
                     // Create a phone number form group
-                    phoneNumbersFormGroups.push(
+     /*                phoneNumbersFormGroups.push(
                         this._formBuilder.group({
                             country: ['us'],
                             phoneNumber: [''],
                             label: ['']
                         })
                     );
-                }
+                } */
 
                 // Add the phone numbers form groups to the phone numbers form array
-                phoneNumbersFormGroups.forEach((phoneNumbersFormGroup) => {
+    /*             phoneNumbersFormGroups.forEach((phoneNumbersFormGroup) => {
                     (this.contactForm.get('phoneNumbers') as FormArray).push(phoneNumbersFormGroup);
-                });
+                }); */
 
                 // Toggle the edit mode off
                 this.toggleEditMode(false);
@@ -180,21 +180,21 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
             });
 
         // Get the country telephone codes
-        this._usersService.countries$
+     /*    this._usersService.countries$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((codes: Country[]) => {
-                this.countries = codes;
+                this.countries = codes; */
 
                 // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
+        /*             this._changeDetectorRef.markForCheck();
+                }); */
 
-        // Get the tags
-        this._usersService.tags$
+        // Get the clubes
+        this._usersService.clubes$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((tags: Tag[]) => {
-                this.tags = tags;
-                this.filteredTags = tags;
+            .subscribe((clubes: Club[]) => {
+                this.clubes = clubes;
+                this.filteredClubes = clubes;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -210,8 +210,8 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.complete();
 
         // Dispose the overlays if they are still on the DOM
-        if (this._tagsPanelOverlayRef) {
-            this._tagsPanelOverlayRef.dispose();
+        if (this._clubesPanelOverlayRef) {
+            this._clubesPanelOverlayRef.dispose();
         }
     }
 
@@ -364,16 +364,16 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Open tags panel
+     * Open clubes panel
      */
-    openTagsPanel(): void {
+    openClubesPanel(): void {
         // Create the overlay
-        this._tagsPanelOverlayRef = this._overlay.create({
+        this._clubesPanelOverlayRef = this._overlay.create({
             backdropClass: '',
             hasBackdrop: true,
             scrollStrategy: this._overlay.scrollStrategies.block(),
             positionStrategy: this._overlay.position()
-                .flexibleConnectedTo(this._tagsPanelOrigin.nativeElement)
+                .flexibleConnectedTo(this._clubesPanelOrigin.nativeElement)
                 .withFlexibleDimensions(true)
                 .withViewportMargin(64)
                 .withLockedPosition(true)
@@ -388,37 +388,37 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
         });
 
         // Subscribe to the attachments observable
-        this._tagsPanelOverlayRef.attachments().subscribe(() => {
+        this._clubesPanelOverlayRef.attachments().subscribe(() => {
 
             // Add a class to the origin
-            this._renderer2.addClass(this._tagsPanelOrigin.nativeElement, 'panel-opened');
+            this._renderer2.addClass(this._clubesPanelOrigin.nativeElement, 'panel-opened');
 
             // Focus to the search input once the overlay has been attached
-            this._tagsPanelOverlayRef.overlayElement.querySelector('input').focus();
+            this._clubesPanelOverlayRef.overlayElement.querySelector('input').focus();
         });
 
         // Create a portal from the template
-        const templatePortal = new TemplatePortal(this._tagsPanel, this._viewContainerRef);
+        const templatePortal = new TemplatePortal(this._clubesPanel, this._viewContainerRef);
 
         // Attach the portal to the overlay
-        this._tagsPanelOverlayRef.attach(templatePortal);
+        this._clubesPanelOverlayRef.attach(templatePortal);
 
         // Subscribe to the backdrop click
-        this._tagsPanelOverlayRef.backdropClick().subscribe(() => {
+        this._clubesPanelOverlayRef.backdropClick().subscribe(() => {
 
             // Remove the class from the origin
-            this._renderer2.removeClass(this._tagsPanelOrigin.nativeElement, 'panel-opened');
+            this._renderer2.removeClass(this._clubesPanelOrigin.nativeElement, 'panel-opened');
 
             // If overlay exists and attached...
-            if (this._tagsPanelOverlayRef && this._tagsPanelOverlayRef.hasAttached()) {
+            if (this._clubesPanelOverlayRef && this._clubesPanelOverlayRef.hasAttached()) {
                 // Detach it
-                this._tagsPanelOverlayRef.detach();
+                this._clubesPanelOverlayRef.detach();
 
-                // Reset the tag filter
-                this.filteredTags = this.tags;
+                // Reset the club filter
+                this.filteredClubes = this.clubes;
 
                 // Toggle the edit mode off
-                this.tagsEditMode = false;
+                /* this.clubesEditMode = false; */
             }
 
             // If template portal exists and attached...
@@ -430,167 +430,167 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Toggle the tags edit mode
+     * Toggle the clubes edit mode
      */
-    toggleTagsEditMode(): void {
-        this.tagsEditMode = !this.tagsEditMode;
-    }
+    /*     toggleClubesEditMode(): void {
+            this.clubesEditMode = !this.clubesEditMode;
+        } */
 
     /**
-     * Filter tags
+     * Filter clubes
      *
      * @param event
      */
-    filterTags(event): void {
+    filterClubes(event): void {
         // Get the value
         const value = event.target.value.toLowerCase();
 
-        // Filter the tags
-        this.filteredTags = this.tags.filter(tag => tag.title.toLowerCase().includes(value));
+        // Filter the clubes
+        this.filteredClubes = this.clubes.filter(club => club.title.toLowerCase().includes(value));
     }
 
     /**
-     * Filter tags input key down event
+     * Filter clubes input key down event
      *
      * @param event
      */
-    filterTagsInputKeyDown(event): void {
+    filterClubesInputKeyDown(event): void {
         // Return if the pressed key is not 'Enter'
         if (event.key !== 'Enter') {
             return;
         }
 
-        // If there is no tag available...
-        if (this.filteredTags.length === 0) {
-            // Create the tag
-            this.createTag(event.target.value);
+        // If there is no club available...
+        /*  if (this.filteredClubes.length === 0) { */
+            // Create the club
+        /*        this.createClub(event.target.value); */
 
             // Clear the input
-            event.target.value = '';
+        /*          event.target.value = ''; */
 
             // Return
-            return;
-        }
+        /*          return;
+             } */
 
-        // If there is a tag...
-        const tag = this.filteredTags[0];
-        const isTagApplied = this.contact.tags.find(id => id === tag.id);
+        // If there is a club...
+        const club = this.filteredClubes[0];
+        const isClubApplied = this.contact.clubes.find(id => id === club.id);
 
-        // If the found tag is already applied to the contact...
-        if (isTagApplied) {
-            // Remove the tag from the contact
-            this.removeTagFromContact(tag);
+        // If the found club is already applied to the contact...
+        /* if (isClubApplied) { */
+            // Remove the club from the contact
+/*             this.removeClubFromContact(club);
         }
-        else {
-            // Otherwise add the tag to the contact
-            this.addTagToContact(tag);
-        }
+        else { */
+            // Otherwise add the club to the contact
+        /*             this.addClubToContact(club);
+                } */
     }
 
     /**
-     * Create a new tag
+     * Create a new club
      *
      * @param title
      */
-    createTag(title: string): void {
-        const tag = {
+/*     createClub(title: string): void {
+        const club = {
             title
-        };
+        }; */
 
-        // Create tag on the server
-        this._usersService.createTag(tag)
-            .subscribe((response) => {
+        // Create club on the server
+    /*  this._usersService.createClub(club)
+         .subscribe((response) => { */
 
-                // Add the tag to the contact
-                this.addTagToContact(response);
+                // Add the club to the contact
+/*                 this.addClubToContact(response);
             });
-    }
+    } */
 
     /**
-     * Update the tag title
+     * Update the club title
      *
-     * @param tag
+     * @param club
      * @param event
      */
-    updateTagTitle(tag: Tag, event): void {
-        // Update the title on the tag
-        tag.title = event.target.value;
+    /*     updateClubTitle(club: Club, event): void { */
+        // Update the title on the club
+    /*         club.title = event.target.value; */
 
-        // Update the tag on the server
-        this._usersService.updateTag(tag.id, tag)
+        // Update the club on the server
+/*         this._usersService.updateClub(club.id, club)
             .pipe(debounceTime(300))
-            .subscribe();
+            .subscribe(); */
 
         // Mark for check
-        this._changeDetectorRef.markForCheck();
+/*         this._changeDetectorRef.markForCheck();
     }
-
+ */
     /**
-     * Delete the tag
+     * Delete the club
      *
-     * @param tag
+     * @param club
      */
-    deleteTag(tag: Tag): void {
-        // Delete the tag from the server
-        this._usersService.deleteTag(tag.id).subscribe();
+    /*     deleteClub(club: Club): void { */
+        // Delete the club from the server
+    /*    this._usersService.deleteClub(club.id).subscribe(); */
 
         // Mark for check
-        this._changeDetectorRef.markForCheck();
-    }
+    /*         this._changeDetectorRef.markForCheck();
+        } */
 
     /**
-     * Add tag to the contact
+     * Add club to the contact
      *
-     * @param tag
+     * @param club
      */
-    addTagToContact(tag: Tag): void {
-        // Add the tag
-        this.contact.tags.unshift(tag.id);
+    /* addClubToContact(club: Club): void { */
+        // Add the club
+    /* this.contact.clubes.unshift(club.id); */
 
         // Update the contact form
-        this.contactForm.get('tags').patchValue(this.contact.tags);
+    /* this.contactForm.get('clubes').patchValue(this.contact.clubes); */
 
         // Mark for check
-        this._changeDetectorRef.markForCheck();
-    }
+    /*  this._changeDetectorRef.markForCheck();
+ } */
 
     /**
-     * Remove tag from the contact
+     * Remove club from the contact
      *
-     * @param tag
+     * @param club
      */
-    removeTagFromContact(tag: Tag): void {
-        // Remove the tag
-        this.contact.tags.splice(this.contact.tags.findIndex(item => item === tag.id), 1);
+    /* removeClubFromContact(club: Club): void { */
+        // Remove the club
+    /* this.contact.clubes.splice(this.contact.clubes.findIndex(item => item === club.id), 1); */
 
         // Update the contact form
-        this.contactForm.get('tags').patchValue(this.contact.tags);
+    /* this.contactForm.get('clubes').patchValue(this.contact.clubes); */
 
         // Mark for check
-        this._changeDetectorRef.markForCheck();
-    }
+    /*        this._changeDetectorRef.markForCheck();
+       } */
 
     /**
-     * Toggle contact tag
+     * Toggle contact club
      *
-     * @param tag
+     * @param club
      */
-    toggleContactTag(tag: Tag): void {
-        if (this.contact.tags.includes(tag.id)) {
-            this.removeTagFromContact(tag);
+/*     toggleContactClub(club: Club): void {
+        if (this.contact.clubes.includes(club.id)) {
+            this.removeClubFromContact(club);
         }
         else {
-            this.addTagToContact(tag);
+            this.addClubToContact(club);
         }
-    }
+    } */
 
     /**
-     * Should the create tag button be visible
+     * Should the create club button be visible
      *
      * @param inputValue
      */
-    shouldShowCreateTagButton(inputValue: string): boolean {
-        return !!!(inputValue === '' || this.tags.findIndex(tag => tag.title.toLowerCase() === inputValue.toLowerCase()) > -1);
+    shouldShowCreateClubButton(inputValue: string): boolean {
+        return !!!(inputValue === '' || this.clubes.findIndex(club => club.title.toLowerCase() === inputValue.toLowerCase()) > -1);
     }
 
     /**
@@ -665,9 +665,9 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
      *
      * @param iso
      */
-    getCountryByIso(iso: string): Country {
+/*     getCountryByIso(iso: string): Country {
         return this.countries.find(country => country.iso === iso);
-    }
+    } */
 
     /**
      * Track by function for ngFor loops

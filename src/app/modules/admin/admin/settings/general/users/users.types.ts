@@ -14,22 +14,21 @@ export interface Contact
     company?: string;
     birthday?: string | null;
     address?: string | null;
-    notes?: string | null;
-    tags: string[];
+    username: string;
+    clubes: string[];
     rol: string;
 }
 
-export interface Country
+/* export interface Country
 {
     id: string;
     iso: string;
     name: string;
     code: string;
     flagImagePos: string;
-}
+} */
 
-export interface Tag
-{
+export interface Club {
     id?: string;
     title?: string;
 }

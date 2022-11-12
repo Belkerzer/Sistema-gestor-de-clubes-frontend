@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@a
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ContactsService } from './users.service';
-import { Contact, Country, Rol, Tag } from './users.types';
+import { Contact, Rol, Club } from './users.types';
 
 @Injectable({
     providedIn: 'root'
@@ -77,16 +77,16 @@ export class ContactsContactResolver implements Resolve<any>
     }
 }
 
-@Injectable({
+/* @Injectable({
     providedIn: 'root'
 })
 export class ContactsCountriesResolver implements Resolve<any>
-{
+{ */
     /**
      * Constructor
      */
-    constructor(private _contactsService: ContactsService) {
-    }
+/*     constructor(private _contactsService: ContactsService) {
+    } */
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
@@ -98,15 +98,15 @@ export class ContactsCountriesResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Country[]> {
+/*     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Country[]> {
         return this._contactsService.getCountries();
     }
-}
+} */
 
 @Injectable({
     providedIn: 'root'
 })
-export class ContactsTagsResolver implements Resolve<any>
+export class ContactsClubesResolver implements Resolve<any>
 {
     /**
      * Constructor
@@ -124,8 +124,8 @@ export class ContactsTagsResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Tag[]> {
-        return this._contactsService.getTags();
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Club[]> {
+        return this._contactsService.getClubes();
     }
 }
 

@@ -6,7 +6,7 @@ import { FuseNavigationItem, FuseNavigationService, FuseVerticalNavigationCompon
 import { AdminService } from 'app/modules/admin/admin/admin.service';
 /* import { MailboxComposeComponent } from 'app/modules/admin/mailbox/compose/compose.component'; */
 /* import { labelColorDefs } from 'app/modules/admin/mailbox/mailbox.constants'; */
-import { MailFilter, MailFolder, MailLabel } from 'app/modules/admin/admin/admin.types';
+/* import { MailFilter, MailFolder, MailLabel } from 'app/modules/admin/admin/admin.types'; */
 
 @Component({
     selector: 'admin-sidebar',
@@ -15,22 +15,22 @@ import { MailFilter, MailFolder, MailLabel } from 'app/modules/admin/admin/admin
     encapsulation: ViewEncapsulation.None
 })
 export class AdminSidebarComponent implements OnInit, OnDestroy {
-    filters: MailFilter[];
+/*     filters: MailFilter[];
     folders: MailFolder[];
-    labels: MailLabel[];
+    labels: MailLabel[]; */
     menuData: FuseNavigationItem[] = [];
-    private _filtersMenuData: FuseNavigationItem[] = [];
+/*     private _filtersMenuData: FuseNavigationItem[] = [];
     private _foldersMenuData: FuseNavigationItem[] = [];
     private _labelsMenuData: FuseNavigationItem[] = [];
-    private _otherMenuData: FuseNavigationItem[] = [];
+    private _otherMenuData: FuseNavigationItem[] = []; */
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
      * Constructor
      */
     constructor(
-        private _adminService: AdminService,
-        private _fuseNavigationService: FuseNavigationService
+        /*     private _adminService: AdminService,
+            private _fuseNavigationService: FuseNavigationService */
     ) {
     }
 
@@ -232,7 +232,7 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
      *
      * @private
      */
-    private _generateFoldersMenuLinks(): void {
+    //private _generateFoldersMenuLinks(): void {
         /*         // Reset the folders menu data
                 this._foldersMenuData = [];
         
@@ -262,14 +262,14 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
         
                 // Update the menu data
                 this._updateMenuData(); */
-    }
+    //}
 
     /**
      * Generate menus for filters
      *
      * @private
      */
-    private _generateFiltersMenuLinks(): void {
+   // private _generateFiltersMenuLinks(): void {
         /*         // Reset the filters menu
                 this._filtersMenuData = [];
         
@@ -288,14 +288,14 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
         
                 // Update the menu data
                 this._updateMenuData(); */
-    }
+//    }
 
     /**
      * Generate menus for labels
      *
      * @private
      */
-    private _generateLabelsMenuLinks(): void {
+    //private _generateLabelsMenuLinks(): void {
         /*         // Reset the labels menu
                 this._labelsMenuData = [];
         
@@ -317,14 +317,14 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
         
                 // Update the menu data
                 this._updateMenuData(); */
-    }
+    //}
 
     /**
      * Generate other menus
      *
      * @private
      */
-    private _generateOtherMenuLinks(): void {
+    //private _generateOtherMenuLinks(): void {
         /*         // Settings menu
                 this._otherMenuData.push({
                     title: 'Settings',
@@ -335,14 +335,14 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
         
                 // Update the menu data
                 this._updateMenuData(); */
-    }
+    //}
 
     /**
      * Update the menu data
      *
      * @private
      */
-    private _updateMenuData(): void {
+    //private _updateMenuData(): void {
         /*         this.menuData = [
                     {
                         title: 'ACCIONES',
@@ -371,7 +371,7 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
                     },
                     ...this._otherMenuData
                 ]; */
-    }
+    //}
 
     /**
      * Update the navigation badge using the
@@ -380,7 +380,7 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
      * @param folders
      * @private
      */
-    private _updateNavigationBadge(folders: MailFolder[]): void {
+    //private _updateNavigationBadge(folders: MailFolder[]): void {
         /*         // Get the inbox folder
                 const inboxFolder = this.folders.find(folder => folder.slug === 'inbox');
         
@@ -398,5 +398,5 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
                     // Refresh the navigation
                     mainNavigationComponent.refresh();
                 } */
-    }
+    //}
 }

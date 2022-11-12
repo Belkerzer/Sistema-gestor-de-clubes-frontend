@@ -7,8 +7,9 @@ import { merge, Observable, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { InventoryActivities, InventoryBrand, InventoryCategory, InventoryPagination, InventoryTag, InventoryVendor } from './activities.types';
+import { InventoryActivities, InventoryFacultadActividades, InventoryClubActividades, InventoryPagination, InventoryParticipanteActividades, InventoryProgramaActividades } from './activities.types';
 import { ActivitiesService } from './activities.service';
+import * as XLSX from 'xlsx'; 
 
 @Component({
     selector: 'activities',
@@ -22,21 +23,22 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
 
-    products$: Observable<InventoryActivities[]>;
+    activities$: Observable<InventoryActivities[]>;
 
+    fileName = 'Actividades.xlsx'; 
     formFieldHelpers: string[] = [''];
-    brands2: InventoryBrand[];
-    categories2: InventoryCategory[];
-    filteredTags: InventoryTag[];
+    facultadesActividades: InventoryFacultadActividades[];
+    clubesActividades: InventoryClubActividades[];
+    filteredParticipantesActividades: InventoryParticipanteActividades[];
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
-    pagination: InventoryPagination;
+    paginationActividades: InventoryPagination;
     searchInputControl: FormControl = new FormControl();
-    selectedProduct: InventoryActivities | null = null;
-    selectedProductForm: FormGroup;
-    tags: InventoryTag[];
-    tagsEditMode: boolean = false;
-    vendors2: InventoryVendor[];
+    selectedActivity: InventoryActivities | null = null;
+    selectedActivityForm: FormGroup;
+    participantesActividades: InventoryParticipanteActividades[];
+    /* participantesActividadesEditMode: boolean = false; */
+    periodosActividades: InventoryProgramaActividades[];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -61,89 +63,89 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
      * On init
      */
     ngOnInit(): void {
-        // Create the selected product form
-        this.selectedProductForm = this._formBuilder.group({
+        // Create the selected activity form
+        this.selectedActivityForm = this._formBuilder.group({
             id: [''],
-            category2: [''],
+            clubActividades: [''],
             name: ['', [Validators.required]],
-            description: [''],
-            tags2: [[]],
-            sku: [''],
-            barcode: [''],
-            brand2: [''],
-            vendor2: [''],
-            stock: [''],
-            reserved: [''],
-            cost: [''],
-            basePrice: [''],
-            taxPercent: [''],
-            price: [''],
-            weight: [''],
-            thumbnail: [''],
+            observacion: [''],
+            participantesActividades: [[]],
+            /* sku: [''],
+            barcode: [''], */
+            factultadActividades: [''],
+            programaActividades: [''],
+            fechaPlanificacion: [''],
+            horas: [''],
+            materiales: [''],
+            fechaSeguimiento: [''],
+            /* taxPercent: [''], */
+            lugar: [''],
+            fechaEstimada: [''],
+            /* thumbnail: [''],
             images: [[]],
-            currentImageIndex: [0], // Image index that is currently being viewed
-            active: ['']
+            currentImageIndex: [0], */ // Image index that is currently being viewed
+            logro: ['']
         });
 
-        // Get the brands
-        this._activitiesService.brands$
+        // Get the facultadesActividades
+        this._activitiesService.facultadesActividades$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((brands2: InventoryBrand[]) => {
+            .subscribe((facultadesActividades: InventoryFacultadActividades[]) => {
 
-                // Update the brands
-                this.brands2 = brands2;
+                // Update the facultadesActividades
+                this.facultadesActividades = facultadesActividades;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
 
-        // Get the categories
-        this._activitiesService.categories$
+        // Get the clubesActividades
+        this._activitiesService.clubesActividades$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((categories2: InventoryCategory[]) => {
+            .subscribe((clubesActividades: InventoryClubActividades[]) => {
 
-                // Update the categories
-                this.categories2 = categories2;
+                // Update the clubesActividades
+                this.clubesActividades = clubesActividades;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
 
-        // Get the pagination
-        this._activitiesService.pagination$
+        // Get the paginationActividades
+        this._activitiesService.paginationActividades$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((pagination: InventoryPagination) => {
+            .subscribe((paginationActividades: InventoryPagination) => {
 
-                // Update the pagination
-                this.pagination = pagination;
+                // Update the paginationActividades
+                this.paginationActividades = paginationActividades;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
 
-        // Get the products
-        this.products$ = this._activitiesService.products$;
+        // Get the activities
+        this.activities$ = this._activitiesService.activities$;
 
-        // Get the tags
-        this._activitiesService.tags$
+        // Get the participantesActividades
+        this._activitiesService.participantesActividades$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((tags: InventoryTag[]) => {
+            .subscribe((participantesActividades: InventoryParticipanteActividades[]) => {
 
-                // Update the tags
-                this.tags = tags;
-                this.filteredTags = tags;
+                // Update the participantesActividades
+                this.participantesActividades = participantesActividades;
+                this.filteredParticipantesActividades = participantesActividades;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
 
-        // Get the vendors
-        this._activitiesService.vendors$
+        // Get the periodosActividades
+        this._activitiesService.periodosActividades$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((vendors2: InventoryVendor[]) => {
+            .subscribe((periodosActividades: InventoryProgramaActividades[]) => {
 
-                // Update the vendors
-                this.vendors2 = vendors2;
+                // Update the periodosActividades
+                this.periodosActividades = periodosActividades;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -157,7 +159,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
                 switchMap((query) => {
                     this.closeDetails();
                     this.isLoading = true;
-                    return this._activitiesService.getProducts(0, 10, 'name', 'asc', query);
+                    return this._activitiesService.getActivities(0, 10, 'name', 'asc', query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -192,12 +194,12 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
                     this.closeDetails();
                 });
 
-            // Get products if sort or page changes
+            // Get activities if sort or page changes
             merge(this._sort.sortChange, this._paginator.page).pipe(
                 switchMap(() => {
                     this.closeDetails();
                     this.isLoading = true;
-                    return this._activitiesService.getProducts(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    return this._activitiesService.getActivities(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -227,27 +229,27 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
     }
 
     /**
-     * Toggle product details
+     * Toggle activity details
      *
-     * @param productId
+     * @param activityId
      */
-    toggleDetails(productId: string): void {
-        // If the product is already selected...
-        if (this.selectedProduct && this.selectedProduct.id === productId) {
+    toggleDetails(activityId: string): void {
+        // If the activity is already selected...
+        if (this.selectedActivity && this.selectedActivity.id === activityId) {
             // Close the details
             this.closeDetails();
             return;
         }
 
-        // Get the product by id
-        this._activitiesService.getProductById(productId)
-            .subscribe((product) => {
+        // Get the activity by id
+        this._activitiesService.getActivityById(activityId)
+            .subscribe((activity) => {
 
-                // Set the selected product
-                this.selectedProduct = product;
+                // Set the selected activity
+                this.selectedActivity = activity;
 
                 // Fill the form
-                this.selectedProductForm.patchValue(product);
+                this.selectedActivityForm.patchValue(activity);
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -258,16 +260,16 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
      * Close the details
      */
     closeDetails(): void {
-        this.selectedProduct = null;
+        this.selectedActivity = null;
     }
 
     /**
-     * Cycle through images of selected product
+     * Cycle through images of selected activity
      */
     cycleImages(forward: boolean = true): void {
         // Get the image count and current image index
-        const count = this.selectedProductForm.get('images').value.length;
-        const currentIndex = this.selectedProductForm.get('currentImageIndex').value;
+        const count = this.selectedActivityForm.get('images').value.length;
+        const currentIndex = this.selectedActivityForm.get('currentImageIndex').value;
 
         // Calculate the next and previous index
         const nextIndex = currentIndex + 1 === count ? 0 : currentIndex + 1;
@@ -275,191 +277,191 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
 
         // If cycling forward...
         if (forward) {
-            this.selectedProductForm.get('currentImageIndex').setValue(nextIndex);
+            this.selectedActivityForm.get('currentImageIndex').setValue(nextIndex);
         }
         // If cycling backwards...
         else {
-            this.selectedProductForm.get('currentImageIndex').setValue(prevIndex);
+            this.selectedActivityForm.get('currentImageIndex').setValue(prevIndex);
         }
     }
 
     /**
-     * Toggle the tags edit mode
+     * Toggle the participantesActividades edit mode
      */
-    toggleTagsEditMode(): void {
-        this.tagsEditMode = !this.tagsEditMode;
-    }
+    /*     toggleParticipantesActividadesEditMode(): void {
+            this.participantesActividadesEditMode = !this.participantesActividadesEditMode;
+        } */
 
     /**
-     * Filter tags
+     * Filter participantesActividades
      *
      * @param event
      */
-    filterTags(event): void {
+    filterParticipantesActividades(event): void {
         // Get the value
         const value = event.target.value.toLowerCase();
 
-        // Filter the tags
-        this.filteredTags = this.tags.filter(tag => tag.title.toLowerCase().includes(value));
+        // Filter the participantesActividades
+        this.filteredParticipantesActividades = this.participantesActividades.filter(participanteActividades => participanteActividades.title.toLowerCase().includes(value));
     }
 
     /**
-     * Filter tags input key down event
+     * Filter participantesActividades input key down event
      *
      * @param event
      */
-    filterTagsInputKeyDown(event): void {
+    filterParticipantesActividadesInputKeyDown(event): void {
         // Return if the pressed key is not 'Enter'
         if (event.key !== 'Enter') {
             return;
         }
 
-        // If there is no tag available...
-        if (this.filteredTags.length === 0) {
-            // Create the tag
-            this.createTag(event.target.value);
+        // If there is no participanteActividades available...
+        /*        if (this.filteredParticipantesActividades.length === 0) { */
+            // Create the participanteActividades
+        /*    this.createParticipanteActividades(event.target.value); */
 
             // Clear the input
-            event.target.value = '';
+        /*   event.target.value = ''; */
 
             // Return
-            return;
-        }
+        /*         return;
+            } */
 
-        // If there is a tag...
-        const tag = this.filteredTags[0];
-        const isTagApplied = this.selectedProduct.tags.find(id => id === tag.id);
+        // If there is a participanteActividades...
+        const participanteActividades = this.filteredParticipantesActividades[0];
+        const isParticipanteActividadesApplied = this.selectedActivity.participantesActividades.find(id => id === participanteActividades.id);
 
-        // If the found tag is already applied to the product...
-        if (isTagApplied) {
-            // Remove the tag from the product
-            this.removeTagFromProduct(tag);
+        // If the found participanteActividades is already applied to the activity...
+        if (isParticipanteActividadesApplied) {
+            // Remove the participanteActividades from the activity
+            this.removeParticipanteActividadesFromActivity(participanteActividades);
         }
         else {
-            // Otherwise add the tag to the product
-            this.addTagToProduct(tag);
+            // Otherwise add the participanteActividades to the activity
+            this.addParticipanteActividadesToActivity(participanteActividades);
         }
     }
 
     /**
-     * Create a new tag
+     * Create a new participanteActividades
      *
      * @param title
      */
-    createTag(title: string): void {
-        const tag = {
+ /*    createParticipanteActividades(title: string): void {
+        const participanteActividades = {
             title
-        };
+        }; */
 
-        // Create tag on the server
-        this._activitiesService.createTag(tag)
-            .subscribe((response) => {
+        // Create participanteActividades on the server
+    /*       this._activitiesService.createParticipanteActividades(participanteActividades)
+              .subscribe((response) => { */
 
-                // Add the tag to the product
-                this.addTagToProduct(response);
+                // Add the participanteActividades to the activity
+ /*                this.addParticipanteActividadesToActivity(response);
             });
-    }
+    } */
 
     /**
-     * Update the tag title
+     * Update the participanteActividades title
      *
-     * @param tag
+     * @param participanteActividades
      * @param event
      */
-    updateTagTitle(tag: InventoryTag, event): void {
-        // Update the title on the tag
-        tag.title = event.target.value;
+    /*    updateParticipanteActividadesTitle(participanteActividades: InventoryParticipanteActividades, event): void { */
+        // Update the title on the participanteActividades
+    /*         participanteActividades.title = event.target.value; */
 
-        // Update the tag on the server
-        this._activitiesService.updateTag(tag.id, tag)
+        // Update the participanteActividades on the server
+  /*       this._activitiesService.updateParticipanteActividades(participanteActividades.id, participanteActividades)
             .pipe(debounceTime(300))
-            .subscribe();
+            .subscribe(); */
 
         // Mark for check
-        this._changeDetectorRef.markForCheck();
-    }
+    /*       this._changeDetectorRef.markForCheck();
+      } */
 
     /**
-     * Delete the tag
+     * Delete the participanteActividades
      *
-     * @param tag
+     * @param participanteActividades
      */
-    deleteTag(tag: InventoryTag): void {
-        // Delete the tag from the server
-        this._activitiesService.deleteTag(tag.id).subscribe();
+    /*     deleteParticipanteActividades(participanteActividades: InventoryParticipanteActividades): void { */
+        // Delete the participanteActividades from the server
+    /*         this._activitiesService.deleteParticipanteActividades(participanteActividades.id).subscribe(); */
 
         // Mark for check
-        this._changeDetectorRef.markForCheck();
-    }
+    /*        this._changeDetectorRef.markForCheck();
+       } */
 
     /**
-     * Add tag to the product
+     * Add participanteActividades to the activity
      *
-     * @param tag
+     * @param participanteActividades
      */
-    addTagToProduct(tag: InventoryTag): void {
-        // Add the tag
-        this.selectedProduct.tags.unshift(tag.id);
+    addParticipanteActividadesToActivity(participanteActividades: InventoryParticipanteActividades): void {
+        // Add the participanteActividades
+        this.selectedActivity.participantesActividades.unshift(participanteActividades.id);
 
-        // Update the selected product form
-        this.selectedProductForm.get('tags').patchValue(this.selectedProduct.tags);
+        // Update the selected activity form
+        this.selectedActivityForm.get('participantesActividades').patchValue(this.selectedActivity.participantesActividades);
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
     }
 
     /**
-     * Remove tag from the product
+     * Remove participanteActividades from the activity
      *
-     * @param tag
+     * @param participanteActividades
      */
-    removeTagFromProduct(tag: InventoryTag): void {
-        // Remove the tag
-        this.selectedProduct.tags.splice(this.selectedProduct.tags.findIndex(item => item === tag.id), 1);
+    removeParticipanteActividadesFromActivity(participanteActividades: InventoryParticipanteActividades): void {
+        // Remove the participanteActividades
+        this.selectedActivity.participantesActividades.splice(this.selectedActivity.participantesActividades.findIndex(item => item === participanteActividades.id), 1);
 
-        // Update the selected product form
-        this.selectedProductForm.get('tags').patchValue(this.selectedProduct.tags);
+        // Update the selected activity form
+        this.selectedActivityForm.get('participantesActividades').patchValue(this.selectedActivity.participantesActividades);
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
     }
 
     /**
-     * Toggle product tag
+     * Toggle activity participanteActividades
      *
-     * @param tag
+     * @param participanteActividades
      * @param change
      */
-    toggleProductTag(tag: InventoryTag, change: MatCheckboxChange): void {
+    toggleActivityParticipanteActividades(participanteActividades: InventoryParticipanteActividades, change: MatCheckboxChange): void {
         if (change.checked) {
-            this.addTagToProduct(tag);
+            this.addParticipanteActividadesToActivity(participanteActividades);
         }
         else {
-            this.removeTagFromProduct(tag);
+            this.removeParticipanteActividadesFromActivity(participanteActividades);
         }
     }
 
     /**
-     * Should the create tag button be visible
+     * Should the create participanteActividades button be visible
      *
      * @param inputValue
      */
-    shouldShowCreateTagButton(inputValue: string): boolean {
-        return !!!(inputValue === '' || this.tags.findIndex(tag => tag.title.toLowerCase() === inputValue.toLowerCase()) > -1);
-    }
+    /*     shouldShowCreateParticipanteActividadesButton(inputValue: string): boolean {
+            return !!!(inputValue === '' || this.participantesActividades.findIndex(participanteActividades => participanteActividades.title.toLowerCase() === inputValue.toLowerCase()) > -1);
+        } */
 
     /**
-     * Create product
+     * Create activity
      */
-    createProduct(): void {
-        // Create the product
-        this._activitiesService.createProduct().subscribe((newProduct) => {
+    createActivity(): void {
+        // Create the activity
+        this._activitiesService.createActivity().subscribe((newActivity) => {
 
-            // Go to new product
-            this.selectedProduct = newProduct;
+            // Go to new activity
+            this.selectedActivity = newActivity;
 
             // Fill the form
-            this.selectedProductForm.patchValue(newProduct);
+            this.selectedActivityForm.patchValue(newActivity);
 
             // Mark for check
             this._changeDetectorRef.markForCheck();
@@ -467,17 +469,17 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
     }
 
     /**
-     * Update the selected product using the form data
+     * Update the selected activity using the form data
      */
-    updateSelectedProduct(): void {
-        // Get the product object
-        const product = this.selectedProductForm.getRawValue();
+    updateSelectedActivity(): void {
+        // Get the activity object
+        const activity = this.selectedActivityForm.getRawValue();
 
         // Remove the currentImageIndex field
-        delete product.currentImageIndex;
+        delete activity.currentImageIndex;
 
-        // Update the product on the server
-        this._activitiesService.updateProduct(product.id, product).subscribe(() => {
+        // Update the activity on the server
+        this._activitiesService.updateActivity(activity.id, activity).subscribe(() => {
 
             // Show a success message
             this.showFlashMessage('success');
@@ -485,9 +487,9 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
     }
 
     /**
-     * Delete the selected product using the form data
+     * Delete the selected activity using the form data
      */
-    deleteSelectedProduct(): void {
+    deleteSelectedActivity(): void {
         // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
             title: 'Eliminar actividad',
@@ -508,11 +510,11 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
             // If the confirm button pressed...
             if (result === 'confirmed') {
 
-                // Get the product object
-                const product = this.selectedProductForm.getRawValue();
+                // Get the activity object
+                const activity = this.selectedActivityForm.getRawValue();
 
-                // Delete the product on the server
-                this._activitiesService.deleteProduct(product.id).subscribe(() => {
+                // Delete the activity on the server
+                this._activitiesService.deleteActivity(activity.id).subscribe(() => {
 
                     // Close the details
                     this.closeDetails();
@@ -549,5 +551,19 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy, Af
      */
     trackByFn(index: number, item: any): any {
         return item.id || index;
+    }
+
+    exportExcel(): void {
+        /* table id is passed over here */
+        let element = document.getElementById('actividades-table');
+        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+        /* generate workbook and add the worksheet */
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Actividades');
+
+        /* save to file */
+        XLSX.writeFile(wb, this.fileName);
+
     }
 }

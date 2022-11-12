@@ -1,11 +1,13 @@
 import { BooleanInput } from "@angular/cdk/coercion";
 import { Component, ViewEncapsulation, ChangeDetectionStrategy, OnInit, Input, ChangeDetectorRef, ViewChild, ElementRef } from "@angular/core";
-import { FormGroup, FormBuilder, Validators, UntypedFormGroup } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators, UntypedFormGroup, FormControl } from "@angular/forms";
 import { FuseValidators } from "@fuse/validators";
 import { UserService } from "app/core/user/user.service";
 import { User } from "app/core/user/user.types";
 import { Subject, takeUntil } from "rxjs";
 import { AdminComponent } from "../../admin.component";
+import { ContactsService } from "../../settings/general/users/users.service";
+import { Contact } from "../../settings/general/users/users.types";
 
 @Component({
     selector: 'actions-create-user',
@@ -24,7 +26,10 @@ export class AdminActionsCreateUserComponent implements OnInit {
     @Input() showAvatar: boolean = true;
     user: User;
     accountForm: FormGroup;
+    password = new FormControl('');;    
     resetPasswordForm: UntypedFormGroup;
+    contactForm: FormGroup;
+    contact: Contact;
     roles: any[];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     /**
@@ -34,7 +39,8 @@ export class AdminActionsCreateUserComponent implements OnInit {
         private _changeDetectorRef: ChangeDetectorRef,
         public adminComponent: AdminComponent,
         private _formBuilder: FormBuilder,
-        private _userService: UserService
+        private _userService: UserService,
+        private _contactsService: ContactsService,
     ) {
     }
 
@@ -109,12 +115,16 @@ export class AdminActionsCreateUserComponent implements OnInit {
         this._unsubscribeAll.complete();
     }
 
+    generatePassword() {
+        this.password.setValue(Array(10).fill("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz~!@-#$").map(function (x) { return x[Math.floor(Math.random() * x.length)] }).join(''));
+    }
+
     /**
  * Upload avatar
  *
  * @param fileList
  */
-    /*     uploadAvatar(fileList: FileList): void {
+    uploadAvatar(fileList: FileList): void {
             // Return if canceled
             if (!fileList.length) {
                 return;
@@ -130,12 +140,12 @@ export class AdminActionsCreateUserComponent implements OnInit {
     
             // Upload the avatar
             this._contactsService.uploadAvatar(this.contact.id, file).subscribe();
-        } */
+    }
 
     /**
      * Remove the avatar
      */
-    /*     removeAvatar(): void {
+    removeAvatar(): void {
             // Get the form control for 'avatar'
             const avatarFormControl = this.contactForm.get('avatar');
     
@@ -147,5 +157,5 @@ export class AdminActionsCreateUserComponent implements OnInit {
     
             // Update the contact
             this.contact.avatar = null;
-        } */
+    }
 }

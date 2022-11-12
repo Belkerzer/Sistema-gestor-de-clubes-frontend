@@ -3,12 +3,12 @@ import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@a
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ClubsService } from 'app/modules/admin/clubs/clubs.service';
-import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryClubs, InventoryTag, InventoryVendor } from 'app/modules/admin/clubs/clubs.types';
+import { InventoryFacultadClub, InventoryLiderEstudiantil, InventoryPagination, InventoryClubs, InventoryDocenteTutor, InventoryPrograma, InventoryParticipanteClubes } from 'app/modules/admin/clubs/clubs.types';
 
 @Injectable({
     providedIn: 'root'
 })
-export class InventoryBrandsResolver implements Resolve<any>
+export class InventoryFacultadesClubResolver implements Resolve<any>
 {
     /**
      * Constructor
@@ -26,15 +26,15 @@ export class InventoryBrandsResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryBrand[]> {
-        return this._inventoryService.getBrands();
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryFacultadClub[]> {
+        return this._inventoryService.getFacultadesClub();
     }
 }
 
 @Injectable({
     providedIn: 'root'
 })
-export class InventoryCategoriesResolver implements Resolve<any>
+export class InventoryLideresEstudiantilesResolver implements Resolve<any>
 {
     /**
      * Constructor
@@ -52,8 +52,8 @@ export class InventoryCategoriesResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryCategory[]> {
-        return this._inventoryService.getCategories();
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryLiderEstudiantil[]> {
+        return this._inventoryService.getLideresEstudiantiles();
     }
 }
 
@@ -82,9 +82,9 @@ export class InventoryClubResolver implements Resolve<any>
      * @param state
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryClubs> {
-        return this._inventoryService.getProductById(route.paramMap.get('id'))
+        return this._inventoryService.getClubById(route.paramMap.get('id'))
             .pipe(
-                // Error here means the requested product is not available
+                // Error here means the requested club is not available
                 catchError((error) => {
 
                     // Log the error
@@ -124,15 +124,15 @@ export class InventoryClubsResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: InventoryPagination; products: InventoryClubs[] }> {
-        return this._inventoryService.getProducts();
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ paginationClubs: InventoryPagination; clubs: InventoryClubs[] }> {
+        return this._inventoryService.getClubs();
     }
 }
 
 @Injectable({
     providedIn: 'root'
 })
-export class InventoryTagsResolver implements Resolve<any>
+export class InventoryDocentesTutoresResolver implements Resolve<any>
 {
     /**
      * Constructor
@@ -150,15 +150,15 @@ export class InventoryTagsResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryTag[]> {
-        return this._inventoryService.getTags();
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryDocenteTutor[]> {
+        return this._inventoryService.getDocentesTutores();
     }
 }
 
 @Injectable({
     providedIn: 'root'
 })
-export class InventoryVendorsResolver implements Resolve<any>
+export class InventoryParticipantesClubesResolver implements Resolve<any>
 {
     /**
      * Constructor
@@ -176,7 +176,33 @@ export class InventoryVendorsResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryVendor[]> {
-        return this._inventoryService.getVendors();
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryParticipanteClubes[]> {
+        return this._inventoryService.getParticipantesClubes();
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class InventoryProgramasResolver implements Resolve<any>
+{
+    /**
+     * Constructor
+     */
+    constructor(private _inventoryService: ClubsService) {
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Resolver
+     *
+     * @param route
+     * @param state
+     */
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryPrograma[]> {
+        return this._inventoryService.getProgramas();
     }
 }

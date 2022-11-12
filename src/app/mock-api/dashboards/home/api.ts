@@ -1,20 +1,18 @@
 import { Injectable } from '@angular/core';
 import { cloneDeep } from 'lodash-es';
 import { FuseMockApiService } from '@fuse/lib/mock-api';
-import { analytics as analyticsData } from 'app/mock-api/dashboards/analytics/data';
+import { home as homeData } from 'app/mock-api/dashboards/home/data';
 
 @Injectable({
     providedIn: 'root'
 })
-export class AnalyticsMockApi
-{
-    private _analytics: any = analyticsData;
+export class HomeMockApi {
+    private _home: any = homeData;
 
     /**
      * Constructor
      */
-    constructor(private _fuseMockApiService: FuseMockApiService)
-    {
+    constructor(private _fuseMockApiService: FuseMockApiService) {
         // Register Mock API handlers
         this.registerHandlers();
     }
@@ -26,13 +24,12 @@ export class AnalyticsMockApi
     /**
      * Register Mock API handlers
      */
-    registerHandlers(): void
-    {
+    registerHandlers(): void {
         // -----------------------------------------------------------------------------------------------------
-        // @ Sales - GET
+        // @ Inicio - GET
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
-            .onGet('api/dashboards/analytics')
-            .reply(() => [200, cloneDeep(this._analytics)]);
+            .onGet('api/inicio')
+            .reply(() => [200, cloneDeep(this._home)]);
     }
 }
