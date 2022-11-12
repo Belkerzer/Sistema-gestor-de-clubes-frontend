@@ -22,8 +22,8 @@ export const appRoutes: Route[] = [
     // Auth routes for guests
     {
         path: '',
-        canActivate: [NoAuthGuard],
-        canActivateChild: [NoAuthGuard],
+        // canActivate: [NoAuthGuard],
+        // canActivateChild: [NoAuthGuard],
         component: LayoutComponent,
         data: {
             layout: 'empty'
@@ -31,30 +31,30 @@ export const appRoutes: Route[] = [
         children: [
             {path: 'contrasenia-olvidada', loadChildren: () => import('app/modules/auth/forgot-password/forgot-password.module').then(m => m.AuthForgotPasswordModule)},
             {path: 'restablecer-contrasenia', loadChildren: () => import('app/modules/auth/reset-password/reset-password.module').then(m => m.AuthResetPasswordModule)},
-            {path: 'iniciar-sesion', loadChildren: () => import('app/modules/auth/sign-in/sign-in.module').then(m => m.AuthSignInModule)},            
+            {path: 'iniciar-sesion', loadChildren: () => import('app/modules/auth/sign-in/sign-in.module').then(m => m.AuthSignInModule)},
         ]
     },
 
     // Auth routes for authenticated users
     {
         path: '',
-        canActivate: [AuthGuard],
-        canActivateChild: [AuthGuard],
+        // canActivate: [AuthGuard],
+        // canActivateChild: [AuthGuard],
         component: LayoutComponent,
         data: {
             layout: 'empty'
         },
         children: [
             {path: 'cerrar-sesion', loadChildren: () => import('app/modules/auth/sign-out/sign-out.module').then(m => m.AuthSignOutModule)},
-            {path: 'desbloquear-sesion', loadChildren: () => import('app/modules/auth/unlock-session/unlock-session.module').then(m => m.AuthUnlockSessionModule)},            
+            {path: 'desbloquear-sesion', loadChildren: () => import('app/modules/auth/unlock-session/unlock-session.module').then(m => m.AuthUnlockSessionModule)},
         ]
     },
 
     // Admin routes
     {
         path       : '',
-        canActivate: [AuthGuard],
-        canActivateChild: [AuthGuard],
+        // canActivate: [AuthGuard],
+        // canActivateChild: [AuthGuard],
         component  : LayoutComponent,
         resolve    : {
             initialData: InitialDataResolver,
@@ -63,7 +63,7 @@ export const appRoutes: Route[] = [
             { path: 'inicio', loadChildren: () => import('app/modules/admin/home/home.module').then(m => m.HomeModule) },
             { path: 'participantes', loadChildren: () => import('app/modules/admin/members/members.module').then(m => m.MembersModule) },
             { path: 'clubes', loadChildren: () => import('app/modules/admin/clubs/clubs.module').then(m => m.ClubsModule) },
-            { path: 'actividades', loadChildren: () => import('app/modules/admin/activities/activities.module').then(m => m.ActivitiesModule) },            
+            { path: 'actividades', loadChildren: () => import('app/modules/admin/activities/activities.module').then(m => m.ActivitiesModule) },
             /* { path: 'reportes', loadChildren: () => import('app/modules/admin/reports/reports.module').then(m => m.ReportsModule) }, */
             { path: 'administracion', loadChildren: () => import('app/modules/admin/admin/admin.module').then(m => m.AdminModule) },
         ]

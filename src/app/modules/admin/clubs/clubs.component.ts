@@ -400,6 +400,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
     addTagToProduct(tag: InventoryTag): void {
         // Add the tag
         this.selectedProduct.tags.unshift(tag.id);
+        console.log(this.selectedProduct);
 
         // Update the selected product form
         this.selectedProductForm.get('tags').patchValue(this.selectedProduct.tags);
