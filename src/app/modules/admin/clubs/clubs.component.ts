@@ -7,7 +7,7 @@ import { merge, Observable, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { InventoryFacultadClub, InventoryLiderEstudiantil, InventoryPagination, InventoryClubs, InventoryDocenteTutor, InventoryPrograma } from 'app/modules/admin/clubs/clubs.types';
+import { InventoryFacultadClub, InventoryLiderEstudiantil, InventoryPagination, InventoryClubs, InventoryDocenteTutor, InventoryPrograma, InventoryParticipanteClubes } from 'app/modules/admin/clubs/clubs.types';
 import { ClubsService } from 'app/modules/admin/clubs/clubs.service';
 import * as XLSX from 'xlsx'; 
 
@@ -30,6 +30,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
     facultadesClub: InventoryFacultadClub[];
     lideresEstudiantiles: InventoryLiderEstudiantil[];
     filteredDocentesTutores: InventoryDocenteTutor[];
+    filteredParticipantesClubes: InventoryParticipanteClubes[];
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     paginationClubs: InventoryPagination;
@@ -37,6 +38,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
     selectedClub: InventoryClubs | null = null;
     selectedClubForm: FormGroup;
     docentesTutores: InventoryDocenteTutor[];
+    participantesClubes: InventoryParticipanteClubes[];
     /* docentesTutoresEditMode: boolean = false; */
     programas: InventoryPrograma[];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -70,6 +72,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
             name: ['', [Validators.required]],
             description: [''],
             docentesTutores: [[]],
+            participantesClubes: [[]],
             tipo: [''],
 /*             barcode: [''], */
             facultadClub: [''],
@@ -125,6 +128,20 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
 
         // Get the clubs
         this.clubs$ = this._clubsService.clubs$;
+
+        // Get the participantesClubes
+        this._clubsService.participantesClubes$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((participantesClubes: InventoryParticipanteClubes[]) => {
+
+                // Update the participantesClubes
+                this.participantesClubes = participantesClubes;
+                this.filteredParticipantesClubes = participantesClubes;
+
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+
 
         // Get the docentesTutores
         this._clubsService.docentesTutores$
@@ -291,6 +308,104 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
     /*   toggleDocentesTutoresEditMode(): void {
           this.docentesTutoresEditMode = !this.docentesTutoresEditMode;
       } */
+
+    /**
+* Filter participantesClubes
+*
+* @param event
+*/
+    filterParticipantesClubes(event): void {
+        // Get the value
+        const value = event.target.value.toLowerCase();
+
+        // Filter the participantesClubes
+        this.filteredParticipantesClubes = this.participantesClubes.filter(participanteClubes => participanteClubes.title.toLowerCase().includes(value));
+    }
+
+    /**
+     * Filter participantesClubes input key down event
+     *
+     * @param event
+     */
+    filterParticipantesClubesInputKeyDown(event): void {
+        // Return if the pressed key is not 'Enter'
+        if (event.key !== 'Enter') {
+            return;
+        }
+
+        // If there is no participanteClubes available...
+        /*        if (this.filteredParticipantesClubes.length === 0) { */
+        // Create the participanteClubes
+        /*    this.createParticipanteClubes(event.target.value); */
+
+        // Clear the input
+        /*   event.target.value = ''; */
+
+        // Return
+        /*         return;
+            } */
+
+        // If there is a participanteClubes...
+        const participanteClubes = this.filteredParticipantesClubes[0];
+        const isParticipanteClubesApplied = this.selectedClub.participantesClubes.find(id => id === participanteClubes.id);
+
+        // If the found participanteClubes is already applied to the club...
+        if (isParticipanteClubesApplied) {
+            // Remove the participanteClubes from the club
+            this.removeParticipanteClubesFromClub(participanteClubes);
+        }
+        else {
+            // Otherwise add the participanteClubes to the club
+            this.addParticipanteClubesToClub(participanteClubes);
+        }
+    }
+
+    /**
+     * Add participanteClubes to the club
+     *
+     * @param participanteClubes
+     */
+    addParticipanteClubesToClub(participanteClubes: InventoryParticipanteClubes): void {
+        // Add the participanteClubes
+        this.selectedClub.participantesClubes.unshift(participanteClubes.id);
+
+        // Update the selected activity form
+        this.selectedClubForm.get('participantesClubes').patchValue(this.selectedClub.participantesClubes);
+
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+    }
+
+    /**
+     * Remove participanteClubes from the club
+     *
+     * @param participanteClubes
+     */
+    removeParticipanteClubesFromClub(participanteClubes: InventoryParticipanteClubes): void {
+        // Remove the participanteClubes
+        this.selectedClub.participantesClubes.splice(this.selectedClub.participantesClubes.findIndex(item => item === participanteClubes.id), 1);
+
+        // Update the selected club form
+        this.selectedClubForm.get('participantesClubes').patchValue(this.selectedClub.participantesClubes);
+
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+    }
+
+    /**
+     * Toggle activity participanteClubes
+     *
+     * @param participanteClubes
+     * @param change
+     */
+    toggleActivityParticipanteClubes(participanteClubes: InventoryParticipanteClubes, change: MatCheckboxChange): void {
+        if (change.checked) {
+            this.addParticipanteClubesToClub(participanteClubes);
+        }
+        else {
+            this.removeParticipanteClubesFromClub(participanteClubes);
+        }
+    }
 
     /**
      * Filter docentesTutores

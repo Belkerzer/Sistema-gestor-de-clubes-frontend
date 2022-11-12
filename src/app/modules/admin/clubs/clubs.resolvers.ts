@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@a
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ClubsService } from 'app/modules/admin/clubs/clubs.service';
-import { InventoryFacultadClub, InventoryLiderEstudiantil, InventoryPagination, InventoryClubs, InventoryDocenteTutor, InventoryPrograma } from 'app/modules/admin/clubs/clubs.types';
+import { InventoryFacultadClub, InventoryLiderEstudiantil, InventoryPagination, InventoryClubs, InventoryDocenteTutor, InventoryPrograma, InventoryParticipanteClubes } from 'app/modules/admin/clubs/clubs.types';
 
 @Injectable({
     providedIn: 'root'
@@ -152,6 +152,32 @@ export class InventoryDocentesTutoresResolver implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryDocenteTutor[]> {
         return this._inventoryService.getDocentesTutores();
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class InventoryParticipantesClubesResolver implements Resolve<any>
+{
+    /**
+     * Constructor
+     */
+    constructor(private _inventoryService: ClubsService) {
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Resolver
+     *
+     * @param route
+     * @param state
+     */
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryParticipanteClubes[]> {
+        return this._inventoryService.getParticipantesClubes();
     }
 }
 
