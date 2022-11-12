@@ -10,7 +10,7 @@ export const activitiesRoutes: Route[] = [
             facultadesActividades: InventoryFacultadesActividadesResolver,
             clubesActividades: InventoryClubesActividadesResolver,
             activities: InventoryActivitiesResolver,
-            participantesAcitividades: InventoryParticipantesActividadesResolver,
+            participantesActividades: InventoryParticipantesActividadesResolver,
             periodosActividades: InventoryProgramaActividadessResolver
         }
     }

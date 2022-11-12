@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { InventoryFacultadClub, InventoryLiderEstudiantil, InventoryPagination, InventoryClubs, InventoryDocenteTutor, InventoryPrograma } from 'app/modules/admin/clubs/clubs.types';
+import { InventoryFacultadClub, InventoryLiderEstudiantil, InventoryPagination, InventoryClubs, InventoryDocenteTutor, InventoryPrograma, InventoryParticipanteClubes } from 'app/modules/admin/clubs/clubs.types';
 
 @Injectable({
     providedIn: 'root'
@@ -15,6 +15,7 @@ export class ClubsService {
     private _club: BehaviorSubject<InventoryClubs | null> = new BehaviorSubject(null);
     private _clubs: BehaviorSubject<InventoryClubs[] | null> = new BehaviorSubject(null);
     private _docentesTutores: BehaviorSubject<InventoryDocenteTutor[] | null> = new BehaviorSubject(null);
+    private _participantesClubes: BehaviorSubject<InventoryParticipanteClubes[] | null> = new BehaviorSubject(null);
     private _programas: BehaviorSubject<InventoryPrograma[] | null> = new BehaviorSubject(null);
 
     /**
@@ -53,6 +54,13 @@ export class ClubsService {
      */
     get club$(): Observable<InventoryClubs> {
         return this._club.asObservable();
+    }
+
+    /**
+     * Getter for participantesClubes
+     */
+    get participantesClubes$(): Observable<InventoryParticipanteClubes[]> {
+        return this._participantesClubes.asObservable();
     }
 
     /**
@@ -244,6 +252,17 @@ export class ClubsService {
                     return isDeleted;
                 })
             ))
+        );
+    }
+
+    /**
+     * Get participantesClubes
+     */
+    getParticipantesClubes(): Observable<InventoryParticipanteClubes[]> {
+        return this._httpClient.get<InventoryParticipanteClubes[]>('api/apps/ecommerce/inventory/participantesClubes').pipe(
+            tap((participantesClubes) => {
+                this._participantesClubes.next(participantesClubes);
+            })
         );
     }
 

@@ -5,6 +5,7 @@ export interface InventoryClubs {
     description?: string;
     docentesTutores?: string[];
     tipo?: string | null;
+    participantesClubes?: string[];
     /* barcode?: string | null; */
     facultadClub?: string | null;
     /* programa: string | null; */
@@ -41,6 +42,11 @@ export interface InventoryFacultadClub {
     id: string;
     name: string;
     slug: string;
+}
+
+export interface InventoryParticipanteClubes {
+    id?: string;
+    title?: string;
 }
 
 export interface InventoryDocenteTutor {

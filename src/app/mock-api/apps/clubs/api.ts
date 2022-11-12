@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { assign, cloneDeep } from 'lodash-es';
 import { FuseMockApiService, FuseMockApiUtils } from '@fuse/lib/mock-api';
-import { facultadesClub as facultadesClubData, lideresEstudiantiles as lideresEstudiantilesData, clubs as clubsData, docentesTutores as docentesTutoresData, programas as programasData } from 'app/mock-api/apps/clubs/data';
+import { facultadesClub as facultadesClubData, lideresEstudiantiles as lideresEstudiantilesData, clubs as clubsData, docentesTutores as docentesTutoresData, programas as programasData, participantesClubes as participantesClubesData } from 'app/mock-api/apps/clubs/data';
 import moment from 'moment';
 import 'app/moment.es.ec.ts';
 moment.locale('es-EC');
@@ -12,6 +12,7 @@ moment.locale('es-EC');
 export class ClubsInventoryMockApi {
     private _lideresEstudiantiles: any[] = lideresEstudiantilesData;
     private _facultadesClub: any[] = facultadesClubData;
+    private _participantesClubes: any[] = participantesClubesData;
     private _clubs: any[] = clubsData;
     private _docentesTutores: any[] = docentesTutoresData;
     private _programas: any[] = programasData;
@@ -161,6 +162,7 @@ export class ClubsInventoryMockApi {
                     name: 'Un nuevo club',
                     description: '',
                     docentesTutores: [],
+                    participantesClubes: [],
                     tipo: '',
                     /* barcode: '', */
                     facultadClub: '',
@@ -235,6 +237,13 @@ export class ClubsInventoryMockApi {
                 // Return the response
                 return [200, true];
             });
+
+        // -----------------------------------------------------------------------------------------------------
+        // @ ParticipantesClubes - GET
+        // -----------------------------------------------------------------------------------------------------
+        this._fuseMockApiService
+            .onGet('api/apps/ecommerce/inventory/participantesClubes')
+            .reply(() => [200, cloneDeep(this._participantesClubes)]);
 
         // -----------------------------------------------------------------------------------------------------
         // @ Docentes Tutores - GET

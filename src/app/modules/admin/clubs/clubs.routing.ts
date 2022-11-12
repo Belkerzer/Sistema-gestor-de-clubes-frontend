@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 import { ClubsComponent } from 'app/modules/admin/clubs/clubs.component';
-import { InventoryFacultadesClubResolver, InventoryLideresEstudiantilesResolver, InventoryClubsResolver, InventoryDocentesTutoresResolver, InventoryProgramasResolver } from './clubs.resolvers';
+import { InventoryFacultadesClubResolver, InventoryLideresEstudiantilesResolver, InventoryClubsResolver, InventoryDocentesTutoresResolver, InventoryProgramasResolver, InventoryParticipantesClubesResolver } from './clubs.resolvers';
 
 export const clubsRoutes: Route[] = [
     {
@@ -10,6 +10,7 @@ export const clubsRoutes: Route[] = [
             facultadesClub: InventoryFacultadesClubResolver,
             lideresEstudiantiles: InventoryLideresEstudiantilesResolver,
             clubs: InventoryClubsResolver,
+            participantesClubes: InventoryParticipantesClubesResolver,
             docentesTutores: InventoryDocentesTutoresResolver,
             programas: InventoryProgramasResolver
         }

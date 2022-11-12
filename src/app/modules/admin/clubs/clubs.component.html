@@ -239,7 +239,7 @@
                                         <mat-form-field class="w-full">
                                             <mat-label>Nombre del Club / Espacio Estudiantil</mat-label>
                                             <input
-                                                matInput
+                                                matInput                                                
                                                 [formControlName]="'name'">
                                         </mat-form-field>    
 <!--                                         <mat-form-field class="w-1/3 pl-2">
@@ -307,7 +307,7 @@
                                     </div>
 
                                     <!-- Weight & DocentesTutores -->
-                                    <div class="flex flex-col w-full lg:w-1/2 sm:pl-8">
+                                    <div class="flex flex-col w-full lg:w-1/4 sm:pl-8">
                                         <mat-form-field class="w-full">
                                             <mat-label>Líder estudiantil</mat-label>
                                             <mat-select [formControlName]="'liderEstudiantil'">
@@ -365,7 +365,89 @@
                                         <!-- </div> -->
 
                                     </div>
+                                    <div class="flex flex-col w-full lg:w-1/4 sm:pl-8">
 
+                                        <!-- ParticipantesClubes -->
+                                        <span class="mb-px font-medium leading-tight">Participantes</span>
+                                        <div class="mt-1.5 rounded-md border border-gray-300 dark:border-gray-500 shadow-sm overflow-hidden">
+                                            <!-- Header -->
+                                            <div class="flex items-center -my-px py-2 px-3">
+                                                <div class="flex items-center flex-auto min-w-0">
+                                                    <mat-icon
+                                                        class="icon-size-5"
+                                                        [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                                                    <input
+                                                        class="min-w-0 ml-2 py-1 border-0"
+                                                        type="text"
+                                                        placeholder="Introduzca el nombre"
+                                                        (input)="filterParticipantesClubes($event)"
+                                                        (keydown)="filterParticipantesClubesInputKeyDown($event)"
+                                                        [maxLength]="50"
+                                                        #newParticipanteClubesInput>
+                                                </div>
+<!--                                                 <button
+                                                    class="ml-3 w-8 h-8 min-h-8"
+                                                    mat-icon-button
+                                                    (click)="toggleParticipantesClubesEditMode()">
+                                                    <mat-icon
+                                                        *ngIf="!participantesClubesEditMode"
+                                                        class="icon-size-5"
+                                                        [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
+                                                    <mat-icon
+                                                        *ngIf="participantesClubesEditMode"
+                                                        class="icon-size-5"
+                                                        [svgIcon]="'heroicons_solid:check'"></mat-icon>
+                                                </button> -->
+                                            </div>
+                                            <!-- Available participantesClubes -->
+                                            <div class="h-44 leading-none overflow-y-auto border-t border-gray-300 dark:border-gray-500">
+                                                <!-- ParticipantesClubes -->
+                                                <!-- <ng-container *ngIf="!participantesClubesEditMode"> -->
+                                                    <ng-container *ngFor="let participanteClubes of filteredParticipantesClubes; trackBy: trackByFn">
+                                                        <mat-checkbox
+                                                            class="flex items-center h-10 min-h-10 px-4"
+                                                            [color]="'primary'"
+                                                            [checked]="selectedClub.participantesClubes.includes(participanteClubes.id)"
+                                                            (change)="toggleClubParticipanteClubes(participanteClubes, $event)">
+                                                            {{participanteClubes.title}}
+                                                        </mat-checkbox>
+                                                    </ng-container>
+                                                <!-- </ng-container> -->
+                                                <!-- ParticipantesClubes editing -->
+<!--                                                 <ng-container *ngIf="participantesClubesEditMode">
+                                                    <div class="p-4 space-y-2">
+                                                        <ng-container *ngFor="let participanteClubes of filteredParticipantesClubes; trackBy: trackByFn">
+                                                            <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript w-full">
+                                                                <input
+                                                                    matInput
+                                                                    [value]="participanteClubes.title"
+                                                                    (input)="updateParticipanteClubesTitle(participanteClubes, $event)">
+                                                                <button
+                                                                    mat-icon-button
+                                                                    (click)="deleteParticipanteClubes(participanteClubes)"
+                                                                    matSuffix>
+                                                                    <mat-icon
+                                                                        class="icon-size-5"
+                                                                        [svgIcon]="'heroicons_solid:trash'"></mat-icon>
+                                                                </button>
+                                                            </mat-form-field>
+                                                        </ng-container>
+                                                    </div>
+                                                </ng-container> -->
+<!--                                                 <div
+                                                    class="flex items-center h-10 min-h-10 -ml-0.5 pl-4 pr-3 leading-none cursor-pointer border-t hover:bg-gray-50 dark:hover:bg-hover"
+                                                    *ngIf="shouldShowCreateParticipanteClubesButton(newParticipanteClubesInput.value)"
+                                                    (click)="createParticipanteClubes(newParticipanteClubesInput.value); newParticipanteClubesInput.value = ''"
+                                                    matRipple>
+                                                    <mat-icon
+                                                        class="mr-2 icon-size-5"
+                                                        [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
+                                                    <div class="break-all">Crear "<b>{{newParticipanteClubesInput.value}}</b>"</div>
+                                                </div> -->
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 </div>
 
                             </div>

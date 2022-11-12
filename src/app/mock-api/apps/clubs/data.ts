@@ -35,6 +35,28 @@ export const lideresEstudiantiles = [
         slug: '5'
     }
 ];
+export const participantesClubes = [
+    {
+        id: '167190fa-51b4-45fc-a742-8ce1b33d24ea',
+        title: 'Luis Kenán Quiroz Welter'
+    },
+    {
+        id: '3baea410-a7d6-4916-b79a-bdce50c37f95',
+        title: 'Gennaro Jonatan Tellez Delarosa'
+    },
+    {
+        id: '8ec8f60d-552f-4216-9f11-462b95b1d306',
+        title: 'Adrián Vincenzo Angulo Soliz'
+    },
+    {
+        id: '8837b93f-388b-43cc-851d-4ca8f23f3a61',
+        title: 'Bettina Karina Castillo Tello'
+    },
+    {
+        id: '8f868ddb-d4a2-461d-bc3b-d7c8668687c3',
+        title: 'Violeta Hipólita Segura Roberts'
+    }
+];
 export const facultadesClub = [
     {
         id: 'e1789f32-9475-43e7-9256-451d2e3a2282',
@@ -109,6 +131,13 @@ export const clubs = [
             '2300ac48-f268-466a-b765-8b878b6e14a7',
             'b1286f3a-e2d0-4237-882b-f0efc0819ec3'
         ],
+        participantesClubes: [
+            '167190fa-51b4-45fc-a742-8ce1b33d24ea',
+            '7d6dd47e-7472-4f8b-93d4-46c114c44533',
+            '8837b93f-388b-43cc-851d-4ca8f23f3a61',
+            '2300ac48-f268-466a-b765-8b878b6e14a7',
+            'b1286f3a-e2d0-4237-882b-f0efc0819ec3'
+        ],
         tipo: 'Social',
         /* barcode: '8346201275534', */
         facultadClub: '61d52c2a-8947-4a2c-8c35-f36baef45b96',
@@ -140,6 +169,13 @@ export const clubs = [
             '0b11b742-3125-4d75-9a6f-84af7fde1969',
             'b1286f3a-e2d0-4237-882b-f0efc0819ec3'
         ],
+        participantesClubes: [
+            '167190fa-51b4-45fc-a742-8ce1b33d24ea',
+            '7d6dd47e-7472-4f8b-93d4-46c114c44533',
+            '8837b93f-388b-43cc-851d-4ca8f23f3a61',
+            '2300ac48-f268-466a-b765-8b878b6e14a7',
+            'b1286f3a-e2d0-4237-882b-f0efc0819ec3'
+        ],
         tipo: 'Social',
         /* barcode: '8278968055700', */
         facultadClub: '2c4d98d8-f334-4125-9596-862515f5526b',
@@ -167,6 +203,13 @@ export const clubs = [
         docentesTutores: [
             '167190fa-51b4-45fc-a742-8ce1b33d24ea',
             '0fc39efd-f640-41f8-95a5-3f1d749df200',
+            '8837b93f-388b-43cc-851d-4ca8f23f3a61',
+            '2300ac48-f268-466a-b765-8b878b6e14a7',
+            'b1286f3a-e2d0-4237-882b-f0efc0819ec3'
+        ],
+        participantesClubes: [
+            '167190fa-51b4-45fc-a742-8ce1b33d24ea',
+            '7d6dd47e-7472-4f8b-93d4-46c114c44533',
             '8837b93f-388b-43cc-851d-4ca8f23f3a61',
             '2300ac48-f268-466a-b765-8b878b6e14a7',
             'b1286f3a-e2d0-4237-882b-f0efc0819ec3'
@@ -202,6 +245,13 @@ export const clubs = [
             '0b11b742-3125-4d75-9a6f-84af7fde1969',
             'b1286f3a-e2d0-4237-882b-f0efc0819ec3'
         ],
+        participantesClubes: [
+            '167190fa-51b4-45fc-a742-8ce1b33d24ea',
+            '7d6dd47e-7472-4f8b-93d4-46c114c44533',
+            '8837b93f-388b-43cc-851d-4ca8f23f3a61',
+            '2300ac48-f268-466a-b765-8b878b6e14a7',
+            'b1286f3a-e2d0-4237-882b-f0efc0819ec3'
+        ],
         tipo: 'Social',
         /* barcode: '8866355574164', */
         facultadClub: '61d52c2a-8947-4a2c-8c35-f36baef45b96',
@@ -231,6 +281,13 @@ export const clubs = [
             '0fc39efd-f640-41f8-95a5-3f1d749df200',
             '8f868ddb-d4a2-461d-bc3b-d7c8668687c3',
             '0b11b742-3125-4d75-9a6f-84af7fde1969',
+            'b1286f3a-e2d0-4237-882b-f0efc0819ec3'
+        ],
+        participantesClubes: [
+            '167190fa-51b4-45fc-a742-8ce1b33d24ea',
+            '7d6dd47e-7472-4f8b-93d4-46c114c44533',
+            '8837b93f-388b-43cc-851d-4ca8f23f3a61',
+            '2300ac48-f268-466a-b765-8b878b6e14a7',
             'b1286f3a-e2d0-4237-882b-f0efc0819ec3'
         ],
         tipo: 'Cultural',
