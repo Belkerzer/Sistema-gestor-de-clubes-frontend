@@ -404,13 +404,12 @@
                                                 <!-- ParticipantesClubes -->
                                                 <!-- <ng-container *ngIf="!participantesClubesEditMode"> -->
                                                     <ng-container *ngFor="let participanteClubes of filteredParticipantesClubes; trackBy: trackByFn">
-                                                        <mat-checkbox
+                                                        <div
                                                             class="flex items-center h-10 min-h-10 px-4"
                                                             [color]="'primary'"
-                                                            [checked]="selectedClub.participantesClubes.includes(participanteClubes.id)"
-                                                            (change)="toggleClubParticipanteClubes(participanteClubes, $event)">
+                                                            >
                                                             {{participanteClubes.title}}
-                                                        </mat-checkbox>
+                                                        </div>
                                                     </ng-container>
                                                 <!-- </ng-container> -->
                                                 <!-- ParticipantesClubes editing -->
