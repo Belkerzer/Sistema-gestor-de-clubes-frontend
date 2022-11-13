@@ -346,18 +346,18 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
             } */
 
         // If there is a participanteClubes...
-        const participanteClubes = this.filteredParticipantesClubes[0];
-        const isParticipanteClubesApplied = this.selectedClub.participantesClubes.find(id => id === participanteClubes.id);
+        /* const participanteClubes = this.filteredParticipantesClubes[0]; */
+        /* const isParticipanteClubesApplied = this.selectedClub.participantesClubes.find(id => id === participanteClubes.id); */
 
         // If the found participanteClubes is already applied to the club...
-        if (isParticipanteClubesApplied) {
+/*         if (isParticipanteClubesApplied) {
             // Remove the participanteClubes from the club
             this.removeParticipanteClubesFromClub(participanteClubes);
         }
         else {
             // Otherwise add the participanteClubes to the club
             this.addParticipanteClubesToClub(participanteClubes);
-        }
+        } */
     }
 
     /**
@@ -365,7 +365,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
      *
      * @param participanteClubes
      */
-    addParticipanteClubesToClub(participanteClubes: InventoryParticipanteClubes): void {
+/*     addParticipanteClubesToClub(participanteClubes: InventoryParticipanteClubes): void {
         // Add the participanteClubes
         this.selectedClub.participantesClubes.unshift(participanteClubes.id);
 
@@ -374,14 +374,14 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
-    }
+    } */
 
     /**
      * Remove participanteClubes from the club
      *
      * @param participanteClubes
      */
-    removeParticipanteClubesFromClub(participanteClubes: InventoryParticipanteClubes): void {
+/*     removeParticipanteClubesFromClub(participanteClubes: InventoryParticipanteClubes): void {
         // Remove the participanteClubes
         this.selectedClub.participantesClubes.splice(this.selectedClub.participantesClubes.findIndex(item => item === participanteClubes.id), 1);
 
@@ -390,7 +390,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
-    }
+    } */
 
     /**
      * Toggle activity participanteClubes
@@ -398,14 +398,14 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
      * @param participanteClubes
      * @param change
      */
-    toggleActivityParticipanteClubes(participanteClubes: InventoryParticipanteClubes, change: MatCheckboxChange): void {
+/*     toggleActivityParticipanteClubes(participanteClubes: InventoryParticipanteClubes, change: MatCheckboxChange): void {
         if (change.checked) {
             this.addParticipanteClubesToClub(participanteClubes);
         }
         else {
             this.removeParticipanteClubesFromClub(participanteClubes);
         }
-    }
+    } */
 
     /**
      * Filter docentesTutores
