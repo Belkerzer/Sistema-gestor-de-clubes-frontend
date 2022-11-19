@@ -9,7 +9,8 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { InventoryCarrera, InventoryPeriodo, InventoryPagination, InventoryMember, InventoryClub, InventorySexo, InventoryFacultad } from 'app/modules/admin/members/members.types';
 import { MembersService } from './members.service';
-import * as XLSX from 'xlsx'; 
+import * as XLSX from 'xlsx';
+import {ApiService, ParticipantesResponse} from 'app/services/api.service';
 
 @Component({
     selector: 'members',
@@ -23,9 +24,9 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
 
-    participantes$: Observable<InventoryMember[]>;
+    participantes$: Observable<ParticipantesResponse[]>;
 
-    fileName = 'Participantes.xlsx'; 
+    fileName = 'Participantes.xlsx';
     formFieldHelpers: string[] = [''];
     carreras: InventoryCarrera[];
     periodos: InventoryPeriodo[];
@@ -35,7 +36,7 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
     isLoading: boolean = false;
     pagination: InventoryPagination;
     searchInputControl: FormControl = new FormControl();
-    selectedParticipante: InventoryMember | null = null;
+    selectedParticipante: ParticipantesResponse | null = null;
     selectedParticipanteForm: FormGroup;
     clubes: InventoryClub[];
     /* clubesEditMode: boolean = false; */
@@ -49,7 +50,8 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseConfirmationService: FuseConfirmationService,
         private _formBuilder: FormBuilder,
-        private _membersService: MembersService
+        private _membersService: MembersService,
+        private _apiService: ApiService
     ) {
     }
     ngAfterViewChecked(): void {
@@ -63,14 +65,14 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
     /**
      * On init
      */
-    ngOnInit(): void {
+    async ngOnInit(): Promise<void> {
         // Create the selected participante form
         this.selectedParticipanteForm = this._formBuilder.group({
             id: [''],
             periodo: [''],
-            name: ['', [Validators.required]],
+            nombresCompletos: ['', [Validators.required]],
             observacion: [''],
-            clubes: [[]],
+            club: [''],
             codigo: [''],
             cedula: [''],
             carrera: [''],
@@ -126,7 +128,7 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
             });
 
         // Get the participantes
-        this.participantes$ = this._membersService.participantes$;
+        this.participantes$ = this._apiService.getParticipantes();
 
         // Get the clubes
         this._membersService.clubes$
@@ -247,7 +249,7 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
      *
      * @param participanteId
      */
-    toggleDetails(participanteId: string): void {
+    toggleDetails(participanteId: number): void {
         // If the participante is already selected...
         if (this.selectedParticipante && this.selectedParticipante.id === participanteId) {
             // Close the details
@@ -256,14 +258,14 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
         }
 
         // Get the participante by id
-        this._membersService.getParticipanteById(participanteId)
+        this._apiService.getParticipanteById(participanteId)
             .subscribe((participante) => {
-
+                console.log(participante[0]);
                 // Set the selected participante
-                this.selectedParticipante = participante;
+                this.selectedParticipante = participante[0];
 
                 // Fill the form
-                this.selectedParticipanteForm.patchValue(participante);
+                this.selectedParticipanteForm.patchValue(participante[0]);
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -343,18 +345,18 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
            } */
 
         // If there is a club...
-        const club = this.filteredClubes[0];
-        const isClubApplied = this.selectedParticipante.clubes.find(id => id === club.id);
+        //const club = this.filteredClubes[0];
+        // const isClubApplied = this.selectedParticipante.club.find(id => id === club.id);
 
         // If the found club is already applied to the participante...
-        if (isClubApplied) {
-            // Remove the club from the participante
-            this.removeClubFromParticipante(club);
-        }
-        else {
-            // Otherwise add the club to the participante
-            this.addClubToParticipante(club);
-        }
+        // if (isClubApplied) {
+        //     // Remove the club from the participante
+        //     this.removeClubFromParticipante(club);
+        // }
+        // else {
+        //     // Otherwise add the club to the participante
+        //     this.addClubToParticipante(club);
+        // }
     }
 
     /**
@@ -415,13 +417,13 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
      */
     addClubToParticipante(club: InventoryClub): void {
         // Add the club
-        this.selectedParticipante.clubes.unshift(club.id);
+        // this.selectedParticipante.club.unshift(club.id);
 
         // Update the selected participante form
-        this.selectedParticipanteForm.get('clubes').patchValue(this.selectedParticipante.clubes);
+        // this.selectedParticipanteForm.get('clubes').patchValue(this.selectedParticipante.club);
 
         // Mark for check
-        this._changeDetectorRef.markForCheck();
+        // this._changeDetectorRef.markForCheck();
     }
 
     /**
@@ -431,13 +433,13 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
      */
     removeClubFromParticipante(club: InventoryClub): void {
         // Remove the club
-        this.selectedParticipante.clubes.splice(this.selectedParticipante.clubes.findIndex(item => item === club.id), 1);
-
-        // Update the selected participante form
-        this.selectedParticipanteForm.get('clubes').patchValue(this.selectedParticipante.clubes);
-
-        // Mark for check
-        this._changeDetectorRef.markForCheck();
+        // this.selectedParticipante.club.splice(this.selectedParticipante.club.findIndex(item => item === club.id), 1);
+        //
+        // // Update the selected participante form
+        // this.selectedParticipanteForm.get('clubes').patchValue(this.selectedParticipante.clubes);
+        //
+        // // Mark for check
+        // this._changeDetectorRef.markForCheck();
     }
 
     /**
@@ -472,7 +474,7 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
         this._membersService.createParticipante().subscribe((newParticipante) => {
 
             // Go to new participante
-            this.selectedParticipante = newParticipante;
+            // this.selectedParticipante = newParticipante;
 
             // Fill the form
             this.selectedParticipanteForm.patchValue(newParticipante);
@@ -569,7 +571,7 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
 
     exportExcel(): void {
         /* table id is passed over here */
-        let element = document.getElementById('participantes-table');
+        const element = document.getElementById('participantes-table');
         const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
 
         /* generate workbook and add the worksheet */
