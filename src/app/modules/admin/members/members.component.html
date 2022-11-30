@@ -50,7 +50,7 @@
 
         <!-- Participantes list -->
         <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto" id="participantes-table">
-            <ng-container *ngIf="(participantes$ | async) as participantes">
+            <ng-container *ngIf="(participantes$ | async)">
                 <ng-container *ngIf="participantes.length > 0; else noParticipantes">
                     <div class="grid">
                         <!-- Header -->
@@ -83,7 +83,7 @@
                             <div class="hidden sm:block">Detalles</div>
                         </div>
                         <!-- Rows -->
-                        <ng-container *ngIf="(participantes$ | async) as participantes">
+                        <ng-container *ngIf="(participantes$ | async)">
                             <ng-container *ngFor="let participante of participantes; trackBy: trackByFn">
                                 <div class="inventory-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
 
@@ -99,7 +99,7 @@
 
                                     <!-- Price -->
                                     <div class="hidden sm:block">
-                                        {{participante.carrera}}
+                                        {{participante.carreras.carrera}}
                                     </div>
 
                                     <!-- Stock -->
@@ -109,12 +109,12 @@
 
                                     <!-- Active -->
                                     <div class="hidden lg:block">
-                                        <ng-container *ngIf="participante.estado">
+                                        <ng-container *ngIf="participante.id">
                                             <mat-icon
                                                 class="text-green-400 icon-size-5"
                                                 [svgIcon]="'heroicons_solid:check'"></mat-icon>
                                         </ng-container>
-                                        <ng-container *ngIf="!participante.estado">
+                                        <ng-container *ngIf="!participante.id">
                                             <mat-icon
                                                 class="text-gray-400 icon-size-5"
                                                 [svgIcon]="'heroicons_solid:x'"></mat-icon>
@@ -145,9 +145,8 @@
                     <mat-paginator
                         class="absolute sm:absolute sm:inset-x-0 bottom-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                         [ngClass]="{'pointer-events-none': isLoading}"
-                        [length]="pagination.length"
-                        [pageIndex]="pagination.page"
-                        [pageSize]="pagination.size"
+                        [length]="participantes.length"
+
                         [pageSizeOptions]="[5, 10, 25, 100]"
                         [showFirstLastButtons]="true"></mat-paginator>
 
@@ -169,20 +168,20 @@
 
                                 <!-- Status and period -->
                                 <div class="flex flex-col sm:items-start sm:mb-0">
-                                    <div class="flex flex-col mb-9">
-                                        <span class="font-semibold mb-2">Estado del estudiante</span>
-                                        <mat-slide-toggle
-                                            [formControlName]="'active'"
-                                            [color]="'primary'">
-                                            {{selectedParticipanteForm.get('active').value === true ? 'Activo' : 'No activo'}}
-                                        </mat-slide-toggle>
-                                    </div>
+<!--                                    <div class="flex flex-col mb-9">-->
+<!--                                        <span class="font-semibold mb-2">Estado del estudiante</span>-->
+<!--                                        <mat-slide-toggle-->
+<!--                                            [formControlName]="'active'"-->
+<!--                                            [color]="'primary'">-->
+<!--                                            {{selectedParticipanteForm.get('active').value === true ? 'Activo' : 'No activo'}}-->
+<!--                                        </mat-slide-toggle>-->
+<!--                                    </div>-->
                                     <mat-form-field class="w-full">
                                         <mat-label>Periodo</mat-label>
-                                        <mat-select [formControlName]="'periodo'">
+                                        <mat-select [formControlName]="'idPeriodo'">
                                             <ng-container *ngFor="let periodo of periodos">
                                                 <mat-option [value]="periodo.id">
-                                                    {{periodo.name}}
+                                                    {{periodo.periodo}}
                                                 </mat-option>
                                             </ng-container>
                                         </mat-select>
@@ -252,7 +251,7 @@
                                             <mat-form-field class="w-full" [ngClass]="formFieldHelpers">
                                                 <mat-label>Nacimiento</mat-label>
                                                 <input
-                                                [formControlName]="'fechaNacimiento'"
+                                                [formControlName]="'nacimiento'"
                                                 matInput
                                                 [matDatepicker]="birthdayDatepicker">
                                             <mat-datepicker-toggle
@@ -277,10 +276,10 @@
                                         <div class="sm:flex">
                                             <mat-form-field class="w-full">
                                                 <mat-label>Sexo</mat-label>
-                                                <mat-select [formControlName]="'sexo'">
+                                                <mat-select [formControlName]="'idSexo'">
                                                     <ng-container *ngFor="let sexo of sexos">
                                                         <mat-option [value]="sexo.id">
-                                                            {{sexo.name}}
+                                                            {{sexo.sexo}}
                                                         </mat-option>
                                                     </ng-container>
                                                 </mat-select>
@@ -309,20 +308,20 @@
                                         </mat-form-field>
                                         <mat-form-field class="w-full">
                                             <mat-label>Facultad</mat-label>
-                                            <mat-select [formControlName]="'facultad'">
+                                            <mat-select [formControlName]="'idFacultad'">
                                                 <ng-container *ngFor="let facultad of facultades">
                                                     <mat-option [value]="facultad.id">
-                                                        {{facultad.name}}
+                                                        {{facultad.facultad}}
                                                     </mat-option>
                                                 </ng-container>
                                             </mat-select>
                                         </mat-form-field>
                                         <mat-form-field class="w-full">
                                             <mat-label>Carrera</mat-label>
-                                            <mat-select [formControlName]="'carrera'">
+                                            <mat-select [formControlName]="'idCarrera'">
                                                 <ng-container *ngFor="let carrera of carreras">
                                                     <mat-option [value]="carrera.id">
-                                                        {{carrera.name}}
+                                                        {{carrera.carrera}}
                                                     </mat-option>
                                                 </ng-container>
                                             </mat-select>
