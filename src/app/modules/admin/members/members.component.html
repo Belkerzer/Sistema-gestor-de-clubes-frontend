@@ -51,7 +51,7 @@
         <!-- Participantes list -->
         <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto" id="participantes-table">
             <ng-container *ngIf="(participantes$ | async)">
-                <ng-container *ngIf="participantes.length > 0; else noParticipantes">
+                <ng-container *ngIf="data.length > 0; else noParticipantes">
                     <div class="grid">
                         <!-- Header -->
                         <div
@@ -84,7 +84,7 @@
                         </div>
                         <!-- Rows -->
                         <ng-container *ngIf="(participantes$ | async)">
-                            <ng-container *ngFor="let participante of participantes; trackBy: trackByFn">
+                            <ng-container *ngFor="let participante of data; trackBy: trackByFn">
                                 <div class="inventory-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
 
                                     <!-- SKU -->
@@ -141,14 +141,12 @@
                             </ng-container>
                         </ng-container>
                     </div>
-
                     <mat-paginator
                         class="absolute sm:absolute sm:inset-x-0 bottom-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
                         [ngClass]="{'pointer-events-none': isLoading}"
-                        [length]="participantes.length"
-
-                        [pageSizeOptions]="[5, 10, 25, 100]"
-                        [showFirstLastButtons]="true"></mat-paginator>
+                        [length]="data.length"
+                        [showFirstLastButtons]="false">
+                    </mat-paginator>
 
                 </ng-container>
             </ng-container>
@@ -301,7 +299,7 @@
 
                                     <div class="flex flex-col w-full lg:w-1/2 sm:pl-8">
                                         <mat-form-field class="w-full">
-                                            <mat-label>Nombre</mat-label>
+                                            <mat-label>Nombres</mat-label>
                                             <input
                                                 matInput
                                                 [formControlName]="'nombresCompletos'">
@@ -445,7 +443,7 @@
                                     <button
                                         mat-flat-button
                                         [color]="'primary'"
-                                        (click)="updateSelectedParticipante()">
+                                        (click)="updateSelectedParticipante(participante.id)">
                                         Actualizar
                                     </button>
                                 </div>

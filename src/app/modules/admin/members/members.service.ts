@@ -255,42 +255,42 @@ export class MembersService {
      * @param id
      * @param participante
      */
-    // updateParticipante(id: string, participante: InventoryMember): Observable<InventoryMember> {
-    //     return this.participantes$.pipe(
-    //         take(1),
-    //         switchMap(participantes => this._httpClient.patch<InventoryMember>('api/apps/ecommerce/inventory/participante', {
-    //             id,
-    //             participante
-    //         }).pipe(
-    //             map((updatedParticipante) => {
-    //
-    //                 // Find the index of the updated participante
-    //                 const index = participantes.findIndex(item => item.id === id);
-    //
-    //                 // Update the participante
-    //                 participantes[index] = updatedParticipante;
-    //
-    //                 // Update the participantes
-    //                 this._participantes.next(participantes);
-    //
-    //                 // Return the updated participante
-    //                 return updatedParticipante;
-    //             }),
-    //             switchMap(updatedParticipante => this.participante$.pipe(
-    //                 take(1),
-    //                 filter(item => item && item.id === id),
-    //                 tap(() => {
-    //
-    //                     // Update the participante if it's selected
-    //                     this._participante.next(updatedParticipante);
-    //
-    //                     // Return the updated participante
-    //                     return updatedParticipante;
-    //                 })
-    //             ))
-    //         ))
-    //     );
-    // }
+    updateParticipante(id: number, participante: ParticipantesResponse): Observable<ParticipantesResponse> {
+        const {...body} = participante;
+        return this.participantes$.pipe(
+            take(1),
+            switchMap(participantes => this._httpClient.put<ParticipantesResponse>(`${this.apiUrl}/participantes/${id}`, {
+                ...body
+            }).pipe(
+                map((updatedParticipante) => {
+
+                    // Find the index of the updated participante
+                    const index = participantes.findIndex(item => item.id === id);
+
+                    // Update the participante
+                    participantes[index] = updatedParticipante;
+
+                    // Update the participantes
+                    this._participantes.next(participantes);
+
+                    // Return the updated participante
+                    return updatedParticipante[0];
+                }),
+                switchMap(updatedParticipante => this.participante$.pipe(
+                    take(1),
+                    filter(item => item && item.id === id),
+                    tap(() => {
+
+                        // Update the participante if it's selected
+                        this._participante.next(updatedParticipante);
+
+                        // Return the updated participante
+                        return updatedParticipante[0];
+                    })
+                ))
+            ))
+        );
+    }
 
     /**
      * Delete the participante

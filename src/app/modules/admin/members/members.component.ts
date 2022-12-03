@@ -10,6 +10,7 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { InventoryCarrera, InventoryPeriodo, InventoryPagination, InventoryMember, InventoryClub, InventorySexo, InventoryFacultad } from 'app/modules/admin/members/members.types';
 import {Carreras, Facultades, MembersService, ParticipantesResponse, Periodos, Sexos} from './members.service';
 import * as XLSX from 'xlsx';
+import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
     selector: 'members',
@@ -24,7 +25,7 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
     @ViewChild(MatSort) private _sort: MatSort;
 
     participantes$: Observable<ParticipantesResponse[]>;
-    participantes: ParticipantesResponse[];
+    data: ParticipantesResponse[];
     fileName = 'Participantes.xlsx';
     formFieldHelpers: string[] = [''];
     carreras: Carreras[];
@@ -33,7 +34,6 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
     filteredClubes: InventoryClub[];
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
-    pagination: InventoryPagination;
     searchInputControl: FormControl = new FormControl();
     selectedParticipante: ParticipantesResponse | null = null;
     selectedParticipanteForm: FormGroup;
@@ -66,7 +66,7 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
     async ngOnInit(): Promise<void> {
         // Create the selected participante form
         this.selectedParticipanteForm = this._formBuilder.group({
-            id: [0],
+            // id: [0],
             idPeriodo: [0],
             nombresCompletos: ['', [Validators.required]],
             observacion: [''],
@@ -76,17 +76,8 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
             idCarrera: [0],
             idSexo: [0],
             idFacultad: [0],
-            integracion: [''],
             correoElectronico: [''],
-            nacimiento: [''],
-            /* basePrice: [''],
-            taxPercent: [''],
-            price: [''],
-            weight: [''],
-            thumbnail: [''],
-            images: [[]],
-            currentImageIndex: [0], */ // Image index that is currently being viewed
-            active: [false]
+            nacimiento: ['']
         });
 
         // Get the carreras
@@ -112,22 +103,9 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
                 this._changeDetectorRef.markForCheck();
             });
 
-        // Get the pagination
-        this._membersService.pagination$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((pagination: InventoryPagination) => {
-
-                // Update the pagination
-                this.pagination = pagination;
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
-
         // Get the participantes
         this.participantes$ = this._membersService.getParticipantes();
-
-        this.participantes$.subscribe({next: res => this.participantes = res});
+        this.participantes$.subscribe({next: res => this.data = res});
 
         // Get the clubes
         this._membersService.clubes$
@@ -146,7 +124,6 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
         this._membersService.sexos$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((sexos: Sexos[]) => {
-                console.table(sexos);
                 // Update the vendors
                 this.sexos = sexos;
 
@@ -174,6 +151,7 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
                 switchMap((query) => {
                     this.closeDetails();
                     this.isLoading = true;
+                    this.participantes$ = this._membersService.getParticipantes(query);
                     return this._membersService.getParticipantes(query);
                 }),
                 map(() => {
@@ -260,16 +238,13 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
         // Get the participante by id
         this._membersService.getParticipanteById(participanteId)
             .subscribe((participante) => {
-
+                console.log(participante);
                 // Set the selected participante
                 this.selectedParticipante = participante;
 
                 // Fill the form
-                this.selectedParticipanteForm.patchValue(participante);
-                this.selectedParticipanteForm.get('idCarrera').setValue(participante.carreras.id);
-                this.selectedParticipanteForm.get('idFacultad').setValue(participante.facultades.id);
-                this.selectedParticipanteForm.get('idPeriodo').setValue(participante.periodos.id);
-                this.selectedParticipanteForm.get('idSexo').setValue(participante.sexos.id);
+                // this.selectedParticipanteForm.patchValue(participante);
+                this.fillForm(participante);
 
 
                 // Mark for check
@@ -481,32 +456,36 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
             // Go to new participante
             this.selectedParticipante = newParticipante[0];
 
-            this.participantes.push(newParticipante[0]);
-
+            this.data.unshift(newParticipante[0]);
             // Fill the form
             this.selectedParticipanteForm.patchValue(newParticipante[0]);
 
             // Mark for check
             this._changeDetectorRef.markForCheck();
+
         });
     }
 
     /**
      * Update the selected participante using the form data
      */
-    updateSelectedParticipante(): void {
+    updateSelectedParticipante(id: number): void {
         // Get the participante object
-        const participante = this.selectedParticipanteForm.getRawValue();
+        //const participante = this.selectedParticipanteForm.getRawValue();
+        if(this.selectedParticipanteForm.invalid){
+            return;
+        }
 
+        const participante = this.selectedParticipanteForm.value;
         // Remove the currentImageIndex field
         delete participante.currentImageIndex;
 
         // Update the participante on the server
-        // this._membersService.updateParticipante(participante.id, participante).subscribe(() => {
-        //
-        //     // Show a success message
-        //     this.showFlashMessage('success');
-        // });
+        this._membersService.updateParticipante(id, participante).subscribe(() => {
+
+            // Show a success message
+            this.showFlashMessage('success');
+        });
     }
 
     /**
@@ -588,5 +567,14 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
         /* save to file */
         XLSX.writeFile(wb, this.fileName);
 
+    }
+
+
+    fillForm(participante: any): void{
+        this.selectedParticipanteForm.patchValue(participante);
+        this.selectedParticipanteForm.get('idCarrera').setValue(participante.carreras.id);
+        this.selectedParticipanteForm.get('idFacultad').setValue(participante.facultades.id);
+        this.selectedParticipanteForm.get('idPeriodo').setValue(participante.periodos.id);
+        this.selectedParticipanteForm.get('idSexo').setValue(participante.sexos.id);
     }
 }
