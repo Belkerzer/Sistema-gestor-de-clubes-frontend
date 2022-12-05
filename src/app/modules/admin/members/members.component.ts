@@ -7,10 +7,9 @@ import { merge, Observable, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { InventoryCarrera, InventoryPeriodo, InventoryPagination, InventoryMember, InventoryClub, InventorySexo, InventoryFacultad } from 'app/modules/admin/members/members.types';
-import {Carreras, Facultades, MembersService, ParticipantesResponse, Periodos, Sexos} from './members.service';
+import { InventoryClub } from 'app/modules/admin/members/members.types';
+import {Carreras, Clubes, Facultades, MembersService, ParticipantesResponse, Periodos, Sexos} from './members.service';
 import * as XLSX from 'xlsx';
-import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
     selector: 'members',
@@ -31,13 +30,13 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
     carreras: Carreras[];
     periodos: Periodos[];
     facultades: Facultades[];
-    filteredClubes: InventoryClub[];
+    filteredClubes: Clubes[];
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     searchInputControl: FormControl = new FormControl();
     selectedParticipante: ParticipantesResponse | null = null;
     selectedParticipanteForm: FormGroup;
-    clubes: InventoryClub[];
+    clubes: Clubes[];
     /* clubesEditMode: boolean = false; */
     sexos: Sexos[];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -66,13 +65,13 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
     async ngOnInit(): Promise<void> {
         // Create the selected participante form
         this.selectedParticipanteForm = this._formBuilder.group({
-            // id: [0],
-            idPeriodo: [0],
+            id: [0],
             nombresCompletos: ['', [Validators.required]],
             observacion: [''],
-            club: [''],
             codigo: [''],
             cedula: [''],
+            idClub: [0],
+            idPeriodo: [0],
             idCarrera: [0],
             idSexo: [0],
             idFacultad: [0],
@@ -110,7 +109,7 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
         // Get the clubes
         this._membersService.clubes$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((clubes: InventoryClub[]) => {
+            .subscribe((clubes: Clubes[]) => {
 
                 // Update the clubes
                 this.clubes = clubes;
@@ -298,7 +297,7 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
         const value = event.target.value.toLowerCase();
 
         // Filter the clubes
-        this.filteredClubes = this.clubes.filter(club => club.title.toLowerCase().includes(value));
+        this.filteredClubes = this.clubes.filter(club => club.club.toLowerCase().includes(value));
     }
 
     /**
@@ -458,7 +457,7 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
 
             this.data.unshift(newParticipante[0]);
             // Fill the form
-            this.selectedParticipanteForm.patchValue(newParticipante[0]);
+            this.fillForm(newParticipante[0]);
 
             // Mark for check
             this._changeDetectorRef.markForCheck();
@@ -516,11 +515,12 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
                 const participante = this.selectedParticipanteForm.getRawValue();
 
                 // Delete the participante on the server
-                // this._membersService.deleteParticipante(participante.id).subscribe(() => {
-                //
-                //     // Close the details
-                //     this.closeDetails();
-                // });
+                this._membersService.deleteParticipante(participante.id).subscribe(() => {
+                    // Close the details
+                    this.closeDetails();
+                    const index = this.data.findIndex(object => object.id === participante.id);
+                    this.data.splice(index, 1);
+                });
             }
         });
     }

@@ -1,20 +1,79 @@
+import {ParticipantesResponse} from '../members/members.service';
+
+export interface DocenteResponse {
+    id:                number;
+    nombres:           string;
+    correoElectronico: string;
+    roles:             Roles;
+    idUsuario:         number;
+}
+
+export interface Roles {
+    rol:   string;
+    idRol: number;
+}
+
+
+export interface ClubesResponse {
+    id:            number;
+    club:          string;
+    descripcion:   string;
+    facultades:    Facultades;
+    programas:     Programas;
+    departamentos: Departamentos;
+    tipos:         Tipos;
+    participantes: ParticipantesResponse[];
+    docentes:      Docentes[];
+    fechaInicio:   string;
+    fechaCierre:   string;
+    fechaCreacion: string;
+}
+
+export interface Departamentos {
+    departamento: string;
+    id:           number;
+}
+
+export interface Facultades {
+    facultad: string;
+    id:       number;
+}
+
+export interface Programas {
+    programa:   string;
+    id: number;
+}
+
+export interface Docentes {
+    docente:   string;
+    id: number;
+}
+
+export interface Tipos {
+    tipo:   string;
+    id: number;
+}
+
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { InventoryFacultadClub, InventoryLiderEstudiantil, InventoryPagination, InventoryClubs, InventoryDocenteTutor, InventoryPrograma, InventoryParticipanteClubes } from 'app/modules/admin/clubs/clubs.types';
+import {environment} from '../../../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ClubsService {
+    apiUrl = environment.apiBackend;
     // Private
     private _facultadesClub: BehaviorSubject<InventoryFacultadClub[] | null> = new BehaviorSubject(null);
     private _lideresEstudiantiles: BehaviorSubject<InventoryLiderEstudiantil[] | null> = new BehaviorSubject(null);
     private _paginationClubsClubs: BehaviorSubject<InventoryPagination | null> = new BehaviorSubject(null);
-    private _club: BehaviorSubject<InventoryClubs | null> = new BehaviorSubject(null);
-    private _clubs: BehaviorSubject<InventoryClubs[] | null> = new BehaviorSubject(null);
-    private _docentesTutores: BehaviorSubject<InventoryDocenteTutor[] | null> = new BehaviorSubject(null);
+    private _club: BehaviorSubject<ClubesResponse | null> = new BehaviorSubject(null);
+    private _clubs: BehaviorSubject<ClubesResponse[] | null> = new BehaviorSubject(null);
+    private _docentesTutores: BehaviorSubject<DocenteResponse[] | null> = new BehaviorSubject(null);
     private _participantesClubes: BehaviorSubject<InventoryParticipanteClubes[] | null> = new BehaviorSubject(null);
     private _programas: BehaviorSubject<InventoryPrograma[] | null> = new BehaviorSubject(null);
 
@@ -52,7 +111,7 @@ export class ClubsService {
     /**
      * Getter for club
      */
-    get club$(): Observable<InventoryClubs> {
+    get club$(): Observable<ClubesResponse> {
         return this._club.asObservable();
     }
 
@@ -66,14 +125,14 @@ export class ClubsService {
     /**
      * Getter for clubs
      */
-    get clubs$(): Observable<InventoryClubs[]> {
+    get clubs$(): Observable<ClubesResponse[]> {
         return this._clubs.asObservable();
     }
 
     /**
      * Getter for docentesTutores
      */
-    get docentesTutores$(): Observable<InventoryDocenteTutor[]> {
+    get docentesTutores$(): Observable<DocenteResponse[]> {
         return this._docentesTutores.asObservable();
     }
 
@@ -120,20 +179,20 @@ export class ClubsService {
      * @param order
      * @param search
      */
-    getClubs(page: number = 0, size: number = 10, sort: string = 'name', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
-        Observable<{ paginationClubs: InventoryPagination; clubs: InventoryClubs[] }> {
-        return this._httpClient.get<{ paginationClubs: InventoryPagination; clubs: InventoryClubs[] }>('api/clubes', {
+    getClubs(termino: string = ''):
+        Observable<ClubesResponse[]> {
+        return this._httpClient.get<ClubesResponse[]>(`${this.apiUrl}/clubes`, {
             params: {
-                page: '' + page,
-                size: '' + size,
-                sort,
-                order,
-                search
+                // page: '' + page,
+                // size: '' + size,
+                // sort,
+                // order,
+                termino
             }
         }).pipe(
             tap((response) => {
-                this._paginationClubsClubs.next(response.paginationClubs);
-                this._clubs.next(response.clubs);
+                // this._paginationClubsClubs.next(response.paginationClubs);
+                this._clubs.next(response);
             })
         );
     }
@@ -141,7 +200,7 @@ export class ClubsService {
     /**
      * Get club by id
      */
-    getClubById(id: string): Observable<InventoryClubs> {
+    getClubById(id: number): Observable<ClubesResponse> {
         return this._clubs.pipe(
             take(1),
             map((clubs) => {
@@ -173,14 +232,14 @@ export class ClubsService {
         return this.clubs$.pipe(
             take(1),
             switchMap(clubs => this._httpClient.post<InventoryClubs>('api/apps/ecommerce/inventory/club', {}).pipe(
-                map((newClub) => {
+                map(newClub =>
 
                     // Update the clubs with the new club
-                    this._clubs.next([newClub, ...clubs]);
+                    // this._clubs.next([newClub, ...clubs]);
 
                     // Return the new club
-                    return newClub;
-                })
+                     newClub
+                )
             ))
         );
     }
@@ -191,69 +250,69 @@ export class ClubsService {
      * @param id
      * @param club
      */
-    updateClub(id: string, club: InventoryClubs): Observable<InventoryClubs> {
-        return this.clubs$.pipe(
-            take(1),
-            switchMap(clubs => this._httpClient.patch<InventoryClubs>('api/apps/ecommerce/inventory/club', {
-                id,
-                club
-            }).pipe(
-                map((updatedClub) => {
-
-                    // Find the index of the updated club
-                    const index = clubs.findIndex(item => item.id === id);
-
-                    // Update the club
-                    clubs[index] = updatedClub;
-
-                    // Update the clubs
-                    this._clubs.next(clubs);
-
-                    // Return the updated club
-                    return updatedClub;
-                }),
-                switchMap(updatedClub => this.club$.pipe(
-                    take(1),
-                    filter(item => item && item.id === id),
-                    tap(() => {
-
-                        // Update the club if it's selected
-                        this._club.next(updatedClub);
-
-                        // Return the updated club
-                        return updatedClub;
-                    })
-                ))
-            ))
-        );
-    }
+    // updateClub(id: string, club: InventoryClubs): Observable<InventoryClubs> {
+    //     return this.clubs$.pipe(
+    //         take(1),
+    //         switchMap(clubs => this._httpClient.patch<InventoryClubs>('api/apps/ecommerce/inventory/club', {
+    //             id,
+    //             club
+    //         }).pipe(
+    //             map((updatedClub) => {
+    //
+    //                 // Find the index of the updated club
+    //                 const index = clubs.findIndex(item => item.id === id);
+    //
+    //                 // Update the club
+    //                 clubs[index] = updatedClub;
+    //
+    //                 // Update the clubs
+    //                 this._clubs.next(clubs);
+    //
+    //                 // Return the updated club
+    //                 return updatedClub;
+    //             }),
+    //             switchMap(updatedClub => this.club$.pipe(
+    //                 take(1),
+    //                 filter(item => item && item.id === id),
+    //                 tap(() => {
+    //
+    //                     // Update the club if it's selected
+    //                     this._club.next(updatedClub);
+    //
+    //                     // Return the updated club
+    //                     return updatedClub;
+    //                 })
+    //             ))
+    //         ))
+    //     );
+    // }
 
     /**
      * Delete the club
      *
      * @param id
      */
-    deleteClub(id: string): Observable<boolean> {
-        return this.clubs$.pipe(
-            take(1),
-            switchMap(clubs => this._httpClient.delete('api/apps/ecommerce/inventory/club', { params: { id } }).pipe(
-                map((isDeleted: boolean) => {
-
-                    // Find the index of the deleted club
-                    const index = clubs.findIndex(item => item.id === id);
-
-                    // Delete the club
-                    clubs.splice(index, 1);
-
-                    // Update the clubs
-                    this._clubs.next(clubs);
-
-                    // Return the deleted status
-                    return isDeleted;
-                })
-            ))
-        );
-    }
+    // deleteClub(id: string): Observable<boolean> {
+    //     return this.clubs$.pipe(
+    //         take(1),
+    //         switchMap(clubs => this._httpClient.delete('api/apps/ecommerce/inventory/club', { params: { id } }).pipe(
+    //             map((isDeleted: boolean) => {
+    //
+    //                 // Find the index of the deleted club
+    //                 const index = clubs.findIndex(item => item.id === id);
+    //
+    //                 // Delete the club
+    //                 clubs.splice(index, 1);
+    //
+    //                 // Update the clubs
+    //                 this._clubs.next(clubs);
+    //
+    //                 // Return the deleted status
+    //                 return isDeleted;
+    //             })
+    //         ))
+    //     );
+    // }
 
     /**
      * Get participantesClubes
@@ -269,8 +328,8 @@ export class ClubsService {
     /**
      * Get Docentes Tutores
      */
-    getDocentesTutores(): Observable<InventoryDocenteTutor[]> {
-        return this._httpClient.get<InventoryDocenteTutor[]>('api/apps/ecommerce/inventory/docentesTutores').pipe(
+    getDocentesTutores(): Observable<DocenteResponse[]> {
+        return this._httpClient.get<DocenteResponse[]>('api/apps/ecommerce/inventory/docentesTutores').pipe(
             tap((docentesTutores) => {
                 this._docentesTutores.next(docentesTutores);
             })

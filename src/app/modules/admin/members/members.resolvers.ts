@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@a
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import {
-    Carreras,
+    Carreras, Clubes,
     Facultades,
     MembersService,
     ParticipantesResponse,
@@ -157,7 +157,7 @@ export class InventoryClubesResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryClub[]> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Clubes[]> {
         return this._membersService.getClubes();
     }
 }

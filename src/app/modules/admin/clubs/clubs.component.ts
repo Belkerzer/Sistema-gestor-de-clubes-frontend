@@ -8,8 +8,8 @@ import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { InventoryFacultadClub, InventoryLiderEstudiantil, InventoryPagination, InventoryClubs, InventoryDocenteTutor, InventoryPrograma, InventoryParticipanteClubes } from 'app/modules/admin/clubs/clubs.types';
-import { ClubsService } from 'app/modules/admin/clubs/clubs.service';
-import * as XLSX from 'xlsx'; 
+import {ClubesResponse, ClubsService, DocenteResponse, Docentes} from 'app/modules/admin/clubs/clubs.service';
+import * as XLSX from 'xlsx';
 
 @Component({
     selector: 'clubs',
@@ -23,21 +23,21 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
 
-    clubs$: Observable<InventoryClubs[]>;
+    clubs$: Observable<ClubesResponse[]>;
 
-    fileName = 'Clubes.xlsx'; 
+    fileName = 'Clubes.xlsx';
     formFieldHelpers: string[] = [''];
     facultadesClub: InventoryFacultadClub[];
     lideresEstudiantiles: InventoryLiderEstudiantil[];
-    filteredDocentesTutores: InventoryDocenteTutor[];
+    filteredDocentesTutores: DocenteResponse[];
     filteredParticipantesClubes: InventoryParticipanteClubes[];
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
     paginationClubs: InventoryPagination;
     searchInputControl: FormControl = new FormControl();
-    selectedClub: InventoryClubs | null = null;
+    selectedClub: ClubesResponse | null = null;
     selectedClubForm: FormGroup;
-    docentesTutores: InventoryDocenteTutor[];
+    docentesTutores: DocenteResponse[];
     participantesClubes: InventoryParticipanteClubes[];
     /* docentesTutoresEditMode: boolean = false; */
     programas: InventoryPrograma[];
@@ -146,7 +146,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
         // Get the docentesTutores
         this._clubsService.docentesTutores$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((docentesTutores: InventoryDocenteTutor[]) => {
+            .subscribe((docentesTutores: DocenteResponse[]) => {
 
                 // Update the docentesTutores
                 this.docentesTutores = docentesTutores;
@@ -176,7 +176,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
                 switchMap((query) => {
                     this.closeDetails();
                     this.isLoading = true;
-                    return this._clubsService.getClubs(0, 10, 'name', 'asc', query);
+                    return this._clubsService.getClubs(query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -216,7 +216,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
                 switchMap(() => {
                     this.closeDetails();
                     this.isLoading = true;
-                    return this._clubsService.getClubs(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    return this._clubsService.getClubs();
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -250,7 +250,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
      *
      * @param clubId
      */
-    toggleDetails(clubId: string): void {
+    toggleDetails(clubId: number): void {
         // If the club is already selected...
         if (this.selectedClub && this.selectedClub.id === clubId) {
             // Close the details
@@ -310,10 +310,10 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
       } */
 
     /**
-* Filter participantesClubes
-*
-* @param event
-*/
+     * Filter participantesClubes
+     *
+     * @param event
+     */
     filterParticipantesClubes(event): void {
         // Get the value
         const value = event.target.value.toLowerCase();
@@ -417,7 +417,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
         const value = event.target.value.toLowerCase();
 
         // Filter the docentesTutores
-        this.filteredDocentesTutores = this.docentesTutores.filter(docenteTutor => docenteTutor.title.toLowerCase().includes(value));
+        this.filteredDocentesTutores = this.docentesTutores.filter(docenteTutor => docenteTutor.nombres.toLowerCase().includes(value));
     }
 
     /**
@@ -445,17 +445,17 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
 
         // If there is a docenteTutor...
         const docenteTutor = this.filteredDocentesTutores[0];
-        const isDocenteTutorApplied = this.selectedClub.docentesTutores.find(id => id === docenteTutor.id);
-
-        // If the found docenteTutor is already applied to the club...
-        if (isDocenteTutorApplied) {
-            // Remove the docenteTutor from the club
-            this.removeDocenteTutorFromClub(docenteTutor);
-        }
-        else {
-            // Otherwise add the docenteTutor to the club
-            this.addDocenteTutorToClub(docenteTutor);
-        }
+        // const isDocenteTutorApplied = this.selectedClub.docentes.find(id => id === docenteTutor.id);
+        //
+        // // If the found docenteTutor is already applied to the club...
+        // if (isDocenteTutorApplied) {
+        //     // Remove the docenteTutor from the club
+        //     this.removeDocenteTutorFromClub(docenteTutor);
+        // }
+        // else {
+        //     // Otherwise add the docenteTutor to the club
+        //     this.addDocenteTutorToClub(docenteTutor);
+        // }
     }
 
     /**
@@ -514,12 +514,12 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
      *
      * @param docenteTutor
      */
-    addDocenteTutorToClub(docenteTutor: InventoryDocenteTutor): void {
+    addDocenteTutorToClub(docenteTutor: Docentes): void {
         // Add the docenteTutor
-        this.selectedClub.docentesTutores.unshift(docenteTutor.id);
+        //this.selectedClub.docentes.unshift(docenteTutor.id);
 
         // Update the selected club form
-        this.selectedClubForm.get('docentesTutores').patchValue(this.selectedClub.docentesTutores);
+        this.selectedClubForm.get('docentesTutores').patchValue(this.selectedClub.docentes);
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
@@ -530,12 +530,12 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
      *
      * @param docenteTutor
      */
-    removeDocenteTutorFromClub(docenteTutor: InventoryDocenteTutor): void {
+    removeDocenteTutorFromClub(docenteTutor: Docentes): void {
         // Remove the docenteTutor
-        this.selectedClub.docentesTutores.splice(this.selectedClub.docentesTutores.findIndex(item => item === docenteTutor.id), 1);
+        //this.selectedClub.docentes.splice(this.selectedClub.docentes.findIndex(item => item === docenteTutor.id), 1);
 
         // Update the selected club form
-        this.selectedClubForm.get('docentesTutores').patchValue(this.selectedClub.docentesTutores);
+        this.selectedClubForm.get('docentesTutores').patchValue(this.selectedClub.docentes);
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
@@ -547,7 +547,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
      * @param docenteTutor
      * @param change
      */
-    toggleClubDocenteTutor(docenteTutor: InventoryDocenteTutor, change: MatCheckboxChange): void {
+    toggleClubDocenteTutor(docenteTutor: Docentes, change: MatCheckboxChange): void {
         if (change.checked) {
             this.addDocenteTutorToClub(docenteTutor);
         }
@@ -573,7 +573,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
         this._clubsService.createClub().subscribe((newClub) => {
 
             // Go to new club
-            this.selectedClub = newClub;
+            //this.selectedClub = newClub;
 
             // Fill the form
             this.selectedClubForm.patchValue(newClub);
@@ -594,11 +594,11 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
         delete club.currentImageIndex;
 
         // Update the club on the server
-        this._clubsService.updateClub(club.id, club).subscribe(() => {
-
-            // Show a success message
-            this.showFlashMessage('success');
-        });
+        // this._clubsService.updateClub(club.id, club).subscribe(() => {
+        //
+        //     // Show a success message
+        //     this.showFlashMessage('success');
+        // });
     }
 
     /**
@@ -629,11 +629,11 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
                 const club = this.selectedClubForm.getRawValue();
 
                 // Delete the club on the server
-                this._clubsService.deleteClub(club.id).subscribe(() => {
-
-                    // Close the details
-                    this.closeDetails();
-                });
+                // this._clubsService.deleteClub(club.id).subscribe(() => {
+                //
+                //     // Close the details
+                //     this.closeDetails();
+                // });
             }
         });
     }
@@ -670,7 +670,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
 
     exportExcel(): void {
         /* table id is passed over here */
-        let element = document.getElementById('clubes-table');
+        const element = document.getElementById('clubes-table');
         const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
 
         /* generate workbook and add the worksheet */

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ClubsService } from 'app/modules/admin/clubs/clubs.service';
+import {ClubesResponse, ClubsService, DocenteResponse} from 'app/modules/admin/clubs/clubs.service';
 import { InventoryFacultadClub, InventoryLiderEstudiantil, InventoryPagination, InventoryClubs, InventoryDocenteTutor, InventoryPrograma, InventoryParticipanteClubes } from 'app/modules/admin/clubs/clubs.types';
 
 @Injectable({
@@ -81,8 +81,8 @@ export class InventoryClubResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryClubs> {
-        return this._inventoryService.getClubById(route.paramMap.get('id'))
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ClubesResponse> {
+        return this._inventoryService.getClubById(parseInt(route.paramMap.get('id'),10))
             .pipe(
                 // Error here means the requested club is not available
                 catchError((error) => {
@@ -124,7 +124,7 @@ export class InventoryClubsResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ paginationClubs: InventoryPagination; clubs: InventoryClubs[] }> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ClubesResponse[]> {
         return this._inventoryService.getClubs();
     }
 }
@@ -150,7 +150,7 @@ export class InventoryDocentesTutoresResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryDocenteTutor[]> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<DocenteResponse[]> {
         return this._inventoryService.getDocentesTutores();
     }
 }

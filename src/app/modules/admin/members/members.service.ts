@@ -67,7 +67,7 @@ export class MembersService {
     private _pagination: BehaviorSubject<InventoryPagination | null> = new BehaviorSubject(null);
     private _participante: BehaviorSubject<ParticipantesResponse | null> = new BehaviorSubject(null);
     private _participantes: BehaviorSubject<ParticipantesResponse[] | null> = new BehaviorSubject(null);
-    private _clubes: BehaviorSubject<InventoryClub[] | null> = new BehaviorSubject(null);
+    private _clubes: BehaviorSubject<Clubes[] | null> = new BehaviorSubject(null);
     private _sexos: BehaviorSubject<Sexos[] | null> = new BehaviorSubject(null);
     private _facultades: BehaviorSubject<Facultades[] | null> = new BehaviorSubject(null);
 
@@ -119,7 +119,7 @@ export class MembersService {
     /**
      * Getter for clubes
      */
-    get clubes$(): Observable<InventoryClub[]> {
+    get clubes$(): Observable<Clubes[]> {
         return this._clubes.asObservable();
     }
 
@@ -297,33 +297,33 @@ export class MembersService {
      *
      * @param id
      */
-    // deleteParticipante(id: string): Observable<boolean> {
-    //     return this.participantes$.pipe(
-    //         take(1),
-    //         switchMap(participantes => this._httpClient.delete('api/apps/ecommerce/inventory/participante', { params: { id } }).pipe(
-    //             map((isDeleted: boolean) => {
-    //
-    //                 // Find the index of the deleted participante
-    //                 const index = participantes.findIndex(item => item.id === id);
-    //
-    //                 // Delete the participante
-    //                 participantes.splice(index, 1);
-    //
-    //                 // Update the participante
-    //                 this._participantes.next(participantes);
-    //
-    //                 // Return the deleted status
-    //                 return isDeleted;
-    //             })
-    //         ))
-    //     );
-    // }
+    deleteParticipante(id: number): Observable<any> {
+        return this.participantes$.pipe(
+            take(1),
+            switchMap(participantes => this._httpClient.delete(`${this.apiUrl}/participantes/${id}`).pipe(
+                map((isDeleted: boolean) => {
+
+                    // Find the index of the deleted participante
+                    const index = participantes.findIndex(item => item.id === id);
+
+                    // Delete the participante
+                    participantes.splice(index, 1);
+
+                    // Update the participante
+                    this._participantes.next(participantes);
+
+                    // Return the deleted status
+                    return isDeleted;
+                })
+            ))
+        );
+    }
 
     /**
      * Get clubes
      */
-    getClubes(): Observable<InventoryClub[]> {
-        return this._httpClient.get<InventoryClub[]>('api/apps/ecommerce/inventory/clubes').pipe(
+    getClubes(): Observable<Clubes[]> {
+        return this._httpClient.get<Clubes[]>(`${this.apiUrl}/clubes`).pipe(
             tap((clubes) => {
                 this._clubes.next(clubes);
             })
