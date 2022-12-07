@@ -1,20 +1,20 @@
 /* eslint-disable */
-export const contacts = [
+export const partners = [
     {
-        id          : '0a8bc517-631a-4a93-aacc-000fa2e8294c',
-        avatar      : 'assets/images/avatars/female-20.jpg',
+        id: '0a8bc517-631a-4a93-aacc-000fa2e8294c',
+        avatar: 'assets/images/avatars/female-20.jpg',
         /*         background  : 'assets/images/cards/24-640x480.jpg', */
         name: 'Claudio Cesare Linares Rendon',
         email: 'ccesare@ecotec.edu.ec',
-/*         phoneNumbers: [
-            {
-                country: 'af',
-                phoneNumber: '838 562 2769',
-                label      : 'Mobile'
-            }
-        ], */
+        /*         phoneNumbers: [
+                    {
+                        country: 'af',
+                        phoneNumber: '838 562 2769',
+                        label      : 'Mobile'
+                    }
+                ], */
         /*         title: 'ccesare',
-                company: 'Docente', */
+                company: 'Docente-Tutor', */
         /*         birthday    : '1976-09-09T12:00:00.000Z',
                 address     : '946 Remsen Street, Caroline, New Mexico, PO3247', */
         username: 'ccesare',
@@ -24,18 +24,18 @@ export const contacts = [
         rol: 'Docente-Tutor'
     },
     {
-        id          : 'cdcc62e4-1520-4ccc-803d-52868c7e01ba',
-        avatar      : 'assets/images/avatars/female-04.jpg',
+        id: 'cdcc62e4-1520-4ccc-803d-52868c7e01ba',
+        avatar: 'assets/images/avatars/female-04.jpg',
         /*         background  : 'assets/images/cards/29-640x480.jpg', */
         name: 'Deborah Griselda Rios Soto',
         email: 'dgriselda@est.ecotec.edu.ec',
-/*         phoneNumbers: [
-            {
-                country: 'al',
-                phoneNumber: '855 445 2483',
-                label: 'Mobile'
-            }
-        ], */
+        /*         phoneNumbers: [
+                    {
+                        country: 'al',
+                        phoneNumber: '855 445 2483',
+                        label: 'Mobile'
+                    }
+                ], */
         /*         title: 'dgriselda',
                 company: 'Líder Estudiantil', */
         /*         birthday    : '1996-06-17T12:00:00.000Z', */
@@ -47,22 +47,22 @@ export const contacts = [
         rol: 'Líder Estudiantil'
     },
     {
-        id          : '22f18d47-ff8d-440e-888d-a1747c093052',
-        avatar      : 'assets/images/avatars/female-12.jpg',
+        id: '22f18d47-ff8d-440e-888d-a1747c093052',
+        avatar: 'assets/images/avatars/female-12.jpg',
         /*         background  : 'assets/images/cards/14-640x480.jpg', */
         name: 'Alida Vanina Mares Osorio',
         email: 'avanina@ecotec.edu.ec',
-/*         phoneNumbers: [
-            {
-                country: 'dz',
-                phoneNumber: '881 472 3113',
-                label: 'Mobile'
-            }
-        ],
-        title: 'avanina',
-        company: 'Docente',
-        birthday    : '1985-09-17T12:00:00.000Z',
-        address     : '387 Holt Court, Thomasville, Alaska, PO2867', */
+        /*         phoneNumbers: [
+                    {
+                        country: 'dz',
+                        phoneNumber: '881 472 3113',
+                        label: 'Mobile'
+                    }
+                ],
+                title: 'avanina',
+                company: 'Docente-Tutor',
+                birthday    : '1985-09-17T12:00:00.000Z',
+                address     : '387 Holt Court, Thomasville, Alaska, PO2867', */
         username: 'avanina',
         clubes: [
             'cbde2486-5033-4e09-838e-e901b108cd41'
@@ -70,8 +70,8 @@ export const contacts = [
         rol: 'Docente-Tutor'
     },
     {
-        id          : '114642a2-ccb7-4cb1-ad2b-5e9b6a0c1d2e',
-        avatar      : 'assets/images/avatars/male-09.jpg',
+        id: '114642a2-ccb7-4cb1-ad2b-5e9b6a0c1d2e',
+        avatar: 'assets/images/avatars/male-09.jpg',
         /*    background  : 'assets/images/cards/23-640x480.jpg', */
         name: 'Bartolo Vito Caraballo Quinonez',
         email: 'bvito@est.ecotec.edu.ec',
@@ -82,10 +82,10 @@ export const contacts = [
                 label: 'Mobile'
             }
         ],
-/*         title: 'bvito',
-        company: 'Líder Estudiantil',
-        birthday    : '1967-03-02T12:00:00.000Z',
-        address     : '386 Vernon Avenue, Dragoon, North Carolina, PO4559', */
+        /*         title: 'bvito',
+                company: 'Líder Estudiantil',
+                birthday    : '1967-03-02T12:00:00.000Z',
+                address     : '386 Vernon Avenue, Dragoon, North Carolina, PO4559', */
         username: 'bvito',
         clubes: [
             '56ddbd47-4078-4ddd-8448-73c5e88d5f59'
