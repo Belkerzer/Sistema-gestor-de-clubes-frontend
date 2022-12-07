@@ -4,10 +4,10 @@ import { AdminComponent } from 'app/modules/admin/admin/admin.component';
 import { AdminSettingsAccountPersonalComponent } from 'app/modules/admin/admin/settings/account/personal/personal.component';
 import { AdminSettingsAccountSecurityComponent } from './settings/account/security/security.component';
 import { AdminActionsCreateUserComponent } from './actions/create-user/create-user.component';
-import { UsersDetailsComponent } from './settings/general/users/details/details.component';
-import { UsersListComponent } from './settings/general/users/list/list.component';
-import { CanDeactivateUsersDetails } from './settings/general/users/users.guards';
-import { ContactsClubesResolver, ContactsResolver, ContactsContactResolver, ContactsRolesResolver } from './settings/general/users/users.resolvers';
+import { PartnersDetailsComponent } from './settings/general/partners/details/details.component';
+import { PartnersListComponent } from './settings/general/partners/list/list.component';
+import { CanDeactivateUsersDetails } from './settings/general/partners/partners.guards';
+import { PartnersClubesResolver, PartnersResolver, PartnersRolesResolver, PartnersPartnerResolver } from './settings/general/partners/partners.resolvers';
 
 
 
@@ -153,7 +153,7 @@ export const adminRoutes: Route[] = [
         path: '',
         component: AdminComponent,
         resolve: {
-            clubes: ContactsClubesResolver
+            clubes: PartnersClubesResolver
         },
         children: [
 /*             {
@@ -240,20 +240,20 @@ export const adminRoutes: Route[] = [
                         children: [
                             {
                                 path: 'usuarios',
-                                component: UsersListComponent,
+                                component: PartnersListComponent,
                                 resolve: {
-                                    tasks: ContactsResolver,
+                                    tasks: PartnersResolver,
                                     /* countries: ContactsCountriesResolver, */
-                                    roles: ContactsRolesResolver
+                                    roles: PartnersRolesResolver
                                 },
                                 children: [
                                     {
                                         path: ':id',
-                                        component: UsersDetailsComponent,
+                                        component: PartnersDetailsComponent,
                                         resolve: {
-                                            task: ContactsContactResolver,
+                                            task: PartnersPartnerResolver,
                                             /* countries: ContactsCountriesResolver, */
-                                            roles: ContactsRolesResolver
+                                            roles: PartnersRolesResolver
                                         },
                                         canDeactivate: [CanDeactivateUsersDetails]
                                     }

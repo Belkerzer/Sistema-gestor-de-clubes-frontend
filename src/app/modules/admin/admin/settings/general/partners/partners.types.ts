@@ -1,5 +1,4 @@
-export interface Contact
-{
+export interface Partner {
     id: string;
     avatar?: string | null;
     background?: string | null;

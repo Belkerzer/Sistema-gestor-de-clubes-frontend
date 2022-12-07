@@ -79,7 +79,7 @@ export class ClubsInventoryMockApi {
                 // If search exists...
                 if (search) {
                     // Filter the clubs
-                    clubs = clubs.filter(contact => contact.name && contact.name.toLowerCase().includes(search.toLowerCase()));
+                    clubs = clubs.filter(partner => partner.name && partner.name.toLowerCase().includes(search.toLowerCase()));
                 }
 
                 // Paginate - Start

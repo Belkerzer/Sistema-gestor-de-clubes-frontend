@@ -2,18 +2,18 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ContactsService } from './users.service';
-import { Contact, Rol, Club } from './users.types';
+import { PartnersService } from './partners.service';
+import { Partner, Rol, Club } from './partners.types';
 
 @Injectable({
     providedIn: 'root'
 })
-export class ContactsResolver implements Resolve<any>
+export class PartnersResolver implements Resolve<any>
 {
     /**
      * Constructor
      */
-    constructor(private _contactsService: ContactsService) {
+    constructor(private _partnersService: PartnersService) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -26,21 +26,21 @@ export class ContactsResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Contact[]> {
-        return this._contactsService.getContacts();
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Partner[]> {
+        return this._partnersService.getPartners();
     }
 }
 
 @Injectable({
     providedIn: 'root'
 })
-export class ContactsContactResolver implements Resolve<any>
+export class PartnersPartnerResolver implements Resolve<any>
 {
     /**
      * Constructor
      */
     constructor(
-        private _contactsService: ContactsService,
+        private _partnersService: PartnersService,
         private _router: Router
     ) {
     }
@@ -55,10 +55,10 @@ export class ContactsContactResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Contact> {
-        return this._contactsService.getContactById(route.paramMap.get('id'))
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Partner> {
+        return this._partnersService.getPartnerById(route.paramMap.get('id'))
             .pipe(
-                // Error here means the requested contact is not available
+                // Error here means the requested partner is not available
                 catchError((error) => {
 
                     // Log the error
@@ -80,38 +80,38 @@ export class ContactsContactResolver implements Resolve<any>
 /* @Injectable({
     providedIn: 'root'
 })
-export class ContactsCountriesResolver implements Resolve<any>
+export class PartnersCountriesResolver implements Resolve<any>
 { */
-    /**
-     * Constructor
-     */
-/*     constructor(private _contactsService: ContactsService) {
+/**
+ * Constructor
+ */
+/*     constructor(private _partnersService: PartnersService) {
     } */
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------------
+// @ Public methods
+// -----------------------------------------------------------------------------------------------------
 
-    /**
-     * Resolver
-     *
-     * @param route
-     * @param state
-     */
+/**
+ * Resolver
+ *
+ * @param route
+ * @param state
+ */
 /*     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Country[]> {
-        return this._contactsService.getCountries();
+        return this._partnersService.getCountries();
     }
 } */
 
 @Injectable({
     providedIn: 'root'
 })
-export class ContactsClubesResolver implements Resolve<any>
+export class PartnersClubesResolver implements Resolve<any>
 {
     /**
      * Constructor
      */
-    constructor(private _contactsService: ContactsService) {
+    constructor(private _partnersService: PartnersService) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -125,19 +125,19 @@ export class ContactsClubesResolver implements Resolve<any>
      * @param state
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Club[]> {
-        return this._contactsService.getClubes();
+        return this._partnersService.getClubes();
     }
 }
 
 @Injectable({
     providedIn: 'root'
 })
-export class ContactsRolesResolver implements Resolve<any>
+export class PartnersRolesResolver implements Resolve<any>
 {
     /**
      * Constructor
      */
-    constructor(private _contactsService: ContactsService) {
+    constructor(private _partnersService: PartnersService) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -151,6 +151,6 @@ export class ContactsRolesResolver implements Resolve<any>
      * @param state
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Rol[]> {
-        return this._contactsService.getRoles();
+        return this._partnersService.getRoles();
     }
 }

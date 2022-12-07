@@ -7,9 +7,9 @@ import { MatDrawerToggleResult } from '@angular/material/sidenav';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { ContactsService } from '../users.service';
-import { Club, Contact, Rol } from '../users.types';
-import { UsersListComponent } from '../list/list.component';
+import { PartnersService } from '../partners.service';
+import { Club, Partner, Rol } from '../partners.types';
+import { PartnersListComponent } from '../list/list.component';
 import { UserService } from 'app/core/user/user.service';
 import { BooleanInput } from '@angular/cdk/coercion';
 import { User } from 'app/core/user/user.types';
@@ -22,7 +22,7 @@ import { User } from 'app/core/user/user.types';
     changeDetection: ChangeDetectionStrategy.OnPush,
     exportAs: 'user'
 })
-export class UsersDetailsComponent implements OnInit, OnDestroy {
+export class PartnersDetailsComponent implements OnInit, OnDestroy {
     @ViewChild('avatarFileInput') private _avatarFileInput: ElementRef;
     @ViewChild('clubesPanel') private _clubesPanel: TemplateRef<any>;
     @ViewChild('clubesPanelOrigin') private _clubesPanelOrigin: ElementRef;
@@ -37,10 +37,10 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
     clubes: Club[];
     /* clubesEditMode: boolean = false; */
     filteredClubes: Club[];
-    contact: Contact;
+    partner: Partner;
     roles: Rol[];
-    contactForm: FormGroup;
-    contacts: Contact[];
+    partnerForm: FormGroup;
+    partners: Partner[];
     /* countries: Country[]; */
     private _clubesPanelOverlayRef: OverlayRef;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -51,8 +51,8 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
     constructor(
         private _activatedRoute: ActivatedRoute,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _usersListComponent: UsersListComponent,
-        private _usersService: ContactsService,
+        private _partnersListComponent: PartnersListComponent,
+        private _partnersService: PartnersService,
         private _formBuilder: FormBuilder,
         private _fuseConfirmationService: FuseConfirmationService,
         private _renderer2: Renderer2,
@@ -81,10 +81,10 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
                 this._changeDetectorRef.markForCheck();
             });
         // Open the drawer
-        this._usersListComponent.matDrawer.open();
+        this._partnersListComponent.matDrawer.open();
 
-        // Create the contact form
-        this.contactForm = this._formBuilder.group({
+        // Create the partner form
+        this.partnerForm = this._formBuilder.group({
             id: [''],
             avatar: [null],
             name: ['', [Validators.required]],
@@ -100,7 +100,7 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
         });
 
         // Get the brands
-        this._usersService.roles$
+        this._partnersService.roles$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((roles: Rol[]) => {
 
@@ -111,66 +111,66 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
                 this._changeDetectorRef.markForCheck();
             });
 
-        // Get the contacts
-        this._usersService.contacts$
+        // Get the partners
+        this._partnersService.partners$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((contacts: Contact[]) => {
-                this.contacts = contacts;
+            .subscribe((partners: Partner[]) => {
+                this.partners = partners;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
 
-        // Get the contact
-        this._usersService.contact$
+        // Get the partner
+        this._partnersService.partner$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((contact: Contact) => {
+            .subscribe((partner: Partner) => {
 
                 // Open the drawer in case it is closed
-                this._usersListComponent.matDrawer.open();
+                this._partnersListComponent.matDrawer.open();
 
-                // Get the contact
-                this.contact = contact;
+                // Get the partner
+                this.partner = partner;
 
                 // Clear the emails and phoneNumbers form arrays
 
-                /*   (this.contactForm.get('phoneNumbers') as FormArray).clear(); */
+                /*   (this.partnerForm.get('phoneNumbers') as FormArray).clear(); */
 
                 // Patch values to the form
-                /*       this.contactForm.patchValue(contact); */
+                /*       this.partnerForm.patchValue(partner); */
 
                 // Setup the phone numbers form array
-      /*           const phoneNumbersFormGroups = [];
+                /*           const phoneNumbersFormGroups = [];
+          
+                          if (partner.phoneNumbers.length > 0) { */
+                // Iterate through them
+                /*      partner.phoneNumbers.forEach((phoneNumber) => { */
 
-                if (contact.phoneNumbers.length > 0) { */
-                    // Iterate through them
-                /*      contact.phoneNumbers.forEach((phoneNumber) => { */
-
-                        // Create an email form group
-          /*               phoneNumbersFormGroups.push(
-                            this._formBuilder.group({
-                                country: [phoneNumber.country],
-                                phoneNumber: [phoneNumber.phoneNumber],
-                                label: [phoneNumber.label]
-                            })
-                        );
-                    });
-                }
-                else { */
-                    // Create a phone number form group
-     /*                phoneNumbersFormGroups.push(
-                        this._formBuilder.group({
-                            country: ['us'],
-                            phoneNumber: [''],
-                            label: ['']
-                        })
-                    );
-                } */
+                // Create an email form group
+                /*               phoneNumbersFormGroups.push(
+                                  this._formBuilder.group({
+                                      country: [phoneNumber.country],
+                                      phoneNumber: [phoneNumber.phoneNumber],
+                                      label: [phoneNumber.label]
+                                  })
+                              );
+                          });
+                      }
+                      else { */
+                // Create a phone number form group
+                /*                phoneNumbersFormGroups.push(
+                                   this._formBuilder.group({
+                                       country: ['us'],
+                                       phoneNumber: [''],
+                                       label: ['']
+                                   })
+                               );
+                           } */
 
                 // Add the phone numbers form groups to the phone numbers form array
-    /*             phoneNumbersFormGroups.forEach((phoneNumbersFormGroup) => {
-                    (this.contactForm.get('phoneNumbers') as FormArray).push(phoneNumbersFormGroup);
-                }); */
+                /*             phoneNumbersFormGroups.forEach((phoneNumbersFormGroup) => {
+                                (this.partnerForm.get('phoneNumbers') as FormArray).push(phoneNumbersFormGroup);
+                            }); */
 
                 // Toggle the edit mode off
                 this.toggleEditMode(false);
@@ -180,17 +180,17 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
             });
 
         // Get the country telephone codes
-     /*    this._usersService.countries$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((codes: Country[]) => {
-                this.countries = codes; */
+        /*    this._partnersService.countries$
+               .pipe(takeUntil(this._unsubscribeAll))
+               .subscribe((codes: Country[]) => {
+                   this.countries = codes; */
 
-                // Mark for check
+        // Mark for check
         /*             this._changeDetectorRef.markForCheck();
                 }); */
 
         // Get the clubes
-        this._usersService.clubes$
+        this._partnersService.clubes$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((clubes: Club[]) => {
                 this.clubes = clubes;
@@ -223,7 +223,7 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
      * Close the drawer
      */
     closeDrawer(): Promise<MatDrawerToggleResult> {
-        return this._usersListComponent.matDrawer.close();
+        return this._partnersListComponent.matDrawer.close();
     }
 
     /**
@@ -244,19 +244,19 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Update the contact
+     * Update the partner
      */
-    updateContact(): void {
-        // Get the contact object
-        const contact = this.contactForm.getRawValue();
+    updatePartner(): void {
+        // Get the partner object
+        const partner = this.partnerForm.getRawValue();
 
-        // Go through the contact object and clear empty values
-        contact.emails = contact.emails.filter(email => email.email);
+        // Go through the partner object and clear empty values
+        partner.emails = partner.emails.filter(email => email.email);
 
-        contact.phoneNumbers = contact.phoneNumbers.filter(phoneNumber => phoneNumber.phoneNumber);
+        partner.phoneNumbers = partner.phoneNumbers.filter(phoneNumber => phoneNumber.phoneNumber);
 
-        // Update the contact on the server
-        this._usersService.updateContact(contact.id, contact).subscribe(() => {
+        // Update the partner on the server
+        this._partnersService.updatePartner(partner.id, partner).subscribe(() => {
 
             // Toggle the edit mode off
             this.toggleEditMode(false);
@@ -264,9 +264,9 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Delete the contact
+     * Delete the partner
      */
-    deleteContact(): void {
+    deletePartner(): void {
         // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
             title: 'Eliminar usuario',
@@ -286,26 +286,26 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
 
             // If the confirm button pressed...
             if (result === 'confirmed') {
-                // Get the current contact's id
-                const id = this.contact.id;
+                // Get the current partner's id
+                const id = this.partner.id;
 
-                // Get the next/previous contact's id
-                const currentContactIndex = this.contacts.findIndex(item => item.id === id);
-                const nextContactIndex = currentContactIndex + ((currentContactIndex === (this.contacts.length - 1)) ? -1 : 1);
-                const nextContactId = (this.contacts.length === 1 && this.contacts[0].id === id) ? null : this.contacts[nextContactIndex].id;
+                // Get the next/previous partner's id
+                const currentPartnerIndex = this.partners.findIndex(item => item.id === id);
+                const nextPartnerIndex = currentPartnerIndex + ((currentPartnerIndex === (this.partners.length - 1)) ? -1 : 1);
+                const nextPartnerId = (this.partners.length === 1 && this.partners[0].id === id) ? null : this.partners[nextPartnerIndex].id;
 
-                // Delete the contact
-                this._usersService.deleteContact(id)
+                // Delete the partner
+                this._partnersService.deletePartner(id)
                     .subscribe((isDeleted) => {
 
-                        // Return if the contact wasn't deleted...
+                        // Return if the partner wasn't deleted...
                         if (!isDeleted) {
                             return;
                         }
 
-                        // Navigate to the next contact if available
-                        if (nextContactId) {
-                            this._router.navigate(['../', nextContactId], { relativeTo: this._activatedRoute });
+                        // Navigate to the next partner if available
+                        if (nextPartnerId) {
+                            this._router.navigate(['../', nextPartnerId], { relativeTo: this._activatedRoute });
                         }
                         // Otherwise, navigate to the parent
                         else {
@@ -343,7 +343,7 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
         }
 
         // Upload the avatar
-        this._usersService.uploadAvatar(this.contact.id, file).subscribe();
+        this._partnersService.uploadAvatar(this.partner.id, file).subscribe();
     }
 
     /**
@@ -351,7 +351,7 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
      */
     removeAvatar(): void {
         // Get the form control for 'avatar'
-        const avatarFormControl = this.contactForm.get('avatar');
+        const avatarFormControl = this.partnerForm.get('avatar');
 
         // Set the avatar as null
         avatarFormControl.setValue(null);
@@ -359,8 +359,8 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
         // Set the file input value as null
         this._avatarFileInput.nativeElement.value = null;
 
-        // Update the contact
-        this.contact.avatar = null;
+        // Update the partner
+        this.partner.avatar = null;
     }
 
     /**
@@ -462,28 +462,28 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
 
         // If there is no club available...
         /*  if (this.filteredClubes.length === 0) { */
-            // Create the club
+        // Create the club
         /*        this.createClub(event.target.value); */
 
-            // Clear the input
+        // Clear the input
         /*          event.target.value = ''; */
 
-            // Return
+        // Return
         /*          return;
              } */
 
         // If there is a club...
         const club = this.filteredClubes[0];
-        const isClubApplied = this.contact.clubes.find(id => id === club.id);
+        const isClubApplied = this.partner.clubes.find(id => id === club.id);
 
-        // If the found club is already applied to the contact...
+        // If the found club is already applied to the partner...
         /* if (isClubApplied) { */
-            // Remove the club from the contact
-/*             this.removeClubFromContact(club);
-        }
-        else { */
-            // Otherwise add the club to the contact
-        /*             this.addClubToContact(club);
+        // Remove the club from the partner
+        /*             this.removeClubFromPartner(club);
+                }
+                else { */
+        // Otherwise add the club to the partner
+        /*             this.addClubToPartner(club);
                 } */
     }
 
@@ -492,19 +492,19 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
      *
      * @param title
      */
-/*     createClub(title: string): void {
-        const club = {
-            title
-        }; */
+    /*     createClub(title: string): void {
+            const club = {
+                title
+            }; */
 
-        // Create club on the server
-    /*  this._usersService.createClub(club)
+    // Create club on the server
+    /*  this._partnersService.createClub(club)
          .subscribe((response) => { */
 
-                // Add the club to the contact
-/*                 this.addClubToContact(response);
-            });
-    } */
+    // Add the club to the partner
+    /*                 this.addClubToPartner(response);
+                });
+        } */
 
     /**
      * Update the club title
@@ -513,76 +513,76 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
      * @param event
      */
     /*     updateClubTitle(club: Club, event): void { */
-        // Update the title on the club
+    // Update the title on the club
     /*         club.title = event.target.value; */
 
-        // Update the club on the server
-/*         this._usersService.updateClub(club.id, club)
-            .pipe(debounceTime(300))
-            .subscribe(); */
+    // Update the club on the server
+    /*         this._partnersService.updateClub(club.id, club)
+                .pipe(debounceTime(300))
+                .subscribe(); */
 
-        // Mark for check
-/*         this._changeDetectorRef.markForCheck();
-    }
- */
+    // Mark for check
+    /*         this._changeDetectorRef.markForCheck();
+        }
+     */
     /**
      * Delete the club
      *
      * @param club
      */
     /*     deleteClub(club: Club): void { */
-        // Delete the club from the server
-    /*    this._usersService.deleteClub(club.id).subscribe(); */
+    // Delete the club from the server
+    /*    this._partnersService.deleteClub(club.id).subscribe(); */
 
-        // Mark for check
+    // Mark for check
     /*         this._changeDetectorRef.markForCheck();
         } */
 
     /**
-     * Add club to the contact
+     * Add club to the partner
      *
      * @param club
      */
-    /* addClubToContact(club: Club): void { */
-        // Add the club
-    /* this.contact.clubes.unshift(club.id); */
+    /* addClubToPartner(club: Club): void { */
+    // Add the club
+    /* this.partner.clubes.unshift(club.id); */
 
-        // Update the contact form
-    /* this.contactForm.get('clubes').patchValue(this.contact.clubes); */
+    // Update the partner form
+    /* this.partnerForm.get('clubes').patchValue(this.partner.clubes); */
 
-        // Mark for check
+    // Mark for check
     /*  this._changeDetectorRef.markForCheck();
  } */
 
     /**
-     * Remove club from the contact
+     * Remove club from the partner
      *
      * @param club
      */
-    /* removeClubFromContact(club: Club): void { */
-        // Remove the club
-    /* this.contact.clubes.splice(this.contact.clubes.findIndex(item => item === club.id), 1); */
+    /* removeClubFromPartner(club: Club): void { */
+    // Remove the club
+    /* this.partner.clubes.splice(this.partner.clubes.findIndex(item => item === club.id), 1); */
 
-        // Update the contact form
-    /* this.contactForm.get('clubes').patchValue(this.contact.clubes); */
+    // Update the partner form
+    /* this.partnerForm.get('clubes').patchValue(this.partner.clubes); */
 
-        // Mark for check
+    // Mark for check
     /*        this._changeDetectorRef.markForCheck();
        } */
 
     /**
-     * Toggle contact club
+     * Toggle partner club
      *
      * @param club
      */
-/*     toggleContactClub(club: Club): void {
-        if (this.contact.clubes.includes(club.id)) {
-            this.removeClubFromContact(club);
-        }
-        else {
-            this.addClubToContact(club);
-        }
-    } */
+    /*     togglePartnerClub(club: Club): void {
+            if (this.partner.clubes.includes(club.id)) {
+                this.removeClubFromPartner(club);
+            }
+            else {
+                this.addClubToPartner(club);
+            }
+        } */
 
     /**
      * Should the create club button be visible
@@ -604,7 +604,7 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
         });
 
         // Add the email form group to the emails form array
-        (this.contactForm.get('emails') as FormArray).push(emailFormGroup);
+        (this.partnerForm.get('emails') as FormArray).push(emailFormGroup);
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
@@ -617,7 +617,7 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
      */
     removeEmailField(index: number): void {
         // Get form array for emails
-        const emailsFormArray = this.contactForm.get('emails') as FormArray;
+        const emailsFormArray = this.partnerForm.get('emails') as FormArray;
 
         // Remove the email field
         emailsFormArray.removeAt(index);
@@ -638,7 +638,7 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
         });
 
         // Add the phone number form group to the phoneNumbers form array
-        (this.contactForm.get('phoneNumbers') as FormArray).push(phoneNumberFormGroup);
+        (this.partnerForm.get('phoneNumbers') as FormArray).push(phoneNumberFormGroup);
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
@@ -651,7 +651,7 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
      */
     removePhoneNumberField(index: number): void {
         // Get form array for phone numbers
-        const phoneNumbersFormArray = this.contactForm.get('phoneNumbers') as FormArray;
+        const phoneNumbersFormArray = this.partnerForm.get('phoneNumbers') as FormArray;
 
         // Remove the phone number field
         phoneNumbersFormArray.removeAt(index);
@@ -665,9 +665,9 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
      *
      * @param iso
      */
-/*     getCountryByIso(iso: string): Country {
-        return this.countries.find(country => country.iso === iso);
-    } */
+    /*     getCountryByIso(iso: string): Country {
+            return this.countries.find(country => country.iso === iso);
+        } */
 
     /**
      * Track by function for ngFor loops

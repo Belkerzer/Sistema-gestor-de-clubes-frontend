@@ -78,7 +78,7 @@ export class ActivitiesInventoryMockApi {
                 // If search exists...
                 if (search) {
                     // Filter the activities
-                    activities = activities.filter(contact => contact.name && contact.name.toLowerCase().includes(search.toLowerCase()));
+                    activities = activities.filter(partner => partner.name && partner.name.toLowerCase().includes(search.toLowerCase()));
                 }
 
                 // Paginate - Start

@@ -5,8 +5,8 @@ import { UserService } from "app/core/user/user.service";
 import { User } from "app/core/user/user.types";
 import { Subject, takeUntil } from "rxjs";
 import { AdminComponent } from "../../../admin.component";
-import { ContactsService } from "../../general/users/users.service";
-import { Contact } from "../../general/users/users.types";
+import { PartnersService } from "../../general/partners/partners.service";
+import { Partner } from "../../general/partners/partners.types";
 
 @Component({
     selector: 'settings-account-personal',
@@ -24,7 +24,7 @@ export class AdminSettingsAccountPersonalComponent implements OnInit {
 
     @Input() showAvatar: boolean = true;
     user: User;
-    contact: Contact;
+    partner: Partner;
     accountForm: FormGroup;
     contactForm: FormGroup;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -36,7 +36,7 @@ export class AdminSettingsAccountPersonalComponent implements OnInit {
         public adminComponent: AdminComponent,
         private _formBuilder: FormBuilder,
         private _userService: UserService,
-        private _contactsService: ContactsService,
+        private _partnersService: PartnersService,
     ) {
     }
 
@@ -60,12 +60,12 @@ export class AdminSettingsAccountPersonalComponent implements OnInit {
 
         // Create the form
         this.accountForm = this._formBuilder.group({
-            name: ['Brian Hughes'],
-            username: ['brianh'],
+            name: ['Admin'],
+            username: ['admin'],
             title: ['Senior Frontend Developer'],
             company: ['YXZ Software'],
             about: ['Hey! This is Brian; husband, father and gamer. I\'m mostly passionate about bleeding edge tech and chocolate! 🍫'],
-            email: ['hughes.brian@mail.com', Validators.email],
+            email: ['admin@ecotec.edu.ec', Validators.email],
             phone: ['121-490-33-12'],
             country: ['usa'],
             language: ['english']
@@ -105,7 +105,7 @@ export class AdminSettingsAccountPersonalComponent implements OnInit {
             }
     
             // Upload the avatar
-            this._contactsService.uploadAvatar(this.contact.id, file).subscribe();
+        this._partnersService.uploadAvatar(this.partner.id, file).subscribe();
     }
 
     /**
@@ -121,7 +121,7 @@ export class AdminSettingsAccountPersonalComponent implements OnInit {
             // Set the file input value as null
             this._avatarFileInput.nativeElement.value = null;
     
-            // Update the contact
-            this.contact.avatar = null;
+        // Update the partner
+        this.partner.avatar = null;
     }
 }

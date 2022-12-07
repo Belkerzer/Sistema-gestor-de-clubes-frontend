@@ -35,10 +35,10 @@
                         <div class="text-3xl font-extrabold tracking-tight leading-none">Usuarios</div>
                     </div>
                     <div class="ml-11 sm:ml-11 md:ml-0.5 lg:ml-0.5 font-medium text-secondary">
-                        <ng-container *ngIf="contactsCount > 0">
-                            {{contactsCount}}
+                        <ng-container *ngIf="partnersCount > 0">
+                            {{partnersCount}}
                         </ng-container>
-                        {{contactsCount | i18nPlural: {
+                        {{partnersCount | i18nPlural: {
                         '=0'   : 'Sin usuarios',
                         '=1'   : 'usuario',
                         'other': 'usuarios'
@@ -63,23 +63,23 @@
                     </div>
                 </div>
 
-                <!-- Contacts list -->
+                <!-- Partners list -->
                 <div class="relative">
-                    <ng-container *ngIf="contacts$ | async as contacts">
-                        <ng-container *ngIf="contacts.length; else noContacts">
-                            <ng-container *ngFor="let contact of contacts; let i = index; trackBy: trackByFn">
+                    <ng-container *ngIf="partners$ | async as partners">
+                        <ng-container *ngIf="partners.length; else noPartners">
+                            <ng-container *ngFor="let partner of partners; let i = index; trackBy: trackByFn">
                                 <!-- Group -->
-                                <ng-container *ngIf="i === 0 || contact.name.charAt(0) !== contacts[i - 1].name.charAt(0)">
+                                <ng-container *ngIf="i === 0 || partner.name.charAt(0) !== partners[i - 1].name.charAt(0)">
                                     <div class="z-10 sticky top-0 -mt-px px-6 py-1 md:px-8 border-t border-b font-medium uppercase text-secondary bg-gray-50 dark:bg-gray-900">
-                                        {{contact.name.charAt(0)}}
+                                        {{partner.name.charAt(0)}}
                                     </div>
                                 </ng-container>
-                                <!-- Contact -->
+                                <!-- Partner -->
                                 <a
                                     class="z-20 flex items-center px-6 py-4 md:px-8 cursor-pointer border-b"
-                                    [ngClass]="{'hover:bg-gray-100 dark:hover:bg-hover': !selectedContact || selectedContact.id !== contact.id,
-                                                'bg-primary-50 dark:bg-hover': selectedContact && selectedContact.id === contact.id}"
-                                    [routerLink]="['./', contact.id]">
+                                    [ngClass]="{'hover:bg-gray-100 dark:hover:bg-hover': !selectedPartner || selectedPartner.id !== partner.id,
+                                                'bg-primary-50 dark:bg-hover': selectedPartner && selectedPartner.id === partner.id}"
+                                    [routerLink]="['./', partner.id]">
                                     <div class="flex flex-0 items-center justify-center w-10 h-10 rounded-full overflow-hidden">
                                         <ng-container *ngIf="user.avatar">
                                             <img
@@ -96,17 +96,17 @@
                                         </ng-container>
                                     </div>
                                     <div class="min-w-0 ml-4">
-                                        <div class="font-medium leading-5 truncate">{{contact.name}}</div>
-                                        <div class="leading-5 truncate text-secondary">{{contact.rol}}</div>
+                                        <div class="font-medium leading-5 truncate">{{partner.name}}</div>
+                                        <div class="leading-5 truncate text-secondary">{{partner.rol}}</div>
                                     </div>
                                 </a>
                             </ng-container>
                         </ng-container>
                     </ng-container>
 
-                    <!-- No contacts -->
-                    <ng-template #noContacts>
-                        <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">No hay contactos.</div>
+                    <!-- No partners -->
+                    <ng-template #noPartners>
+                        <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">No hay usuarios.</div>
                     </ng-template>
 
                 </div>

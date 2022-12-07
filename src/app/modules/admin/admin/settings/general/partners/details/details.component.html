@@ -6,10 +6,10 @@
         <!-- Header -->
         <div class="relative w-full h-32 sm:h-32 px-8 sm:px-12">
             <!-- Background -->
-<!--             <ng-container *ngIf="contact.background">
+<!--             <ng-container *ngIf="partner.background">
                 <img
                     class="absolute inset-0 object-cover w-full h-full"
-                    [src]="contact.background">
+                    [src]="partner.background">
             </ng-container> -->
             <!-- Close button -->
             <div class="flex items-center justify-end w-full max-w-3xl mx-auto pt-6">
@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        <!-- Contact -->
+        <!-- Partner -->
         <div class="relative flex flex-col flex-auto items-center p-6 pt-0 sm:p-12 sm:pt-0">
             <div class="w-full max-w-3xl">
 
@@ -57,13 +57,13 @@
                 </div>
 
                 <!-- Name -->
-                <div class="mt-3 text-4xl font-bold truncate">{{contact.name}}</div>
+                <div class="mt-3 text-4xl font-bold truncate">{{partner.name}}</div>
 
                 <!-- Clubes -->
-                <ng-container *ngIf="contact.clubes.length">
+                <ng-container *ngIf="partner.clubes.length">
                     <div class="flex flex-wrap items-center mt-2">
                         <!-- Club -->
-                        <ng-container *ngFor="let club of (contact.clubes | fuseFindByKey:'id':clubes); trackBy: trackByFn">
+                        <ng-container *ngFor="let club of (partner.clubes | fuseFindByKey:'id':clubes); trackBy: trackByFn">
                             <div class="flex items-center justify-center py-1 px-3 mr-3 mb-3 rounded-full leading-normal text-gray-500 bg-gray-100 dark:text-gray-300 dark:bg-gray-700">
                                 <span class="text-sm font-medium whitespace-nowrap">{{club.title}}</span>
                             </div>
@@ -73,23 +73,23 @@
 
                 <div class="flex flex-col mt-4 pt-6 border-t space-y-8">
                     <!-- Username -->
-                    <ng-container *ngIf="contact.username">
+                    <ng-container *ngIf="partner.username">
                         <div class="flex sm:items-center">
                             <mat-icon [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
-                            <div class="ml-6 leading-6">{{contact.username}}</div>
+                            <div class="ml-6 leading-6">{{partner.username}}</div>
                         </div>
                     </ng-container>
                     <!-- Email -->
-                    <ng-container *ngIf="contact.email">
+                    <ng-container *ngIf="partner.email">
                         <div class="flex">
                             <mat-icon [svgIcon]="'heroicons_outline:mail'"></mat-icon>
                             <div class="min-w-0 ml-6 space-y-1">                                
                                     <div class="flex items-center leading-6">
                                         <a
                                             class="hover:underline text-primary-500"
-                                            [href]="'mailto:' + contact.email"
+                                            [href]="'mailto:' + partner.email"
                                             target="_blank">
-                                            {{contact.email}}
+                                            {{partner.email}}
                                         </a>
                                     </div>                                
                             </div>
@@ -97,10 +97,10 @@
                     </ng-container>
 
                     <!-- Title -->
-                    <ng-container *ngIf="contact.rol">
+                    <ng-container *ngIf="partner.rol">
                         <div class="flex sm:items-center">
                             <mat-icon [svgIcon]="'heroicons_outline:briefcase'"></mat-icon>
-                            <div class="ml-6 leading-6">{{contact.rol}}</div>
+                            <div class="ml-6 leading-6">{{partner.rol}}</div>
                         </div>
                     </ng-container>
 
@@ -116,10 +116,10 @@
         <!-- Header -->
         <div class="relative w-full h-32 sm:h-32 px-8 sm:px-12">
             <!-- Background -->
-<!--             <ng-container *ngIf="contact.background">
+<!--             <ng-container *ngIf="partner.background">
                 <img
                     class="absolute inset-0 object-cover w-full h-full"
-                    [src]="contact.background">
+                    [src]="partner.background">
             </ng-container> -->
             <!-- Close button -->
             <div class="flex items-center justify-end w-full max-w-3xl mx-auto pt-6">
@@ -133,10 +133,10 @@
             </div>
         </div>
 
-        <!-- Contact form -->
+        <!-- Partner form -->
         <div class="relative flex flex-col flex-auto items-center px-6 sm:px-12">
             <div class="w-full max-w-3xl">
-                <form [formGroup]="contactForm">
+                <form [formGroup]="partnerForm">
 
                     <!-- Avatar -->
                     <div class="flex flex-auto items-end -mt-16">
@@ -207,8 +207,8 @@
                     <!-- Clubes -->
                     <div class="flex flex-wrap items-center -m-1.5 mt-6">
                         <!-- Clubes -->
-                        <ng-container *ngIf="contact.clubes.length">
-                            <ng-container *ngFor="let club of (contact.clubes | fuseFindByKey:'id':clubes); trackBy: trackByFn">
+                        <ng-container *ngIf="partner.clubes.length">
+                            <ng-container *ngFor="let club of (partner.clubes | fuseFindByKey:'id':clubes); trackBy: trackByFn">
                                 <div class="flex items-center justify-center px-4 m-1.5 rounded-full leading-9 text-gray-500 bg-gray-100 dark:text-gray-300 dark:bg-gray-700">
                                     <span class="text-md font-medium whitespace-nowrap">{{club.title}}</span>
                                 </div>
@@ -220,14 +220,14 @@
                             (click)="openClubesPanel()"
                             #clubesPanelOrigin>
 
-<!--                             <ng-container *ngIf="contact.clubes.length">
+<!--                             <ng-container *ngIf="partner.clubes.length">
                                 <mat-icon
                                     class="icon-size-5"
                                     [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
                                 <span class="ml-1.5 text-md font-medium whitespace-nowrap">Editar</span>
                             </ng-container> -->
 
-                            <ng-container *ngIf="!contact.clubes.length">
+                            <ng-container *ngIf="!partner.clubes.length">
                                 <mat-icon
                                     class="icon-size-5"
                                     [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
@@ -275,11 +275,11 @@
                                             <ng-container *ngFor="let club of filteredClubes; trackBy: trackByFn">
                                                 <div
                                                     class="flex items-center h-10 min-h-10 px-4 cursor-pointer hover:bg-hover"
-                                                    (click)="toggleContactClub(club)"
+                                                    (click)="togglePartnerClub(club)"
                                                     matRipple>
                                                     <mat-checkbox
                                                         class="flex items-center h-10 min-h-10 pointer-events-none"
-                                                        [checked]="contact.clubes.includes(club.id)"
+                                                        [checked]="partner.clubes.includes(club.id)"
                                                         [color]="'primary'"
                                                         [disableRipple]="true">
                                                     </mat-checkbox>
@@ -393,7 +393,7 @@
                         <button
                             mat-button
                             [color]="'warn'"                            
-                            (click)="deleteContact()">
+                            (click)="deletePartner()">
                             Eliminar
                         </button>
                         <!-- Cancel -->
@@ -408,8 +408,8 @@
                             class="ml-2"
                             mat-flat-button
                             [color]="'primary'"
-                            [disabled]="contactForm.invalid"                            
-                            (click)="updateContact()">
+                            [disabled]="partnerForm.invalid"                            
+                            (click)="updatePartner()">
                             Guardar
                         </button>
                     </div>
