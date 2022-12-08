@@ -66,15 +66,15 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
     ngOnInit(): void {
         // Create the selected club form
         this.selectedClubForm = this._formBuilder.group({
-            id: [''],
-            liderEstudiantil: [''],
-            name: ['', [Validators.required]],
-            description: [''],
-            docentesTutores: [[]],
+            id: [0],
+            idLider: [0],
+            club: ['', [Validators.required]],
+            descripcion: [''],
+            idDocenteTutor: [[]],
             participantesClubes: [[]],
-            tipo: [''],
+            idTipo: [0],
 /*             barcode: [''], */
-            facultadClub: [''],
+            idFacultad: [0],
             /* programa: [''], */
             fechaCreacion: [''],
 /*             reserved: [''],
@@ -127,6 +127,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
 
         // Get the clubs
         this.clubs$ = this._clubsService.clubs$;
+        this.clubs$.subscribe({ next: res => this.data = res });
 
         // Get the participantesClubes
         this._clubsService.participantesClubes$
@@ -211,7 +212,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
                 });
 
             // Get clubs if sort or page changes
-            /*merge(this._sort.sortChange, this._paginator.page).pipe(
+            merge(this._sort.sortChange, this._paginator.page).pipe(
                 switchMap(() => {
                     this.closeDetails();
                     this.isLoading = true;
@@ -220,7 +221,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
                 map(() => {
                     this.isLoading = false;
                 })
-            ).subscribe();*/
+            ).subscribe();
             this.clubs$ = this._clubsService.getClubs();
             this.clubs$.subscribe({next: res => this.data = res});
         }
@@ -574,8 +575,9 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
         this._clubsService.createClub().subscribe((newClub) => {
 
             // Go to new club
-            //this.selectedClub = newClub;
+            this.selectedClub = newClub;
 
+            this.data.unshift(newClub[0]);
             // Fill the form
             this.selectedClubForm.patchValue(newClub);
 
@@ -587,19 +589,23 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
     /**
      * Update the selected club using the form data
      */
-    updateSelectedClub(): void {
+    updateClub(id: number): void {
         // Get the club object
-        const club = this.selectedClubForm.getRawValue();
+        if (this.selectedClubForm.invalid) {
+            return;
+        }
+        const club = this.selectedClubForm.value;
+        /* const club = this.selectedClubForm.getRawValue(); */
 
         // Remove the currentImageIndex field
         delete club.currentImageIndex;
 
         // Update the club on the server
-        // this._clubsService.updateClub(club.id, club).subscribe(() => {
-        //
-        //     // Show a success message
-        //     this.showFlashMessage('success');
-        // });
+        this._clubsService.updateClub(id, club).subscribe(() => {
+
+            // Show a success message
+            this.showFlashMessage('success');
+        });
     }
 
     /**
@@ -630,11 +636,13 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
                 const club = this.selectedClubForm.getRawValue();
 
                 // Delete the club on the server
-                // this._clubsService.deleteClub(club.id).subscribe(() => {
-                //
-                //     // Close the details
-                //     this.closeDetails();
-                // });
+                this._clubsService.deleteClub(club.id).subscribe(() => {
+
+                    // Close the details
+                    this.closeDetails();
+                    const index = this.data.findIndex(object => object.id === club.id);
+                    this.data.splice(index, 1);
+                });
             }
         });
     }

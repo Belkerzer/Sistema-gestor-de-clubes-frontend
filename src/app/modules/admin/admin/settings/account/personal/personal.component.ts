@@ -5,8 +5,8 @@ import { UserService } from "app/core/user/user.service";
 import { User } from "app/core/user/user.types";
 import { Subject, takeUntil } from "rxjs";
 import { AdminComponent } from "../../../admin.component";
-import { PartnersService } from "../../general/partners/partners.service";
-import { Partner } from "../../general/partners/partners.types";
+import { ContactsService } from "../../general/contacts/contacts.service";
+import { Contact } from "../../general/contacts/contacts.types";
 
 @Component({
     selector: 'settings-account-personal',
@@ -24,9 +24,9 @@ export class AdminSettingsAccountPersonalComponent implements OnInit {
 
     @Input() showAvatar: boolean = true;
     user: User;
-    partner: Partner;
+    contact: Contact;
     accountForm: FormGroup;
-    partnerForm: FormGroup;
+    contactForm: FormGroup;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     /**
      * Constructor
@@ -36,7 +36,7 @@ export class AdminSettingsAccountPersonalComponent implements OnInit {
         public adminComponent: AdminComponent,
         private _formBuilder: FormBuilder,
         private _userService: UserService,
-        private _partnersService: PartnersService,
+        private _contactsService: ContactsService,
     ) {
     }
 
@@ -105,7 +105,7 @@ export class AdminSettingsAccountPersonalComponent implements OnInit {
             }
     
             // Upload the avatar
-        this._partnersService.uploadAvatar(this.partner.id, file).subscribe();
+        this._contactsService.uploadAvatar(this.contact.id, file).subscribe();
     }
 
     /**
@@ -113,7 +113,7 @@ export class AdminSettingsAccountPersonalComponent implements OnInit {
      */
     removeAvatar(): void {
             // Get the form control for 'avatar'
-        const avatarFormControl = this.partnerForm.get('avatar');
+        const avatarFormControl = this.contactForm.get('avatar');
     
             // Set the avatar as null
             avatarFormControl.setValue(null);
@@ -121,7 +121,7 @@ export class AdminSettingsAccountPersonalComponent implements OnInit {
             // Set the file input value as null
             this._avatarFileInput.nativeElement.value = null;
     
-        // Update the partner
-        this.partner.avatar = null;
+        // Update the contact
+        this.contact.avatar = null;
     }
 }

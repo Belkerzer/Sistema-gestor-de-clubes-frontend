@@ -110,7 +110,7 @@ export class ContactsMockApi {
                 const newContact = {
                     id: FuseMockApiUtils.guid(),
                     avatar: null,
-                    name: 'New Contact',
+                    name: 'Nuevo usuario',
                     emails: [],
                     phoneNumbers: [],
                     job: {
