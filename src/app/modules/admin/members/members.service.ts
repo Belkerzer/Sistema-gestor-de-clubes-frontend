@@ -1,22 +1,75 @@
+
+export interface ParticipantesResponse {
+    id:                number;
+    cedula:            string;
+    codigo:            string;
+    correoElectronico: string;
+    nombresCompletos:  string;
+    observacion:       string;
+    nacimiento:        Date;
+    periodos:          Periodos;
+    sexos:             Sexos;
+    carreras:          Carreras;
+    facultades:        Facultades;
+    clubes:            Clubes;
+    fechaCreacion:     string;
+}
+
+export interface FacultadesResponse {
+    id:                number;
+    facultad:          string;
+    fechaCreacion:     string;
+    fechaModificacion: null;
+    carreras:          Carreras[];
+}
+
+
+export interface Carreras {
+    carrera:   string;
+    id: number;
+}
+
+export interface Clubes {
+    club:   string;
+    id: number;
+}
+
+export interface Facultades {
+    facultad:   string;
+    id: number;
+}
+
+export interface Periodos {
+    periodo:   string;
+    id: number;
+}
+
+export interface Sexos {
+    sexo:   string;
+    id: number;
+}
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { InventoryCarrera, InventoryPeriodo, InventoryPagination, InventoryMember, InventoryClub, InventorySexo, InventoryFacultad } from 'app/modules/admin/members/members.types';
+import {environment} from '../../../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class MembersService {
+    apiUrl = environment.apiBackend;
     // Private
-    private _carreras: BehaviorSubject<InventoryCarrera[] | null> = new BehaviorSubject(null);
-    private _periodos: BehaviorSubject<InventoryPeriodo[] | null> = new BehaviorSubject(null);
+    private _carreras: BehaviorSubject<Carreras[] | null> = new BehaviorSubject(null);
+    private _periodos: BehaviorSubject<Periodos[] | null> = new BehaviorSubject(null);
     private _pagination: BehaviorSubject<InventoryPagination | null> = new BehaviorSubject(null);
-    private _participante: BehaviorSubject<InventoryMember | null> = new BehaviorSubject(null);
-    private _participantes: BehaviorSubject<InventoryMember[] | null> = new BehaviorSubject(null);
-    private _clubes: BehaviorSubject<InventoryClub[] | null> = new BehaviorSubject(null);
-    private _sexos: BehaviorSubject<InventorySexo[] | null> = new BehaviorSubject(null);
-    private _facultades: BehaviorSubject<InventoryFacultad[] | null> = new BehaviorSubject(null);
+    private _participante: BehaviorSubject<ParticipantesResponse | null> = new BehaviorSubject(null);
+    private _participantes: BehaviorSubject<ParticipantesResponse[] | null> = new BehaviorSubject(null);
+    private _clubes: BehaviorSubject<Clubes[] | null> = new BehaviorSubject(null);
+    private _sexos: BehaviorSubject<Sexos[] | null> = new BehaviorSubject(null);
+    private _facultades: BehaviorSubject<Facultades[] | null> = new BehaviorSubject(null);
 
     /**
      * Constructor
@@ -31,14 +84,14 @@ export class MembersService {
     /**
      * Getter for carreras
      */
-    get carreras$(): Observable<InventoryCarrera[]> {
+    get carreras$(): Observable<Carreras[]> {
         return this._carreras.asObservable();
     }
 
     /**
      * Getter for periodos
      */
-    get periodos$(): Observable<InventoryPeriodo[]> {
+    get periodos$(): Observable<Periodos[]> {
         return this._periodos.asObservable();
     }
 
@@ -52,35 +105,35 @@ export class MembersService {
     /**
      * Getter for parcitipante
      */
-    get participante$(): Observable<InventoryMember> {
+    get participante$(): Observable<ParticipantesResponse> {
         return this._participante.asObservable();
     }
 
     /**
      * Getter for participantes
      */
-    get participantes$(): Observable<InventoryMember[]> {
+    get participantes$(): Observable<ParticipantesResponse[]> {
         return this._participantes.asObservable();
     }
 
     /**
      * Getter for clubes
      */
-    get clubes$(): Observable<InventoryClub[]> {
+    get clubes$(): Observable<Clubes[]> {
         return this._clubes.asObservable();
     }
 
     /**
      * Getter for sexos
      */
-    get sexos$(): Observable<InventorySexo[]> {
+    get sexos$(): Observable<Sexos[]> {
         return this._sexos.asObservable();
     }
 
     /**
      * Getter for facultades
      */
-    get facultades$(): Observable<InventoryFacultad[]> {
+    get facultades$(): Observable<Facultades[]> {
         return this._facultades.asObservable();
     }
 
@@ -91,8 +144,8 @@ export class MembersService {
     /**
      * Get carreras
      */
-    getCarreras(): Observable<InventoryCarrera[]> {
-        return this._httpClient.get<InventoryCarrera[]>('api/apps/ecommerce/inventory/carreras').pipe(
+    getCarreras(): Observable<Carreras[]> {
+        return this._httpClient.get<Carreras[]>(`${this.apiUrl}/carreras`).pipe(
             tap((carreras) => {
                 this._carreras.next(carreras);
             })
@@ -102,8 +155,8 @@ export class MembersService {
     /**
      * Get periodos
      */
-    getPeriodos(): Observable<InventoryPeriodo[]> {
-        return this._httpClient.get<InventoryPeriodo[]>('api/apps/ecommerce/inventory/periodos').pipe(
+    getPeriodos(): Observable<Periodos[]> {
+        return this._httpClient.get<Periodos[]>(`${this.apiUrl}/periodos`).pipe(
             tap((periodos) => {
                 this._periodos.next(periodos);
             })
@@ -113,8 +166,8 @@ export class MembersService {
     /**
      * Get facultades
      */
-    getFacultades(): Observable<InventoryFacultad[]> {
-        return this._httpClient.get<InventoryFacultad[]>('api/apps/ecommerce/inventory/facultades').pipe(
+    getFacultades(): Observable<Facultades[]> {
+        return this._httpClient.get<Facultades[]>(`${this.apiUrl}/facultades`).pipe(
             tap((facultades) => {
                 this._facultades.next(facultades);
             })
@@ -131,20 +184,20 @@ export class MembersService {
      * @param order
      * @param search
      */
-    getParticipantes(page: number = 0, size: number = 10, sort: string = 'name', order: 'asc' | 'desc' | '' = 'asc', search: string = ''):
-        Observable<{ pagination: InventoryPagination; participantes: InventoryMember[] }> {
-        return this._httpClient.get<{ pagination: InventoryPagination; participantes: InventoryMember[] }>('api/participantes', {
+    getParticipantes(termino: string = ''):
+        Observable<ParticipantesResponse[]> {
+        return this._httpClient.get<ParticipantesResponse[]>(`${this.apiUrl}/participantes`, {
             params: {
-                page: '' + page,
-                size: '' + size,
-                sort,
-                order,
-                search
+                // page: '' + page,
+                // size: '' + size,
+                // sort,
+                // order,
+                termino
             }
         }).pipe(
             tap((response) => {
-                this._pagination.next(response.pagination);
-                this._participantes.next(response.participantes);
+                // this._pagination.next(response.pagination);
+                this._participantes.next(response);
             })
         );
     }
@@ -152,7 +205,7 @@ export class MembersService {
     /**
      * Get participante by id
      */
-    getParticipanteById(id: string): Observable<InventoryMember> {
+    getParticipanteById(id: number): Observable<ParticipantesResponse> {
         return this._participantes.pipe(
             take(1),
             map((participantes) => {
@@ -180,14 +233,14 @@ export class MembersService {
     /**
      * Create participante
      */
-    createParticipante(): Observable<InventoryMember> {
+    createParticipante(): Observable<ParticipantesResponse[]> {
         return this.participantes$.pipe(
             take(1),
-            switchMap(participantes => this._httpClient.post<InventoryMember>('api/apps/ecommerce/inventory/participante', {}).pipe(
+            switchMap(participantes => this._httpClient.post<ParticipantesResponse[]>(`${this.apiUrl}/participantes`, {}).pipe(
                 map((newParticipante) => {
 
                     // Update the participantes with the new participante
-                    this._participantes.next([newParticipante, ...participantes]);
+                    this._participantes.next(newParticipante);
 
                     // Return the new participante
                     return newParticipante;
@@ -202,12 +255,12 @@ export class MembersService {
      * @param id
      * @param participante
      */
-    updateParticipante(id: string, participante: InventoryMember): Observable<InventoryMember> {
+    updateParticipante(id: number, participante: ParticipantesResponse): Observable<ParticipantesResponse> {
+        const {...body} = participante;
         return this.participantes$.pipe(
             take(1),
-            switchMap(participantes => this._httpClient.patch<InventoryMember>('api/apps/ecommerce/inventory/participante', {
-                id,
-                participante
+            switchMap(participantes => this._httpClient.put<ParticipantesResponse>(`${this.apiUrl}/participantes/${id}`, {
+                ...body
             }).pipe(
                 map((updatedParticipante) => {
 
@@ -221,7 +274,7 @@ export class MembersService {
                     this._participantes.next(participantes);
 
                     // Return the updated participante
-                    return updatedParticipante;
+                    return updatedParticipante[0];
                 }),
                 switchMap(updatedParticipante => this.participante$.pipe(
                     take(1),
@@ -232,7 +285,7 @@ export class MembersService {
                         this._participante.next(updatedParticipante);
 
                         // Return the updated participante
-                        return updatedParticipante;
+                        return updatedParticipante[0];
                     })
                 ))
             ))
@@ -244,10 +297,10 @@ export class MembersService {
      *
      * @param id
      */
-    deleteParticipante(id: string): Observable<boolean> {
+    deleteParticipante(id: number): Observable<any> {
         return this.participantes$.pipe(
             take(1),
-            switchMap(participantes => this._httpClient.delete('api/apps/ecommerce/inventory/participante', { params: { id } }).pipe(
+            switchMap(participantes => this._httpClient.delete(`${this.apiUrl}/participantes/${id}`).pipe(
                 map((isDeleted: boolean) => {
 
                     // Find the index of the deleted participante
@@ -269,8 +322,8 @@ export class MembersService {
     /**
      * Get clubes
      */
-    getClubes(): Observable<InventoryClub[]> {
-        return this._httpClient.get<InventoryClub[]>('api/apps/ecommerce/inventory/clubes').pipe(
+    getClubes(): Observable<Clubes[]> {
+        return this._httpClient.get<Clubes[]>(`${this.apiUrl}/clubes`).pipe(
             tap((clubes) => {
                 this._clubes.next(clubes);
             })
@@ -337,7 +390,7 @@ export class MembersService {
 /*     deleteClub(id: string): Observable<boolean> {
         return this.clubes$.pipe(
             take(1),
-            switchMap(clubes => this._httpClient.delete('api/apps/ecommerce/inventory/club', { params: { id } }).pipe( 
+            switchMap(clubes => this._httpClient.delete('api/apps/ecommerce/inventory/club', { params: { id } }).pipe(
                 map((isDeleted: boolean) => {*/
 
                     // Find the index of the deleted club
@@ -379,8 +432,8 @@ export class MembersService {
     /**
      * Get sexos
      */
-    getSexos(): Observable<InventorySexo[]> {
-        return this._httpClient.get<InventorySexo[]>('api/apps/ecommerce/inventory/sexos').pipe(
+    getSexos(): Observable<Sexos[]> {
+        return this._httpClient.get<Sexos[]>(`${this.apiUrl}/sexos`).pipe(
             tap((sexos) => {
                 this._sexos.next(sexos);
             })

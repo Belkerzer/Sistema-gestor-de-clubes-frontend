@@ -2,8 +2,15 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { MembersService } from 'app/modules/admin/members/members.service';
+import {
+    Carreras, Clubes,
+    Facultades,
+    MembersService,
+    ParticipantesResponse,
+    Periodos, Sexos
+} from 'app/modules/admin/members/members.service';
 import { InventoryCarrera, InventoryPeriodo, InventoryPagination, InventoryMember, InventoryClub, InventorySexo, InventoryFacultad } from 'app/modules/admin/members/members.types';
+
 
 @Injectable({
     providedIn: 'root'
@@ -26,7 +33,7 @@ export class InventoryCarrerasResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryCarrera[]> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Carreras[]> {
         return this._membersService.getCarreras();
     }
 }
@@ -52,7 +59,7 @@ export class InventoryPeriodosResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryPeriodo[]> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Periodos[]> {
         return this._membersService.getPeriodos();
     }
 }
@@ -81,8 +88,8 @@ export class InventoryMemberResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryMember> {
-        return this._membersService.getParticipanteById(route.paramMap.get('id'))
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ParticipantesResponse> {
+        return this._membersService.getParticipanteById(parseInt(route.paramMap.get('id'), 10))
             .pipe(
                 // Error here means the requested member is not available
                 catchError((error) => {
@@ -124,7 +131,7 @@ export class InventoryMembersResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ pagination: InventoryPagination; participantes: InventoryMember[] }> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ParticipantesResponse[]> {
         return this._membersService.getParticipantes();
     }
 }
@@ -150,7 +157,7 @@ export class InventoryClubesResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryClub[]> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Clubes[]> {
         return this._membersService.getClubes();
     }
 }
@@ -176,7 +183,7 @@ export class InventorySexosResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventorySexo[]> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Sexos[]> {
         return this._membersService.getSexos();
     }
 }
@@ -202,7 +209,7 @@ export class InventoryFacultadesResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryFacultad[]> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Facultades[]> {
         return this._membersService.getFacultades();
     }
 }
