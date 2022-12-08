@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ClubsService } from 'app/modules/admin/clubs/clubs.service';
 import { InventoryFacultadClub, InventoryLiderEstudiantil, InventoryPagination, InventoryClubs, InventoryDocenteTutor, InventoryPrograma, InventoryParticipanteClubes } from 'app/modules/admin/clubs/clubs.types';
+import {ClubsService, Docentes, Facultades, IClubes, Lideres, Participante, Programas} from './clubs.service';
 
 @Injectable({
     providedIn: 'root'
@@ -26,8 +26,8 @@ export class InventoryFacultadesClubResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryFacultadClub[]> {
-        return this._inventoryService.getFacultadesClub();
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Facultades[]> {
+        return this._inventoryService.getFacultades();
     }
 }
 
@@ -52,7 +52,7 @@ export class InventoryLideresEstudiantilesResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryLiderEstudiantil[]> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Lideres[]> {
         return this._inventoryService.getLideresEstudiantiles();
     }
 }
@@ -81,8 +81,8 @@ export class InventoryClubResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryClubs> {
-        return this._inventoryService.getClubById(route.paramMap.get('id'))
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IClubes> {
+        return this._inventoryService.getClubById(parseInt(route.paramMap.get('id'),10))
             .pipe(
                 // Error here means the requested club is not available
                 catchError((error) => {
@@ -124,7 +124,7 @@ export class InventoryClubsResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ paginationClubs: InventoryPagination; clubs: InventoryClubs[] }> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IClubes[]> {
         return this._inventoryService.getClubs();
     }
 }
@@ -150,7 +150,7 @@ export class InventoryDocentesTutoresResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryDocenteTutor[]> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Docentes[]> {
         return this._inventoryService.getDocentesTutores();
     }
 }
@@ -176,7 +176,7 @@ export class InventoryParticipantesClubesResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryParticipanteClubes[]> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Participante[]> {
         return this._inventoryService.getParticipantesClubes();
     }
 }
@@ -202,7 +202,7 @@ export class InventoryProgramasResolver implements Resolve<any>
      * @param route
      * @param state
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<InventoryPrograma[]> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Programas[]> {
         return this._inventoryService.getProgramas();
     }
 }

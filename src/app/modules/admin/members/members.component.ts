@@ -7,9 +7,9 @@ import { merge, Observable, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { InventoryCarrera, InventoryPeriodo, InventoryPagination, InventoryMember, InventoryClub, InventorySexo, InventoryFacultad } from 'app/modules/admin/members/members.types';
-import { MembersService } from './members.service';
-import * as XLSX from 'xlsx'; 
+import { InventoryClub } from 'app/modules/admin/members/members.types';
+import {Carreras, Clubes, Facultades, MembersService, ParticipantesResponse, Periodos, Sexos} from './members.service';
+import * as XLSX from 'xlsx';
 
 @Component({
     selector: 'members',
@@ -23,23 +23,22 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
 
-    participantes$: Observable<InventoryMember[]>;
-
-    fileName = 'Participantes.xlsx'; 
+    participantes$: Observable<ParticipantesResponse[]>;
+    data: ParticipantesResponse[];
+    fileName = 'Participantes.xlsx';
     formFieldHelpers: string[] = [''];
-    carreras: InventoryCarrera[];
-    periodos: InventoryPeriodo[];
-    facultades: InventoryFacultad[];
-    filteredClubes: InventoryClub[];
+    carreras: Carreras[];
+    periodos: Periodos[];
+    facultades: Facultades[];
+    filteredClubes: Clubes[];
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
-    pagination: InventoryPagination;
     searchInputControl: FormControl = new FormControl();
-    selectedParticipante: InventoryMember | null = null;
+    selectedParticipante: ParticipantesResponse | null = null;
     selectedParticipanteForm: FormGroup;
-    clubes: InventoryClub[];
+    clubes: Clubes[];
     /* clubesEditMode: boolean = false; */
-    sexos: InventorySexo[];
+    sexos: Sexos[];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -63,40 +62,30 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
     /**
      * On init
      */
-    ngOnInit(): void {
+    async ngOnInit(): Promise<void> {
         // Create the selected participante form
         this.selectedParticipanteForm = this._formBuilder.group({
-            id: [''],
-            periodo: [''],
-            name: ['', [Validators.required]],
+            id: [0],
+            nombresCompletos: ['', [Validators.required]],
             observacion: [''],
-            clubes: [[]],
             codigo: [''],
             cedula: [''],
-            carrera: [''],
-            sexo: [''],
-            facultad: [''],
-            integracion: [''],
+            idClub: [0],
+            idPeriodo: [0],
+            idCarrera: [0],
+            idSexo: [0],
+            idFacultad: [0],
             correoElectronico: [''],
-            fechaNacimiento: [''],
-            /* basePrice: [''],
-            taxPercent: [''],
-            price: [''],
-            weight: [''],
-            thumbnail: [''],
-            images: [[]],
-            currentImageIndex: [0], */ // Image index that is currently being viewed
-            active: [false]
+            nacimiento: ['']
         });
 
         // Get the carreras
         this._membersService.carreras$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((carreras: InventoryCarrera[]) => {
+            .subscribe((carreras: Carreras[]) => {
 
                 // Update the carreras
                 this.carreras = carreras;
-
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
@@ -104,7 +93,7 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
         // Get the periodos
         this._membersService.periodos$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((periodos: InventoryPeriodo[]) => {
+            .subscribe((periodos: Periodos[]) => {
 
                 // Update the periodos
                 this.periodos = periodos;
@@ -113,25 +102,14 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
                 this._changeDetectorRef.markForCheck();
             });
 
-        // Get the pagination
-        this._membersService.pagination$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((pagination: InventoryPagination) => {
-
-                // Update the pagination
-                this.pagination = pagination;
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
-
         // Get the participantes
-        this.participantes$ = this._membersService.participantes$;
+        this.participantes$ = this._membersService.getParticipantes();
+        this.participantes$.subscribe({next: res => this.data = res});
 
         // Get the clubes
         this._membersService.clubes$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((clubes: InventoryClub[]) => {
+            .subscribe((clubes: Clubes[]) => {
 
                 // Update the clubes
                 this.clubes = clubes;
@@ -144,8 +122,7 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
         // Get the sexos
         this._membersService.sexos$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((sexos: InventorySexo[]) => {
-
+            .subscribe((sexos: Sexos[]) => {
                 // Update the vendors
                 this.sexos = sexos;
 
@@ -156,7 +133,7 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
         // Get the facultades
         this._membersService.facultades$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((facultades: InventoryFacultad[]) => {
+            .subscribe((facultades: Facultades[]) => {
 
                 // Update the facultades
                 this.facultades = facultades;
@@ -173,7 +150,8 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
                 switchMap((query) => {
                     this.closeDetails();
                     this.isLoading = true;
-                    return this._membersService.getParticipantes(0, 10, 'name', 'asc', query);
+                    this.participantes$ = this._membersService.getParticipantes(query);
+                    return this._membersService.getParticipantes(query);
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -213,7 +191,7 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
                 switchMap(() => {
                     this.closeDetails();
                     this.isLoading = true;
-                    return this._membersService.getParticipantes(this._paginator.pageIndex, this._paginator.pageSize, this._sort.active, this._sort.direction);
+                    return this._membersService.getParticipantes('');
                 }),
                 map(() => {
                     this.isLoading = false;
@@ -247,7 +225,8 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
      *
      * @param participanteId
      */
-    toggleDetails(participanteId: string): void {
+    toggleDetails(participanteId: number): void {
+
         // If the participante is already selected...
         if (this.selectedParticipante && this.selectedParticipante.id === participanteId) {
             // Close the details
@@ -258,12 +237,14 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
         // Get the participante by id
         this._membersService.getParticipanteById(participanteId)
             .subscribe((participante) => {
-
+                console.log(participante);
                 // Set the selected participante
                 this.selectedParticipante = participante;
 
                 // Fill the form
-                this.selectedParticipanteForm.patchValue(participante);
+                // this.selectedParticipanteForm.patchValue(participante);
+                this.fillForm(participante);
+
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -316,7 +297,7 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
         const value = event.target.value.toLowerCase();
 
         // Filter the clubes
-        this.filteredClubes = this.clubes.filter(club => club.title.toLowerCase().includes(value));
+        this.filteredClubes = this.clubes.filter(club => club.club.toLowerCase().includes(value));
     }
 
     /**
@@ -343,18 +324,18 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
            } */
 
         // If there is a club...
-        const club = this.filteredClubes[0];
-        const isClubApplied = this.selectedParticipante.clubes.find(id => id === club.id);
+        //const club = this.filteredClubes[0];
+        // const isClubApplied = this.selectedParticipante.club.find(id => id === club.id);
 
         // If the found club is already applied to the participante...
-        if (isClubApplied) {
-            // Remove the club from the participante
-            this.removeClubFromParticipante(club);
-        }
-        else {
-            // Otherwise add the club to the participante
-            this.addClubToParticipante(club);
-        }
+        // if (isClubApplied) {
+        //     // Remove the club from the participante
+        //     this.removeClubFromParticipante(club);
+        // }
+        // else {
+        //     // Otherwise add the club to the participante
+        //     this.addClubToParticipante(club);
+        // }
     }
 
     /**
@@ -415,13 +396,13 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
      */
     addClubToParticipante(club: InventoryClub): void {
         // Add the club
-        this.selectedParticipante.clubes.unshift(club.id);
+        // this.selectedParticipante.club.unshift(club.id);
 
         // Update the selected participante form
-        this.selectedParticipanteForm.get('clubes').patchValue(this.selectedParticipante.clubes);
+        // this.selectedParticipanteForm.get('clubes').patchValue(this.selectedParticipante.club);
 
         // Mark for check
-        this._changeDetectorRef.markForCheck();
+        // this._changeDetectorRef.markForCheck();
     }
 
     /**
@@ -431,13 +412,13 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
      */
     removeClubFromParticipante(club: InventoryClub): void {
         // Remove the club
-        this.selectedParticipante.clubes.splice(this.selectedParticipante.clubes.findIndex(item => item === club.id), 1);
-
-        // Update the selected participante form
-        this.selectedParticipanteForm.get('clubes').patchValue(this.selectedParticipante.clubes);
-
-        // Mark for check
-        this._changeDetectorRef.markForCheck();
+        // this.selectedParticipante.club.splice(this.selectedParticipante.club.findIndex(item => item === club.id), 1);
+        //
+        // // Update the selected participante form
+        // this.selectedParticipanteForm.get('clubes').patchValue(this.selectedParticipante.clubes);
+        //
+        // // Mark for check
+        // this._changeDetectorRef.markForCheck();
     }
 
     /**
@@ -472,28 +453,34 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
         this._membersService.createParticipante().subscribe((newParticipante) => {
 
             // Go to new participante
-            this.selectedParticipante = newParticipante;
+            this.selectedParticipante = newParticipante[0];
 
+            this.data.unshift(newParticipante[0]);
             // Fill the form
-            this.selectedParticipanteForm.patchValue(newParticipante);
+            this.fillForm(newParticipante[0]);
 
             // Mark for check
             this._changeDetectorRef.markForCheck();
+
         });
     }
 
     /**
      * Update the selected participante using the form data
      */
-    updateSelectedParticipante(): void {
+    updateSelectedParticipante(id: number): void {
         // Get the participante object
-        const participante = this.selectedParticipanteForm.getRawValue();
-
+        //const participante = this.selectedParticipanteForm.getRawValue();
+        if(this.selectedParticipanteForm.invalid){
+            return;
+        }
+        const participante = this.selectedParticipanteForm.value;
+        console.log(participante);
         // Remove the currentImageIndex field
         delete participante.currentImageIndex;
 
         // Update the participante on the server
-        this._membersService.updateParticipante(participante.id, participante).subscribe(() => {
+        this._membersService.updateParticipante(id, participante).subscribe(() => {
 
             // Show a success message
             this.showFlashMessage('success');
@@ -529,9 +516,10 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
 
                 // Delete the participante on the server
                 this._membersService.deleteParticipante(participante.id).subscribe(() => {
-
                     // Close the details
                     this.closeDetails();
+                    const index = this.data.findIndex(object => object.id === participante.id);
+                    this.data.splice(index, 1);
                 });
             }
         });
@@ -569,8 +557,8 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
 
     exportExcel(): void {
         /* table id is passed over here */
-        let element = document.getElementById('participantes-table');
-        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+        const element = (this.data);
+        const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(element);
 
         /* generate workbook and add the worksheet */
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
@@ -579,5 +567,15 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
         /* save to file */
         XLSX.writeFile(wb, this.fileName);
 
+    }
+
+
+    fillForm(participante: any): void{
+        this.selectedParticipanteForm.patchValue(participante);
+        this.selectedParticipanteForm.get('idCarrera').setValue(participante.carreras.id);
+        this.selectedParticipanteForm.get('idClub').setValue(participante.clubes.id);
+        this.selectedParticipanteForm.get('idFacultad').setValue(participante.facultades.id);
+        this.selectedParticipanteForm.get('idPeriodo').setValue(participante.periodos.id);
+        this.selectedParticipanteForm.get('idSexo').setValue(participante.sexos.id);
     }
 }
