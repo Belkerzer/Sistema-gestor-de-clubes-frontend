@@ -6,37 +6,33 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { fromEvent, Observable, Subject } from 'rxjs';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
-import { PartnersService } from '../partners.service';
-import { Partner } from '../partners.types';
-import { BooleanInput } from '@angular/cdk/coercion';
-import { User } from 'app/core/user/user.types';
-import { UserService } from 'app/core/user/user.service';
+import { ContactsService } from '../contacts.service';
+import { Contact, Country, Rol } from '../contacts.types';
 import { AdminComponent } from 'app/modules/admin/admin/admin.component';
+import { UserService } from 'app/core/user/user.service';
+import { User } from 'app/core/user/user.types';
 
 
 @Component({
-    selector: 'partners-list',
+    selector: 'contacts-list',
     templateUrl: './list.component.html',
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
     exportAs: 'user'
 })
-export class PartnersListComponent implements OnInit, OnDestroy {
+export class ContactsListComponent implements OnInit, OnDestroy {
     @ViewChild('matDrawer', { static: true }) matDrawer: MatDrawer;
-
-    /* eslint-disable @typescript-eslint/naming-convention */
-    static ngAcceptInputType_showAvatar: BooleanInput;
-    /* eslint-enable @typescript-eslint/naming-convention */
     @Input() showAvatar: boolean = true;
+    contacts$: Observable<Contact[]>;
 
-    partners$: Observable<Partner[]>;
+    contactsCount: number = 0;
     user: User;
-    partnersCount: number = 0;
-    partnersTableColumns: string[] = ['name', 'email', 'phoneNumber', 'job'];
-    /* countries: Country[]; */
+    contactsTableColumns: string[] = ['name', 'email', 'phoneNumber', 'job'];
+    countries: Country[];
+    roles: Rol[];
     drawerMode: 'side' | 'over';
     searchInputControl: FormControl = new FormControl();
-    selectedPartner: Partner;
+    selectedContact: Contact;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -45,7 +41,7 @@ export class PartnersListComponent implements OnInit, OnDestroy {
     constructor(
         private _activatedRoute: ActivatedRoute,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _partnersService: PartnersService,
+        private _contactsService: ContactsService,
         @Inject(DOCUMENT) private _document: any,
         private _router: Router,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
@@ -71,42 +67,54 @@ export class PartnersListComponent implements OnInit, OnDestroy {
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
-        // Get the partners
-        this.partners$ = this._partnersService.partners$;
-        this._partnersService.partners$
+        // Get the contacts
+        this.contacts$ = this._contactsService.contacts$;
+        this._contactsService.contacts$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((partners: Partner[]) => {
+            .subscribe((contacts: Contact[]) => {
 
                 // Update the counts
-                this.partnersCount = partners.length;
+                this.contactsCount = contacts.length;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
 
-        // Get the partner
-        this._partnersService.partner$
+        // Get the contact
+        this._contactsService.contact$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((partner: Partner) => {
+            .subscribe((contact: Contact) => {
 
-                // Update the selected partner
-                this.selectedPartner = partner;
+                // Update the selected contact
+                this.selectedContact = contact;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
 
         // Get the countries
-        /*         this._partnersService.countries$
-                    .pipe(takeUntil(this._unsubscribeAll))
-                    .subscribe((countries: Country[]) => { */
+        this._contactsService.countries$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((countries: Country[]) => {
 
-        // Update the countries
-        /*          this.countries = countries; */
+                // Update the countries
+                this.countries = countries;
 
-        // Mark for check
-        /*                 this._changeDetectorRef.markForCheck();
-                    }); */
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+
+        // Get the roles
+        this._contactsService.roles$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((roles: Rol[]) => {
+
+                // Update the roles
+                this.roles = roles;
+
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
 
         // Subscribe to search input field value changes
         this.searchInputControl.valueChanges
@@ -115,7 +123,7 @@ export class PartnersListComponent implements OnInit, OnDestroy {
                 switchMap(query =>
 
                     // Search
-                    this._partnersService.searchPartners(query)
+                    this._contactsService.searchContacts(query)
                 )
             )
             .subscribe();
@@ -123,8 +131,8 @@ export class PartnersListComponent implements OnInit, OnDestroy {
         // Subscribe to MatDrawer opened change
         this.matDrawer.openedChange.subscribe((opened) => {
             if (!opened) {
-                // Remove the selected partner when drawer closed
-                this.selectedPartner = null;
+                // Remove the selected contact when drawer closed
+                this.selectedContact = null;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
@@ -149,17 +157,17 @@ export class PartnersListComponent implements OnInit, OnDestroy {
             });
 
         // Listen for shortcuts
-        /*         fromEvent(this._document, 'keydown')
-                    .pipe(
-                        takeUntil(this._unsubscribeAll),
-                        filter<KeyboardEvent>(event => */
-        /*            (event.ctrlKey === true || event.metaKey) // Ctrl or Cmd
-                   && (event.key === '/')  */// '/'
-        /*              )
-                 )
-                 .subscribe(() => {
-                     this.createPartner();
-                 }); */
+        fromEvent(this._document, 'keydown')
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                filter<KeyboardEvent>(event =>
+                    (event.ctrlKey === true || event.metaKey) // Ctrl or Cmd
+                    && (event.key === '/') // '/'
+                )
+            )
+            .subscribe(() => {
+                this.createContact();
+            });
     }
 
     /**
@@ -187,19 +195,19 @@ export class PartnersListComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Create partner
+     * Create contact
      */
-    /* createPartner(): void { */
-    // Create the partner
-    /* this._partnersService.createPartner().subscribe((newPartner) => { */
+    createContact(): void {
+        // Create the contact
+        this._contactsService.createContact().subscribe((newContact) => {
 
-    // Go to the new partner
-    /* this._router.navigate(['./', newPartner.id], { relativeTo: this._activatedRoute }); */
+            // Go to the new contact
+            this._router.navigate(['./', newContact.id], { relativeTo: this._activatedRoute });
 
-    // Mark for check
-    /*             this._changeDetectorRef.markForCheck();
-            });
-        } */
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        });
+    }
 
     /**
      * Track by function for ngFor loops

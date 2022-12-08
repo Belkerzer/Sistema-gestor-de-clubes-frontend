@@ -33,6 +33,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import moment from 'moment';
 import { PartnersDetailsComponent } from './settings/general/partners/details/details.component';
 import { PartnersListComponent } from './settings/general/partners/list/list.component';
+import { ContactsDetailsComponent } from './settings/general/contacts/details/details.component';
+import { ContactsListComponent } from './settings/general/contacts/list/list.component';
+
 
 
 @NgModule({
@@ -43,7 +46,9 @@ import { PartnersListComponent } from './settings/general/partners/list/list.com
         AdminSettingsAccountSecurityComponent,
         AdminActionsCreateUserComponent,
         PartnersListComponent,
-        PartnersDetailsComponent
+        PartnersDetailsComponent,
+        ContactsListComponent,
+        ContactsDetailsComponent
     ],
     imports: [
         RouterModule.forChild(adminRoutes),

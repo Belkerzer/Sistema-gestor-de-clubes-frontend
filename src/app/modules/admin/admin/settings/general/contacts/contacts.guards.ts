@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { PartnersDetailsComponent } from './details/details.component';
+import { ContactsDetailsComponent } from './details/details.component';
 
 
 @Injectable({
     providedIn: 'root'
 })
-export class CanDeactivatePartnersDetails implements CanDeactivate<PartnersDetailsComponent>
+export class CanDeactivateContactsDetails implements CanDeactivate<ContactsDetailsComponent>
 {
     canDeactivate(
-        component: PartnersDetailsComponent,
+        component: ContactsDetailsComponent,
         currentRoute: ActivatedRouteSnapshot,
         currentState: RouterStateSnapshot,
         nextState: RouterStateSnapshot
@@ -21,15 +21,15 @@ export class CanDeactivatePartnersDetails implements CanDeactivate<PartnersDetai
             nextRoute = nextRoute.firstChild;
         }
 
-        // If the next state doesn't contain '/partners'
+        // If the next state doesn't contain '/contacts'
         // it means we are navigating away from the
-        // partners app
-        if (!nextState.url.includes('/contacts')) {
+        // contacts app
+        if (!nextState.url.includes('/usuarios')) {
             // Let it navigate
             return true;
         }
 
-        // If we are navigating to another partner...
+        // If we are navigating to another contact...
         if (nextRoute.paramMap.get('id')) {
             // Just navigate
             return true;

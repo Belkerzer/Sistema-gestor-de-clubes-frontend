@@ -4,6 +4,7 @@ import { HomeMockApi } from 'app/mock-api/dashboards/home/api';
 import { AuthMockApi } from 'app/mock-api/common/auth/api';
 import { ChatMockApi } from 'app/mock-api/apps/chat/api';
 import { PartnersMockApi } from 'app/mock-api/apps/partners/api';
+import { ContactsMockApi } from 'app/mock-api/apps/contacts/api';
 import { MembersInventoryMockApi } from 'app/mock-api/apps/members/api';
 import { ClubsInventoryMockApi } from 'app/mock-api/apps/clubs/api';
 import { FileManagerMockApi } from 'app/mock-api/apps/file-manager/api';
@@ -28,6 +29,7 @@ export const mockApiServices = [
     AuthMockApi,
     ChatMockApi,
     PartnersMockApi,
+    ContactsMockApi,
     MembersInventoryMockApi,
     ClubsInventoryMockApi,
     ActivitiesInventoryMockApi,

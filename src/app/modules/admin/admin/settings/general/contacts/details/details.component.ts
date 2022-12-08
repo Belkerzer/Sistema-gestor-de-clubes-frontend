@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, Renderer2, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, Renderer2, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TemplatePortal } from '@angular/cdk/portal';
@@ -7,41 +7,31 @@ import { MatDrawerToggleResult } from '@angular/material/sidenav';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { PartnersService } from '../partners.service';
-import { Club, Partner, Rol } from '../partners.types';
-import { PartnersListComponent } from '../list/list.component';
-import { UserService } from 'app/core/user/user.service';
-import { BooleanInput } from '@angular/cdk/coercion';
-import { User } from 'app/core/user/user.types';
+import { ContactsService } from '../contacts.service';
+import { Club, Contact, Country, Rol } from '../contacts.types';
+import { ContactsListComponent } from '../list/list.component';
 
 
 @Component({
-    selector: 'partners-details',
+    selector: 'contacts-details',
     templateUrl: './details.component.html',
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    exportAs: 'user'
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PartnersDetailsComponent implements OnInit, OnDestroy {
+export class ContactsDetailsComponent implements OnInit, OnDestroy {
     @ViewChild('avatarFileInput') private _avatarFileInput: ElementRef;
     @ViewChild('clubesPanel') private _clubesPanel: TemplateRef<any>;
     @ViewChild('clubesPanelOrigin') private _clubesPanelOrigin: ElementRef;
 
-    /* eslint-disable @typescript-eslint/naming-convention */
-    static ngAcceptInputType_showAvatar: BooleanInput;
-    /* eslint-enable @typescript-eslint/naming-convention */
-
-    @Input() showAvatar: boolean = true;
     editMode: boolean = false;
-    user: User;
     clubes: Club[];
-    /* clubesEditMode: boolean = false; */
+    clubesEditMode: boolean = false;
     filteredClubes: Club[];
-    partner: Partner;
     roles: Rol[];
-    partnerForm: FormGroup;
-    partners: Partner[];
-    /* countries: Country[]; */
+    contact: Contact;
+    contactForm: FormGroup;
+    contacts: Contact[];
+    countries: Country[];
     private _clubesPanelOverlayRef: OverlayRef;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -51,15 +41,14 @@ export class PartnersDetailsComponent implements OnInit, OnDestroy {
     constructor(
         private _activatedRoute: ActivatedRoute,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _partnersListComponent: PartnersListComponent,
-        private _partnersService: PartnersService,
+        private _contactsListComponent: ContactsListComponent,
+        private _contactsService: ContactsService,
         private _formBuilder: FormBuilder,
         private _fuseConfirmationService: FuseConfirmationService,
         private _renderer2: Renderer2,
         private _router: Router,
         private _overlay: Overlay,
-        private _viewContainerRef: ViewContainerRef,
-        private _userService: UserService
+        private _viewContainerRef: ViewContainerRef
     ) {
     }
 
@@ -71,106 +60,128 @@ export class PartnersDetailsComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        // Subscribe to user changes
-        this._userService.user$
+        // Open the drawer
+        this._contactsListComponent.matDrawer.open();
+
+        // Create the contact form
+        this.contactForm = this._formBuilder.group({
+            id: [''],
+            avatar: [null],
+            name: ['', [Validators.required]],
+            emails: this._formBuilder.array([]),
+            phoneNumbers: this._formBuilder.array([]),
+            username: [''],
+            company: [''],
+            email: [null],
+            address: [null],
+            notes: [null],
+            clubes: [[]],
+            rol: ['']
+        });
+
+        // Get the contacts
+        this._contactsService.contacts$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((user: User) => {
-                this.user = user;
+            .subscribe((contacts: Contact[]) => {
+                this.contacts = contacts;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
-        // Open the drawer
-        this._partnersListComponent.matDrawer.open();
 
-        // Create the partner form
-        this.partnerForm = this._formBuilder.group({
-            id: [''],
-            avatar: [null],
-            name: ['', [Validators.required]],
-            email: ['', Validators.email],
-            phoneNumbers: this._formBuilder.array([]),
-            title: [''],
-            company: [''],
-            birthday: [null],
-            address: [null],
-            username: [''],
-            clubes: [[]],
-            rol: [''],
-        });
-
-        // Get the brands
-        this._partnersService.roles$
+        // Get the roles
+        this._contactsService.roles$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((roles: Rol[]) => {
 
-                // Update the brands
+                // Update the periodos
                 this.roles = roles;
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
 
-        // Get the partners
-        this._partnersService.partners$
+        // Get the contact
+        this._contactsService.contact$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((partners: Partner[]) => {
-                this.partners = partners;
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
-
-        // Get the partner
-        this._partnersService.partner$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((partner: Partner) => {
+            .subscribe((contact: Contact) => {
 
                 // Open the drawer in case it is closed
-                this._partnersListComponent.matDrawer.open();
+                this._contactsListComponent.matDrawer.open();
 
-                // Get the partner
-                this.partner = partner;
+                // Get the contact
+                this.contact = contact;
 
                 // Clear the emails and phoneNumbers form arrays
-
-                /*   (this.partnerForm.get('phoneNumbers') as FormArray).clear(); */
+                (this.contactForm.get('emails') as FormArray).clear();
+                (this.contactForm.get('phoneNumbers') as FormArray).clear();
 
                 // Patch values to the form
-                /*       this.partnerForm.patchValue(partner); */
+                this.contactForm.patchValue(contact);
+
+                // Setup the emails form array
+                const emailFormGroups = [];
+
+                if (contact.emails.length > 0) {
+                    // Iterate through them
+                    contact.emails.forEach((email) => {
+
+                        // Create an email form group
+                        emailFormGroups.push(
+                            this._formBuilder.group({
+                                email: [email.email],
+                                label: [email.label]
+                            })
+                        );
+                    });
+                }
+                else {
+                    // Create an email form group
+                    emailFormGroups.push(
+                        this._formBuilder.group({
+                            email: [''],
+                            label: ['']
+                        })
+                    );
+                }
+
+                // Add the email form groups to the emails form array
+                emailFormGroups.forEach((emailFormGroup) => {
+                    (this.contactForm.get('emails') as FormArray).push(emailFormGroup);
+                });
 
                 // Setup the phone numbers form array
-                /*           const phoneNumbersFormGroups = [];
-          
-                          if (partner.phoneNumbers.length > 0) { */
-                // Iterate through them
-                /*      partner.phoneNumbers.forEach((phoneNumber) => { */
+                const phoneNumbersFormGroups = [];
 
-                // Create an email form group
-                /*               phoneNumbersFormGroups.push(
-                                  this._formBuilder.group({
-                                      country: [phoneNumber.country],
-                                      phoneNumber: [phoneNumber.phoneNumber],
-                                      label: [phoneNumber.label]
-                                  })
-                              );
-                          });
-                      }
-                      else { */
-                // Create a phone number form group
-                /*                phoneNumbersFormGroups.push(
-                                   this._formBuilder.group({
-                                       country: ['us'],
-                                       phoneNumber: [''],
-                                       label: ['']
-                                   })
-                               );
-                           } */
+                if (contact.phoneNumbers.length > 0) {
+                    // Iterate through them
+                    contact.phoneNumbers.forEach((phoneNumber) => {
+
+                        // Create an email form group
+                        phoneNumbersFormGroups.push(
+                            this._formBuilder.group({
+                                country: [phoneNumber.country],
+                                phoneNumber: [phoneNumber.phoneNumber],
+                                label: [phoneNumber.label]
+                            })
+                        );
+                    });
+                }
+                else {
+                    // Create a phone number form group
+                    phoneNumbersFormGroups.push(
+                        this._formBuilder.group({
+                            country: ['us'],
+                            phoneNumber: [''],
+                            label: ['']
+                        })
+                    );
+                }
 
                 // Add the phone numbers form groups to the phone numbers form array
-                /*             phoneNumbersFormGroups.forEach((phoneNumbersFormGroup) => {
-                                (this.partnerForm.get('phoneNumbers') as FormArray).push(phoneNumbersFormGroup);
-                            }); */
+                phoneNumbersFormGroups.forEach((phoneNumbersFormGroup) => {
+                    (this.contactForm.get('phoneNumbers') as FormArray).push(phoneNumbersFormGroup);
+                });
 
                 // Toggle the edit mode off
                 this.toggleEditMode(false);
@@ -180,17 +191,17 @@ export class PartnersDetailsComponent implements OnInit, OnDestroy {
             });
 
         // Get the country telephone codes
-        /*    this._partnersService.countries$
-               .pipe(takeUntil(this._unsubscribeAll))
-               .subscribe((codes: Country[]) => {
-                   this.countries = codes; */
+        this._contactsService.countries$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((codes: Country[]) => {
+                this.countries = codes;
 
-        // Mark for check
-        /*             this._changeDetectorRef.markForCheck();
-                }); */
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
 
         // Get the clubes
-        this._partnersService.clubes$
+        this._contactsService.clubes$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((clubes: Club[]) => {
                 this.clubes = clubes;
@@ -223,7 +234,7 @@ export class PartnersDetailsComponent implements OnInit, OnDestroy {
      * Close the drawer
      */
     closeDrawer(): Promise<MatDrawerToggleResult> {
-        return this._partnersListComponent.matDrawer.close();
+        return this._contactsListComponent.matDrawer.close();
     }
 
     /**
@@ -244,19 +255,19 @@ export class PartnersDetailsComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Update the partner
+     * Update the contact
      */
-    updatePartner(): void {
-        // Get the partner object
-        const partner = this.partnerForm.getRawValue();
+    updateContact(): void {
+        // Get the contact object
+        const contact = this.contactForm.getRawValue();
 
-        // Go through the partner object and clear empty values
-        partner.emails = partner.emails.filter(email => email.email);
+        // Go through the contact object and clear empty values
+        contact.emails = contact.emails.filter(email => email.email);
 
-        partner.phoneNumbers = partner.phoneNumbers.filter(phoneNumber => phoneNumber.phoneNumber);
+        contact.phoneNumbers = contact.phoneNumbers.filter(phoneNumber => phoneNumber.phoneNumber);
 
-        // Update the partner on the server
-        this._partnersService.updatePartner(partner.id, partner).subscribe(() => {
+        // Update the contact on the server
+        this._contactsService.updateContact(contact.id, contact).subscribe(() => {
 
             // Toggle the edit mode off
             this.toggleEditMode(false);
@@ -264,19 +275,16 @@ export class PartnersDetailsComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Delete the partner
+     * Delete the contact
      */
-    deletePartner(): void {
+    deleteContact(): void {
         // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
-            title: 'Eliminar usuario',
-            message: '¿Está seguro de que quiere eliminar este usuario? Esta acción no se puede deshacer.',
+            title: 'Delete contact',
+            message: 'Are you sure you want to delete this contact? This action cannot be undone!',
             actions: {
-                cancel: {
-                    label: 'Cancelar'
-                },
                 confirm: {
-                    label: 'Eliminar'
+                    label: 'Delete'
                 }
             }
         });
@@ -286,26 +294,26 @@ export class PartnersDetailsComponent implements OnInit, OnDestroy {
 
             // If the confirm button pressed...
             if (result === 'confirmed') {
-                // Get the current partner's id
-                const id = this.partner.id;
+                // Get the current contact's id
+                const id = this.contact.id;
 
-                // Get the next/previous partner's id
-                const currentPartnerIndex = this.partners.findIndex(item => item.id === id);
-                const nextPartnerIndex = currentPartnerIndex + ((currentPartnerIndex === (this.partners.length - 1)) ? -1 : 1);
-                const nextPartnerId = (this.partners.length === 1 && this.partners[0].id === id) ? null : this.partners[nextPartnerIndex].id;
+                // Get the next/previous contact's id
+                const currentContactIndex = this.contacts.findIndex(item => item.id === id);
+                const nextContactIndex = currentContactIndex + ((currentContactIndex === (this.contacts.length - 1)) ? -1 : 1);
+                const nextContactId = (this.contacts.length === 1 && this.contacts[0].id === id) ? null : this.contacts[nextContactIndex].id;
 
-                // Delete the partner
-                this._partnersService.deletePartner(id)
+                // Delete the contact
+                this._contactsService.deleteContact(id)
                     .subscribe((isDeleted) => {
 
-                        // Return if the partner wasn't deleted...
+                        // Return if the contact wasn't deleted...
                         if (!isDeleted) {
                             return;
                         }
 
-                        // Navigate to the next partner if available
-                        if (nextPartnerId) {
-                            this._router.navigate(['../', nextPartnerId], { relativeTo: this._activatedRoute });
+                        // Navigate to the next contact if available
+                        if (nextContactId) {
+                            this._router.navigate(['../', nextContactId], { relativeTo: this._activatedRoute });
                         }
                         // Otherwise, navigate to the parent
                         else {
@@ -343,7 +351,7 @@ export class PartnersDetailsComponent implements OnInit, OnDestroy {
         }
 
         // Upload the avatar
-        this._partnersService.uploadAvatar(this.partner.id, file).subscribe();
+        this._contactsService.uploadAvatar(this.contact.id, file).subscribe();
     }
 
     /**
@@ -351,7 +359,7 @@ export class PartnersDetailsComponent implements OnInit, OnDestroy {
      */
     removeAvatar(): void {
         // Get the form control for 'avatar'
-        const avatarFormControl = this.partnerForm.get('avatar');
+        const avatarFormControl = this.contactForm.get('avatar');
 
         // Set the avatar as null
         avatarFormControl.setValue(null);
@@ -359,8 +367,8 @@ export class PartnersDetailsComponent implements OnInit, OnDestroy {
         // Set the file input value as null
         this._avatarFileInput.nativeElement.value = null;
 
-        // Update the partner
-        this.partner.avatar = null;
+        // Update the contact
+        this.contact.avatar = null;
     }
 
     /**
@@ -418,7 +426,7 @@ export class PartnersDetailsComponent implements OnInit, OnDestroy {
                 this.filteredClubes = this.clubes;
 
                 // Toggle the edit mode off
-                /* this.clubesEditMode = false; */
+                this.clubesEditMode = false;
             }
 
             // If template portal exists and attached...
@@ -432,9 +440,9 @@ export class PartnersDetailsComponent implements OnInit, OnDestroy {
     /**
      * Toggle the clubes edit mode
      */
-    /*     toggleClubesEditMode(): void {
-            this.clubesEditMode = !this.clubesEditMode;
-        } */
+    toggleClubesEditMode(): void {
+        this.clubesEditMode = !this.clubesEditMode;
+    }
 
     /**
      * Filter clubes
@@ -461,30 +469,30 @@ export class PartnersDetailsComponent implements OnInit, OnDestroy {
         }
 
         // If there is no club available...
-        /*  if (this.filteredClubes.length === 0) { */
-        // Create the club
-        /*        this.createClub(event.target.value); */
+        if (this.filteredClubes.length === 0) {
+            // Create the club
+            this.createClub(event.target.value);
 
-        // Clear the input
-        /*          event.target.value = ''; */
+            // Clear the input
+            event.target.value = '';
 
-        // Return
-        /*          return;
-             } */
+            // Return
+            return;
+        }
 
         // If there is a club...
         const club = this.filteredClubes[0];
-        const isClubApplied = this.partner.clubes.find(id => id === club.id);
+        const isClubApplied = this.contact.clubes.find(id => id === club.id);
 
-        // If the found club is already applied to the partner...
-        /* if (isClubApplied) { */
-        // Remove the club from the partner
-        /*             this.removeClubFromPartner(club);
-                }
-                else { */
-        // Otherwise add the club to the partner
-        /*             this.addClubToPartner(club);
-                } */
+        // If the found club is already applied to the contact...
+        if (isClubApplied) {
+            // Remove the club from the contact
+            this.removeClubFromContact(club);
+        }
+        else {
+            // Otherwise add the club to the contact
+            this.addClubToContact(club);
+        }
     }
 
     /**
@@ -492,19 +500,19 @@ export class PartnersDetailsComponent implements OnInit, OnDestroy {
      *
      * @param title
      */
-    /*     createClub(title: string): void {
-            const club = {
-                title
-            }; */
+    createClub(title: string): void {
+        const club = {
+            title
+        };
 
-    // Create club on the server
-    /*  this._partnersService.createClub(club)
-         .subscribe((response) => { */
+        // Create club on the server
+        this._contactsService.createClub(club)
+            .subscribe((response) => {
 
-    // Add the club to the partner
-    /*                 this.addClubToPartner(response);
-                });
-        } */
+                // Add the club to the contact
+                this.addClubToContact(response);
+            });
+    }
 
     /**
      * Update the club title
@@ -512,77 +520,77 @@ export class PartnersDetailsComponent implements OnInit, OnDestroy {
      * @param club
      * @param event
      */
-    /*     updateClubTitle(club: Club, event): void { */
-    // Update the title on the club
-    /*         club.title = event.target.value; */
+    updateClubTitle(club: Club, event): void {
+        // Update the title on the club
+        club.title = event.target.value;
 
-    // Update the club on the server
-    /*         this._partnersService.updateClub(club.id, club)
-                .pipe(debounceTime(300))
-                .subscribe(); */
+        // Update the club on the server
+        this._contactsService.updateClub(club.id, club)
+            .pipe(debounceTime(300))
+            .subscribe();
 
-    // Mark for check
-    /*         this._changeDetectorRef.markForCheck();
-        }
-     */
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+    }
+
     /**
      * Delete the club
      *
      * @param club
      */
-    /*     deleteClub(club: Club): void { */
-    // Delete the club from the server
-    /*    this._partnersService.deleteClub(club.id).subscribe(); */
+    deleteClub(club: Club): void {
+        // Delete the club from the server
+        this._contactsService.deleteClub(club.id).subscribe();
 
-    // Mark for check
-    /*         this._changeDetectorRef.markForCheck();
-        } */
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+    }
 
     /**
-     * Add club to the partner
+     * Add club to the contact
      *
      * @param club
      */
-    /* addClubToPartner(club: Club): void { */
-    // Add the club
-    /* this.partner.clubes.unshift(club.id); */
+    addClubToContact(club: Club): void {
+        // Add the club
+        this.contact.clubes.unshift(club.id);
 
-    // Update the partner form
-    /* this.partnerForm.get('clubes').patchValue(this.partner.clubes); */
+        // Update the contact form
+        this.contactForm.get('clubes').patchValue(this.contact.clubes);
 
-    // Mark for check
-    /*  this._changeDetectorRef.markForCheck();
- } */
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+    }
 
     /**
-     * Remove club from the partner
+     * Remove club from the contact
      *
      * @param club
      */
-    /* removeClubFromPartner(club: Club): void { */
-    // Remove the club
-    /* this.partner.clubes.splice(this.partner.clubes.findIndex(item => item === club.id), 1); */
+    removeClubFromContact(club: Club): void {
+        // Remove the club
+        this.contact.clubes.splice(this.contact.clubes.findIndex(item => item === club.id), 1);
 
-    // Update the partner form
-    /* this.partnerForm.get('clubes').patchValue(this.partner.clubes); */
+        // Update the contact form
+        this.contactForm.get('clubes').patchValue(this.contact.clubes);
 
-    // Mark for check
-    /*        this._changeDetectorRef.markForCheck();
-       } */
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+    }
 
     /**
-     * Toggle partner club
+     * Toggle contact club
      *
      * @param club
      */
-    /*     togglePartnerClub(club: Club): void {
-            if (this.partner.clubes.includes(club.id)) {
-                this.removeClubFromPartner(club);
-            }
-            else {
-                this.addClubToPartner(club);
-            }
-        } */
+    toggleContactClub(club: Club): void {
+        if (this.contact.clubes.includes(club.id)) {
+            this.removeClubFromContact(club);
+        }
+        else {
+            this.addClubToContact(club);
+        }
+    }
 
     /**
      * Should the create club button be visible
@@ -604,7 +612,7 @@ export class PartnersDetailsComponent implements OnInit, OnDestroy {
         });
 
         // Add the email form group to the emails form array
-        (this.partnerForm.get('emails') as FormArray).push(emailFormGroup);
+        (this.contactForm.get('emails') as FormArray).push(emailFormGroup);
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
@@ -617,7 +625,7 @@ export class PartnersDetailsComponent implements OnInit, OnDestroy {
      */
     removeEmailField(index: number): void {
         // Get form array for emails
-        const emailsFormArray = this.partnerForm.get('emails') as FormArray;
+        const emailsFormArray = this.contactForm.get('emails') as FormArray;
 
         // Remove the email field
         emailsFormArray.removeAt(index);
@@ -638,7 +646,7 @@ export class PartnersDetailsComponent implements OnInit, OnDestroy {
         });
 
         // Add the phone number form group to the phoneNumbers form array
-        (this.partnerForm.get('phoneNumbers') as FormArray).push(phoneNumberFormGroup);
+        (this.contactForm.get('phoneNumbers') as FormArray).push(phoneNumberFormGroup);
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
@@ -651,7 +659,7 @@ export class PartnersDetailsComponent implements OnInit, OnDestroy {
      */
     removePhoneNumberField(index: number): void {
         // Get form array for phone numbers
-        const phoneNumbersFormArray = this.partnerForm.get('phoneNumbers') as FormArray;
+        const phoneNumbersFormArray = this.contactForm.get('phoneNumbers') as FormArray;
 
         // Remove the phone number field
         phoneNumbersFormArray.removeAt(index);
@@ -665,9 +673,9 @@ export class PartnersDetailsComponent implements OnInit, OnDestroy {
      *
      * @param iso
      */
-    /*     getCountryByIso(iso: string): Country {
-            return this.countries.find(country => country.iso === iso);
-        } */
+    getCountryByIso(iso: string): Country {
+        return this.countries.find(country => country.iso === iso);
+    }
 
     /**
      * Track by function for ngFor loops

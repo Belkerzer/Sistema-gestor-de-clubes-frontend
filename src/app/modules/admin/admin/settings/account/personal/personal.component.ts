@@ -26,7 +26,7 @@ export class AdminSettingsAccountPersonalComponent implements OnInit {
     user: User;
     partner: Partner;
     accountForm: FormGroup;
-    contactForm: FormGroup;
+    partnerForm: FormGroup;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     /**
      * Constructor
@@ -113,7 +113,7 @@ export class AdminSettingsAccountPersonalComponent implements OnInit {
      */
     removeAvatar(): void {
             // Get the form control for 'avatar'
-            const avatarFormControl = this.contactForm.get('avatar');
+        const avatarFormControl = this.partnerForm.get('avatar');
     
             // Set the avatar as null
             avatarFormControl.setValue(null);
