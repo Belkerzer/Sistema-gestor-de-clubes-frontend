@@ -5,7 +5,7 @@ export interface ParticipantesResponse {
     codigo:            string;
     correoElectronico: string;
     nombresCompletos:  string;
-    observacion:  string;
+    observacion:       string;
     nacimiento:        Date;
     periodos:          Periodos;
     sexos:             Sexos;

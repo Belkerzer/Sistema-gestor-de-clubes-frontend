@@ -474,8 +474,8 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
         if(this.selectedParticipanteForm.invalid){
             return;
         }
-
         const participante = this.selectedParticipanteForm.value;
+        console.log(participante);
         // Remove the currentImageIndex field
         delete participante.currentImageIndex;
 
@@ -557,8 +557,8 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
 
     exportExcel(): void {
         /* table id is passed over here */
-        const element = document.getElementById('participantes-table');
-        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+        const element = (this.data);
+        const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(element);
 
         /* generate workbook and add the worksheet */
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
@@ -573,6 +573,7 @@ export class MembersComponent implements OnInit, AfterViewInit, OnDestroy, After
     fillForm(participante: any): void{
         this.selectedParticipanteForm.patchValue(participante);
         this.selectedParticipanteForm.get('idCarrera').setValue(participante.carreras.id);
+        this.selectedParticipanteForm.get('idClub').setValue(participante.clubes.id);
         this.selectedParticipanteForm.get('idFacultad').setValue(participante.facultades.id);
         this.selectedParticipanteForm.get('idPeriodo').setValue(participante.periodos.id);
         this.selectedParticipanteForm.get('idSexo').setValue(participante.sexos.id);

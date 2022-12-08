@@ -7,9 +7,8 @@ import { merge, Observable, Subject } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { InventoryFacultadClub, InventoryLiderEstudiantil, InventoryPagination, InventoryClubs, InventoryDocenteTutor, InventoryPrograma, InventoryParticipanteClubes } from 'app/modules/admin/clubs/clubs.types';
-import {ClubesResponse, ClubsService, DocenteResponse, Docentes} from 'app/modules/admin/clubs/clubs.service';
 import * as XLSX from 'xlsx';
+import {ClubsService, Docentes, Facultades, IClubes, Lideres, Participante, Programas} from './clubs.service';
 
 @Component({
     selector: 'clubs',
@@ -23,24 +22,24 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
 
-    clubs$: Observable<ClubesResponse[]>;
-
+    clubs$: Observable<IClubes[]>;
+    data: IClubes[];
     fileName = 'Clubes.xlsx';
     formFieldHelpers: string[] = [''];
-    facultadesClub: InventoryFacultadClub[];
-    lideresEstudiantiles: InventoryLiderEstudiantil[];
-    filteredDocentesTutores: DocenteResponse[];
-    filteredParticipantesClubes: InventoryParticipanteClubes[];
+    facultadesClub: Facultades[];
+    lideresEstudiantiles: Lideres[];
+    filteredDocentesTutores: Docentes[];
+    filteredParticipantesClubes: Participante[];
+    programas: Programas[];
+    docentesTutores: Docentes[];
+    participantesClubes: Participante[];
     flashMessage: 'success' | 'error' | null = null;
     isLoading: boolean = false;
-    paginationClubs: InventoryPagination;
+    // paginationClubs: InventoryPagination;
     searchInputControl: FormControl = new FormControl();
-    selectedClub: ClubesResponse | null = null;
+    selectedClub: IClubes | null = null;
     selectedClubForm: FormGroup;
-    docentesTutores: DocenteResponse[];
-    participantesClubes: InventoryParticipanteClubes[];
     /* docentesTutoresEditMode: boolean = false; */
-    programas: InventoryPrograma[];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -93,7 +92,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
         // Get the facultadesClub
         this._clubsService.facultadesClub$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((facultadesClub: InventoryFacultadClub[]) => {
+            .subscribe((facultadesClub: Facultades[]) => {
 
                 // Update the facultadesClub
                 this.facultadesClub = facultadesClub;
@@ -105,7 +104,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
         // Get the lideresEstudiantiles
         this._clubsService.lideresEstudiantiles$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((lideresEstudiantiles: InventoryLiderEstudiantil[]) => {
+            .subscribe((lideresEstudiantiles: Lideres[]) => {
 
                 // Update the lideresEstudiantiles
                 this.lideresEstudiantiles = lideresEstudiantiles;
@@ -115,16 +114,16 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
             });
 
         // Get the paginationClubs
-        this._clubsService.paginationClubs$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((paginationClubs: InventoryPagination) => {
-
-                // Update the paginationClubs
-                this.paginationClubs = paginationClubs;
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
+        // this._clubsService.paginationClubs$
+        //     .pipe(takeUntil(this._unsubscribeAll))
+        //     .subscribe((paginationClubs: InventoryPagination) => {
+        //
+        //         // Update the paginationClubs
+        //         this.paginationClubs = paginationClubs;
+        //
+        //         // Mark for check
+        //         this._changeDetectorRef.markForCheck();
+        //     });
 
         // Get the clubs
         this.clubs$ = this._clubsService.clubs$;
@@ -132,7 +131,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
         // Get the participantesClubes
         this._clubsService.participantesClubes$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((participantesClubes: InventoryParticipanteClubes[]) => {
+            .subscribe((participantesClubes: Participante[]) => {
 
                 // Update the participantesClubes
                 this.participantesClubes = participantesClubes;
@@ -146,7 +145,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
         // Get the docentesTutores
         this._clubsService.docentesTutores$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((docentesTutores: DocenteResponse[]) => {
+            .subscribe((docentesTutores: Docentes[]) => {
 
                 // Update the docentesTutores
                 this.docentesTutores = docentesTutores;
@@ -159,7 +158,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
         // Get the programas
         this._clubsService.programas$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((programas: InventoryPrograma[]) => {
+            .subscribe((programas: Programas[]) => {
 
                 // Update the programas
                 this.programas = programas;
@@ -212,7 +211,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
                 });
 
             // Get clubs if sort or page changes
-            merge(this._sort.sortChange, this._paginator.page).pipe(
+            /*merge(this._sort.sortChange, this._paginator.page).pipe(
                 switchMap(() => {
                     this.closeDetails();
                     this.isLoading = true;
@@ -221,7 +220,9 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
                 map(() => {
                     this.isLoading = false;
                 })
-            ).subscribe();
+            ).subscribe();*/
+            this.clubs$ = this._clubsService.getClubs();
+            this.clubs$.subscribe({next: res => this.data = res});
         }
     }
 
@@ -319,7 +320,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
         const value = event.target.value.toLowerCase();
 
         // Filter the participantesClubes
-        this.filteredParticipantesClubes = this.participantesClubes.filter(participanteClubes => participanteClubes.title.toLowerCase().includes(value));
+        this.filteredParticipantesClubes = this.participantesClubes.filter(participanteClubes => participanteClubes.nombresCompletos.toLowerCase().includes(value));
     }
 
     /**
@@ -417,7 +418,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
         const value = event.target.value.toLowerCase();
 
         // Filter the docentesTutores
-        this.filteredDocentesTutores = this.docentesTutores.filter(docenteTutor => docenteTutor.nombres.toLowerCase().includes(value));
+        this.filteredDocentesTutores = this.docentesTutores.filter(docenteTutor => docenteTutor.docente.toLowerCase().includes(value));
     }
 
     /**
