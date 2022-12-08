@@ -4,10 +4,10 @@ import { AdminComponent } from 'app/modules/admin/admin/admin.component';
 import { AdminSettingsAccountPersonalComponent } from 'app/modules/admin/admin/settings/account/personal/personal.component';
 import { AdminSettingsAccountSecurityComponent } from './settings/account/security/security.component';
 import { AdminActionsCreateUserComponent } from './actions/create-user/create-user.component';
-import { UsersDetailsComponent } from './settings/general/users/details/details.component';
-import { UsersListComponent } from './settings/general/users/list/list.component';
-import { CanDeactivateUsersDetails } from './settings/general/users/users.guards';
-import { ContactsClubesResolver, ContactsResolver, ContactsContactResolver, ContactsRolesResolver } from './settings/general/users/users.resolvers';
+import { CanDeactivateContactsDetails } from './settings/general/contacts/contacts.guards';
+import { ContactsResolver, ContactsCountriesResolver, ContactsContactResolver, ContactsClubesResolver, ContactsRolesResolver } from './settings/general/contacts/contacts.resolvers';
+import { ContactsListComponent } from './settings/general/contacts/list/list.component';
+import { ContactsDetailsComponent } from './settings/general/contacts/details/details.component';
 
 
 
@@ -151,10 +151,7 @@ export const adminRoutes: Route[] = [
     },
     {
         path: '',
-        component: AdminComponent,
-        resolve: {
-            clubes: ContactsClubesResolver
-        },
+        component: AdminComponent,    
         children: [
 /*             {
                 component: AdminListComponent,
@@ -235,32 +232,62 @@ export const adminRoutes: Route[] = [
             {
                 path: 'ajustes',
                 children: [
+            /*         {
+                        path: 'general',
+                        children: [
+                            {
+                                path: 'contacts',
+                                component: PartnersListComponent,
+                                resolve: {
+                                    tasks: PartnersResolver,
+                                    /* countries: ContactsCountriesResolver, 
+                                    roles: PartnersRolesResolver
+                                },
+                                children: [
+                                    {
+                                        path: ':id',
+                                        component: PartnersDetailsComponent,
+                                        resolve: {
+                                            task: PartnersPartnerResolver,
+                                            /* countries: ContactsCountriesResolver,
+                                            roles: PartnersRolesResolver,
+                                            clubes: PartnersClubesResolver,
+                                        },
+                                        canDeactivate: [CanDeactivatePartnersDetails]
+                                    }
+                                ],
+
+                            },
+                        ],
+
+                    }, */
                     {
                         path: 'general',
                         children: [
                             {
                                 path: 'usuarios',
-                                component: UsersListComponent,
+                                component: ContactsListComponent,
                                 resolve: {
                                     tasks: ContactsResolver,
-                                    /* countries: ContactsCountriesResolver, */
-                                    roles: ContactsRolesResolver
+                                    countries: ContactsCountriesResolver,
                                 },
                                 children: [
                                     {
                                         path: ':id',
-                                        component: UsersDetailsComponent,
+                                        component: ContactsDetailsComponent,
                                         resolve: {
                                             task: ContactsContactResolver,
-                                            /* countries: ContactsCountriesResolver, */
-                                            roles: ContactsRolesResolver
+                                            tags: ContactsClubesResolver,
+                                            countries: ContactsCountriesResolver,
+                                            roles: ContactsRolesResolver,
                                         },
-                                        canDeactivate: [CanDeactivateUsersDetails]
+                                        canDeactivate: [CanDeactivateContactsDetails]
                                     }
-                                ]
+                                ],                                
 
                             },
-                        ]
+                        ],
+
                     }
 
                 ]

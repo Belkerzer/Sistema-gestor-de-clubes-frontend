@@ -79,7 +79,7 @@ export class MembersInventoryMockApi {
                 // If search exists...
                 if (search) {
                     // Filter the participantes
-                    participantes = participantes.filter(contact => contact.name && contact.name.toLowerCase().includes(search.toLowerCase()));
+                    participantes = participantes.filter(partner => partner.name && partner.name.toLowerCase().includes(search.toLowerCase()));
                 }
 
                 // Paginate - Start

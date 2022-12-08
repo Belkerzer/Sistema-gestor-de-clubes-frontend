@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { Contact, Rol, Club } from './users.types';
+import { Contact, Country, Club, Rol } from './contacts.types';
 
 
 @Injectable({
@@ -10,11 +10,11 @@ import { Contact, Rol, Club } from './users.types';
 })
 export class ContactsService {
     // Private
+    private _roles: BehaviorSubject<Rol[] | null> = new BehaviorSubject(null);
     private _contact: BehaviorSubject<Contact | null> = new BehaviorSubject(null);
     private _contacts: BehaviorSubject<Contact[] | null> = new BehaviorSubject(null);
-    /*     private _countries: BehaviorSubject<Country[] | null> = new BehaviorSubject(null);*/
+    private _countries: BehaviorSubject<Country[] | null> = new BehaviorSubject(null);
     private _clubes: BehaviorSubject<Club[] | null> = new BehaviorSubject(null);
-    private _roles: BehaviorSubject<Rol[] | null> = new BehaviorSubject(null);
 
     /**
      * Constructor
@@ -41,17 +41,17 @@ export class ContactsService {
     }
 
     /**
-     * Getter for countries
+     * Getter for roles
      */
-/*     get countries$(): Observable<Country[]> {
-        return this._countries.asObservable();
-    } */
+    get roles$(): Observable<Rol[]> {
+        return this._roles.asObservable();
+    }
 
     /**
      * Getter for countries
      */
-    get roles$(): Observable<Rol[]> {
-        return this._roles.asObservable();
+    get countries$(): Observable<Country[]> {
+        return this._countries.asObservable();
     }
 
     /**
@@ -66,17 +66,6 @@ export class ContactsService {
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Get categories
-     */
-    getRoles(): Observable<Rol[]> {
-        return this._httpClient.get<Rol[]>('api/apps/contacts/roles').pipe(
-            tap((roles) => {
-                this._roles.next(roles);
-            })
-        );
-    }
-
-    /**
      * Get contacts
      */
     getContacts(): Observable<Contact[]> {
@@ -84,6 +73,18 @@ export class ContactsService {
             tap((contacts) => {
                 this._contacts.next(contacts);
             })
+        );
+    }
+
+    /**
+ * Get roles
+ */
+    getRoles(): Observable<Rol[]> {
+        return this._httpClient.get<Rol[]>('api/apps/ecommerce/inventory/roles').pipe(
+            tap((roles => {
+                this._roles.next(roles);
+            })
+            )
         );
     }
 
@@ -122,7 +123,7 @@ export class ContactsService {
             switchMap((contact) => {
 
                 if (!contact) {
-                    return throwError('No se pudo encontrar el usuario con el id de ' + id + '.');
+                    return throwError('Could not found contact with id of ' + id + '!');
                 }
 
                 return of(contact);
@@ -222,13 +223,13 @@ export class ContactsService {
     /**
      * Get countries
      */
-/*     getCountries(): Observable<Country[]> {
+    getCountries(): Observable<Country[]> {
         return this._httpClient.get<Country[]>('api/apps/contacts/countries').pipe(
             tap((countries) => {
                 this._countries.next(countries);
             })
         );
-    } */
+    }
 
     /**
      * Get clubes
@@ -246,7 +247,7 @@ export class ContactsService {
      *
      * @param club
      */
-/*     createClub(club: Club): Observable<Club> {
+    createClub(club: Club): Observable<Club> {
         return this.clubes$.pipe(
             take(1),
             switchMap(clubes => this._httpClient.post<Club>('api/apps/contacts/club', { club }).pipe(
@@ -260,7 +261,7 @@ export class ContactsService {
                 })
             ))
         );
-    } */
+    }
 
     /**
      * Update the club
@@ -268,7 +269,7 @@ export class ContactsService {
      * @param id
      * @param club
      */
-/*     updateClub(id: string, club: Club): Observable<Club> {
+    updateClub(id: string, club: Club): Observable<Club> {
         return this.clubes$.pipe(
             take(1),
             switchMap(clubes => this._httpClient.patch<Club>('api/apps/contacts/club', {
@@ -291,14 +292,14 @@ export class ContactsService {
                 })
             ))
         );
-    } */
+    }
 
     /**
      * Delete the club
      *
      * @param id
      */
-/*     deleteClub(id: string): Observable<boolean> {
+    deleteClub(id: string): Observable<boolean> {
         return this.clubes$.pipe(
             take(1),
             switchMap(clubes => this._httpClient.delete('api/apps/contacts/club', { params: { id } }).pipe(
@@ -338,7 +339,7 @@ export class ContactsService {
                 ))
             ))
         );
-    } */
+    }
 
     /**
      * Update the avatar of the given contact

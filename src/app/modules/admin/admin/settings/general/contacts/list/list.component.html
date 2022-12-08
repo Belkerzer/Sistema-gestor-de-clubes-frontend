@@ -27,7 +27,7 @@
                         <div class="md:hidden -ml-2 mr-3">
                             <button
                                 mat-icon-button
-                                (click)="adminComponent.drawer.toggle()">
+                                (click)="_adminComponent.drawer.toggle()">
                                 <mat-icon [svgIcon]="'heroicons_outline:menu'"></mat-icon>
                             </button>
                         </div>
@@ -106,7 +106,7 @@
 
                     <!-- No contacts -->
                     <ng-template #noContacts>
-                        <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">No hay contactos.</div>
+                        <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">No hay usuarios.</div>
                     </ng-template>
 
                 </div>

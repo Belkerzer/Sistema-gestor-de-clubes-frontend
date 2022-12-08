@@ -141,6 +141,12 @@ export class AdminSidebarComponent implements OnInit, OnDestroy {
                                 title: 'Actividades',
                                 type: 'basic'
                             }, */
+                            /*             {
+                                            id: 'ajustes.general.contacts',
+                                            title: 'Contacts',
+                                            type: 'basic',
+                                            link: '/administracion/ajustes/general/contacs'
+                                        }, */
                             {
                                 id: 'ajustes.general.usuarios',
                                 title: 'Usuarios',

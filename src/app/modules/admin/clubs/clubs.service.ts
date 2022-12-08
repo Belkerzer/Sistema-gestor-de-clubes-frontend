@@ -19,6 +19,7 @@ export class ClubsService {
     private _participantesClubes: BehaviorSubject<Participante[] | null> = new BehaviorSubject(null);
     private _programas: BehaviorSubject<Programas[] | null> = new BehaviorSubject(null);
     // private _paginationClubsClubs: BehaviorSubject<InventoryPagination | null> = new BehaviorSubject(null);
+    private _paginationClubs: BehaviorSubject<InventoryPagination | null> = new BehaviorSubject(null);
 
     /**
      * Constructor
@@ -47,9 +48,9 @@ export class ClubsService {
     /**
      * Getter for paginationClubs
      */
-    // get paginationClubs$(): Observable<InventoryPagination> {
-    //     return this._paginationClubsClubs.asObservable();
-    // }
+    get paginationClubs$(): Observable<InventoryPagination> {
+        return this._paginationClubs.asObservable();
+    }
 
     /**
      * Getter for club
@@ -193,69 +194,69 @@ export class ClubsService {
      * @param id
      * @param club
      */
-    // updateClub(id: string, club: InventoryClubs): Observable<InventoryClubs> {
-    //     return this.clubs$.pipe(
-    //         take(1),
-    //         switchMap(clubs => this._httpClient.patch<InventoryClubs>('api/apps/ecommerce/inventory/club', {
-    //             id,
-    //             club
-    //         }).pipe(
-    //             map((updatedClub) => {
-    //
-    //                 // Find the index of the updated club
-    //                 const index = clubs.findIndex(item => item.id === id);
-    //
-    //                 // Update the club
-    //                 clubs[index] = updatedClub;
-    //
-    //                 // Update the clubs
-    //                 this._clubs.next(clubs);
-    //
-    //                 // Return the updated club
-    //                 return updatedClub;
-    //             }),
-    //             switchMap(updatedClub => this.club$.pipe(
-    //                 take(1),
-    //                 filter(item => item && item.id === id),
-    //                 tap(() => {
-    //
-    //                     // Update the club if it's selected
-    //                     this._club.next(updatedClub);
-    //
-    //                     // Return the updated club
-    //                     return updatedClub;
-    //                 })
-    //             ))
-    //         ))
-    //     );
-    // }
+    updateClub(id: number, participante: IClubes): Observable<IClubes> {
+        const { ...body } = participante;
+        return this.clubs$.pipe(
+            take(1),
+            switchMap(clubs => this._httpClient.put<IClubes>(`${this.apiUrl}/clubes/${id}`, {
+                ...body
+            }).pipe(
+                map((updatedClub) => {
+
+                    // Find the index of the updated participante
+                    const index = clubs.findIndex(item => item.id === id);
+
+                    // Update the participante
+                    clubs[index] = updatedClub;
+
+                    // Update the participantes
+                    this._clubs.next(clubs);
+
+                    // Return the updated participante
+                    return updatedClub[0];
+                }),
+                switchMap(updatedClub => this.club$.pipe(
+                    take(1),
+                    filter(item => item && item.id === id),
+                    tap(() => {
+
+                        // Update the participante if it's selected
+                        this._club.next(updatedClub);
+
+                        // Return the updated participante
+                        return updatedClub[0];
+                    })
+                ))
+            ))
+        );
+    }
 
     /**
      * Delete the club
      *
      * @param id
      */
-    // deleteClub(id: string): Observable<boolean> {
-    //     return this.clubs$.pipe(
-    //         take(1),
-    //         switchMap(clubs => this._httpClient.delete('api/apps/ecommerce/inventory/club', { params: { id } }).pipe(
-    //             map((isDeleted: boolean) => {
-    //
-    //                 // Find the index of the deleted club
-    //                 const index = clubs.findIndex(item => item.id === id);
-    //
-    //                 // Delete the club
-    //                 clubs.splice(index, 1);
-    //
-    //                 // Update the clubs
-    //                 this._clubs.next(clubs);
-    //
-    //                 // Return the deleted status
-    //                 return isDeleted;
-    //             })
-    //         ))
-    //     );
-    // }
+    deleteClub(id: number): Observable<any> {
+        return this.clubs$.pipe(
+            take(1),
+            switchMap(clubs => this._httpClient.delete(`${this.apiUrl}/clubes/${id}`).pipe(
+                map((isDeleted: boolean) => {
+
+                    // Find the index of the deleted participante
+                    const index = clubs.findIndex(item => item.id === id);
+
+                    // Delete the participante
+                    clubs.splice(index, 1);
+
+                    // Update the participante
+                    this._clubs.next(clubs);
+
+                    // Return the deleted status
+                    return isDeleted;
+                })
+            ))
+        );
+    }
 
     /**
      * Get participantesClubes

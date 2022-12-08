@@ -6,34 +6,30 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { fromEvent, Observable, Subject } from 'rxjs';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
-import { ContactsService } from '../users.service';
-import { Contact } from '../users.types';
-import { BooleanInput } from '@angular/cdk/coercion';
-import { User } from 'app/core/user/user.types';
-import { UserService } from 'app/core/user/user.service';
+import { ContactsService } from '../contacts.service';
+import { Contact, Country, Rol } from '../contacts.types';
 import { AdminComponent } from 'app/modules/admin/admin/admin.component';
+import { UserService } from 'app/core/user/user.service';
+import { User } from 'app/core/user/user.types';
 
 
 @Component({
-    selector: 'users-list',
+    selector: 'contacts-list',
     templateUrl: './list.component.html',
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
     exportAs: 'user'
 })
-export class UsersListComponent implements OnInit, OnDestroy {
+export class ContactsListComponent implements OnInit, OnDestroy {
     @ViewChild('matDrawer', { static: true }) matDrawer: MatDrawer;
-
-    /* eslint-disable @typescript-eslint/naming-convention */
-    static ngAcceptInputType_showAvatar: BooleanInput;
-    /* eslint-enable @typescript-eslint/naming-convention */
     @Input() showAvatar: boolean = true;
-
     contacts$: Observable<Contact[]>;
-    user: User;
+
     contactsCount: number = 0;
+    user: User;
     contactsTableColumns: string[] = ['name', 'email', 'phoneNumber', 'job'];
-    /* countries: Country[]; */
+    countries: Country[];
+    roles: Rol[];
     drawerMode: 'side' | 'over';
     searchInputControl: FormControl = new FormControl();
     selectedContact: Contact;
@@ -50,7 +46,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
         private _router: Router,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
         private _userService: UserService,
-        public adminComponent: AdminComponent,
+        public _adminComponent: AdminComponent,
     ) {
     }
 
@@ -97,16 +93,28 @@ export class UsersListComponent implements OnInit, OnDestroy {
             });
 
         // Get the countries
-/*         this._contactsService.countries$
+        this._contactsService.countries$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((countries: Country[]) => { */
+            .subscribe((countries: Country[]) => {
 
                 // Update the countries
-        /*          this.countries = countries; */
+                this.countries = countries;
 
                 // Mark for check
-        /*                 this._changeDetectorRef.markForCheck();
-                    }); */
+                this._changeDetectorRef.markForCheck();
+            });
+
+        // Get the roles
+        this._contactsService.roles$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((roles: Rol[]) => {
+
+                // Update the roles
+                this.roles = roles;
+
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
 
         // Subscribe to search input field value changes
         this.searchInputControl.valueChanges
@@ -149,17 +157,17 @@ export class UsersListComponent implements OnInit, OnDestroy {
             });
 
         // Listen for shortcuts
-/*         fromEvent(this._document, 'keydown')
+        fromEvent(this._document, 'keydown')
             .pipe(
                 takeUntil(this._unsubscribeAll),
-                filter<KeyboardEvent>(event => */
-        /*            (event.ctrlKey === true || event.metaKey) // Ctrl or Cmd
-                   && (event.key === '/')  */// '/'
-   /*              )
+                filter<KeyboardEvent>(event =>
+                    (event.ctrlKey === true || event.metaKey) // Ctrl or Cmd
+                    && (event.key === '/') // '/'
+                )
             )
             .subscribe(() => {
                 this.createContact();
-            }); */
+            });
     }
 
     /**
@@ -189,17 +197,17 @@ export class UsersListComponent implements OnInit, OnDestroy {
     /**
      * Create contact
      */
-    /* createContact(): void { */
+    createContact(): void {
         // Create the contact
-    /* this._contactsService.createContact().subscribe((newContact) => { */
+        this._contactsService.createContact().subscribe((newContact) => {
 
             // Go to the new contact
-    /* this._router.navigate(['./', newContact.id], { relativeTo: this._activatedRoute }); */
+            this._router.navigate(['./', newContact.id], { relativeTo: this._activatedRoute });
 
             // Mark for check
-/*             this._changeDetectorRef.markForCheck();
+            this._changeDetectorRef.markForCheck();
         });
-    } */
+    }
 
     /**
      * Track by function for ngFor loops

@@ -31,8 +31,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import moment from 'moment';
-import { UsersDetailsComponent } from './settings/general/users/details/details.component';
-import { UsersListComponent } from './settings/general/users/list/list.component';
+import { ContactsDetailsComponent } from './settings/general/contacts/details/details.component';
+import { ContactsListComponent } from './settings/general/contacts/list/list.component';
+
 
 
 @NgModule({
@@ -41,9 +42,9 @@ import { UsersListComponent } from './settings/general/users/list/list.component
         AdminSettingsAccountPersonalComponent,
         AdminSidebarComponent,
         AdminSettingsAccountSecurityComponent,
-        AdminActionsCreateUserComponent,
-        UsersListComponent,
-        UsersDetailsComponent
+        AdminActionsCreateUserComponent,        
+        ContactsListComponent,
+        ContactsDetailsComponent
     ],
     imports: [
         RouterModule.forChild(adminRoutes),

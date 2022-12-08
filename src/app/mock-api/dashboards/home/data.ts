@@ -12,483 +12,483 @@ export const home = {
                     data: [
                         {
                             x: moment().subtract(12, 'months').day(1).toDate(),
-                            y: 4884
+                            y: 0
                         },
                         {
                             x: moment().subtract(12, 'months').day(4).toDate(),
-                            y: 5351
+                            y: 0
                         },
                         {
                             x: moment().subtract(12, 'months').day(7).toDate(),
-                            y: 5293
+                            y: 0
                         },
                         {
                             x: moment().subtract(12, 'months').day(10).toDate(),
-                            y: 4908
+                            y: 0
                         },
                         {
                             x: moment().subtract(12, 'months').day(13).toDate(),
-                            y: 5027
+                            y: 0
                         },
                         {
                             x: moment().subtract(12, 'months').day(16).toDate(),
-                            y: 4837
+                            y: 0
                         },
                         {
                             x: moment().subtract(12, 'months').day(19).toDate(),
-                            y: 4484
+                            y: 0
                         },
                         {
                             x: moment().subtract(12, 'months').day(22).toDate(),
-                            y: 4071
+                            y: 0
                         },
                         {
                             x: moment().subtract(12, 'months').day(25).toDate(),
-                            y: 4124
+                            y: 0
                         },
                         {
                             x: moment().subtract(12, 'months').day(28).toDate(),
-                            y: 4563
+                            y: 0
                         },
                         {
                             x: moment().subtract(11, 'months').day(1).toDate(),
-                            y: 3820
+                            y: 0
                         },
                         {
                             x: moment().subtract(11, 'months').day(4).toDate(),
-                            y: 3968
+                            y: 0
                         },
                         {
                             x: moment().subtract(11, 'months').day(7).toDate(),
-                            y: 4102
+                            y: 0
                         },
                         {
                             x: moment().subtract(11, 'months').day(10).toDate(),
-                            y: 3941
+                            y: 0
                         },
                         {
                             x: moment().subtract(11, 'months').day(13).toDate(),
-                            y: 3566
+                            y: 0
                         },
                         {
                             x: moment().subtract(11, 'months').day(16).toDate(),
-                            y: 3853
+                            y: 0
                         },
                         {
                             x: moment().subtract(11, 'months').day(19).toDate(),
-                            y: 3853
+                            y: 0
                         },
                         {
                             x: moment().subtract(11, 'months').day(22).toDate(),
-                            y: 4069
+                            y: 0
                         },
                         {
                             x: moment().subtract(11, 'months').day(25).toDate(),
-                            y: 3879
+                            y: 0
                         },
                         {
                             x: moment().subtract(11, 'months').day(28).toDate(),
-                            y: 4298
+                            y: 0
                         },
                         {
                             x: moment().subtract(10, 'months').day(1).toDate(),
-                            y: 4355
+                            y: 0
                         },
                         {
                             x: moment().subtract(10, 'months').day(4).toDate(),
-                            y: 4065
+                            y: 0
                         },
                         {
                             x: moment().subtract(10, 'months').day(7).toDate(),
-                            y: 3650
+                            y: 0
                         },
                         {
                             x: moment().subtract(10, 'months').day(10).toDate(),
-                            y: 3379
+                            y: 0
                         },
                         {
                             x: moment().subtract(10, 'months').day(13).toDate(),
-                            y: 3191
+                            y: 0
                         },
                         {
                             x: moment().subtract(10, 'months').day(16).toDate(),
-                            y: 2968
+                            y: 0
                         },
                         {
                             x: moment().subtract(10, 'months').day(19).toDate(),
-                            y: 2957
+                            y: 0
                         },
                         {
                             x: moment().subtract(10, 'months').day(22).toDate(),
-                            y: 3313
+                            y: 0
                         },
                         {
                             x: moment().subtract(10, 'months').day(25).toDate(),
-                            y: 3708
+                            y: 0
                         },
                         {
                             x: moment().subtract(10, 'months').day(28).toDate(),
-                            y: 3586
+                            y: 0
                         },
                         {
                             x: moment().subtract(9, 'months').day(1).toDate(),
-                            y: 3965
+                            y: 0
                         },
                         {
                             x: moment().subtract(9, 'months').day(4).toDate(),
-                            y: 3901
+                            y: 0
                         },
                         {
                             x: moment().subtract(9, 'months').day(7).toDate(),
-                            y: 3410
+                            y: 0
                         },
                         {
                             x: moment().subtract(9, 'months').day(10).toDate(),
-                            y: 3748
+                            y: 0
                         },
                         {
                             x: moment().subtract(9, 'months').day(13).toDate(),
-                            y: 3929
+                            y: 0
                         },
                         {
                             x: moment().subtract(9, 'months').day(16).toDate(),
-                            y: 3846
+                            y: 0
                         },
                         {
                             x: moment().subtract(9, 'months').day(19).toDate(),
-                            y: 3771
+                            y: 0
                         },
                         {
                             x: moment().subtract(9, 'months').day(22).toDate(),
-                            y: 4015
+                            y: 0
                         },
                         {
                             x: moment().subtract(9, 'months').day(25).toDate(),
-                            y: 3589
+                            y: 0
                         },
                         {
                             x: moment().subtract(9, 'months').day(28).toDate(),
-                            y: 3150
+                            y: 0
                         },
                         {
                             x: moment().subtract(8, 'months').day(1).toDate(),
-                            y: 3050
+                            y: 0
                         },
                         {
                             x: moment().subtract(8, 'months').day(4).toDate(),
-                            y: 2574
+                            y: 0
                         },
                         {
                             x: moment().subtract(8, 'months').day(7).toDate(),
-                            y: 2823
+                            y: 0
                         },
                         {
                             x: moment().subtract(8, 'months').day(10).toDate(),
-                            y: 2848
+                            y: 0
                         },
                         {
                             x: moment().subtract(8, 'months').day(13).toDate(),
-                            y: 3000
+                            y: 0
                         },
                         {
                             x: moment().subtract(8, 'months').day(16).toDate(),
-                            y: 3216
+                            y: 0
                         },
                         {
                             x: moment().subtract(8, 'months').day(19).toDate(),
-                            y: 3299
+                            y: 0
                         },
                         {
                             x: moment().subtract(8, 'months').day(22).toDate(),
-                            y: 3768
+                            y: 0
                         },
                         {
                             x: moment().subtract(8, 'months').day(25).toDate(),
-                            y: 3524
+                            y: 0
                         },
                         {
                             x: moment().subtract(8, 'months').day(28).toDate(),
-                            y: 3918
+                            y: 0
                         },
                         {
                             x: moment().subtract(7, 'months').day(1).toDate(),
-                            y: 4145
+                            y: 0
                         },
                         {
                             x: moment().subtract(7, 'months').day(4).toDate(),
-                            y: 4378
+                            y: 0
                         },
                         {
                             x: moment().subtract(7, 'months').day(7).toDate(),
-                            y: 3941
+                            y: 0
                         },
                         {
                             x: moment().subtract(7, 'months').day(10).toDate(),
-                            y: 3932
+                            y: 0
                         },
                         {
                             x: moment().subtract(7, 'months').day(13).toDate(),
-                            y: 4380
+                            y: 0
                         },
                         {
                             x: moment().subtract(7, 'months').day(16).toDate(),
-                            y: 4243
+                            y: 0
                         },
                         {
                             x: moment().subtract(7, 'months').day(19).toDate(),
-                            y: 4367
+                            y: 0
                         },
                         {
                             x: moment().subtract(7, 'months').day(22).toDate(),
-                            y: 3879
+                            y: 0
                         },
                         {
                             x: moment().subtract(7, 'months').day(25).toDate(),
-                            y: 4357
+                            y: 0
                         },
                         {
                             x: moment().subtract(7, 'months').day(28).toDate(),
-                            y: 4181
+                            y: 0
                         },
                         {
                             x: moment().subtract(6, 'months').day(1).toDate(),
-                            y: 4619
+                            y: 0
                         },
                         {
                             x: moment().subtract(6, 'months').day(4).toDate(),
-                            y: 4769
+                            y: 0
                         },
                         {
                             x: moment().subtract(6, 'months').day(7).toDate(),
-                            y: 4901
+                            y: 0
                         },
                         {
                             x: moment().subtract(6, 'months').day(10).toDate(),
-                            y: 4640
+                            y: 0
                         },
                         {
                             x: moment().subtract(6, 'months').day(13).toDate(),
-                            y: 5128
+                            y: 0
                         },
                         {
                             x: moment().subtract(6, 'months').day(16).toDate(),
-                            y: 5015
+                            y: 0
                         },
                         {
                             x: moment().subtract(6, 'months').day(19).toDate(),
-                            y: 5360
+                            y: 0
                         },
                         {
                             x: moment().subtract(6, 'months').day(22).toDate(),
-                            y: 5608
+                            y: 0
                         },
                         {
                             x: moment().subtract(6, 'months').day(25).toDate(),
-                            y: 5272
+                            y: 0
                         },
                         {
                             x: moment().subtract(6, 'months').day(28).toDate(),
-                            y: 5660
+                            y: 0
                         },
                         {
                             x: moment().subtract(5, 'months').day(1).toDate(),
-                            y: 5836
+                            y: 0
                         },
                         {
                             x: moment().subtract(5, 'months').day(4).toDate(),
-                            y: 5659
+                            y: 0
                         },
                         {
                             x: moment().subtract(5, 'months').day(7).toDate(),
-                            y: 5575
+                            y: 0
                         },
                         {
                             x: moment().subtract(5, 'months').day(10).toDate(),
-                            y: 5474
+                            y: 0
                         },
                         {
                             x: moment().subtract(5, 'months').day(13).toDate(),
-                            y: 5427
+                            y: 0
                         },
                         {
                             x: moment().subtract(5, 'months').day(16).toDate(),
-                            y: 5865
+                            y: 0
                         },
                         {
                             x: moment().subtract(5, 'months').day(19).toDate(),
-                            y: 5700
+                            y: 0
                         },
                         {
                             x: moment().subtract(5, 'months').day(22).toDate(),
-                            y: 6052
+                            y: 0
                         },
                         {
                             x: moment().subtract(5, 'months').day(25).toDate(),
-                            y: 5760
+                            y: 0
                         },
                         {
                             x: moment().subtract(5, 'months').day(28).toDate(),
-                            y: 5648
+                            y: 0
                         },
                         {
                             x: moment().subtract(4, 'months').day(1).toDate(),
-                            y: 5435
+                            y: 0
                         },
                         {
                             x: moment().subtract(4, 'months').day(4).toDate(),
-                            y: 5239
+                            y: 0
                         },
                         {
                             x: moment().subtract(4, 'months').day(7).toDate(),
-                            y: 5452
+                            y: 0
                         },
                         {
                             x: moment().subtract(4, 'months').day(10).toDate(),
-                            y: 5416
+                            y: 0
                         },
                         {
                             x: moment().subtract(4, 'months').day(13).toDate(),
-                            y: 5195
+                            y: 0
                         },
                         {
                             x: moment().subtract(4, 'months').day(16).toDate(),
-                            y: 5119
+                            y: 0
                         },
                         {
                             x: moment().subtract(4, 'months').day(19).toDate(),
-                            y: 4635
+                            y: 0
                         },
                         {
                             x: moment().subtract(4, 'months').day(22).toDate(),
-                            y: 4833
+                            y: 0
                         },
                         {
                             x: moment().subtract(4, 'months').day(25).toDate(),
-                            y: 4584
+                            y: 0
                         },
                         {
                             x: moment().subtract(4, 'months').day(28).toDate(),
-                            y: 4822
+                            y: 0
                         },
                         {
                             x: moment().subtract(3, 'months').day(1).toDate(),
-                            y: 4582
+                            y: 0
                         },
                         {
                             x: moment().subtract(3, 'months').day(4).toDate(),
-                            y: 4348
+                            y: 0
                         },
                         {
                             x: moment().subtract(3, 'months').day(7).toDate(),
-                            y: 4132
+                            y: 0
                         },
                         {
                             x: moment().subtract(3, 'months').day(10).toDate(),
-                            y: 4099
+                            y: 0
                         },
                         {
                             x: moment().subtract(3, 'months').day(13).toDate(),
-                            y: 3849
+                            y: 0
                         },
                         {
                             x: moment().subtract(3, 'months').day(16).toDate(),
-                            y: 4010
+                            y: 0
                         },
                         {
                             x: moment().subtract(3, 'months').day(19).toDate(),
-                            y: 4486
+                            y: 0
                         },
                         {
                             x: moment().subtract(3, 'months').day(22).toDate(),
-                            y: 4403
+                            y: 0
                         },
                         {
                             x: moment().subtract(3, 'months').day(25).toDate(),
-                            y: 4141
+                            y: 0
                         },
                         {
                             x: moment().subtract(3, 'months').day(28).toDate(),
-                            y: 3780
+                            y: 0
                         },
                         {
                             x: moment().subtract(2, 'months').day(1).toDate(),
-                            y: 3524
+                            y: 0
                         },
                         {
                             x: moment().subtract(2, 'months').day(4).toDate(),
-                            y: 3212
+                            y: 0
                         },
                         {
                             x: moment().subtract(2, 'months').day(7).toDate(),
-                            y: 3568
+                            y: 0
                         },
                         {
                             x: moment().subtract(2, 'months').day(10).toDate(),
-                            y: 3800
+                            y: 0
                         },
                         {
                             x: moment().subtract(2, 'months').day(13).toDate(),
-                            y: 3796
+                            y: 0
                         },
                         {
                             x: moment().subtract(2, 'months').day(16).toDate(),
-                            y: 3870
+                            y: 0
                         },
                         {
                             x: moment().subtract(2, 'months').day(19).toDate(),
-                            y: 3745
+                            y: 0
                         },
                         {
                             x: moment().subtract(2, 'months').day(22).toDate(),
-                            y: 3751
+                            y: 0
                         },
                         {
                             x: moment().subtract(2, 'months').day(25).toDate(),
-                            y: 3310
+                            y: 0
                         },
                         {
                             x: moment().subtract(2, 'months').day(28).toDate(),
-                            y: 3509
+                            y: 0
                         },
                         {
                             x: moment().subtract(1, 'months').day(1).toDate(),
-                            y: 3187
+                            y: 0
                         },
                         {
                             x: moment().subtract(1, 'months').day(4).toDate(),
-                            y: 2918
+                            y: 0
                         },
                         {
                             x: moment().subtract(1, 'months').day(7).toDate(),
-                            y: 3191
+                            y: 0
                         },
                         {
                             x: moment().subtract(1, 'months').day(10).toDate(),
-                            y: 3437
+                            y: 0
                         },
                         {
                             x: moment().subtract(1, 'months').day(13).toDate(),
-                            y: 3291
+                            y: 0
                         },
                         {
                             x: moment().subtract(1, 'months').day(16).toDate(),
-                            y: 3317
+                            y: 0
                         },
                         {
                             x: moment().subtract(1, 'months').day(19).toDate(),
-                            y: 3716
+                            y: 0
                         },
                         {
                             x: moment().subtract(1, 'months').day(22).toDate(),
-                            y: 3260
+                            y: 0
                         },
                         {
                             x: moment().subtract(1, 'months').day(25).toDate(),
-                            y: 3694
+                            y: 0
                         },
                         {
                             x: moment().subtract(1, 'months').day(28).toDate(),
-                            y: 3598
+                            y: 99
                         }
                     ]
                 }
@@ -983,49 +983,49 @@ export const home = {
         }
     },
     men: {
-        amount: 4123,
+        amount: 47,
         labels: [
-            moment().subtract(47, 'days').format('DD MMM') + ' - ' + moment().subtract(40, 'days').format('DD MMM'),
-            moment().subtract(39, 'days').format('DD MMM') + ' - ' + moment().subtract(32, 'days').format('DD MMM'),
-            moment().subtract(31, 'days').format('DD MMM') + ' - ' + moment().subtract(24, 'days').format('DD MMM'),
-            moment().subtract(23, 'days').format('DD MMM') + ' - ' + moment().subtract(16, 'days').format('DD MMM'),
-            moment().subtract(15, 'days').format('DD MMM') + ' - ' + moment().subtract(8, 'days').format('DD MMM'),
-            moment().subtract(7, 'days').format('DD MMM') + ' - ' + moment().format('DD MMM')
+            moment().subtract(0, 'days').format('DD MMM') + ' - ' + moment().subtract(40, 'days').format('DD MMM'),
+            moment().subtract(0, 'days').format('DD MMM') + ' - ' + moment().subtract(32, 'days').format('DD MMM'),
+            moment().subtract(0, 'days').format('DD MMM') + ' - ' + moment().subtract(24, 'days').format('DD MMM'),
+            moment().subtract(0, 'days').format('DD MMM') + ' - ' + moment().subtract(16, 'days').format('DD MMM'),
+            moment().subtract(0, 'days').format('DD MMM') + ' - ' + moment().subtract(8, 'days').format('DD MMM'),
+            moment().subtract(0, 'days').format('DD MMM') + ' - ' + moment().format('DD MMM')
         ],
         series: [
             {
                 name: 'Hombres',
-                data: [4412, 4345, 4541, 4677, 4322, 4123]
+                data: [0, 0, 0, 0, 0, 47]
             }
         ]
     },
     women: {
-        amount: 46085,
+        amount: 52,
         labels: [
-            moment().subtract(31, 'days').format('DD MMM') + ' - ' + moment().subtract(24, 'days').format('DD MMM'),
-            moment().subtract(23, 'days').format('DD MMM') + ' - ' + moment().subtract(16, 'days').format('DD MMM'),
-            moment().subtract(15, 'days').format('DD MMM') + ' - ' + moment().subtract(8, 'days').format('DD MMM'),
-            moment().subtract(7, 'days').format('DD MMM') + ' - ' + moment().format('DD MMM')
+            moment().subtract(0, 'days').format('DD MMM') + ' - ' + moment().subtract(24, 'days').format('DD MMM'),
+            moment().subtract(0, 'days').format('DD MMM') + ' - ' + moment().subtract(16, 'days').format('DD MMM'),
+            moment().subtract(0, 'days').format('DD MMM') + ' - ' + moment().subtract(8, 'days').format('DD MMM'),
+            moment().subtract(0, 'days').format('DD MMM') + ' - ' + moment().format('DD MMM')
         ],
         series: [
             {
                 name: 'Mujeres',
-                data: [11577, 11441, 11544, 11523]
+                data: [0, 0, 0, 52]
             }
         ]
     },
     totalMembers: {
-        amount: 62083,
+        amount: 99,
         labels: [
-            moment().subtract(31, 'days').format('DD MMM') + ' - ' + moment().subtract(24, 'days').format('DD MMM'),
-            moment().subtract(23, 'days').format('DD MMM') + ' - ' + moment().subtract(16, 'days').format('DD MMM'),
-            moment().subtract(15, 'days').format('DD MMM') + ' - ' + moment().subtract(8, 'days').format('DD MMM'),
-            moment().subtract(7, 'days').format('DD MMM') + ' - ' + moment().format('DD MMM')
+            moment().subtract(0, 'days').format('DD MMM') + ' - ' + moment().subtract(24, 'days').format('DD MMM'),
+            moment().subtract(0, 'days').format('DD MMM') + ' - ' + moment().subtract(16, 'days').format('DD MMM'),
+            moment().subtract(0, 'days').format('DD MMM') + ' - ' + moment().subtract(8, 'days').format('DD MMM'),
+            moment().subtract(0, 'days').format('DD MMM') + ' - ' + moment().format('DD MMM')
         ],
         series: [
             {
                 name: 'Participantes',
-                data: [15521, 15519, 15522, 15521]
+                data: [0, 0, 0, 99]
             }
         ]
     },

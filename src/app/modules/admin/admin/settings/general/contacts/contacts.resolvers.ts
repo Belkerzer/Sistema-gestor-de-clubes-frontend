@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ContactsService } from './users.service';
-import { Contact, Rol, Club } from './users.types';
+import { ContactsService } from './contacts.service';
+import { Contact, Country, Club, Rol } from './contacts.types';
+
 
 @Injectable({
     providedIn: 'root'
@@ -76,17 +77,16 @@ export class ContactsContactResolver implements Resolve<any>
             );
     }
 }
-
-/* @Injectable({
+@Injectable({
     providedIn: 'root'
 })
-export class ContactsCountriesResolver implements Resolve<any>
-{ */
+export class ContactsRolesResolver implements Resolve<any>
+{
     /**
      * Constructor
      */
-/*     constructor(private _contactsService: ContactsService) {
-    } */
+    constructor(private _contactsService: ContactsService) {
+    }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
@@ -98,10 +98,35 @@ export class ContactsCountriesResolver implements Resolve<any>
      * @param route
      * @param state
      */
-/*     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Country[]> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Rol[]> {
+        return this._contactsService.getRoles();
+    }
+}
+@Injectable({
+    providedIn: 'root'
+})
+export class ContactsCountriesResolver implements Resolve<any>
+{
+    /**
+     * Constructor
+     */
+    constructor(private _contactsService: ContactsService) {
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Resolver
+     *
+     * @param route
+     * @param state
+     */
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Country[]> {
         return this._contactsService.getCountries();
     }
-} */
+}
 
 @Injectable({
     providedIn: 'root'
@@ -126,31 +151,5 @@ export class ContactsClubesResolver implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Club[]> {
         return this._contactsService.getClubes();
-    }
-}
-
-@Injectable({
-    providedIn: 'root'
-})
-export class ContactsRolesResolver implements Resolve<any>
-{
-    /**
-     * Constructor
-     */
-    constructor(private _contactsService: ContactsService) {
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Resolver
-     *
-     * @param route
-     * @param state
-     */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Rol[]> {
-        return this._contactsService.getRoles();
     }
 }

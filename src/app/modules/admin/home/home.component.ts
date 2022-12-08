@@ -8,9 +8,11 @@ import { Subject, takeUntil } from "rxjs";
 import { HomeService } from "./home.service";
 import * as XLSX from 'xlsx';
 
+
 @Component({
     selector: 'home',
     templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
     exportAs: 'user'
@@ -27,7 +29,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     chartTotalMembers: ApexOptions;
     data: any;
     user: User;
-    fileName = 'Resumen.xlsx';
+    //fileName = 'Resumen.xlsx';
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -81,7 +83,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                     updated: (chart: any, options?: any): void => {
                         this._fixSvgFill(chart.el);
                     }
-                }
+                },
             }
         };
     }
@@ -162,15 +164,15 @@ export class HomeComponent implements OnInit, OnDestroy {
                         shortMonths: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
                         days: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
                         shortDays: ['Dom', 'Lun', 'Mar', 'Mir', 'Jue', 'Vie', 'Sáb'],
-                        toolbar: {
+                        toolbar: {                                     
                             download: 'Descargar SVG',
                             selection: 'Selección',
                             selectionZoom: 'Zoom de selección',
                             zoomIn: 'Acercarse',
                             zoomOut: 'Alejarse',
                             pan: 'Panorama',
-                            reset: 'Restablecer el zoom',
-                        }
+                            reset: 'Restablecer el zoom'
+                        }                        
                     }
                 }],
                 animations: {
@@ -184,8 +186,25 @@ export class HomeComponent implements OnInit, OnDestroy {
                 width: '100%',
                 height: '100%',
                 type: 'area',
-                toolbar: {
-                    show: false
+                toolbar: {                              
+                    export: {
+                        csv: {
+                            filename: 'Resumen de participantes',
+                            columnDelimiter: ';',
+                            headerCategory: 'Fecha',
+                            headerValue: 'value',
+                            dateFormatter(timestamp) {
+                                return new Date(timestamp).toDateString()
+                            }
+                        },
+                        svg: {
+                            filename: 'Resumen de participantes',
+                        },
+                        png: {
+                            filename: 'Resumen de participantes',
+                        }
+                    },
+                    autoSelected: 'zoom' 
                 },
                 zoom: {
                     enabled: false
@@ -279,7 +298,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                         shortMonths: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
                         days: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
                         shortDays: ['Dom', 'Lun', 'Mar', 'Mir', 'Jue', 'Vie', 'Sáb'],
-                        toolbar: {
+                        toolbar: {                            
                             download: 'Descargar SVG',
                             selection: 'Selección',
                             selectionZoom: 'Zoom de selección',
@@ -440,17 +459,18 @@ export class HomeComponent implements OnInit, OnDestroy {
         };
     }
 
-    exportExcel(): void {
+    //exportExcel(): void {
         /* table id is passed over here */
-        let element = document.getElementById('resumen-table');
-        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+        //let element = document.getElementById('resumen-table');
+        //const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
 
         /* generate workbook and add the worksheet */
-        const wb: XLSX.WorkBook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Resumen');
+        //const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        //XLSX.utils.book_append_sheet(wb, ws, 'Resumen');
 
         /* save to file */
-        XLSX.writeFile(wb, this.fileName);
+      //  XLSX.writeFile(wb, this.fileName);
+    //}
 
-    }
+
 }

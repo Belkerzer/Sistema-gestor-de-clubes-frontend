@@ -6,8 +6,8 @@ import { UserService } from "app/core/user/user.service";
 import { User } from "app/core/user/user.types";
 import { Subject, takeUntil } from "rxjs";
 import { AdminComponent } from "../../admin.component";
-import { ContactsService } from "../../settings/general/users/users.service";
-import { Contact } from "../../settings/general/users/users.types";
+import { ContactsService } from "../../settings/general/contacts/contacts.service";
+import { Contact } from "../../settings/general/contacts/contacts.types";
 
 @Component({
     selector: 'actions-create-user',
@@ -139,7 +139,7 @@ export class AdminActionsCreateUserComponent implements OnInit {
             }
     
             // Upload the avatar
-            this._contactsService.uploadAvatar(this.contact.id, file).subscribe();
+        this._contactsService.uploadAvatar(this.contact.id, file).subscribe();
     }
 
     /**
@@ -147,7 +147,7 @@ export class AdminActionsCreateUserComponent implements OnInit {
      */
     removeAvatar(): void {
             // Get the form control for 'avatar'
-            const avatarFormControl = this.contactForm.get('avatar');
+        const avatarFormControl = this.contactForm.get('avatar');
     
             // Set the avatar as null
             avatarFormControl.setValue(null);
@@ -155,7 +155,7 @@ export class AdminActionsCreateUserComponent implements OnInit {
             // Set the file input value as null
             this._avatarFileInput.nativeElement.value = null;
     
-            // Update the contact
-            this.contact.avatar = null;
+        // Update the contact
+        this.contact.avatar = null;
     }
 }

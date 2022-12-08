@@ -1,32 +1,33 @@
-export interface Contact
-{
+export interface Contact {
     id: string;
     avatar?: string | null;
     background?: string | null;
     name: string;
-    email: string;
+    emails?: {
+        email: string;
+        label: string;
+    }[];
     phoneNumbers?: {
         country: string;
         phoneNumber: string;
         label: string;
     }[];
-    title?: string;
+    username?: string;
     company?: string;
-    birthday?: string | null;
+    email?: string | null;
     address?: string | null;
-    username: string;
+    notes?: string | null;
     clubes: string[];
-    rol: string;
+    rol?: string;
 }
 
-/* export interface Country
-{
+export interface Country {
     id: string;
     iso: string;
     name: string;
     code: string;
     flagImagePos: string;
-} */
+}
 
 export interface Club {
     id?: string;

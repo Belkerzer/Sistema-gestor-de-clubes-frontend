@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, Renderer2, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, Renderer2, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TemplatePortal } from '@angular/cdk/portal';
@@ -7,41 +7,31 @@ import { MatDrawerToggleResult } from '@angular/material/sidenav';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { ContactsService } from '../users.service';
-import { Club, Contact, Rol } from '../users.types';
-import { UsersListComponent } from '../list/list.component';
-import { UserService } from 'app/core/user/user.service';
-import { BooleanInput } from '@angular/cdk/coercion';
-import { User } from 'app/core/user/user.types';
+import { ContactsService } from '../contacts.service';
+import { Club, Contact, Country, Rol } from '../contacts.types';
+import { ContactsListComponent } from '../list/list.component';
 
 
 @Component({
-    selector: 'users-details',
+    selector: 'contacts-details',
     templateUrl: './details.component.html',
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    exportAs: 'user'
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UsersDetailsComponent implements OnInit, OnDestroy {
+export class ContactsDetailsComponent implements OnInit, OnDestroy {
     @ViewChild('avatarFileInput') private _avatarFileInput: ElementRef;
     @ViewChild('clubesPanel') private _clubesPanel: TemplateRef<any>;
     @ViewChild('clubesPanelOrigin') private _clubesPanelOrigin: ElementRef;
 
-    /* eslint-disable @typescript-eslint/naming-convention */
-    static ngAcceptInputType_showAvatar: BooleanInput;
-    /* eslint-enable @typescript-eslint/naming-convention */
-
-    @Input() showAvatar: boolean = true;
     editMode: boolean = false;
-    user: User;
     clubes: Club[];
-    /* clubesEditMode: boolean = false; */
+    clubesEditMode: boolean = false;
     filteredClubes: Club[];
-    contact: Contact;
     roles: Rol[];
+    contact: Contact;
     contactForm: FormGroup;
     contacts: Contact[];
-    /* countries: Country[]; */
+    countries: Country[];
     private _clubesPanelOverlayRef: OverlayRef;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -51,15 +41,14 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
     constructor(
         private _activatedRoute: ActivatedRoute,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _usersListComponent: UsersListComponent,
-        private _usersService: ContactsService,
+        private _contactsListComponent: ContactsListComponent,
+        private _contactsService: ContactsService,
         private _formBuilder: FormBuilder,
         private _fuseConfirmationService: FuseConfirmationService,
         private _renderer2: Renderer2,
         private _router: Router,
         private _overlay: Overlay,
-        private _viewContainerRef: ViewContainerRef,
-        private _userService: UserService
+        private _viewContainerRef: ViewContainerRef
     ) {
     }
 
@@ -71,48 +60,27 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        // Subscribe to user changes
-        this._userService.user$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((user: User) => {
-                this.user = user;
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
         // Open the drawer
-        this._usersListComponent.matDrawer.open();
+        this._contactsListComponent.matDrawer.open();
 
         // Create the contact form
         this.contactForm = this._formBuilder.group({
             id: [''],
             avatar: [null],
             name: ['', [Validators.required]],
-            email: ['', Validators.email],
+            emails: this._formBuilder.array([]),
             phoneNumbers: this._formBuilder.array([]),
-            title: [''],
-            company: [''],
-            birthday: [null],
-            address: [null],
             username: [''],
+            company: [''],
+            email: [null],
+            address: [null],
+            notes: [null],
             clubes: [[]],
-            rol: [''],
+            rol: ['']
         });
 
-        // Get the brands
-        this._usersService.roles$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((roles: Rol[]) => {
-
-                // Update the brands
-                this.roles = roles;
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
-
         // Get the contacts
-        this._usersService.contacts$
+        this._contactsService.contacts$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((contacts: Contact[]) => {
                 this.contacts = contacts;
@@ -121,33 +89,76 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
                 this._changeDetectorRef.markForCheck();
             });
 
+        // Get the roles
+        this._contactsService.roles$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((roles: Rol[]) => {
+
+                // Update the periodos
+                this.roles = roles;
+
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+
         // Get the contact
-        this._usersService.contact$
+        this._contactsService.contact$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((contact: Contact) => {
 
                 // Open the drawer in case it is closed
-                this._usersListComponent.matDrawer.open();
+                this._contactsListComponent.matDrawer.open();
 
                 // Get the contact
                 this.contact = contact;
 
                 // Clear the emails and phoneNumbers form arrays
-
-                /*   (this.contactForm.get('phoneNumbers') as FormArray).clear(); */
+                (this.contactForm.get('emails') as FormArray).clear();
+                (this.contactForm.get('phoneNumbers') as FormArray).clear();
 
                 // Patch values to the form
-                /*       this.contactForm.patchValue(contact); */
+                this.contactForm.patchValue(contact);
 
-                // Setup the phone numbers form array
-      /*           const phoneNumbersFormGroups = [];
+                // Setup the emails form array
+                const emailFormGroups = [];
 
-                if (contact.phoneNumbers.length > 0) { */
+                if (contact.emails.length > 0) {
                     // Iterate through them
-                /*      contact.phoneNumbers.forEach((phoneNumber) => { */
+                    contact.emails.forEach((email) => {
 
                         // Create an email form group
-          /*               phoneNumbersFormGroups.push(
+                        emailFormGroups.push(
+                            this._formBuilder.group({
+                                email: [email.email],
+                                label: [email.label]
+                            })
+                        );
+                    });
+                }
+                else {
+                    // Create an email form group
+                    emailFormGroups.push(
+                        this._formBuilder.group({
+                            email: [''],
+                            label: ['']
+                        })
+                    );
+                }
+
+                // Add the email form groups to the emails form array
+                emailFormGroups.forEach((emailFormGroup) => {
+                    (this.contactForm.get('emails') as FormArray).push(emailFormGroup);
+                });
+
+                // Setup the phone numbers form array
+                const phoneNumbersFormGroups = [];
+
+                if (contact.phoneNumbers.length > 0) {
+                    // Iterate through them
+                    contact.phoneNumbers.forEach((phoneNumber) => {
+
+                        // Create an email form group
+                        phoneNumbersFormGroups.push(
                             this._formBuilder.group({
                                 country: [phoneNumber.country],
                                 phoneNumber: [phoneNumber.phoneNumber],
@@ -156,21 +167,21 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
                         );
                     });
                 }
-                else { */
+                else {
                     // Create a phone number form group
-     /*                phoneNumbersFormGroups.push(
+                    phoneNumbersFormGroups.push(
                         this._formBuilder.group({
                             country: ['us'],
                             phoneNumber: [''],
                             label: ['']
                         })
                     );
-                } */
+                }
 
                 // Add the phone numbers form groups to the phone numbers form array
-    /*             phoneNumbersFormGroups.forEach((phoneNumbersFormGroup) => {
+                phoneNumbersFormGroups.forEach((phoneNumbersFormGroup) => {
                     (this.contactForm.get('phoneNumbers') as FormArray).push(phoneNumbersFormGroup);
-                }); */
+                });
 
                 // Toggle the edit mode off
                 this.toggleEditMode(false);
@@ -180,17 +191,17 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
             });
 
         // Get the country telephone codes
-     /*    this._usersService.countries$
+        this._contactsService.countries$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((codes: Country[]) => {
-                this.countries = codes; */
+                this.countries = codes;
 
                 // Mark for check
-        /*             this._changeDetectorRef.markForCheck();
-                }); */
+                this._changeDetectorRef.markForCheck();
+            });
 
         // Get the clubes
-        this._usersService.clubes$
+        this._contactsService.clubes$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((clubes: Club[]) => {
                 this.clubes = clubes;
@@ -223,7 +234,7 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
      * Close the drawer
      */
     closeDrawer(): Promise<MatDrawerToggleResult> {
-        return this._usersListComponent.matDrawer.close();
+        return this._contactsListComponent.matDrawer.close();
     }
 
     /**
@@ -256,7 +267,7 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
         contact.phoneNumbers = contact.phoneNumbers.filter(phoneNumber => phoneNumber.phoneNumber);
 
         // Update the contact on the server
-        this._usersService.updateContact(contact.id, contact).subscribe(() => {
+        this._contactsService.updateContact(contact.id, contact).subscribe(() => {
 
             // Toggle the edit mode off
             this.toggleEditMode(false);
@@ -295,7 +306,7 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
                 const nextContactId = (this.contacts.length === 1 && this.contacts[0].id === id) ? null : this.contacts[nextContactIndex].id;
 
                 // Delete the contact
-                this._usersService.deleteContact(id)
+                this._contactsService.deleteContact(id)
                     .subscribe((isDeleted) => {
 
                         // Return if the contact wasn't deleted...
@@ -343,7 +354,7 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
         }
 
         // Upload the avatar
-        this._usersService.uploadAvatar(this.contact.id, file).subscribe();
+        this._contactsService.uploadAvatar(this.contact.id, file).subscribe();
     }
 
     /**
@@ -418,7 +429,7 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
                 this.filteredClubes = this.clubes;
 
                 // Toggle the edit mode off
-                /* this.clubesEditMode = false; */
+                this.clubesEditMode = false;
             }
 
             // If template portal exists and attached...
@@ -432,9 +443,9 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
     /**
      * Toggle the clubes edit mode
      */
-    /*     toggleClubesEditMode(): void {
-            this.clubesEditMode = !this.clubesEditMode;
-        } */
+    toggleClubesEditMode(): void {
+        this.clubesEditMode = !this.clubesEditMode;
+    }
 
     /**
      * Filter clubes
@@ -461,30 +472,30 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
         }
 
         // If there is no club available...
-        /*  if (this.filteredClubes.length === 0) { */
+        if (this.filteredClubes.length === 0) {
             // Create the club
-        /*        this.createClub(event.target.value); */
+            this.createClub(event.target.value);
 
             // Clear the input
-        /*          event.target.value = ''; */
+            event.target.value = '';
 
             // Return
-        /*          return;
-             } */
+            return;
+        }
 
         // If there is a club...
         const club = this.filteredClubes[0];
         const isClubApplied = this.contact.clubes.find(id => id === club.id);
 
         // If the found club is already applied to the contact...
-        /* if (isClubApplied) { */
+        if (isClubApplied) {
             // Remove the club from the contact
-/*             this.removeClubFromContact(club);
+            this.removeClubFromContact(club);
         }
-        else { */
+        else {
             // Otherwise add the club to the contact
-        /*             this.addClubToContact(club);
-                } */
+            this.addClubToContact(club);
+        }
     }
 
     /**
@@ -492,19 +503,19 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
      *
      * @param title
      */
-/*     createClub(title: string): void {
+    createClub(title: string): void {
         const club = {
             title
-        }; */
+        };
 
         // Create club on the server
-    /*  this._usersService.createClub(club)
-         .subscribe((response) => { */
+        this._contactsService.createClub(club)
+            .subscribe((response) => {
 
                 // Add the club to the contact
-/*                 this.addClubToContact(response);
+                this.addClubToContact(response);
             });
-    } */
+    }
 
     /**
      * Update the club title
@@ -512,77 +523,77 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
      * @param club
      * @param event
      */
-    /*     updateClubTitle(club: Club, event): void { */
+    updateClubTitle(club: Club, event): void {
         // Update the title on the club
-    /*         club.title = event.target.value; */
+        club.title = event.target.value;
 
         // Update the club on the server
-/*         this._usersService.updateClub(club.id, club)
+        this._contactsService.updateClub(club.id, club)
             .pipe(debounceTime(300))
-            .subscribe(); */
+            .subscribe();
 
         // Mark for check
-/*         this._changeDetectorRef.markForCheck();
+        this._changeDetectorRef.markForCheck();
     }
- */
+
     /**
      * Delete the club
      *
      * @param club
      */
-    /*     deleteClub(club: Club): void { */
+    deleteClub(club: Club): void {
         // Delete the club from the server
-    /*    this._usersService.deleteClub(club.id).subscribe(); */
+        this._contactsService.deleteClub(club.id).subscribe();
 
         // Mark for check
-    /*         this._changeDetectorRef.markForCheck();
-        } */
+        this._changeDetectorRef.markForCheck();
+    }
 
     /**
      * Add club to the contact
      *
      * @param club
      */
-    /* addClubToContact(club: Club): void { */
+    addClubToContact(club: Club): void {
         // Add the club
-    /* this.contact.clubes.unshift(club.id); */
+        this.contact.clubes.unshift(club.id);
 
         // Update the contact form
-    /* this.contactForm.get('clubes').patchValue(this.contact.clubes); */
+        this.contactForm.get('clubes').patchValue(this.contact.clubes);
 
         // Mark for check
-    /*  this._changeDetectorRef.markForCheck();
- } */
+        this._changeDetectorRef.markForCheck();
+    }
 
     /**
      * Remove club from the contact
      *
      * @param club
      */
-    /* removeClubFromContact(club: Club): void { */
+    removeClubFromContact(club: Club): void {
         // Remove the club
-    /* this.contact.clubes.splice(this.contact.clubes.findIndex(item => item === club.id), 1); */
+        this.contact.clubes.splice(this.contact.clubes.findIndex(item => item === club.id), 1);
 
         // Update the contact form
-    /* this.contactForm.get('clubes').patchValue(this.contact.clubes); */
+        this.contactForm.get('clubes').patchValue(this.contact.clubes);
 
         // Mark for check
-    /*        this._changeDetectorRef.markForCheck();
-       } */
+        this._changeDetectorRef.markForCheck();
+    }
 
     /**
      * Toggle contact club
      *
      * @param club
      */
-/*     toggleContactClub(club: Club): void {
+    toggleContactClub(club: Club): void {
         if (this.contact.clubes.includes(club.id)) {
             this.removeClubFromContact(club);
         }
         else {
             this.addClubToContact(club);
         }
-    } */
+    }
 
     /**
      * Should the create club button be visible
@@ -665,9 +676,9 @@ export class UsersDetailsComponent implements OnInit, OnDestroy {
      *
      * @param iso
      */
-/*     getCountryByIso(iso: string): Country {
+    getCountryByIso(iso: string): Country {
         return this.countries.find(country => country.iso === iso);
-    } */
+    }
 
     /**
      * Track by function for ngFor loops
