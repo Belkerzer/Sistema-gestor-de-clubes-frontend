@@ -12,7 +12,7 @@ import { mockApiServices } from 'app/mock-api';
 import { LayoutModule } from 'app/layout/layout.module';
 import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TranslocoRootModule } from './transloco-root.module';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { getSpanishPaginatorIntl } from './spanish-paginator-intl';
@@ -23,6 +23,7 @@ import { MatDatepickerIntl } from '@angular/material/datepicker';
 import { DatepickerEsp } from './datepicker-esp';
 import { registerLocaleData } from '@angular/common';
 import localeEsEC from '@angular/common/locales/es-EC';
+import { HttpPetitionInterceptor } from './Interceptor/httpPetition.interceptor';
 
 registerLocaleData(localeEsEC, 'es-EC');
 
@@ -63,6 +64,11 @@ const routerConfig: ExtraOptions = {
     ],
     providers: [
         { provide: LOCALE_ID, useValue: 'es-EC' },
+        {
+            provide : HTTP_INTERCEPTORS,
+            useClass: HttpPetitionInterceptor,
+            multi   : true
+        },
         { provide: MatDatepickerIntl, useClass: DatepickerEsp },
         { provide: MatPaginatorIntl, useValue: getSpanishPaginatorIntl() }
     ]

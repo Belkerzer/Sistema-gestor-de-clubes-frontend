@@ -271,7 +271,7 @@
                                                 <mat-select [formControlName]="'idFacultad'">
                                                     <ng-container *ngFor="let facultadClub of facultadesClub">
                                                         <mat-option [value]="facultadClub.id">
-                                                            {{facultadClub.name}}
+                                                            {{facultadClub.facultad}}
                                                         </mat-option>
                                                     </ng-container>
                                                 </mat-select>
@@ -311,7 +311,7 @@
                                             <mat-select [formControlName]="'idLider'">
                                                 <ng-container *ngFor="let liderEstudiantil of lideresEstudiantiles">
                                                     <mat-option [value]="liderEstudiantil.id">
-                                                        {{liderEstudiantil.name}}
+                                                        {{liderEstudiantil.estudiante}}
                                                     </mat-option>
                                                 </ng-container>
                                             </mat-select>
@@ -321,7 +321,7 @@
                                             <mat-select [formControlName]="'idDocenteTutor'">
                                                 <ng-container *ngFor="let docenteTutor of docentesTutores">
                                                     <mat-option [value]="docenteTutor.id">
-                                                        {{docenteTutor.name}}
+                                                        {{docenteTutor.docentes.docente}}
                                                     </mat-option>
                                                 </ng-container>
                                             </mat-select>

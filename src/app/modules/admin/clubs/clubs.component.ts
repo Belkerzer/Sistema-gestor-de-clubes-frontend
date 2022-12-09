@@ -95,7 +95,6 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
         this._clubsService.facultadesClub$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((facultadesClub: Facultades[]) => {
-
                 // Update the facultadesClub
                 this.facultadesClub = facultadesClub;
 
@@ -151,6 +150,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
             .subscribe((docentesTutores: Docentes[]) => {
 
                 // Update the docentesTutores
+                console.log(docentesTutores)
                 this.docentesTutores = docentesTutores;
                 this.filteredDocentesTutores = docentesTutores;
 

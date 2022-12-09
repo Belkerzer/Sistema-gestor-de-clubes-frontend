@@ -6,8 +6,10 @@ import { UserService } from "app/core/user/user.service";
 import { User } from "app/core/user/user.types";
 import { Subject, takeUntil } from "rxjs";
 import { AdminComponent } from "../../admin.component";
+import { AdminService } from "../../admin.service";
 import { ContactsService } from "../../settings/general/contacts/contacts.service";
 import { Contact } from "../../settings/general/contacts/contacts.types";
+import { IUsuario } from 'app/Models/Usuario';
 
 @Component({
     selector: 'actions-create-user',
@@ -31,6 +33,10 @@ export class AdminActionsCreateUserComponent implements OnInit {
     contactForm: FormGroup;
     contact: Contact;
     roles: any[];
+    rolSeleccionado : any;
+    nombres: string ="";
+    nombreUsuario: string ="";
+    correo: string ="";
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     /**
      * Constructor
@@ -41,6 +47,7 @@ export class AdminActionsCreateUserComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private _userService: UserService,
         private _contactsService: ContactsService,
+        private adminService: AdminService
     ) {
     }
 
@@ -87,16 +94,19 @@ export class AdminActionsCreateUserComponent implements OnInit {
             {
                 label: 'Líder Estudiantil',
                 value: 'lider estudiantil',
+                id: 3,
                 description: 'Visualiza a los participantes y actividades del club, así como también la exportación de dichos datos.'
             },
             {
                 label: 'Docente-Tutor',
                 value: 'docente-tutor',
+                id: 2,
                 description: 'Visualiza, crea, modifica y elimina a los participantes del club. Desarrolla las actividades de acuerdo con el plan de trabajo del club.'
             },
             {
                 label: 'Dirigente',
                 value: 'dirigente',
+                id: 1,
                 description: 'Visualiza a todos los participantes y actividades; por otro lado, visualiza, crea, modifica y elimina a los clubes, asímismo a los usuarios. Elabora informes periódicos de los resultados obtenidos de los clubes.'
             }
         ];
@@ -117,6 +127,26 @@ export class AdminActionsCreateUserComponent implements OnInit {
 
     generatePassword() {
         this.password.setValue(Array(10).fill("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz~!@-#$").map(function (x) { return x[Math.floor(Math.random() * x.length)] }).join(''));
+    }
+
+    crear() {
+        let usuario: IUsuario  = {
+            nombreCompleto: this.nombres,
+            avatarUsuario: "",
+            contrasenia: this.password.value,
+            nombreUsuario: this.correo,
+            correoElectronico: this.nombreUsuario,
+            idRol: this.rolSeleccionado,
+        }
+        this.adminService.crearUsuario(usuario).subscribe( respuesta=> {
+            console.log(respuesta);
+        }, error=>{
+            console.log(error);
+        });
+    }
+
+    setRol(rol: any) {
+        this.rolSeleccionado = rol.id;
     }
 
     /**

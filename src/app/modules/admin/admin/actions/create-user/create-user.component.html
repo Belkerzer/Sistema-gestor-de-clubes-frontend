@@ -34,57 +34,6 @@
                             <div class="text-secondary">La siguiente información se muestra publicamente.</div>
                         </div>
                         <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
-                    <!-- Avatar -->
-             <!--        <div class="sm:col-span-4">
-                        <mat-label class="font-medium">Avatar de usuario</mat-label>
-                        <div class="group relative flex items-center justify-center mt-2 w-32 h-32 rounded-full overflow-hidden ring-4 ring-bg-card">
-                            //- Upload / Remove avatar 
-                            <div class="absolute inset-0 bg-black bg-opacity-50 z-10 invisible group-hover:visible"></div>
-                            <div class="absolute inset-0 flex items-center justify-center z-20">
-                                <div>
-                                    <input
-                                        id="avatar-file-input"
-                                        class="absolute h-0 w-0 opacity-0 invisible pointer-events-none"
-                                        type="file"
-                                        [multiple]="false"
-                                        [accept]="'image/jpeg, image/png'"
-                                        (change)="uploadAvatar(avatarFileInput.files)"
-                                        #avatarFileInput>
-                                    <label
-                                        class="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer hover:bg-hover"
-                                        for="avatar-file-input"
-                                        matRipple>
-                                        <mat-icon
-                                            class="text-white invisible group-hover:visible"
-                                            [svgIcon]="'heroicons_outline:camera'"></mat-icon>
-                                    </label>
-                                </div>
-                                <div>
-                                    <button
-                                        class="hidden items-center justify-center w-10 h-10 rounded-full cursor-pointer hover:bg-hover"
-                                        mat-icon-button
-                                        >
-                                        <mat-icon
-                                            class="text-white hidden"
-                                            [svgIcon]="'heroicons_outline:trash'"></mat-icon>
-                                    </button>
-                                </div>
-                            </div>
-                            //!-- Image/No image
-                            <div class="flex-0 w-44 h-44 rounded-full overflow-hidden">
-                            <img
-                                class="object-cover w-full h-full"
-                                *ngIf="user.avatar"
-                                [src]="user.avatar">
-                                <mat-icon       
-                                    [inline]="true"                                                                    
-                                    *ngIf="!user.avatar"
-                                    [svgIcon]="'heroicons_outline:user-circle'">
-                                </mat-icon>    
-                            </div>                                                        
-                        </div>
-                    </div> -->
-                            <!-- Name -->
                             <div class="sm:col-span-4">
                                 <mat-form-field class="fuse-mat-no-subscript w-full">
                                     <mat-label>Nombre</mat-label>
@@ -93,7 +42,8 @@
                                         [svgIcon]="'heroicons_solid:user'"
                                         matPrefix></mat-icon>
                                     <input
-                                        [formControlName]="'name'"
+                                        [(ngModel)]="nombres"
+                                        [ngModelOptions]="{standalone: true}"
                                         matInput>
                                 </mat-form-field>
                             </div>
@@ -106,7 +56,8 @@
                                     [svgIcon]="'heroicons_solid:user-circle'"
                                     matPrefix></mat-icon>
                                     <input
-                                        [formControlName]="'username'"
+                                        [(ngModel)]="nombreUsuario"
+                                        [ngModelOptions]="{standalone: true}"
                                         matInput>                                        
                                 </mat-form-field>
                             </div>                        
@@ -129,7 +80,8 @@
                                         [svgIcon]="'heroicons_solid:mail'"
                                         matPrefix></mat-icon>
                                     <input
-                                        [formControlName]="'username'"
+                                        [(ngModel)]="correo"
+                                        [ngModelOptions]="{standalone: true}"
                                         matInput>
                                 </mat-form-field>
                             </div>
@@ -245,6 +197,7 @@
                                         </mat-select-trigger>
                                         <ng-container *ngFor="let role of roles">
                                             <mat-option
+                                                (click)="setRol(role)"
                                                 class="h-auto py-4 leading-none"
                                                 [value]="role.value">
                                                 <div class="font-medium">{{role.label}}</div>
@@ -263,6 +216,7 @@
                                 Cancelar
                             </button>
                             <button
+                                (click)="crear()"
                                 class="ml-4"
                                 mat-flat-button
                                 type="button"
