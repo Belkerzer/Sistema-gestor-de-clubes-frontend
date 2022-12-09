@@ -89,7 +89,7 @@
 
                                     <!-- SKU -->
                                     <div class="hidden md:block truncate">
-                                        {{club.tipos}}
+                                        {{club.tipos.tipo}}
                                     </div>
 
                                     <!-- Name -->
@@ -99,7 +99,7 @@
 
                                     <!-- Price -->
                                     <div class="hidden sm:block">
-                                        {{club.lideres}}
+                                        {{club.lideres.estudiante}}
                                     </div>
 
                                     <!-- Stock -->
@@ -109,23 +109,23 @@
 
                                     <!-- Active -->
                                     <div class="hidden lg:flex items-center">
-                                        <div class="min-w-4">{{club.participantes}}</div>
+                                        <div class="min-w-4">{{club.participantes.participante}}</div>
                                         <!-- Low fechaCreacion -->
                                         <div
                                             class="flex items-end ml-2 w-1 h-4 bg-red-200 rounded overflow-hidden"
-                                            *ngIf="club.participantes < 20">
+                                            *ngIf="club.participantes.participante < 20">
                                             <div class="flex w-full h-1/3 bg-red-600"></div>
                                         </div>
                                         <!-- Medium fechaCreacion -->
                                         <div
                                             class="flex items-end ml-2 w-1 h-4 bg-orange-200 rounded overflow-hidden"
-                                            *ngIf="club.participantes >= 20 && club.participantes < 30">
+                                            *ngIf="club.participantes.participante >= 20 && club.participantes.participante < 30">
                                             <div class="flex w-full h-2/4 bg-orange-400"></div>
                                         </div>
                                         <!-- High fechaCreacion -->
                                         <div
                                             class="flex items-end ml-2 w-1 h-4 bg-green-100 rounded overflow-hidden"
-                                            *ngIf="club.participantes >= 30">
+                                            *ngIf="club.participantes.participante >= 30">
                                             <div class="flex w-full h-full bg-green-400"></div>
                                         </div>
                                     </div>
@@ -214,8 +214,8 @@
                                         <mat-form-field class="w-full">
                                             <mat-label>Plazo</mat-label>
                                             <mat-date-range-input [rangePicker]="picker">
-                                                <input matStartDate placeholder="Fecha de inicio">
-                                                <input matEndDate placeholder="Fecha de cierre">
+                                                <input matStartDate placeholder="Fecha de inicio" [formControlName]="'fechaInicio'">
+                                                <input matEndDate placeholder="Fecha de cierre" [formControlName]="'fechaCierre'">
                                                 </mat-date-range-input>                                                
                                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                                 <mat-date-range-picker #picker></mat-date-range-picker>
@@ -321,7 +321,7 @@
                                             <mat-select [formControlName]="'idDocenteTutor'">
                                                 <ng-container *ngFor="let docenteTutor of docentesTutores">
                                                     <mat-option [value]="docenteTutor.id">
-                                                        {{docenteTutor.title}}
+                                                        {{docenteTutor.name}}
                                                     </mat-option>
                                                 </ng-container>
                                             </mat-select>

@@ -70,13 +70,15 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
             idLider: [0],
             club: ['', [Validators.required]],
             descripcion: [''],
-            idDocenteTutor: [[]],
+            idDocenteTutor: [0],
             participantesClubes: [[]],
             idTipo: [0],
 /*             barcode: [''], */
             idFacultad: [0],
             /* programa: [''], */
             fechaCreacion: [''],
+            fechaInicio: [''],
+            fechaCierre: [''],
 /*             reserved: [''],
             cost: [''],
             basePrice: [''],
@@ -679,8 +681,8 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
 
     exportExcel(): void {
         /* table id is passed over here */
-        const element = document.getElementById('clubes-table');
-        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+        const element = (this.data);
+        const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(element);
 
         /* generate workbook and add the worksheet */
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
