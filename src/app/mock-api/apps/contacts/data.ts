@@ -4,7 +4,7 @@ export const contacts = [
         id: 'cd5fa417-b667-482d-b208-798d9da3213c',
         avatar: 'assets/images/avatars/male-01.jpg',
         background: 'assets/images/cards/14-640x480.jpg',
-        name: 'Dejesus Michael',
+        name: 'Ana Morán',
         emails: [
             {
                 email: 'dejesusmichael@mail.org',
@@ -27,16 +27,497 @@ export const contacts = [
                 label: 'Work'
             }
         ],
-        username: 'dmichael',
+        username: 'amoran',
         company: 'Vitricomp',
-        email: 'dmichale@ecotec.edu.ec',
+        email: 'amoran@ecotec.edu.ec',
         address: '279 Independence Avenue, Calvary, Guam, PO4127',
         notes: '<p>Do incididunt cillum duis eu pariatur enim proident minim officia amet proident consequat consequat qui consequat magna magna occaecat aliquip culpa pariatur velit nisi nostrud irure eu ullamco exercitation sint.</p><p>Cillum deserunt laborum laborum quis nisi enim et aliquip labore excepteur in excepteur labore amet in ipsum ipsum nostrud deserunt lorem nisi voluptate dolor minim enim ut eu cupidatat enim.</p>',
         clubes: [
-            '56ddbd47-4078-4ddd-8448-73c5e88d5f59'
+            'cbde2486-5033-4e09-838e-e901b108cd41'
         ],
         rol: 'Docente-Tutor',
-    }
+    },
+    {
+        id: 'c31e9e5d-e0cb-4574-a13f-8a6ee5ff8309',
+        avatar: 'assets/images/avatars/male-01.jpg',
+        background: 'assets/images/cards/14-640x480.jpg',
+        name: 'Yilena Perlaza',
+        emails: [
+            {
+                email: 'dejesusmichael@mail.org',
+                label: 'Personal'
+            },
+            {
+                email: 'michael.dejesus@vitricomp.io',
+                label: 'Work'
+            }
+        ],
+        phoneNumbers: [
+            {
+                country: 'bs',
+                phoneNumber: '984 531 2468',
+                label: 'Mobile'
+            },
+            {
+                country: 'bs',
+                phoneNumber: '806 470 2693',
+                label: 'Work'
+            }
+        ],
+        username: 'yperlaza',
+        company: 'Vitricomp',
+        email: 'yperlaza@ecotec.edu.ec',
+        address: '279 Independence Avenue, Calvary, Guam, PO4127',
+        notes: '<p>Do incididunt cillum duis eu pariatur enim proident minim officia amet proident consequat consequat qui consequat magna magna occaecat aliquip culpa pariatur velit nisi nostrud irure eu ullamco exercitation sint.</p><p>Cillum deserunt laborum laborum quis nisi enim et aliquip labore excepteur in excepteur labore amet in ipsum ipsum nostrud deserunt lorem nisi voluptate dolor minim enim ut eu cupidatat enim.</p>',
+        clubes: [
+            'c31e9e5d-e0cb-4574-a12f-8a6ee5ff8309'
+        ],
+        rol: 'Docente-Tutor',
+    },
+    {
+        id: 'cd5fa417-b667-482d-b208-798d1da3213c',
+        avatar: 'assets/images/avatars/male-01.jpg',
+        background: 'assets/images/cards/14-640x480.jpg',
+        name: 'Kerly Avecillas',
+        emails: [
+            {
+                email: 'dejesusmichael@mail.org',
+                label: 'Personal'
+            },
+            {
+                email: 'michael.dejesus@vitricomp.io',
+                label: 'Work'
+            }
+        ],
+        phoneNumbers: [
+            {
+                country: 'bs',
+                phoneNumber: '984 531 2468',
+                label: 'Mobile'
+            },
+            {
+                country: 'bs',
+                phoneNumber: '806 470 2693',
+                label: 'Work'
+            }
+        ],
+        username: 'kavecillas',
+        company: 'Vitricomp',
+        email: 'kavecillas@ecotec.edu.ec',
+        address: '279 Independence Avenue, Calvary, Guam, PO4127',
+        notes: '<p>Do incididunt cillum duis eu pariatur enim proident minim officia amet proident consequat consequat qui consequat magna magna occaecat aliquip culpa pariatur velit nisi nostrud irure eu ullamco exercitation sint.</p><p>Cillum deserunt laborum laborum quis nisi enim et aliquip labore excepteur in excepteur labore amet in ipsum ipsum nostrud deserunt lorem nisi voluptate dolor minim enim ut eu cupidatat enim.</p>',
+        clubes: [
+            'cbde2486-50c3-4e09-838e-e901b108cd41'
+        ],
+        rol: 'Docente-Tutor',
+    },
+    {
+        id: 'cd5fa417-b667-482d-b208-798c9da3213c',
+        avatar: 'assets/images/avatars/male-01.jpg',
+        background: 'assets/images/cards/14-640x480.jpg',
+        name: 'Luis Espinoza',
+        emails: [
+            {
+                email: 'dejesusmichael@mail.org',
+                label: 'Personal'
+            },
+            {
+                email: 'michael.dejesus@vitricomp.io',
+                label: 'Work'
+            }
+        ],
+        phoneNumbers: [
+            {
+                country: 'bs',
+                phoneNumber: '984 531 2468',
+                label: 'Mobile'
+            },
+            {
+                country: 'bs',
+                phoneNumber: '806 470 2693',
+                label: 'Work'
+            }
+        ],
+        username: 'lespinoza',
+        company: 'Vitricomp',
+        email: 'lespinoza@ecotec.edu.ec',
+        address: '279 Independence Avenue, Calvary, Guam, PO4127',
+        notes: '<p>Do incididunt cillum duis eu pariatur enim proident minim officia amet proident consequat consequat qui consequat magna magna occaecat aliquip culpa pariatur velit nisi nostrud irure eu ullamco exercitation sint.</p><p>Cillum deserunt laborum laborum quis nisi enim et aliquip labore excepteur in excepteur labore amet in ipsum ipsum nostrud deserunt lorem nisi voluptate dolor minim enim ut eu cupidatat enim.</p>',
+        clubes: [
+            '65930b5a-5d2a-4303-b11f-865d69e6fdb5'
+        ],
+        rol: 'Docente-Tutor',
+    },
+    {
+        id: 'cd5fa417-b667-482d-b208-798d9da3d13c',
+        avatar: 'assets/images/avatars/male-01.jpg',
+        background: 'assets/images/cards/14-640x480.jpg',
+        name: 'Andrea Zuleta',
+        emails: [
+            {
+                email: 'dejesusmichael@mail.org',
+                label: 'Personal'
+            },
+            {
+                email: 'michael.dejesus@vitricomp.io',
+                label: 'Work'
+            }
+        ],
+        phoneNumbers: [
+            {
+                country: 'bs',
+                phoneNumber: '984 531 2468',
+                label: 'Mobile'
+            },
+            {
+                country: 'bs',
+                phoneNumber: '806 470 2693',
+                label: 'Work'
+            }
+        ],
+        username: 'azuleta',
+        company: 'Vitricomp',
+        email: 'azuleta@ecotec.edu.ec',
+        address: '279 Independence Avenue, Calvary, Guam, PO4127',
+        notes: '<p>Do incididunt cillum duis eu pariatur enim proident minim officia amet proident consequat consequat qui consequat magna magna occaecat aliquip culpa pariatur velit nisi nostrud irure eu ullamco exercitation sint.</p><p>Cillum deserunt laborum laborum quis nisi enim et aliquip labore excepteur in excepteur labore amet in ipsum ipsum nostrud deserunt lorem nisi voluptate dolor minim enim ut eu cupidatat enim.</p>',
+        clubes: [
+            '2026ce08-d08f-4b4f-9506-b10cdb5b104f'
+        ],
+        rol: 'Docente-Tutor',
+    },
+    {
+        id: 'cd5fa417-b667-482d-b208-798d9da5213c',
+        avatar: 'assets/images/avatars/male-01.jpg',
+        background: 'assets/images/cards/14-640x480.jpg',
+        name: 'Gabriela Sarabia',
+        emails: [
+            {
+                email: 'dejesusmichael@mail.org',
+                label: 'Personal'
+            },
+            {
+                email: 'michael.dejesus@vitricomp.io',
+                label: 'Work'
+            }
+        ],
+        phoneNumbers: [
+            {
+                country: 'bs',
+                phoneNumber: '984 531 2468',
+                label: 'Mobile'
+            },
+            {
+                country: 'bs',
+                phoneNumber: '806 470 2693',
+                label: 'Work'
+            }
+        ],
+        username: 'gsarabia',
+        company: 'Vitricomp',
+        email: 'gsarabia@ecotec.edu.ec',
+        address: '279 Independence Avenue, Calvary, Guam, PO4127',
+        notes: '<p>Do incididunt cillum duis eu pariatur enim proident minim officia amet proident consequat consequat qui consequat magna magna occaecat aliquip culpa pariatur velit nisi nostrud irure eu ullamco exercitation sint.</p><p>Cillum deserunt laborum laborum quis nisi enim et aliquip labore excepteur in excepteur labore amet in ipsum ipsum nostrud deserunt lorem nisi voluptate dolor minim enim ut eu cupidatat enim.</p>',
+        clubes: [
+            '3eaab175-ec0d-4db7-bc3b-efc633c769be'
+        ],
+        rol: 'Docente-Tutor',
+    },
+    {
+        id: 'cd5fa417-b667-482d-b208-798d9df3213c',
+        avatar: 'assets/images/avatars/male-01.jpg',
+        background: 'assets/images/cards/14-640x480.jpg',
+        name: 'Edgar Salas Luzuriaga',
+        emails: [
+            {
+                email: 'dejesusmichael@mail.org',
+                label: 'Personal'
+            },
+            {
+                email: 'michael.dejesus@vitricomp.io',
+                label: 'Work'
+            }
+        ],
+        phoneNumbers: [
+            {
+                country: 'bs',
+                phoneNumber: '984 531 2468',
+                label: 'Mobile'
+            },
+            {
+                country: 'bs',
+                phoneNumber: '806 470 2693',
+                label: 'Work'
+            }
+        ],
+        username: 'eluzuriaga',
+        company: 'Vitricomp',
+        email: 'eluzuriaga@ecotec.edu.ec',
+        address: '279 Independence Avenue, Calvary, Guam, PO4127',
+        notes: '<p>Do incididunt cillum duis eu pariatur enim proident minim officia amet proident consequat consequat qui consequat magna magna occaecat aliquip culpa pariatur velit nisi nostrud irure eu ullamco exercitation sint.</p><p>Cillum deserunt laborum laborum quis nisi enim et aliquip labore excepteur in excepteur labore amet in ipsum ipsum nostrud deserunt lorem nisi voluptate dolor minim enim ut eu cupidatat enim.</p>',
+        clubes: [
+            'cbde2186-50c3-4e09-838e-e901b108cd41'
+        ],
+        rol: 'Docente-Tutor',
+    },
+    {
+        id: 'cd5fa417-b667-482d-b208-798d9db3213c',
+        avatar: 'assets/images/avatars/male-01.jpg',
+        background: 'assets/images/cards/14-640x480.jpg',
+        name: 'Wilson Polo',
+        emails: [
+            {
+                email: 'dejesusmichael@mail.org',
+                label: 'Personal'
+            },
+            {
+                email: 'michael.dejesus@vitricomp.io',
+                label: 'Work'
+            }
+        ],
+        phoneNumbers: [
+            {
+                country: 'bs',
+                phoneNumber: '984 531 2468',
+                label: 'Mobile'
+            },
+            {
+                country: 'bs',
+                phoneNumber: '806 470 2693',
+                label: 'Work'
+            }
+        ],
+        username: 'wpolo',
+        company: 'Vitricomp',
+        email: 'wpolo@ecotec.edu.ec',
+        address: '279 Independence Avenue, Calvary, Guam, PO4127',
+        notes: '<p>Do incididunt cillum duis eu pariatur enim proident minim officia amet proident consequat consequat qui consequat magna magna occaecat aliquip culpa pariatur velit nisi nostrud irure eu ullamco exercitation sint.</p><p>Cillum deserunt laborum laborum quis nisi enim et aliquip labore excepteur in excepteur labore amet in ipsum ipsum nostrud deserunt lorem nisi voluptate dolor minim enim ut eu cupidatat enim.</p>',
+        clubes: [
+            'a8991c76-2fda-4bbd-a718-df13d6478847'
+        ],
+        rol: 'Docente-Tutor',
+    },
+    {
+        id: 'cd5fa417-b667-482d-b208-798d9da3213z',
+        avatar: 'assets/images/avatars/male-01.jpg',
+        background: 'assets/images/cards/14-640x480.jpg',
+        name: 'Carla Fernandez',
+        emails: [
+            {
+                email: 'dejesusmichael@mail.org',
+                label: 'Personal'
+            },
+            {
+                email: 'michael.dejesus@vitricomp.io',
+                label: 'Work'
+            }
+        ],
+        phoneNumbers: [
+            {
+                country: 'bs',
+                phoneNumber: '984 531 2468',
+                label: 'Mobile'
+            },
+            {
+                country: 'bs',
+                phoneNumber: '806 470 2693',
+                label: 'Work'
+            }
+        ],
+        username: 'cfernandez',
+        company: 'Vitricomp',
+        email: 'cfernandez@ecotec.edu.ec',
+        address: '279 Independence Avenue, Calvary, Guam, PO4127',
+        notes: '<p>Do incididunt cillum duis eu pariatur enim proident minim officia amet proident consequat consequat qui consequat magna magna occaecat aliquip culpa pariatur velit nisi nostrud irure eu ullamco exercitation sint.</p><p>Cillum deserunt laborum laborum quis nisi enim et aliquip labore excepteur in excepteur labore amet in ipsum ipsum nostrud deserunt lorem nisi voluptate dolor minim enim ut eu cupidatat enim.</p>',
+        clubes: [
+            'cbde2186-50c3-4e09-838e-e900b108cd41'
+        ],
+        rol: 'Docente-Tutor',
+    },
+    {
+        id: 'cd5fa417-b667-482d-b208-7m8d9da3213c',
+        avatar: 'assets/images/avatars/male-01.jpg',
+        background: 'assets/images/cards/14-640x480.jpg',
+        name: 'Thalía Cruz Iñiguez',
+        emails: [
+            {
+                email: 'dejesusmichael@mail.org',
+                label: 'Personal'
+            },
+            {
+                email: 'michael.dejesus@vitricomp.io',
+                label: 'Work'
+            }
+        ],
+        phoneNumbers: [
+            {
+                country: 'bs',
+                phoneNumber: '984 531 2468',
+                label: 'Mobile'
+            },
+            {
+                country: 'bs',
+                phoneNumber: '806 470 2693',
+                label: 'Work'
+            }
+        ],
+        username: 'tcruz',
+        company: 'Vitricomp',
+        email: 'tcruz@est.ecotec.edu.ec',
+        address: '279 Independence Avenue, Calvary, Guam, PO4127',
+        notes: '<p>Do incididunt cillum duis eu pariatur enim proident minim officia amet proident consequat consequat qui consequat magna magna occaecat aliquip culpa pariatur velit nisi nostrud irure eu ullamco exercitation sint.</p><p>Cillum deserunt laborum laborum quis nisi enim et aliquip labore excepteur in excepteur labore amet in ipsum ipsum nostrud deserunt lorem nisi voluptate dolor minim enim ut eu cupidatat enim.</p>',
+        clubes: [
+            'cbde2486-5033-4e09-838e-e901b108cd41'
+        ],
+        rol: 'Líder Estudiantil',
+    },
+    {
+        id: 'cd5fa417-b667-482d-b208-098d9da3213c',
+        avatar: 'assets/images/avatars/male-01.jpg',
+        background: 'assets/images/cards/14-640x480.jpg',
+        name: 'Cristina Cruz Iñiguez',
+        emails: [
+            {
+                email: 'dejesusmichael@mail.org',
+                label: 'Personal'
+            },
+            {
+                email: 'michael.dejesus@vitricomp.io',
+                label: 'Work'
+            }
+        ],
+        phoneNumbers: [
+            {
+                country: 'bs',
+                phoneNumber: '984 531 2468',
+                label: 'Mobile'
+            },
+            {
+                country: 'bs',
+                phoneNumber: '806 470 2693',
+                label: 'Work'
+            }
+        ],
+        username: 'ccruz',
+        company: 'Vitricomp',
+        email: 'ccruz@est.ecotec.edu.ec',
+        address: '279 Independence Avenue, Calvary, Guam, PO4127',
+        notes: '<p>Do incididunt cillum duis eu pariatur enim proident minim officia amet proident consequat consequat qui consequat magna magna occaecat aliquip culpa pariatur velit nisi nostrud irure eu ullamco exercitation sint.</p><p>Cillum deserunt laborum laborum quis nisi enim et aliquip labore excepteur in excepteur labore amet in ipsum ipsum nostrud deserunt lorem nisi voluptate dolor minim enim ut eu cupidatat enim.</p>',
+        clubes: [
+            'c31e9e5d-e0cb-4574-a12f-8a6ee5ff8309'
+        ],
+        rol: 'Líder Estudiantil',
+    },
+    {
+        id: 'cd5fa417-b667-482d-b208-798d9dl3213c',
+        avatar: 'assets/images/avatars/male-01.jpg',
+        background: 'assets/images/cards/14-640x480.jpg',
+        name: 'Cristina Ramirez',
+        emails: [
+            {
+                email: 'dejesusmichael@mail.org',
+                label: 'Personal'
+            },
+            {
+                email: 'michael.dejesus@vitricomp.io',
+                label: 'Work'
+            }
+        ],
+        phoneNumbers: [
+            {
+                country: 'bs',
+                phoneNumber: '984 531 2468',
+                label: 'Mobile'
+            },
+            {
+                country: 'bs',
+                phoneNumber: '806 470 2693',
+                label: 'Work'
+            }
+        ],
+        username: 'cramirez',
+        company: 'Vitricomp',
+        email: 'cramirez@est.ecotec.edu.ec',
+        address: '279 Independence Avenue, Calvary, Guam, PO4127',
+        notes: '<p>Do incididunt cillum duis eu pariatur enim proident minim officia amet proident consequat consequat qui consequat magna magna occaecat aliquip culpa pariatur velit nisi nostrud irure eu ullamco exercitation sint.</p><p>Cillum deserunt laborum laborum quis nisi enim et aliquip labore excepteur in excepteur labore amet in ipsum ipsum nostrud deserunt lorem nisi voluptate dolor minim enim ut eu cupidatat enim.</p>',
+        clubes: [
+            'cbde2486-50c3-4e09-838e-e901b108cd41'
+        ],
+        rol: 'Líder Estudiantil',
+    },
+    {
+        id: 'cd5fa417-b667-482d-b208-79879da3213c',
+        avatar: 'assets/images/avatars/male-01.jpg',
+        background: 'assets/images/cards/14-640x480.jpg',
+        name: 'César Duque',
+        emails: [
+            {
+                email: 'dejesusmichael@mail.org',
+                label: 'Personal'
+            },
+            {
+                email: 'michael.dejesus@vitricomp.io',
+                label: 'Work'
+            }
+        ],
+        phoneNumbers: [
+            {
+                country: 'bs',
+                phoneNumber: '984 531 2468',
+                label: 'Mobile'
+            },
+            {
+                country: 'bs',
+                phoneNumber: '806 470 2693',
+                label: 'Work'
+            }
+        ],
+        username: 'cduque',
+        company: 'Vitricomp',
+        email: 'cduque@est.ecotec.edu.ec',
+        address: '279 Independence Avenue, Calvary, Guam, PO4127',
+        notes: '<p>Do incididunt cillum duis eu pariatur enim proident minim officia amet proident consequat consequat qui consequat magna magna occaecat aliquip culpa pariatur velit nisi nostrud irure eu ullamco exercitation sint.</p><p>Cillum deserunt laborum laborum quis nisi enim et aliquip labore excepteur in excepteur labore amet in ipsum ipsum nostrud deserunt lorem nisi voluptate dolor minim enim ut eu cupidatat enim.</p>',
+        clubes: [
+            '65930b5a-5d2a-4303-b11f-865d69e6fdb5'
+        ],
+        rol: 'Líder Estudiantil',
+    },
+    {
+        id: 'cd5fa417-b667-482d-b208-798n9da3213c',
+        avatar: 'assets/images/avatars/male-01.jpg',
+        background: 'assets/images/cards/14-640x480.jpg',
+        name: 'Ariel Arreaga González',
+        emails: [
+            {
+                email: 'dejesusmichael@mail.org',
+                label: 'Personal'
+            },
+            {
+                email: 'michael.dejesus@vitricomp.io',
+                label: 'Work'
+            }
+        ],
+        phoneNumbers: [
+            {
+                country: 'bs',
+                phoneNumber: '984 531 2468',
+                label: 'Mobile'
+            },
+            {
+                country: 'bs',
+                phoneNumber: '806 470 2693',
+                label: 'Work'
+            }
+        ],
+        username: 'aarreaga',
+        company: 'Vitricomp',
+        email: 'aarreaga@est.ecotec.edu.ec',
+        address: '279 Independence Avenue, Calvary, Guam, PO4127',
+        notes: '<p>Do incididunt cillum duis eu pariatur enim proident minim officia amet proident consequat consequat qui consequat magna magna occaecat aliquip culpa pariatur velit nisi nostrud irure eu ullamco exercitation sint.</p><p>Cillum deserunt laborum laborum quis nisi enim et aliquip labore excepteur in excepteur labore amet in ipsum ipsum nostrud deserunt lorem nisi voluptate dolor minim enim ut eu cupidatat enim.</p>',
+        clubes: [
+            'cbde2186-50c3-4e09-838e-e901b108cd41'
+        ],
+        rol: 'Líder Estudiantil',
+    },
 ];
 export const countries = [
     {
@@ -1687,7 +2168,7 @@ export const countries = [
 ];
 export const clubes = [
     {
-        id: 'c31e9e5d-e0cb-4574-a13f-8a6ee5ff8309',
+        id: 'c31e9e5d-e0cb-4574-a12f-8a6ee5ff8309',
         title: 'Camaleón'
     },
     {
@@ -1713,6 +2194,18 @@ export const clubes = [
     {
         id: 'cbde2486-5033-4e09-838e-e901b108cd41',
         title: 'Ecoart'
+    },
+    {
+        id: 'cbde2486-50c3-4e09-838e-e901b108cd41',
+        title: 'Fotografía'
+    },
+    {
+        id: 'cbde2186-50c3-4e09-838e-e901b108cd41',
+        title: 'Sostenibilidad'
+    },
+    {
+        id: 'cbde2186-50c3-4e09-838e-e900b108cd41',
+        title: 'Jóvenes Líderes y Emprendedores'
     }
 ];
 export const roles = [

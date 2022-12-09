@@ -4,19 +4,14 @@ export interface InventoryActivities {
     name: string;
     observacion?: string;
     participantesActividades?: string[];
-    /* sku?: string | null;
-    barcode?: string | null; */
     facultadActividades?: string | null;
     programaActividades: string | null;
     fechaPlanificacion: Date;
     horas: number;
     materiales: string;
     fechaSeguimiento: string;
-    /* taxPercent: number; */
     lugar: string;
     fechaEstimada: string;
-    /*     thumbnail: string;
-        images: string[]; */
     logro: number;
 }
 
