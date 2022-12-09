@@ -9,6 +9,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import * as XLSX from 'xlsx';
 import {ClubsService, Docentes, Facultades, IClubes, Lideres, Participante, Programas} from './clubs.service';
+import moment from 'moment';
 
 @Component({
     selector: 'clubs',
@@ -21,7 +22,7 @@ import {ClubsService, Docentes, Facultades, IClubes, Lideres, Participante, Prog
 export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
-
+    moment = moment;
     clubs$: Observable<IClubes[]>;
     data: IClubes[];
     fileName = 'Clubes.xlsx';
@@ -55,7 +56,12 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
     ngAfterViewChecked(): void {
         this._changeDetectorRef.detectChanges();
     }
-
+    setFechaIncio(fecha : string) {
+        this.selectedClubForm.controls.fechaInicio.setValue(moment(fecha, "MM/DD/YYYY"))
+    }
+    setFechaCierre(fecha : string) {
+        this.selectedClubForm.controls.fechaCierre.setValue(moment(fecha, "MM/DD/YYYY"))
+    }
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
@@ -150,7 +156,6 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
             .subscribe((docentesTutores: Docentes[]) => {
 
                 // Update the docentesTutores
-                console.log(docentesTutores)
                 this.docentesTutores = docentesTutores;
                 this.filteredDocentesTutores = docentesTutores;
 
@@ -184,7 +189,7 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
                     this.isLoading = false;
                 })
             )
-            .subscribe();
+        .subscribe();
     }
 
     /**

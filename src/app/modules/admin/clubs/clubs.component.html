@@ -183,15 +183,19 @@
                                             [value]="''">
                                             <mat-radio-button
                                                 class="mb-2"
+                                                [checked]="club.tipos.tipo == 'Deportivo'"
                                                 [value]="'deportivo'">
                                                 Deportivo
                                             </mat-radio-button>
                                             <mat-radio-button
                                                 class="mb-2"
+                                                [checked]="club.tipos.tipo == 'Cultural'"
                                                 [value]="'cultural'">
                                                 Cultural
                                             </mat-radio-button>
-                                            <mat-radio-button [value]="'social'">
+                                            <mat-radio-button 
+                                            [checked]="club.tipos.tipo == 'Social'"
+                                            [value]="'social'">
                                                 Social
                                             </mat-radio-button>
                                         </mat-radio-group>
@@ -214,8 +218,8 @@
                                         <mat-form-field class="w-full">
                                             <mat-label>Plazo</mat-label>
                                             <mat-date-range-input [rangePicker]="picker">
-                                                <input matStartDate placeholder="Fecha de inicio" [formControlName]="'fechaInicio'">
-                                                <input matEndDate placeholder="Fecha de cierre" [formControlName]="'fechaCierre'">
+                                                <input matStartDate placeholder="Fecha de inicio" [value]="setFechaIncio(club.fechaInicio)" [formControlName]="'fechaInicio'">
+                                                <input matEndDate placeholder="Fecha de cierre" [value]="setFechaCierre(club.fechaCierre)" [formControlName]="'fechaCierre'">
                                                 </mat-date-range-input>                                                
                                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                                 <mat-date-range-picker #picker></mat-date-range-picker>
@@ -268,7 +272,7 @@
                                         <div class="flex">
                                             <mat-form-field class="w-full">
                                                 <mat-label>Facultad / Dirección / Departamento</mat-label>
-                                                <mat-select [formControlName]="'idFacultad'">
+                                                <mat-select [formControlName]="'idFacultad'" [(ngModel)]="club.departamentos.id" [ngModelOptions]="{standalone: true}">
                                                     <ng-container *ngFor="let facultadClub of facultadesClub">
                                                         <mat-option [value]="facultadClub.id">
                                                             {{facultadClub.facultad}}
@@ -308,7 +312,7 @@
                                     <div class="flex flex-col w-full lg:w-1/4 sm:pl-8">
                                         <mat-form-field class="w-full">
                                             <mat-label>Líder estudiantil</mat-label>
-                                            <mat-select [formControlName]="'idLider'">
+                                            <mat-select [formControlName]="'idLider'" [(ngModel)]="club.lideres.id" [ngModelOptions]="{standalone: true}">
                                                 <ng-container *ngFor="let liderEstudiantil of lideresEstudiantiles">
                                                     <mat-option [value]="liderEstudiantil.id">
                                                         {{liderEstudiantil.estudiante}}
@@ -318,7 +322,7 @@
                                         </mat-form-field>
                                         <mat-form-field class="w-full">
                                             <mat-label>Docente-Tutor</mat-label>
-                                            <mat-select [formControlName]="'idDocenteTutor'">
+                                            <mat-select [formControlName]="'idDocenteTutor'" [(ngModel)]="club.docentes.id" [ngModelOptions]="{standalone: true}">
                                                 <ng-container *ngFor="let docenteTutor of docentesTutores">
                                                     <mat-option [value]="docenteTutor.id">
                                                         {{docenteTutor.docentes.docente}}
@@ -406,7 +410,7 @@
                                                             class="flex items-center h-10 min-h-10 px-4"
                                                             [color]="'primary'"
                                                             >
-                                                            {{participanteClubes.title}}
+                                                            {{participanteClubes.nombresCompletos}}
                                                         </div>
                                                     </ng-container>
                                                 <!-- </ng-container> -->

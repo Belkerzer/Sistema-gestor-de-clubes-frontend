@@ -16,6 +16,10 @@ export class AdminService {
     constructor(private _httpClient: HttpClient) {
     }
 
+    getUsuarios() {
+        return this._httpClient.get(`${this.apiUrl}/Usuarios`);
+    }
+
     crearUsuario(usuario : IUsuario){
         return this._httpClient.post(`${this.apiUrl}/Usuarios`, usuario);
     }
