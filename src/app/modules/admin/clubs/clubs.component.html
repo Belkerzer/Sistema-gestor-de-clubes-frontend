@@ -171,7 +171,11 @@
                             [formGroup]="selectedClubForm">
 
                             <div class="flex flex-col sm:flex-row p-8">
-
+                                <div class="hidden">
+                                    <input
+                                        matInput                                                
+                                        [formControlName]="'id'">
+                                </div>
 
                                 <!-- Status and period -->
                                 <div class="flex flex-col sm:items-start sm:mb-0">
@@ -180,22 +184,23 @@
                                         <mat-radio-group
                                             class="flex flex-col"
                                             [color]="'primary'"
-                                            [value]="''">
+                                            [formControlName]="'idTipo'"
+                                            [value]="1">
                                             <mat-radio-button
                                                 class="mb-2"
                                                 [checked]="club.tipos.tipo == 'Deportivo'"
-                                                [value]="'deportivo'">
+                                                [value]="'2'">
                                                 Deportivo
                                             </mat-radio-button>
                                             <mat-radio-button
                                                 class="mb-2"
                                                 [checked]="club.tipos.tipo == 'Cultural'"
-                                                [value]="'cultural'">
+                                                [value]="'1'">
                                                 Cultural
                                             </mat-radio-button>
                                             <mat-radio-button 
                                             [checked]="club.tipos.tipo == 'Social'"
-                                            [value]="'social'">
+                                            [value]="'3'">
                                                 Social
                                             </mat-radio-button>
                                         </mat-radio-group>
@@ -324,7 +329,7 @@
                                             <mat-label>Docente-Tutor</mat-label>
                                             <mat-select [formControlName]="'idDocenteTutor'" [(ngModel)]="club.docentes.id" [ngModelOptions]="{standalone: true}">
                                                 <ng-container *ngFor="let docenteTutor of docentesTutores">
-                                                    <mat-option [value]="docenteTutor.id">
+                                                    <mat-option [value]="docenteTutor.docentes.id">
                                                         {{docenteTutor.docentes.docente}}
                                                     </mat-option>
                                                 </ng-container>
@@ -481,7 +486,7 @@
                                     <button
                                         mat-flat-button
                                         [color]="'primary'"
-                                        (click)="updateSelectedClub()">
+                                        (click)="updateClubes()">
                                         Actualizar
                                     </button>
                                 </div>

@@ -1,3 +1,20 @@
+
+export interface datosClub
+{
+    id_club?             : number,
+    nombreClub           : string,
+    descripcion          : string,
+    fechaInicio          : string,
+    fechaCierre          : string,
+    id_lider_estudiantil : number,
+    id_docente_tutor     : number,
+    id_direccion         : number,
+    id_facultad          : number,
+    id_departamento      : number,
+    id_tipo              : number,
+    id_programa          : number,
+}
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
@@ -25,6 +42,14 @@ export class ClubsService {
      * Constructor
      */
     constructor(private _httpClient: HttpClient) {
+    }
+
+    crearClubes( body: datosClub ){
+        return this._httpClient.post(`${this.apiUrl}/Clubes/CrearDatosClub`,body)
+    }
+
+    actualizarClubes(body: datosClub){ 
+        return this._httpClient.post(`${this.apiUrl}/Clubes/ActualizarDatosClub`,body);
     }
 
     // -----------------------------------------------------------------------------------------------------

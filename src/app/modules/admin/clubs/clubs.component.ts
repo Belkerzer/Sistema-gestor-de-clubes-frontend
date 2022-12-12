@@ -8,7 +8,7 @@ import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import * as XLSX from 'xlsx';
-import {ClubsService, Docentes, Facultades, IClubes, Lideres, Participante, Programas} from './clubs.service';
+import {ClubsService, datosClub, Docentes, Facultades, IClubes, Lideres, Participante, Programas} from './clubs.service';
 import moment from 'moment';
 
 @Component({
@@ -57,10 +57,56 @@ export class ClubsComponent implements OnInit, AfterViewInit, OnDestroy, AfterVi
         this._changeDetectorRef.detectChanges();
     }
     setFechaIncio(fecha : string) {
-        this.selectedClubForm.controls.fechaInicio.setValue(moment(fecha, "MM/DD/YYYY"))
+        const FECHA = fecha.split(' ')[0].split('/');
+        this.selectedClubForm.controls.fechaInicio.setValue(new Date( Number(FECHA[2]), Number(FECHA[1]), Number(FECHA[0]) ) )
     }
     setFechaCierre(fecha : string) {
-        this.selectedClubForm.controls.fechaCierre.setValue(moment(fecha, "MM/DD/YYYY"))
+        const FECHA = fecha.split(' ')[0].split('/');
+        this.selectedClubForm.controls.fechaCierre.setValue( new Date(Number(FECHA[2]), Number(FECHA[1]), Number(FECHA[0])))
+    }
+
+    createClubes(): void {
+
+        const BODY: datosClub = {
+            descripcion: this.selectedClubForm.controls.descripcion.value,
+            fechaCierre: this.selectedClubForm.controls.fechaCierre.value,
+            fechaInicio: this.selectedClubForm.controls.fechaInicio.value,
+            id_facultad: this.selectedClubForm.controls.idFacultad.value,
+            id_docente_tutor: this.selectedClubForm.controls.idDocenteTutor.value,
+            id_lider_estudiantil: this.selectedClubForm.controls.idLider.value,
+            id_tipo: this.selectedClubForm.controls.idTipo.value,
+            nombreClub: this.selectedClubForm.controls.club.value,
+            id_departamento: 1,
+            id_direccion: 1,
+            id_programa: 1
+        }
+
+        this._clubsService.crearClubes(BODY).subscribe( respuesta=> {
+            console.log(respuesta)
+        });
+    }
+
+    updateClubes(): void {
+        let fechaIngreso: string = moment(this.selectedClubForm.controls.fechaInicio.value).format('yyyy-MM-DD').split(' ')[0];
+        let fechaCierre: string = moment(this.selectedClubForm.controls.fechaCierre.value).format('yyyy-MM-DD').split(' ')[0];
+        const BODY: datosClub = {
+            descripcion: this.selectedClubForm.controls.descripcion.value,
+            fechaCierre: fechaCierre,
+            fechaInicio: fechaIngreso,
+            id_facultad: this.selectedClubForm.controls.idFacultad.value,
+            id_docente_tutor: this.selectedClubForm.controls.idDocenteTutor.value,
+            id_lider_estudiantil: this.selectedClubForm.controls.idLider.value,
+            id_tipo: this.selectedClubForm.controls.idTipo.value ? 0 : 1,
+            nombreClub: this.selectedClubForm.controls.club.value,
+            id_departamento: 1,
+            id_direccion: 1,
+            id_programa: 1,
+            id_club: this.selectedClubForm.controls.id.value
+        }
+
+        this._clubsService.actualizarClubes(BODY).subscribe( respuesta=> {
+            this.showFlashMessage('success');
+        });
     }
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
